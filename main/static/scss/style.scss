@@ -1,0 +1,30 @@
+.container {
+    max-width: 1200px;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+
+
+
+
+@media (min-width: 992px) {
+    .container {
+        padding: 0 15px;
+    }
+}
+
+@import 'headerBottom';
+@import 'headerUp';
+@import 'mainFilter';
+@import 'mainAbout';
+@import 'slider';
+@import 'mainPopularGoods';
+@import 'mainPopularGoodsPromotion';
+@import 'mainNewProduct';
+@import 'mainBrand';
+@import 'mainFeedback';
+@import 'mainArticles';
+@import 'mainAboutOwner';
+@import 'mainLocation';
+@import 'footer';
