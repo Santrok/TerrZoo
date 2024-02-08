@@ -28,6 +28,80 @@ class StyledComponents(models.Model):
 
 
 class AdminStyledComponents(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности
+      StyledComponents"""
     list_editable = ["is_active"]
-    list_display = ["css_class_name", "style", "section_of_page", "page_name", "theme", "lesson_number", "is_active",]
+    list_display = ["css_class_name", "style", "section_of_page", "page_name", "theme", "lesson_number", "is_active", ]
     list_filter = ["css_class_name", "is_active", "style", "section_of_page", "page_name", "theme", "lesson_number"]
+
+
+class CategoryProduct(models.Model):
+    """ Модель категорий товаров"""
+
+
+class AdminCategoryProduct(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности CategoryProduct"""
+
+
+class Product(models.Model):
+    """ Модель продуктов """
+
+
+class AdminProduct(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности Product"""
+
+
+class Sale(models.Model):
+    """Модель Акций и скидок """
+
+
+class AdminSale(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности Sale"""
+
+
+class Article(models.Model):
+    """Модель статей """
+
+
+class AdminArticle(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности Sale"""
+
+
+class Basket(models.Model):
+    """Модель корзины"""
+
+
+class AdminBasket(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности Basket"""
+
+
+class Brand(models.Model):
+    """Модель Брендов"""
+
+
+class AdminBrand(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности Brand"""
+
+
+class Review(models.Model):
+    """Модель отзывы"""
+
+
+class AdminReview(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности Review"""
+
+
+class Order(models.Model):
+    """Модель заказа"""
+
+
+class AdminOrder(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности Order"""
+
+
+class PayCard(models.Model):
+    """Модель платежной карты"""
+
+
+class AdminPayCard(admin.ModelAdmin):
+    """Класс управления отображения в админ панели сущности PayCard"""
