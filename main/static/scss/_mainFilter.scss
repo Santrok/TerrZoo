@@ -11,7 +11,7 @@
 
 .filter__item {
     flex: 0 0 140px;
-    height: 85px;
+    height: 56px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -27,7 +27,7 @@
 
 .filter__item-img {
     position: relative;
-    flex: 0 1 97px;
+    flex: 0 1 56px;
     height: 100%;
     background-repeat: no-repeat;
     background-position: 100% 100%;
@@ -51,6 +51,11 @@
     .filter__item {
         flex: 0 0 215px;
         gap: 16px;
+        height: 85px;
+    }
+
+    .filter__item-img {
+        flex: 0 1 97px;
     }
 
     .filter__item-text {
