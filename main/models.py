@@ -100,6 +100,7 @@ class Product(models.Model):
                                   verbose_name="Товар на акции")
     order = models.ManyToManyField("Order",
                                    verbose_name="Заказ")
+    sales_counter = models.PositiveIntegerField("Сколько раз продан")
 
     def __str__(self):
         return self.title
