@@ -10,5 +10,8 @@ from rest_framework.generics import ListAPIView
 def get_page(request):
     return render(request, 'index.html')
 
+def login_view(request):
+    return render(request, 'registration/login.html')
+
 
 

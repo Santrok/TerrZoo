@@ -442,7 +442,16 @@
   font-weight: 400;
   line-height: 20px;
 }
-
+.header__up-login-button a {
+  color: #e13333;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "SF Pro Text";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  background: #fff;
+}
 .header__up-button {
   color: var(--Interactive-Default, #2c6ecb);
   font-feature-settings: "clig" off, "liga" off;
@@ -453,7 +462,6 @@
   line-height: 24px;
   background: #fff;
 }
-
 @media (min-width: 992px) {
   .header__up {
     position: initial;
@@ -478,6 +486,9 @@
   }
   .header__up-button {
     order: 4;
+  }
+  .header__up-login-button{
+    order: 5;
   }
   .header__up-wrap-burger {
     display: none;
