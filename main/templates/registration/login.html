@@ -7,17 +7,20 @@
     <title>Вход</title>
 </head>
 <body>
-    <div class="form_window">
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{ login_form }}
-            <button>Войти</button>
-            
-        </form>
-    </div>
-   
-
-
-</div>
+<form action="" method="POST">
+    {% csrf_token %}
+    <h1>Авторизация</h1>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li style="color: red">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    {{ login_form }}
+    <input type="submit" value="Войти">
+    <a href="{% url 'reset_password' %}">Забыли пароль?</a>
+    <a href="{% url 'register' %}">Регистрация</a>
+</form>
 </body>
 </html>

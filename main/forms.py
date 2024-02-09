@@ -4,10 +4,10 @@ from main.validators import validate_email, validate_password
 
 
 class LoginForm(forms.Form):
-    """Форма авторизации с использованием валидатора электронной почты"""
-    email = forms.CharField(
-        widget=forms.EmailInput(attrs={'id': 'email_login_field', 'placeholder': 'Введите Вашу почту'}),
-        label='', validators=[validate_email])
+    """Форма авторизации """
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'id': 'username_login_field', 'placeholder': 'Введите Ваше имя'}),
+        label='')
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'id': 'password_login_field', 'placeholder': 'Введите пароль'}), label='')
 
@@ -34,3 +34,10 @@ class RegisterForm(forms.Form):
         password2 = cleaned_data.get('password2')
         if password and password2 and password != password2:
             self.add_error('password2', 'Пароли не совпадают')
+
+class ForgetPasswordForm(forms.Form):
+    """Форма ввода адреса электронной почты для сброса пароля"""
+    email = forms.CharField(error_messages={'required': 'Не указан адрес электронной почты'},
+                            widget=forms.EmailInput(
+                                attrs={'id': 'forget_email_field', 'placeholder': 'Введите Вашу почту'}))
+
