@@ -97,9 +97,9 @@ class Product(models.Model):
                               verbose_name="Бренд товара",
                               on_delete=models.CASCADE)
     sale = models.ManyToManyField("Sale",
-                                  verbose_name="Товар на акции")
+                                  verbose_name="Товар на акции",blank=True,null=True)
     order = models.ManyToManyField("Order",
-                                   verbose_name="Заказ")
+                                   verbose_name="Заказ",blank=True,null=True)
     sales_counter = models.PositiveIntegerField("Сколько раз продан")
 
     def __str__(self):
