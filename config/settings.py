@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     'main',
     "api",
+    "error_management",
+
 ]
 
 MIDDLEWARE = [

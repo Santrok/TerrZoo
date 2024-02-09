@@ -4,61 +4,12 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib import admin
 
 
-# Модели (плюс классы для админ панели) для генерации вариантов ошибок и создания условий для тестов
-# ====================================================================
-class StyledComponents(models.Model):
-    """ Модель управления генерации стилей CSS:
-         -для моделирования ситуаций возможных ошибок
-          -для преподавателя Stormnet :):)))"""
-
-    css_class_name = models.CharField("CSS class элемента HTML разметки",
-                                      max_length=255,
-                                      help_text="Выберите из элемента HTML"
-                                                " на странице значение атрибута class")
-    style = models.TextField("Атрибут:значение CSS")
-    page_name = models.CharField("Название страницы",
-                                 max_length=500)
-    section_of_page = models.CharField("Блок где будет ошибка",
-                                       max_length=500)
-    theme = models.CharField("Тема занятия",
-                             max_length=2000)
-    lesson_number = models.CharField("Номер занятия",
-                                     max_length=2000)
-    is_active = models.BooleanField("Статус применения")
-    description = models.TextField("Описание генерируемой ошибки")
-
-    def __str__(self):
-        return self.css_class_name
-
-    class Meta:
-        verbose_name = "Объект моделирования ситуации"
-        verbose_name_plural = "Объекты моделирования ситуаций"
 
 
-class AdminStyledComponents(admin.ModelAdmin):
-    """Класс управления отображения
-         в админ панели сущности:
-           StyledComponents"""
+# Модели (плюс классы для админ панели)
+#  сущностей сайта в базулечке
+# ==============================================
 
-    list_editable = ["is_active"]
-    list_display = ["css_class_name",
-                    "style",
-                    "section_of_page",
-                    "page_name",
-                    "theme",
-                    "lesson_number",
-                    "is_active", ]
-    list_filter = ["css_class_name",
-                   "is_active",
-                   "style",
-                   "section_of_page",
-                   "page_name",
-                   "theme",
-                   "lesson_number"]
-
-
-# Модели (плюс классы для админ панели) сущностей сайта в базулечке
-# =================================================================
 class Animal(models.Model):
     """Модель животных связи с категориями(М2М),
         статьями(FK), бренд(М2М)"""
@@ -76,19 +27,21 @@ class Animal(models.Model):
 
 
 class AdminAnimal(admin.ModelAdmin):
-    """Класс управления отображения в админ панели сущности: Animal"""
+    """Класс управления отображения
+        в админ панели сущности: Animal"""
 
 
 class CategoryProduct(MPTTModel):
     """ Модель категорий товаров связь:
-          с животными(М2М),дерево связи в самой таблице MPТT(FK),
-             продукты(FK) """
+          с животными(М2М),дерево связи
+             в самой таблице MPТT(FK),продукты(FK) """
 
     name = models.CharField("Название категории",
                             max_length=255)
     parent = TreeForeignKey('self',
                             on_delete=models.CASCADE,
-                            null=True, blank=True,
+                            null=True,
+                            blank=True,
                             verbose_name="Имя родительсокй категории")
     animal = models.ManyToManyField("Animal",
                                     verbose_name="Животное")
@@ -102,7 +55,9 @@ class CategoryProduct(MPTTModel):
 
 
 class AdminCategoryProduct(admin.ModelAdmin):
-    """Класс управления отображения в админ панели сущности: CategoryProduct"""
+    """Класс управления отображения
+        в админ панели сущности:
+           CategoryProduct"""
 
 
 class Product(models.Model):
@@ -123,8 +78,10 @@ class Product(models.Model):
                                    blank=True,
                                    null=True)
     key_features = models.TextField("Ключевые особенности",
-                                    blank=True, null=True)
-    compound = models.TextField("Состав", blank=True,
+                                    blank=True,
+                                    null=True)
+    compound = models.TextField("Состав",
+                                blank=True,
                                 null=True)
     guaranteed_analysis = models.TextField("Гарантированный анализ",
                                            blank=True,
@@ -181,7 +138,7 @@ class AdminImageProduct(admin.ModelAdmin):
 
 
 class CountItemProduct(models.Model):
-    """Модель  количества, объема, массы """
+    """Модель  количества, объема, массы"""
 
     percent = models.PositiveIntegerField("Процент от "
                                           "стоимости единицы товара")
@@ -206,7 +163,8 @@ class AdminCountItemProduct(admin.ModelAdmin):
 
 
 class Sale(models.Model):
-    """Модель Акций и скидок, связи: с продуктом(M2M)"""
+    """Модель Акций и скидок, связи:
+        с продуктом(M2M)"""
 
     title = models.CharField("Название акции",
                              max_length=500)
@@ -253,7 +211,8 @@ class Article(models.Model):
 
 
 class AdminArticle(admin.ModelAdmin):
-    """Класс управления отображения в админ панели сущности: Sale"""
+    """Класс управления отображения
+        в админ панели сущности: Sale"""
 
 
 class Brand(models.Model):
@@ -283,8 +242,10 @@ class Review(models.Model):
     """Модель отзывы, связи: пользователь(FK)"""
 
     text = models.TextField("Текст отзыва")
-    pet = models.CharField("Kличка питомца", max_length=255)
-    user = models.ForeignKey(User, verbose_name="Пользователь",
+    pet = models.CharField("Kличка питомца",
+                           max_length=255)
+    user = models.ForeignKey(User,
+                             verbose_name="Пользователь",
                              on_delete=models.CASCADE)
 
     def __str__(self):
@@ -345,7 +306,9 @@ class AdminOrder(admin.ModelAdmin):
 
 class PayCard(models.Model):
     """Модель платежной карты связи:
-        c пользователем(FK) заказ(FK)"""
+        c пользователем(FK) заказ(FK)
+       Payment card model, communication:
+        user(FK), order(FK)"""
 
     card_number = models.CharField("Номер карты",
                                    max_length=16,

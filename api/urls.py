@@ -1,5 +1,7 @@
 from django.urls import path
 
-urlpatterns = [
+from .views import StyledComponentsListView
 
+urlpatterns = [
+    path("get_bugs/", StyledComponentsListView.as_view())
 ]
