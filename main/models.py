@@ -268,7 +268,7 @@ class PayCard(models.Model):
     """Модель платежной карты связи: c пользователем(FK) заказ(FK)"""
     card_number = models.CharField("Номер карты", max_length=16, unique=True)
     cvc = models.PositiveIntegerField("CVC")
-    balance = models.DecimalField("Баланс на карте", max_digits=100, decimal_places=2)
+    balance = models.DecimalField("Баланс на карте", max_digits=100, decimal_places=2,default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
 
     def __str__(self):
