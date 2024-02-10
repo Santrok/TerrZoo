@@ -103,7 +103,7 @@ class Product(models.Model):
     sales_counter = models.PositiveIntegerField("Сколько раз продан")
 
     def __str__(self):
-        return self.title
+        return f"{self.title}  id:{self.id}"
 
     class Meta:
         verbose_name = "Продукт"

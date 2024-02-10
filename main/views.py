@@ -12,11 +12,14 @@ def get_page(request):
     animals = Animal.objects.all()
     products = list(Product.objects.all())
     popular_product = sorted(products,
-                             key=lambda x: x.sales_counter)
+                             key=lambda x: x.sales_counter,
+                             reverse=True)
     new_products = sorted(products,
                           key=lambda x: x.id,
                           reverse=True)
 
+    for  i in popular_product:
+        print(i.sales_counter)
     context = {"animals": animals,
                "popular_products": popular_product,
                "new_products": new_products}
