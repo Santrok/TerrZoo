@@ -15,7 +15,8 @@ class Animal(models.Model):
         статьями(FK), бренд(М2М)"""
 
     type = models.CharField("Вид животного",
-                            max_length=255)
+                            max_length=255,
+                            unique=True)
     image = models.ImageField(upload_to="animals")
 
     def __str__(self):
@@ -37,7 +38,8 @@ class CategoryProduct(MPTTModel):
              в самой таблице MPТT(FK),продукты(FK) """
 
     name = models.CharField("Название категории",
-                            max_length=255)
+                            max_length=255,
+                            unique=True)
     parent = TreeForeignKey('self',
                             on_delete=models.CASCADE,
                             null=True,
@@ -66,7 +68,8 @@ class Product(models.Model):
            количество(FK),изображениями(FK) заказы(М2М)"""
 
     title = models.CharField("Название продукта",
-                             max_length=500)
+                             max_length=500,
+                             unique=True)
     image_prev = models.ImageField("Обязательное изображение",
                                    blank=True,
                                    null=True,
@@ -168,7 +171,8 @@ class Sale(models.Model):
         с продуктом(M2M)"""
 
     title = models.CharField("Название акции",
-                             max_length=500)
+                             max_length=500,
+                             unique=True)
     percent = models.PositiveIntegerField("Процент")
     start_sale = models.DateTimeField("Время начала акции")
     stop_sale = models.DateTimeField("Время окончания акции")
@@ -191,7 +195,8 @@ class Article(models.Model):
        с животные(FK), """
 
     title = models.CharField("Название статьи",
-                             max_length=1500)
+                             max_length=1500,
+                             unique=True)
     text = models.TextField("Текст статьи")
     image = models.ImageField("Изображение",
                               upload_to="articles_images")
@@ -221,7 +226,8 @@ class Brand(models.Model):
         с продуктом(FK), животными(М2М)"""
 
     name = models.CharField("Имя бренда",
-                            max_length=255)
+                            max_length=255,
+                            unique=True)
     image = models.ImageField("Изображение",
                               upload_to="brands_images")
     animal = models.ManyToManyField("Animal")
@@ -267,7 +273,8 @@ class Order(models.Model):
         с пользователем(FK),
            продуктом(М2М) карты(FK)"""
 
-    order_number = models.PositiveIntegerField(verbose_name='Номер заказа')
+    order_number = models.PositiveIntegerField(verbose_name='Номер заказа',
+                                               unique=True)
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
     user = models.ForeignKey(User,
