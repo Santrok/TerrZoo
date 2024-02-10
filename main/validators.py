@@ -1,13 +1,21 @@
 import re
+
+from django.contrib.auth.models import User
 from django.forms import forms
 
-"""Валидатор проверки пароля на цифры, длинну и регистр"""
+
 def validate_password(password_string):
+    """Валидатор проверки пароля на цифры, длинну и регистр"""
     if not re.match(r'^(?=.*[A-Z])(?=.*[0-9]).{8,}$', password_string):
         raise forms.ValidationError('Некорректный ввод пароля')
 
 
-"""Валидатор электронной почты. Проверка домена и символа @"""
 def validate_email(email):
+    """Валидатор электронной почты. Проверка домена и символа @"""
     if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
         raise forms.ValidationError('Некорректный адрес электронной почты')
+
+
+def validate_username(username):
+    if User.objects.filter(username=username).exists():
+        raise forms.ValidationError('Такой пользователь уже зарегистрирован')

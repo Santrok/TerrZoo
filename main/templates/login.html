@@ -11,16 +11,16 @@
     {% csrf_token %}
     <h1>Авторизация</h1>
     {% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li style="color: red">{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+        <ul class="errorlist">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     {{ login_form }}
     <input type="submit" value="Войти">
-    <a href="{% url 'reset_password' %}">Забыли пароль?</a>
-    <a href="{% url 'register' %}">Регистрация</a>
+    <a href="{% url 'main:reset_form' %}">Забыли пароль?</a>
+    <a href="{% url 'main:register' %}">Регистрация</a>
 </form>
 </body>
 </html>
