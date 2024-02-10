@@ -28,37 +28,37 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CountItemProductSerializer(serializers.Serializer):
+class CountItemProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CountItemProduct
         fields = '__all__'
 
 
-class ArticleSerializer(serializers.Serializer):
+class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
 
 
-class SaleSerializer(serializers.Serializer):
+class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
         fields = '__all__'
 
 
-class BrandSerializer(serializers.Serializer):
+class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = '__all__'
 
 
-class ReviewSerializer(serializers.Serializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
 
 
-class OrderSerializer(serializers.Serializer):
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'

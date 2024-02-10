@@ -12,7 +12,7 @@ def get_page(request):
     brands = Brand.objects.all()
     for brand in brands:
         print(brand.image)
-    print(brand)
+    # print(brand)
     animals = Animal.objects.all()
     products = list(Product.objects.all())
     popular_product = sorted(products,
