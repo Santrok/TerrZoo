@@ -12,6 +12,9 @@ def get_page(request):
     articals = Article.objects.all()
     reviews = Review.objects.select_related('user').all()
     brands = Brand.objects.all()[0:12]
+    for brand in brands:
+        print(brand.image)
+    # print(brand)
     animals = Animal.objects.all()
     products = list(Product.objects.all())
     popular_product = sorted(products,
