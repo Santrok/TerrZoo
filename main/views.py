@@ -35,3 +35,16 @@ def get_page(request):
     return render(request=request,
                   template_name='index.html',
                   context=context)
+
+
+def get_details(request, id):
+    '''Отдаем детальное описание товара по id'''
+    product = Product.objects.get(id=id)
+    articals = Article.objects.all()
+    context = {
+        "product": product,
+        "articals": articals,
+    }
+    return render(request=request,
+                  template_name='details.html',
+                  context=context)
