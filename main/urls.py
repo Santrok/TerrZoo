@@ -6,7 +6,7 @@ from main.views import get_page, login_view, registration_view, logout_view, res
 
 
 from main.views import get_page, get_page_catalog, get_details, get_basket_page
-app_name = 'main'
+
 from main.views import get_page, get_page_catalog, get_details
 
 urlpatterns = [
@@ -22,7 +22,7 @@ urlpatterns = [
          PasswordResetView.as_view(
              template_name="password_reset_form.html",
              email_template_name="password_reset_email.html",
-             success_url=reverse_lazy("main:password_reset_done")),
+             success_url=reverse_lazy("password_reset_done")),
          name='password_reset'),
 
     path('reset_password_sent/', PasswordResetDoneView.as_view(
@@ -31,7 +31,7 @@ urlpatterns = [
 
     path('password-reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(
         template_name="password_reset_confirm.html",
-        success_url=reverse_lazy("main:password_reset_complete")),
+        success_url=reverse_lazy("password_reset_complete")),
          name='password_reset_confirm'),
 
     path('reset_password_complete/', PasswordResetCompleteView.as_view(

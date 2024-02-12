@@ -90,7 +90,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('main:main')
+                return redirect('main')
             else:
                 messages.error(request, 'Неверное имя или пароль!')
     login_form = LoginForm()
@@ -107,7 +107,7 @@ def registration_view(request):
             user.email = register_form.cleaned_data.get('email')
             user.set_password(register_form.cleaned_data.get('password'))
             user.save()
-            return redirect('main:login')
+            return redirect('login')
         else:
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
@@ -124,5 +124,5 @@ def reset_password(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('main:login')
+    return redirect('login')
 
