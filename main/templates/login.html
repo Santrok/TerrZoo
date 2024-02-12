@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/registration_style.css' %}">
+    <title>Вход</title>
+</head>
+<body>
+<form action="" method="POST">
+    {% csrf_token %}
+    <h1>Авторизация</h1>
+    {% if messages %}
+        <ul class="errorlist">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {{ login_form }}
+    <input type="submit" value="Войти">
+    <a href="{% url 'main:reset_form' %}">Забыли пароль?</a>
+    <a href="{% url 'main:register' %}">Регистрация</a>
+</form>
+</body>
+</html>
