@@ -1,13 +1,9 @@
-from django.urls import path
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 from django.urls import path, reverse_lazy
-from main.views import get_page, login_view, registration_view, logout_view, reset_password, get_articles_page, \
-    activate_user,confirm_email
-
-from main.views import get_page, get_page_catalog, get_details, get_basket_page
-
-from main.views import get_page, get_page_catalog, get_details, get_page_catalog_by_animal
+from main.views import login_view, registration_view, logout_view, reset_password, get_articles_page, \
+    activate_user, confirm_email, get_basket_page, get_page, get_page_catalog, get_details, \
+    get_page_catalog_by_animal
 
 urlpatterns = [
     path('', get_page, name='main'),
@@ -39,6 +35,5 @@ urlpatterns = [
         template_name='password_reset_complete.html'), name='password_reset_complete'),
     path('articles/', get_articles_page, name='articles'),
     path('activate/<str:uidb64>/<str:token>/', activate_user, name='activate'),
-    path('confirm_email/', confirm_email, name='confirm_email')
-
+    path('confirm_email/', confirm_email, name='confirm_email'),
 ]
