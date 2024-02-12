@@ -37,9 +37,9 @@ def get_page(request):
 
 
 def get_page_catalog(request):
-    animals = Animal.objects.prefetch_related('brand_set','categoryproduct_set')
+    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')
     products = Product.objects.all()
-    products_on_sale = products.exclude(sale= 1 )
+    products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
                              key=lambda x: x.sales_counter,
                              reverse=True)
@@ -54,8 +54,32 @@ def get_page_catalog(request):
                "articals": articals,
                "categoty_products": category,
                "brands": brands
+               }
+    return render(request=request,
+                  template_name='catalog.html',
+                  context=context)
 
-    }
+
+def get_page_catalog_for_animal(request, animal_id):
+    """Отдаем каталог для животного по id"""
+    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')
+    products = Product.objects.all()
+    products_on_sale = products.exclude(sale=animal_id)
+    popular_products = sorted(products,
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+    articals = Article.objects.all()
+    category = CategoryProduct.objects.all()
+    brands = Brand.objects.all()
+
+    context = {"animals": animals,
+               "all_products": products,
+               "products_on_sale": products_on_saleД,
+               "popular_products": popular_products,
+               "articals": articals,
+               "categoty_products": category,
+               "brands": brands
+               }
     return render(request=request,
                   template_name='catalog.html',
                   context=context)

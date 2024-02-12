@@ -7,11 +7,12 @@ from main.views import get_page, login_view, registration_view, logout_view, res
 
 from main.views import get_page, get_page_catalog, get_details, get_basket_page
 
-from main.views import get_page, get_page_catalog, get_details
+from main.views import get_page, get_page_catalog, get_details, get_page_catalog_for_animal
 
 urlpatterns = [
     path('', get_page, name='main'),
     path('catalog/', get_page_catalog, name='catalog'),
+    path('catalog/<int:animal_id>/', get_page_catalog_for_animal, name='catalog_for_animal'),
     path('details/<int:id>/', get_details, name='details'),
     path('basket', get_basket_page, name='basket'),
     path('login/', login_view, name='login'),
