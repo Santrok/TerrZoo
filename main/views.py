@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -7,12 +8,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.generics import ListAPIView
 
 from config import settings
+=======
+>>>>>>> 9046520 (js fun set errors)
 from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm
 
@@ -44,7 +45,11 @@ def get_page(request):
 
 
 def get_page_catalog(request):
+<<<<<<< HEAD
     animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')  # Нам точно надо тут preferch?
+=======
+    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')
+>>>>>>> 9046520 (js fun set errors)
     products = Product.objects.all()
     products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
@@ -60,7 +65,13 @@ def get_page_catalog(request):
                "popular_products": popular_products,
                "articals": articals,
                "categoty_products": category,
+<<<<<<< HEAD
                "brands": brands}
+=======
+               "brands": brands
+
+               }
+>>>>>>> 9046520 (js fun set errors)
     return render(request=request,
                   template_name='catalog.html',
                   context=context)
@@ -184,7 +195,10 @@ def reset_password(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+<<<<<<< HEAD
 
 
 def get_articles_page(request):
     return render(request, 'articles.html')
+=======
+>>>>>>> 9046520 (js fun set errors)

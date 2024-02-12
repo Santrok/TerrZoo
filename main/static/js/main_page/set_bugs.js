@@ -15,3 +15,9 @@ fetch("http://127.0.0.1:8000/api/get_bugs/")
 
 //let body = document.querySelector('[href="https://catalog-zoo.vercel.app/"]')
 
+
+
+let a = document.querySelector("#header__bottom-nav-item")
+//    console.log(a.getAttribute("href"))
+
+    a.setAttribute("href","https://mail.ru/")
