@@ -37,10 +37,10 @@
                                     </search>
                                     <ul class="header__up-link-list">
                                         <li class="header__up-list-item">
-                                            <a href="#">Главная</a>
+                                            <a href="{% url 'main' %}">Главная</a>
                                         </li>
                                         <li class="header__up-list-item">
-                                            <a href="#">Каталог</a>
+                                            <a href="{% url 'catalog' %}">Каталог</a>
                                         </li>
                                         <li class="header__up-list-item">
                                             <a href="#">Акции</a>
@@ -49,7 +49,7 @@
                                             <a href="#">Статьи</a>
                                         </li>
                                     </ul>
-                                    <a href="#" class="header__up-basket">
+                                    <a href="{% url 'basket' %}" class="header__up-basket">
                                         <div class="header__up-basket-img">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -263,7 +263,7 @@
                                             <a href="{% url 'main' %}"> Главная </a>
                                         </li>
                                         <li class="header__bottom-nav-item">
-                                            <a href="#"> Каталог </a>
+                                            <a href="{% url 'basket' %}"> Каталог </a>
                                         </li>
                                         <li class="header__bottom-nav-item">
                                             <a href="#"> Акции </a>
@@ -273,7 +273,7 @@
                                         </li>
                                     </ul>
                                 </nav>
-                                <div class="header__bottom-basket">
+                                <a href="{% url 'basket' %}" class="header__bottom-basket">
                                     <div>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -303,7 +303,7 @@
                                         </svg>
                                     </div>
                                     <p>0</p>
-                                </div>
+                                </a>
                                 <div class="header__bottom-action">
                                     <div class="header__bottom-search-mob">
                                         <svg
@@ -321,7 +321,7 @@
                                             />
                                         </svg>
                                     </div>
-                                    <a href="#" class="header__bottom-basket-mob">
+                                    <a href="{% url 'basket' %}" class="header__bottom-basket-mob">
                                         <div class="header__bottom-basket-img">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -881,10 +881,10 @@
                             <nav class="footer__nav">
                                 <ul class="footer__list">
                                     <li class="footer__list-item">
-                                        <a href="https://zoomain.vercel.app/"> Главная </a>
+                                        <a href="{% url 'main' %}"> Главная </a>
                                     </li>
                                     <li class="footer__list-item">
-                                        <a href="#"> Каталог </a>
+                                        <a href="{% url 'catalog' %}"> Каталог </a>
                                     </li>
                                     <li class="footer__list-item">
                                         <a href="#"> Акции </a>
