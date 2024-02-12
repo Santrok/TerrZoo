@@ -67,3 +67,7 @@ def get_details(request, id):
     return render(request=request,
                   template_name='details.html',
                   context=context)
+
+
+def get_basket_page(request):
+    return render(request, 'basket.html')
