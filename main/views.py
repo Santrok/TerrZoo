@@ -74,7 +74,7 @@ def get_page_catalog_for_animal(request, animal_id):
 
     context = {"animals": animals,
                "all_products": products,
-               "products_on_sale": products_on_saleД,
+               "products_on_sale": products_on_sale,
                "popular_products": popular_products,
                "articals": articals,
                "categoty_products": category,
@@ -150,3 +150,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+
+
+def get_articles_page(request):
+    return render(request, 'articles.html')
