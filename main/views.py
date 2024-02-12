@@ -126,3 +126,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+
+
+def get_articles_page(request):
+    return render(request, 'articles.html')
