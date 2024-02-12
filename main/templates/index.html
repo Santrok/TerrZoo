@@ -292,10 +292,10 @@
                         <nav class="header__bottom-nav">
                             <ul class="header__bottom-nav-list">
                                 <li class="header__bottom-nav-item">
-                                    <a href="{% url 'main:main' %}">Главная </a>
+                                    <a href="{% url 'main' %}">Главная </a>
                                 </li>
                                 <li class="header__bottom-nav-item">
-                                    <a href="{% url 'main:catalog' %}"> Каталог </a>
+                                    <a href="{% url 'catalog' %}"> Каталог </a>
                                 </li>
                                 <li class="header__bottom-nav-item">
                                     <a href="#">Акции </a>
@@ -479,7 +479,7 @@
                                     <div class="slider__item-img">
                                         <img src="{{card.image_prev.url}}" alt="item"/>
                                     </div>
-                                    <a href="{% url 'main:details' card.id %}" class="slider__item-title">
+                                    <a href="{% url 'details' card.id %}" class="slider__item-title">
                                         {{card.title}}
                                     </a>
                                     <ul class="slider__item-weight-list">
