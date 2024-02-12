@@ -395,7 +395,7 @@
                 <div class="container">
                     <div class="filter__wrap">
                         {% for animal in animals %}
-                        <a href="{% url 'catalog_for_animal' animal.id %}" class="filter__item">
+                        <a href="{% url 'catalog_by_animal' animal.id %}" class="filter__item">
                             <div class="filter__item-img" style="background-image: url({{animal.image.url}});">
                             </div>
                             <h3 class="filter__item-text">{{animal.type}}</h3>

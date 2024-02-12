@@ -44,7 +44,7 @@ def get_page(request):
 
 
 def get_page_catalog(request):
-    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')
+    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')  # Нам точно надо тут preferch?
     products = Product.objects.all()
     products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
@@ -55,40 +55,37 @@ def get_page_catalog(request):
     brands = Brand.objects.all()
 
     context = {"animals": animals,
-               "all_products": products,
+               "all_products": products,  # Это точно надо? На странички catalog.html не используется
                "products_on_sale": products_on_sale,
                "popular_products": popular_products,
                "articals": articals,
                "categoty_products": category,
-               "brands": brands
-               }
+               "brands": brands}
     return render(request=request,
                   template_name='catalog.html',
                   context=context)
 
 
-def get_page_catalog_for_animal(request, animal_id):
-    """Отдаем каталог для животного по id"""
-    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')
+def get_page_catalog_by_animal(request, animal_id):
+    """Отдаем каталог по id животного"""
+    animals = Animal.objects.all()
     products = Product.objects.all()
     products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
-    articals = Article.objects.filter(animal=animal_id)
-    category_for_animal = CategoryProduct.objects.filter(animal=animal_id)
-    brands_for_animal = Brand.objects.filter(animal=animal_id)
+    articles_on_animals = Article.objects.filter(animal=animal_id)
+    category_by_animals = CategoryProduct.objects.filter(animal=animal_id)
+    brands_by_animals = Brand.objects.filter(animal=animal_id)
 
     context = {"animals": animals,
-               "all_products": products,
                "products_on_sale": products_on_sale,
                "popular_products": popular_products,
-               "articals": articals,
-               "categoty_products": category_for_animal,
-               "brands": brands_for_animal
-               }
+               "articals": articles_on_animals,
+               "categoty_products": category_by_animals,
+               "brands": brands_by_animals}
     return render(request=request,
-                  template_name='catalog_for_animal.html',
+                  template_name='catalog_by_animal.html',
                   context=context)
 
 
