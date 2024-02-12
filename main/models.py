@@ -34,8 +34,8 @@ class AdminAnimal(admin.ModelAdmin):
 
 class CategoryProduct(MPTTModel):
     """ Модель категорий товаров связь:
-          с животными(М2М),дерево связи
-             в самой таблице MPТT(FK),продукты(FK) """
+          с животными(М2М), дерево связи
+             в самой таблице MPТT(FK), продукты(FK) """
 
     name = models.CharField("Название категории",
                             max_length=255,
@@ -65,7 +65,7 @@ class AdminCategoryProduct(admin.ModelAdmin):
 class Product(models.Model):
     """ Модель продуктов, связи с категориями(FK),
          брендами(FK), скидкамии (акция) (M2M),
-           количество(FK),изображениями(FK) заказы(М2М)"""
+           количество(FK), изображениями(FK) заказы(М2М)"""
 
     title = models.CharField("Название продукта",
                              max_length=500,
@@ -100,9 +100,13 @@ class Product(models.Model):
                               verbose_name="Бренд товара",
                               on_delete=models.CASCADE)
     sale = models.ManyToManyField("Sale",
-                                  verbose_name="Товар на акции",blank=True,null=True)
+                                  verbose_name="Товар на акции",
+                                  blank=True,
+                                  null=True)
     order = models.ManyToManyField("Order",
-                                   verbose_name="Заказ",blank=True,null=True)
+                                   verbose_name="Заказ",
+                                   blank=True,
+                                   null=True)
     sales_counter = models.PositiveIntegerField("Сколько раз продан")
 
     def __str__(self):
@@ -142,7 +146,7 @@ class AdminImageProduct(admin.ModelAdmin):
 
 
 class CountItemProduct(models.Model):
-    """Модель  количества, объема, массы"""
+    """Модель количества, объема, массы"""
 
     percent = models.PositiveIntegerField("Процент от "
                                           "стоимости единицы товара")

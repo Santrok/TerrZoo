@@ -64,24 +64,24 @@ def get_page_catalog_for_animal(request, animal_id):
     """Отдаем каталог для животного по id"""
     animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')
     products = Product.objects.all()
-    products_on_sale = products.exclude(sale=animal_id)
+    products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
-    articals = Article.objects.all()
-    category = CategoryProduct.objects.all()
-    brands = Brand.objects.all()
+    articals = Article.objects.filter(animal=animal_id)
+    category_for_animal = CategoryProduct.objects.filter(animal=animal_id)
+    brands_for_animal = Brand.objects.filter(animal=animal_id)
 
     context = {"animals": animals,
                "all_products": products,
                "products_on_sale": products_on_sale,
                "popular_products": popular_products,
                "articals": articals,
-               "categoty_products": category,
-               "brands": brands
+               "categoty_products": category_for_animal,
+               "brands": brands_for_animal
                }
     return render(request=request,
-                  template_name='catalog.html',
+                  template_name='catalog_for_animal.html',
                   context=context)
 
 
