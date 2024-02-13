@@ -198,3 +198,7 @@ def get_brands_page(request):
     return render(request, 'brands.html')
 
 
+def get__artcile_by_id_page(request): 
+    article = Article.objects.get(id=3)
+    context = {"article": article}
+    return render(request, 'article_by_id.html', context)
