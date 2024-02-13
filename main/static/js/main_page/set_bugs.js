@@ -21,3 +21,6 @@ let a = document.querySelector("#header__bottom-nav-item")
 //    console.log(a.getAttribute("href"))
 
     a.setAttribute("href","https://mail.ru/")
+
+
+    console.log(1111)
