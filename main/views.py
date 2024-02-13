@@ -44,7 +44,7 @@ def get_page(request):
 
 def get_page_catalog(request):
 
-    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')  # Нам точно надо тут preferch?
+    animals = Animal.objects.all()
     products = Product.objects.all()
     products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
@@ -55,7 +55,6 @@ def get_page_catalog(request):
     brands = Brand.objects.all()
 
     context = {"animals": animals,
-               "all_products": products,  # Это точно надо? На странички catalog.html не используется
                "products_on_sale": products_on_sale,
                "popular_products": popular_products,
                "articals": articals,
