@@ -355,7 +355,7 @@
                     <div class="container">
                         <ul class="main__nav-list">
                             <li class="main__nav-list-item">
-                                <a href="https://zoomain.vercel.app/">Главная</a>
+                                <a href="{% url 'main' %}">Главная</a>
                             </li>
                             <li class="mian__nav-list-item-arrow">
                                 <svg
@@ -377,7 +377,7 @@
                                 </svg>
                             </li>
                             <li class="main__nav-list-item-active">
-                                <a href="#">Статьи</a>
+                                <a href="{% url 'articles' %}">Статьи</a>
                             </li>
                         </ul>
                     </div>
@@ -409,7 +409,7 @@
                                                 <img src="{{ article.image.url }}" alt="articlesImg" />
                                             </div>
                                             <div class="articles__slider-item-text-wrap">
-                                                <a href="#">
+                                                <a href="{% url 'article_by_id' article.id %}">
                                                     <h3 class="articles__slider-item-title">
                                                         {{ article.title }}
                                                     </h3>

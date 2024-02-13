@@ -226,7 +226,7 @@ def get_brands_page(request):
     return render(request, 'brands.html', context)
 
 
-def get__artcile_by_id_page(request): 
-    article = Article.objects.get(id=3)
+def get_artcile_by_article_id(request, article_id):
+    article = Article.objects.get(id=article_id)
     context = {"article": article}
     return render(request, 'article_by_id.html', context)
