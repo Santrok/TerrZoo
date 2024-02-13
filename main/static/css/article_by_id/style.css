@@ -1505,6 +1505,10 @@ footer {
   line-height: 145%;
   text-align: left;
 }
+.article__main-text  ul li{
+  list-style-type:initial;
+  text-decoration:initial;
+}
 
 @media (min-width: 992px) {
   .article__img-mob {
