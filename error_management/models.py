@@ -56,3 +56,60 @@ class AdminStyledComponents(admin.ModelAdmin):
                    "page_name",
                    "theme",
                    "lesson_number"]
+
+
+# Класс создания функциональных ошибок:
+#  - для базовой логики переходов по странице
+#  - для выдачи по REST-API
+
+
+class SetErrorLink(models.Model):
+    """ Модель управления подменой ссылок в <a href=''></a> HTML:
+             -для моделирования ситуаций возможных ошибок
+              -для преподавателя Stormnet :):)))"""
+
+    html_id_tag_a = models.CharField("ID HTML тег <a id='ид элемента' ></a> разметки",
+                                      max_length=255,
+                                      help_text="Выберите из элемента a в HTML"
+                                                " на странице значение атрибута id")
+    href = models.TextField("Атрибут:значение ссылка")
+    page_name = models.CharField("Название страницы",
+                                 max_length=500)
+    section_of_page = models.CharField("Блок где будет ошибка",
+                                       max_length=500)
+    theme = models.CharField("Тема занятия",
+                             max_length=2000)
+    lesson_number = models.CharField("Номер занятия",
+                                     max_length=2000)
+    is_active = models.BooleanField("Статус применения")
+    description = models.TextField("Описание генерируемой ошибки")
+
+    def __str__(self):
+        return self.html_id_tag_a
+
+    class Meta:
+        verbose_name = "Объект моделирования функциональных ситуации"
+        verbose_name_plural = "Объекты моделирования функциональных ситуаций"
+
+
+
+class AdminSetErrorLink(admin.ModelAdmin):
+    """Класс управления отображения
+         в админ панели сущности:
+           StyledComponents"""
+
+    list_editable = ["is_active"]
+    list_display = ["html_id_tag_a",
+                    "href",
+                    "section_of_page",
+                    "page_name",
+                    "theme",
+                    "lesson_number",
+                    "is_active", ]
+    list_filter = ["html_id_tag_a",
+                   "is_active",
+                   "href",
+                   "section_of_page",
+                   "page_name",
+                   "theme",
+                   "lesson_number"]

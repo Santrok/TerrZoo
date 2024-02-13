@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from main.models import (Animal, CategoryProduct,
                          Product, ImageProduct, CountItemProduct, Sale,
                          Article, Brand, Review, Order, PayCard)
@@ -18,5 +17,6 @@ admin.site.register(Brand)
 admin.site.register(Review)
 admin.site.register(Order)
 admin.site.register(PayCard)
+
 
 

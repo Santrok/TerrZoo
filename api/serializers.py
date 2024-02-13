@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from error_management.models import StyledComponents
+from error_management.models import StyledComponents, SetErrorLink
 from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale, Article, Brand, Review, Order
 
 
@@ -9,6 +9,10 @@ class StyledComponentsSerializer(serializers.ModelSerializer):
         model = StyledComponents
         fields = ["style", "css_class_name"]
 
+class LinkComponentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SetErrorLink
+        fields = ["href", "html_id_tag_a"]
 
 class AnimalSerializer(serializers.ModelSerializer):
     class Meta:

@@ -2,8 +2,9 @@ from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 
 from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
-    CountItemProductSerializer, SaleSerializer, ArticleSerializer, BrandSerializer, ReviewSerializer, OrderSerializer
-from error_management.models import StyledComponents
+    CountItemProductSerializer, SaleSerializer, ArticleSerializer, BrandSerializer, ReviewSerializer, OrderSerializer, \
+    LinkComponentsSerializer
+from error_management.models import StyledComponents,  SetErrorLink
 from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale, Article, Brand, Review, Order
 
 
@@ -12,6 +13,9 @@ class StyledComponentsListView(ListAPIView):
     queryset = StyledComponents.objects.filter(is_active=True)
     serializer_class = StyledComponentsSerializer
 
+class LinkComponentsListView(ListAPIView):
+    queryset =SetErrorLink.objects.filter(is_active=True)
+    serializer_class = LinkComponentsSerializer
 
 class AnimalsListView(ListAPIView):
     queryset = Animal.objects.all()
