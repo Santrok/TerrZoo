@@ -1,13 +1,9 @@
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 from django.urls import path, reverse_lazy
-<<<<<<< HEAD
-from main.views import login_view, registration_view, logout_view, reset_password, get_articles_page, \
-    activate_user, confirm_email, get_basket_page, get_page, get_page_catalog, get_details, \
-    get_page_catalog_by_animal
-=======
-from main.views import get_page, login_view, registration_view, logout_view, reset_password, get_basket_page,get_page_catalog, get_details
->>>>>>> 9046520 (js fun set errors)
+
+from main.views import get_page, login_view, registration_view, logout_view, reset_password, get_basket_page, \
+    get_page_catalog, get_details, get_page_catalog_by_animal, get_articles_page, activate_user, confirm_email
 
 urlpatterns = [
     path('', get_page, name='main'),
