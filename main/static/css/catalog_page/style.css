@@ -805,7 +805,7 @@
 }
 
 .promotional__item-input-hide:checked ~ .promotional__item-label div {
-  background: url(../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
+  background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
   border: none;
 }
 
