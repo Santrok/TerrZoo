@@ -32,8 +32,8 @@ class StyledComponents(models.Model):
         return self.css_class_name
 
     class Meta:
-        verbose_name = "Объект моделирования ситуации"
-        verbose_name_plural = "Объекты моделирования ситуаций"
+        verbose_name = "Объект моделирования ситуации HTML CSS"
+        verbose_name_plural = "Объекты моделирования ситуаций HTML CSS"
 
 
 class AdminStyledComponents(admin.ModelAdmin):
@@ -88,8 +88,8 @@ class SetErrorLink(models.Model):
         return self.html_id_tag_a
 
     class Meta:
-        verbose_name = "Объект моделирования функциональных ситуации"
-        verbose_name_plural = "Объекты моделирования функциональных ситуаций"
+        verbose_name = "Объект моделирования функциональных ситуации Links"
+        verbose_name_plural = "Объекты моделирования функциональных ситуаций Links"
 
 
 

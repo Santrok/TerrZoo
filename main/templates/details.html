@@ -834,7 +834,7 @@
                                         <img src="{{card_joint.image_prev.url}}" alt="item"/>
                                     </div>
                                     <a href="{% url 'details' card_joint.id %}" class="slider__item-title">
-                                        {{card_new.title}}
+                                        {{card_joint.title}}
                                     </a>
                                     <ul class="slider__item-weight-list">
                                         {% for count in card_joint.countitemproduct_set.all%}
