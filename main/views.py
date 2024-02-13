@@ -95,9 +95,19 @@ def get_details(request, id):
     '''Отдаем детальное описание товара по id'''
     product = Product.objects.get(id=id)
     articals = Article.objects.all()
+    products = list(Product.objects.all())
+    popular_product = sorted(products,
+                             key=lambda x: x.sales_counter,
+                             reverse=True)
+    # изменить сортировку на продукты с этим покупают
+    joint_products = sorted(products,
+                            key=lambda x: x.id,
+                            reverse=True)
     context = {
         "product": product,
         "articals": articals,
+        "popular_products": popular_product,
+        "joint_products": joint_products,
     }
     return render(request=request,
                   template_name='details.html',
@@ -191,11 +201,29 @@ def logout_view(request):
 
 
 def get_articles_page(request):
-    return render(request, 'articles.html')
+    """Отдаем каталог по id животного"""
+    animals = Animal.objects.all()
+    products = Product.objects.all()
+    popular_products = sorted(products,
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+    articles = Article.objects.all()
+
+    context = {"animals": animals,
+               "popular_products": popular_products,
+               "articles": articles}
+
+    return render(request=request,
+                  template_name='articles.html',
+                  context=context)
 
 
 def get_brands_page(request):
-    return render(request, 'brands.html')
+    brands_list = Brand.objects.all()
+    context = {
+        'brands': brands_list
+    }
+    return render(request, 'brands.html', context)
 
 
 def get__artcile_by_id_page(request): 
