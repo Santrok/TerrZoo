@@ -491,11 +491,11 @@
                                     </a>
                                     <ul class="slider__item-weight-list">
                                         {% for count in card.countitemproduct_set.all %}
-                                        <li class="slider__item-weight-list-item">{{count.value }}{{count.unit}}.</li>
+                                            <li class="slider__item-weight-list-item">{{count.value }} <span>{{count.unit}}.</span></li>
                                         {% endfor %}
                                     </ul>
                                     <div class="slider__item-price-basket">
-                                        <p class="slider__item-price">{{card.price}} BYN</p>
+                                        <p class="slider__item-price">{{card.price}} <span>BYN</span></p>
                                         <div class="slider__item-basket">
                                             <div class="slider__item-basket-text">+</div>
                                             <div class="slider__item-basket-img">
@@ -583,11 +583,11 @@
                                     </a>
                                     <ul class="slider__item-weight-list">
                                         {% for count in card_new.countitemproduct_set.all%}
-                                        <li class="slider__item-weight-list-item">{{count.value}}{{count.unit}}.</li>
+                                            <li class="slider__item-weight-list-item">{{count.value}} <span>{{count.unit}}.</span></li>
                                         {% endfor %}
                                     </ul>
                                     <div class="slider__item-price-basket">
-                                        <p class="slider__item-price">{{card_new.price}} BYN</p>
+                                        <p class="slider__item-price">{{card_new.price}} <span>BYN</span></p>
                                         <div class="slider__item-basket">
                                             <div class="slider__item-basket-text">+</div>
                                             <div class="slider__item-basket-img">

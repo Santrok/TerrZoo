@@ -191,7 +191,21 @@ def logout_view(request):
 
 
 def get_articles_page(request):
-    return render(request, 'articles.html')
+    """Отдаем каталог по id животного"""
+    animals = Animal.objects.all()
+    products = Product.objects.all()
+    popular_products = sorted(products,
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+    articles = Article.objects.all()
+
+    context = {"animals": animals,
+               "popular_products": popular_products,
+               "articles": articles}
+
+    return render(request=request,
+                  template_name='articles.html',
+                  context=context)
 
 
 def get_brands_page(request):
