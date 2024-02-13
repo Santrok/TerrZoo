@@ -1,6 +1,6 @@
 
-
-fetch("http://127.0.0.1:8000/api/get_bugs/")
+//CSS set bugs
+fetch("http://127.0.0.1:8000/api/get_bugs_css/")
   .then(resp=>resp.json())
   .then(data=>{
     for(let i of data){
@@ -12,6 +12,15 @@ fetch("http://127.0.0.1:8000/api/get_bugs/")
   }
 })
 
+// href rebase link
+fetch("http://127.0.0.1:8000/api/get_bugs_link")
+   .then(resp=>resp.json())
+   .then(data=>{
+   for(let i of data){
+   let a = document.querySelector(`#${i.html_id_tag_a}`)
+       a.setAttribute("href",`${i.href}`)
+   }
+   })
 
-//let body = document.querySelector('[href="https://catalog-zoo.vercel.app/"]')
+
 

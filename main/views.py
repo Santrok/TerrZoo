@@ -1,3 +1,4 @@
+
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -8,11 +9,9 @@ from rest_framework.generics import ListAPIView
 
 from config import settings
 from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm
 
@@ -44,6 +43,7 @@ def get_page(request):
 
 
 def get_page_catalog(request):
+
     animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')  # Нам точно надо тут preferch?
     products = Product.objects.all()
     products_on_sale = products.exclude(sale=1)
@@ -60,7 +60,9 @@ def get_page_catalog(request):
                "popular_products": popular_products,
                "articals": articals,
                "categoty_products": category,
+
                "brands": brands}
+
     return render(request=request,
                   template_name='catalog.html',
                   context=context)
@@ -103,6 +105,7 @@ def get_details(request, id):
 
 
 def get_basket_page(request):
+    """Функция обработки данных страницы basket"""
     return render(request, 'basket.html')
 
 
@@ -186,5 +189,12 @@ def logout_view(request):
     return redirect('login')
 
 
+
 def get_articles_page(request):
     return render(request, 'articles.html')
+
+
+def get_brands_page(request):
+    return render(request, 'brands.html')
+
+

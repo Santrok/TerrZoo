@@ -345,3 +345,7 @@ class PayCard(models.Model):
 class AdminPayCard(admin.ModelAdmin):
     """Класс управления отображения в
         админ панели сущности: PayCard"""
+
+
+
+
