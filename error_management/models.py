@@ -60,7 +60,7 @@ class AdminStyledComponents(admin.ModelAdmin):
 
 # Класс создания функциональных ошибок:
 #  - для базовой логики переходов по странице
-#  - для выдачи по REST-API
+
 
 
 class SetErrorLink(models.Model):
@@ -113,3 +113,10 @@ class AdminSetErrorLink(admin.ModelAdmin):
                    "page_name",
                    "theme",
                    "lesson_number"]
+
+#  - для выдачи по REST-API
+
+class SetErrorDataApi(models.Model):
+    """ Модель управления генерации ошибок в ответы API:
+                 -для моделирования ситуаций возможных ошибок
+                  -для преподавателя Stormnet :):)))"""
