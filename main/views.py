@@ -193,3 +193,8 @@ def logout_view(request):
 def get_articles_page(request):
     return render(request, 'articles.html')
 
+
+def get_brands_page(request):
+    return render(request, 'brands.html')
+
+
