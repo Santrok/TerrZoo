@@ -45,9 +45,6 @@ def get_page(request):
 def get_page_catalog(request):
 
     animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')  # Нам точно надо тут preferch?
-
-    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')
-
     products = Product.objects.all()
     products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
