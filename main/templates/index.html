@@ -77,7 +77,7 @@
                                     <a href="#">Акции</a>
                                 </li>
                                 <li class="header__up-list-item">
-                                    <a href="#">Статьи</a>
+                                    <a href="{% url 'articles' %}">Статьи</a>
                                 </li>
                             </ul>
                             <a href="{% url 'basket' %}" class="header__up-basket">
@@ -309,7 +309,7 @@
                                     <a href="#">Акции </a>
                                 </li>
                                 <li class="header__bottom-nav-item">
-                                    <a href="#">Статьи </a>
+                                    <a href="{% url 'articles' %}">Статьи </a>
                                 </li>
                             </ul>
                         </nav>
@@ -522,9 +522,11 @@
                                 {% endfor %}
 
                             </div>
-                            <button class="popular__goods-btn button slider__button">
-                                Смотреть больше товаров
-                            </button>
+                            <a href="{% url 'catalog' %}">
+                                <button class="popular__goods-btn button slider__button">
+                                    Смотреть больше товаров
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -610,9 +612,11 @@
                                 </article>
                                 {% endfor %}
                             </div>
-                            <button class="popular__goods-btn button slider__button">
-                                Смотреть больше товаров
-                            </button>
+                            <a href="{% url 'catalog' %}">
+                                <button class="popular__goods-btn button slider__button">
+                                    Смотреть больше товаров
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -630,7 +634,9 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                        <button class="brand__btn button">Смотреть больше брендов</button>
+                        <a href="{% url 'catalog' %}">
+                            <button class="brand__btn button">Смотреть больше брендов</button>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -807,7 +813,9 @@
                             </article>
                             {% endfor %}
                         </div>
-                        <button type="button" class="articles__button button">Читать больше статей</button>
+                        <a href="{% url 'articles' %}">
+                            <button type="button" class="articles__button button">Читать больше статей</button>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -1078,7 +1086,7 @@
                                 <a href="#"> Акции </a>
                             </li>
                             <li class="footer__list-item">
-                                <a href="#"> Статьи </a>
+                                <a href="{% url 'articles' %}"> Статьи </a>
                             </li>
                         </ul>
                     </nav>

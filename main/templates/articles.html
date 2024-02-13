@@ -37,19 +37,19 @@
                                 </search>
                                 <ul class="header__up-link-list">
                                     <li class="header__up-list-item">
-                                        <a href="#">Главная</a>
+                                        <a href="{% url 'main' %}">Главная</a>
                                     </li>
                                     <li class="header__up-list-item">
-                                        <a href="#">Каталог</a>
+                                        <a href="{% url 'catalog' %}">Каталог</a>
                                     </li>
                                     <li class="header__up-list-item">
                                         <a href="#">Акции</a>
                                     </li>
                                     <li class="header__up-list-item">
-                                        <a href="#">Статьи</a>
+                                        <a href="{% url 'articles' %}">Статьи</a>
                                     </li>
                                 </ul>
-                                <a href="#" class="header__up-basket">
+                                <a href="{% url 'basket' %}" class="header__up-basket">
                                     <div class="header__up-basket-img">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -260,20 +260,20 @@
                             <nav class="header__bottom-nav">
                                 <ul class="header__bottom-nav-list">
                                     <li class="header__bottom-nav-item">
-                                        <a href="https://zoomain.vercel.app/"> Главная </a>
+                                        <a href="{% url 'main' %}"> Главная </a>
                                     </li>
                                     <li class="header__bottom-nav-item">
-                                        <a href="#"> Каталог </a>
+                                        <a href="{% url 'catalog' %}"> Каталог </a>
                                     </li>
                                     <li class="header__bottom-nav-item">
                                         <a href="#"> Акции </a>
                                     </li>
                                     <li class="header__bottom-nav-item">
-                                        <a href="#"> Статьи </a>
+                                        <a href="{% url 'articles' %}"> Статьи </a>
                                     </li>
                                 </ul>
                             </nav>
-                            <div class="header__bottom-basket">
+                            <a href="{% url 'basket' %}" class="header__bottom-basket">
                                 <div>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -303,7 +303,7 @@
                                     </svg>
                                 </div>
                                 <p>0</p>
-                            </div>
+                            </a>
                             <div class="header__bottom-action">
                                 <div class="header__bottom-search-mob">
                                     <svg
@@ -990,9 +990,11 @@
                                     </article>
                                 </div>
                             </div>
-                            <button class="popular__goods-btn button slider__button">
-                                Смотреть больше товаров
-                            </button>
+                            <a href="{% url 'catalog' %}">
+                                <button class="popular__goods-btn button slider__button">
+                                    Смотреть больше товаров
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </section>
@@ -1194,16 +1196,16 @@
                         <nav class="footer__nav">
                             <ul class="footer__list">
                                 <li class="footer__list-item">
-                                    <a href="https://zoomain.vercel.app/"> Главная </a>
+                                    <a href="{% url 'main' %}"> Главная </a>
                                 </li>
                                 <li class="footer__list-item">
-                                    <a href="#"> Каталог </a>
+                                    <a href="{% url 'catalog' %}"> Каталог </a>
                                 </li>
                                 <li class="footer__list-item">
                                     <a href="#"> Акции </a>
                                 </li>
                                 <li class="footer__list-item">
-                                    <a href="#"> Статьи </a>
+                                    <a href="{% url 'articles' %}"> Статьи </a>
                                 </li>
                             </ul>
                         </nav>

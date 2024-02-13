@@ -912,9 +912,11 @@
                                     <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                                 </article>
                             </div>
-                            <button class="popular__goods-btn button slider__button">
-                                Смотреть больше товаров
-                            </button>
+                            <a href="{% url 'catalog' %}">
+                                <button class="popular__goods-btn button slider__button">
+                                    Смотреть больше товаров
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1141,9 +1143,11 @@
                                     <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                                 </article>
                             </div>
-                            <button class="popular__goods-btn button slider__button">
-                                Смотреть больше товаров
-                            </button>
+                            <a href="{% url 'catalog' %}">
+                                <button class="popular__goods-btn button slider__button">
+                                    Смотреть больше товаров
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1247,7 +1251,9 @@
                                 </article>
                             {% endfor %}
                         </div>
+                    <a href="{% url 'articles' %}">
                         <button type="button" class="articles__button button">Читать больше статей</button>
+                    </a>
                     </div>
                 </div>
             </section>
