@@ -105,6 +105,7 @@ def get_details(request, id):
 
 
 def get_basket_page(request):
+    """Функция обработки данных страницы basket"""
     return render(request, 'basket.html')
 
 
