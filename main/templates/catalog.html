@@ -386,7 +386,7 @@
                         <div class="container">
                             <div class="filter__wrap">
                                 {% for animal in animals %}
-                                <a href="{% url 'catalog_by_animal' animal.id %}" class="filter__item filter__item-active">
+                                <a href="{% url 'catalog_by_animal' animal.id %}" class="filter__item ">
                                     <div class="filter__item-img" style="background-image: url({{animal.image.url}});">
                                     </div>
                                     <h3 class="filter__item-text">{{animal.type}}</h3>
@@ -502,8 +502,8 @@
                                         <ul class="filter__type-list">
                                             {% for category in categoty_products %}
                                             <li class="filter__type-list-item">
-                                                <input type="radio" id="fodder" name="type" class="filter__type-list-item-hdie">
-                                                <label for="fodder" class="filter__type-list-item-label">
+                                                <input type="radio" id="fodder{{category.id}}" name="type" class="filter__type-list-item-hide">
+                                                <label for="fodder{{category.id}}" class="filter__type-list-item-label">
                                                     <div>
     
                                                     </div>
@@ -541,8 +541,8 @@
                                         <ul class="brand__list">
                                             {% for brand in brands %}
                                             <li class="brand__list-item">
-                                                <input type="checkbox" id="brand" name="type" class="brand__type-list-item-hdie">
-                                                <label for="brand" class="brand__list-item-label">
+                                                <input type="checkbox" id="brand{{brand.id}}" name="type" class="brand__type-list-item-hdie">
+                                                <label for="brand{{brand.id}}" class="brand__list-item-label">
                                                     <div>
 
                                                     </div>
