@@ -868,7 +868,7 @@
                                             <img src="{{ articsl.image.url }}" alt="articlesImg" />
                                         </div>
                                         <div class="articles__slider-item-text-wrap">
-                                            <a href="#">
+                                            <a href="{% url 'article_by_id' articsl.id %}">
                                                 <h3 class="articles__slider-item-title">{{ articsl.title }}</h3>
                                             </a>
                                             <p class="articles__slider-item-text">{{ articsl.text }}</p>
