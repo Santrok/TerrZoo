@@ -1,4 +1,3 @@
-
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -43,7 +42,6 @@ def get_page(request):
 
 
 def get_page_catalog(request):
-
     animals = Animal.objects.all()
     products = Product.objects.all()
     products_on_sale = products.exclude(sale=1)
@@ -165,10 +163,10 @@ def registration_view(request):
         register_form = RegisterationForm()
         return render(request, 'registration.html', {"register_form": register_form})
 
+
 def confirm_email(request):
     """Шаблон информации об успешной регистрации и подтверждения имейл"""
-    return render(request,'confirmation_email.html')
-
+    return render(request, 'confirmation_email.html')
 
 
 def activate_user(request, uidb64, token):
@@ -198,7 +196,6 @@ def logout_view(request):
     return redirect('login')
 
 
-
 def get_articles_page(request):
     """Отдаем каталог по id животного"""
     animals = Animal.objects.all()
@@ -226,14 +223,34 @@ def get_brands_page(request):
 
 
 def get_article_by_article_id(request, article_id):
+    """Отдаем выбранную статью"""
     articles = Article.objects.all()
     article = articles.get(id=article_id)
     popular_products = sorted(Product.objects.all(),
                               key=lambda x: x.sales_counter,
                               reverse=True)
+
     context = {"article": article,
                "articles": articles,
                "popular_products": popular_products}
-    return render(request, 'article_by_id.html', context)
+
+    return render(request=request,
+                  template_name='article_by_id.html',
+                  context=context)
 
 
+def get_article_by_animals_id(request, animal_id):
+    """Отдаем статьи по id животного"""
+    animals = Animal.objects.all()
+    articles = Article.objects.filter(animal=animal_id)
+    popular_products = sorted(Product.objects.all(),
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+
+    context = {"animals": animals,
+               "articles": articles,
+               "popular_products": popular_products}
+
+    return render(request=request,
+                  template_name='articles_by_animal_id.html',
+                  context=context)

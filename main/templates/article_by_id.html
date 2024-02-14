@@ -355,7 +355,7 @@
                         <div class="container">
                             <ul class="main__nav-list">
                                 <li class="main__nav-list-item">
-                                    <a href="https://zoomain.vercel.app/">Главная</a>
+                                    <a href="{% url 'main' %}">Главная</a>
                                 </li>
                                 <li class="mian__nav-list-item-arrow">
                                     <svg
@@ -377,7 +377,7 @@
                                     </svg>
                                 </li>
                                 <li class="main__nav-list-item-active">
-                                    <a href="#">Статьи</a>
+                                    <a href="{% url 'articles' %}">Статьи</a>
                                 </li>
                                 <li class="mian__nav-list-item-arrow">
                                     <svg
@@ -399,7 +399,7 @@
                                     </svg>
                                 </li>
                                 <li class="main__nav-list-item-active">
-                                    <a href="#">Как приучить кошку к лотку с наполнителем и без него</a>
+                                    <a href="#">{{ article.title }}</a>
                                 </li>
                             </ul>
                         </div>
