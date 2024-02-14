@@ -778,19 +778,19 @@
                                     </div>
                                 </div>
                                 <div class="articles__slider">
-                                    {% for artical in articals %}
+                                    {% for article in articals %}
                                     <article class="articles__slider-item">
                                         <div class="articles__slider-item-img">
-                                            <img src="{{ artical.image.url }}" alt="articlesImg" />
+                                            <img src="{{ article.image.url }}" alt="articlesImg" />
                                         </div>
                                         <div class="articles__slider-item-text-wrap">
-                                            <a href="#">
+                                            <a href="{% url 'article_by_id' article.id %}">
                                                 <h3 class="articles__slider-item-title">
-                                                    {{ artical.title }}
+                                                    {{ article.title }}
                                                 </h3>
                                             </a>
                                             <p class="articles__slider-item-text">
-                                                {{ artical.text }}
+                                                {{ article.text|striptags }}
                                             </p>
                                         </div>
                                         <div class="articles__slider-item-time-wrap">
@@ -811,7 +811,7 @@
                                                         />
                                                     </svg>
                                                 </div>
-                                                <p>Время чтения: {{ artical.read_time }}</p>
+                                                <p>Время чтения: {{ article.read_time }}</p>
                                             </div>
                                             <div class="articles__slider-item-date">
                                                 <div class="articles__slider-item-time-date">
@@ -830,7 +830,7 @@
                                                         />
                                                     </svg>
                                                 </div>
-                                                <p>{{ artical.date_create|date:"d F Y" }}</p>
+                                                <p>{{ article.date_create|date:"d F Y" }}</p>
                                             </div>
                                         </div>
                                     </article>

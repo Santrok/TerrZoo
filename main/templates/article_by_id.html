@@ -529,7 +529,7 @@
                                                 </h3>
                                             </a>
                                             <p class="articles__slider-item-text">
-                                                {{ article.text|safe }}
+                                                {{ article.text|striptags }}
                                             </p>
                                         </div>
                                         <div class="articles__slider-item-time-wrap">
@@ -869,16 +869,16 @@
                             <nav class="footer__nav">
                                 <ul class="footer__list">
                                     <li class="footer__list-item">
-                                        <a href="https://zoomain.vercel.app/"> Главная </a>
+                                        <a href="{% url 'main' %}"> Главная </a>
                                     </li>
                                     <li class="footer__list-item">
-                                        <a href="#"> Каталог </a>
+                                        <a href="{% url 'catalog' %}"> Каталог </a>
                                     </li>
                                     <li class="footer__list-item">
                                         <a href="#"> Акции </a>
                                     </li>
                                     <li class="footer__list-item">
-                                        <a href="#"> Статьи </a>
+                                        <a href="{% url 'articles' %}"> Статьи </a>
                                     </li>
                                 </ul>
                             </nav>
