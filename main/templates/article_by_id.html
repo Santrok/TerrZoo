@@ -575,7 +575,9 @@
                                     </article>
                                     {% endfor %}
                                 </div>
-                                <button type="button" class="articles__button button">Читать больше статей</button>
+                                <a href="{% url 'articles' %}">
+                                    <button type="button" class="articles__button button">Читать больше статей</button>
+                                </a>
                             </div>
                         </div>
                     </section>
