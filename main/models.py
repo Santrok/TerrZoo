@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib import admin
 
@@ -201,7 +202,7 @@ class Article(models.Model):
     title = models.CharField("Название статьи",
                              max_length=1500,
                              unique=True)
-    text = models.TextField("Текст статьи")
+    text = CKEditor5Field('Текст статьи', config_name='extends')
     image = models.ImageField("Изображение",
                               upload_to="articles_images")
     date_create = models.DateTimeField(auto_now_add=True)

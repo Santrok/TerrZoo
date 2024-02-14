@@ -485,8 +485,8 @@
                         <div class="container">
                             <div class="products__wrap">
                                 <aside class="catalog__filter-mob">
-                                    <div for="promotional" class="promotional__item">
-                                        <input type="checkbox" name="promotional" id="promotional" class="promotional__item-input-hide">
+                                    <li for="promotional" class="promotional__item">
+                                        <input type="checkbox" name="promotional" id="promotional" class="promotional__item-input-hide" data-sale="sale">
                                         <label for="promotional" class="promotional__item-label">
                                             <div>
                                             </div>
@@ -494,7 +494,7 @@
                                                 Только акционные товары
                                             </p>
                                         </label>
-                                    </div>
+                                    </li>
                                     <div class="filter__type">
                                         <h3 class="filter__type-title">
                                             Тип товара
@@ -502,7 +502,7 @@
                                         <ul class="filter__type-list">
                                             {% for category in categoty_products %}
                                             <li class="filter__type-list-item">
-                                                <input type="radio" id="fodder{{category.id}}" name="type" class="filter__type-list-item-hide">
+                                                <input type="radio" id="fodder{{category.id}}" name="type" class="filter__type-list-item-hide" data-category="{{category.id}}">
                                                 <label for="fodder{{category.id}}" class="filter__type-list-item-label">
                                                     <div>
     
@@ -541,7 +541,7 @@
                                         <ul class="brand__list">
                                             {% for brand in brands %}
                                             <li class="brand__list-item">
-                                                <input type="checkbox" id="brand{{brand.id}}" name="type" class="brand__type-list-item-hdie">
+                                                <input type="checkbox" id="brand{{brand.id}}" name="type" class="brand__type-list-item-hdie" data-brand="{{brand.id}}">
                                                 <label for="brand{{brand.id}}" class="brand__list-item-label">
                                                     <div>
 
@@ -1002,5 +1002,6 @@
         <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script defer src="{% static 'js/catalog_page/slick.min.js' %}"></script>
         <script defer src="{% static 'js/catalog_page/slider.js' %}"></script>
+        <script src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
     </body>
 </html>

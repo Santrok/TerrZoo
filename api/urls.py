@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import StyledComponentsListView, AnimalsListView, CategoryProductsListView, ProductsListView, \
     CountItemProductsListView, SaleListView, ArticlesListView, BrandsListView, ReviewsListView, OrdersListView, \
-    LinkComponentsListView
+    LinkComponentsListView,ProductListFilterView
 
 urlpatterns = [
     path("get_bugs_css/", StyledComponentsListView.as_view()),
@@ -16,4 +16,5 @@ urlpatterns = [
     path("get_brands_list/", BrandsListView.as_view()),
     path("get_reviews_list/", ReviewsListView.as_view()),
     path("get_orders_list/", OrdersListView.as_view()),
+    path("get_products_filter/", ProductListFilterView.as_view())
 ]

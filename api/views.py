@@ -4,7 +4,7 @@ from rest_framework.generics import ListAPIView
 from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
     CountItemProductSerializer, SaleSerializer, ArticleSerializer, BrandSerializer, ReviewSerializer, OrderSerializer, \
     LinkComponentsSerializer
-from error_management.models import StyledComponents,  SetErrorLink
+from error_management.models import StyledComponents, SetErrorLink
 from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale, Article, Brand, Review, Order
 
 
@@ -13,9 +13,11 @@ class StyledComponentsListView(ListAPIView):
     queryset = StyledComponents.objects.filter(is_active=True)
     serializer_class = StyledComponentsSerializer
 
+
 class LinkComponentsListView(ListAPIView):
-    queryset =SetErrorLink.objects.filter(is_active=True)
+    queryset = SetErrorLink.objects.filter(is_active=True)
     serializer_class = LinkComponentsSerializer
+
 
 class AnimalsListView(ListAPIView):
     queryset = Animal.objects.all()
@@ -60,3 +62,25 @@ class ReviewsListView(ListAPIView):
 class OrdersListView(ListAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+
+# API for Filter
+
+
+class ProductListFilterView(ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        data = self.request.query_params
+        c = data.items()
+        d = {}
+        for i in c:
+            d[i[0]]=i[1]
+
+        print(d)
+        queryset = Product.objects.filter(**d)
+        for i in queryset:
+            print(i.sale.all()[0])
+
+
+        return queryset

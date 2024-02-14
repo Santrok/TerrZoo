@@ -50,7 +50,7 @@ sliderButton.forEach(item => {
             buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item">${i.textContent}</li>`
         }
         buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim()
-        if(e.currentTarget.parentElement.children[2].children[0].children[0].textContent === 'шт' ) {
+        if(e.currentTarget.parentElement.children[2].children[0].children[0].textContent === 'шт.' ) {
             weightButton.style.display = 'none'
         }else{
             weightButton.style.display = 'flex'

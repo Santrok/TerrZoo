@@ -71,7 +71,7 @@ def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
     animals = Animal.objects.all()
     products = Product.objects.all()
-    products_on_sale = products.exclude(sale=1)
+    products_on_sale = products
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
@@ -229,3 +229,5 @@ def get_artcile_by_article_id(request, article_id):
     article = Article.objects.get(id=article_id)
     context = {"article": article}
     return render(request, 'article_by_id.html', context)
+
+
