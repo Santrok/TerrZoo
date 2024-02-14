@@ -81,8 +81,9 @@
 }
 
 .header__bottom-basket-popup {
-  
+
 }
+
 .header__bottom-burger::before, .header__bottom-burger::after {
   content: "";
   position: absolute;
