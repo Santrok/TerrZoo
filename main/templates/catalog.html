@@ -500,18 +500,36 @@
                                             Тип товара
                                         </h3>
                                         <ul class="filter__type-list">
-                                            {% for category in categoty_products %}
+                                            {% for category in categoty_products %} 
+                                            {% if category.level == 0 %}
                                             <li class="filter__type-list-item">
-                                                <input type="radio" id="fodder{{category.id}}" name="type" class="filter__type-list-item-hide">
+                                                <input
+                                                    type="radio"
+                                                    id="fodder{{category.id}}"
+                                                    name="type"
+                                                    class="filter__type-list-item-hide"
+                                                    data-category="{{category.id}}"
+                                                />
                                                 <label for="fodder{{category.id}}" class="filter__type-list-item-label">
-                                                    <div>
-    
-                                                    </div>
-                                                    <p>
-                                                        {{ category.name }}
-                                                    </p>
+                                                    <div></div>
+                                                    <p>{{ category.name }}</p>
                                                 </label>
                                             </li>
+                                            {% elif category.level == 1 %}
+                                            <li class="brand__list-item">
+                                                <input
+                                                    type="checkbox"
+                                                    id="brand{{category.id}}"
+                                                    name="type"
+                                                    class="brand__type-list-item-hdie"
+                                                    data-category="{{category.id}}"
+                                                />
+                                                <label for="brand{{category.id}}" class="brand__list-item-label">
+                                                    <div></div>
+                                                    <p>{{ category.name }}</p>
+                                                </label>
+                                            </li>
+                                            {% endif %} 
                                             {% endfor %}
                                         </ul>
                                     </div>
