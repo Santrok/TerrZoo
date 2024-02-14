@@ -225,9 +225,15 @@ def get_brands_page(request):
     return render(request, 'brands.html', context)
 
 
-def get_artcile_by_article_id(request, article_id):
-    article = Article.objects.get(id=article_id)
-    context = {"article": article}
+def get_article_by_article_id(request, article_id):
+    articles = Article.objects.all()
+    article = articles.get(id=article_id)
+    popular_products = sorted(Product.objects.all(),
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+    context = {"article": article,
+               "articles": articles,
+               "popular_products": popular_products}
     return render(request, 'article_by_id.html', context)
 
 
