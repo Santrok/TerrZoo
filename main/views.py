@@ -113,7 +113,20 @@ def get_details(request, id):
 
 def get_basket_page(request):
     """Функция обработки данных страницы basket"""
-    return render(request, 'basket.html')
+    articals = Article.objects.all()
+    products = list(Product.objects.all())
+    popular_product = sorted(products,
+                             key=lambda x: x.sales_counter,
+                             reverse=True)
+    new_products = sorted(products,
+                          key=lambda x: x.id,
+                          reverse=True)
+    context = {
+        "popular_products": popular_product,
+        "new_products": new_products,
+        "articals": articals
+    }
+    return render(request, 'basket.html', context)
 
 
 # Beny tassks!!!!!========================
