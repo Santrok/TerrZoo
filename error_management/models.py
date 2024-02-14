@@ -120,3 +120,21 @@ class SetErrorDataApi(models.Model):
     """ Модель управления генерации ошибок в ответы API:
                  -для моделирования ситуаций возможных ошибок
                   -для преподавателя Stormnet :):)))"""
+
+    page_name = models.CharField("Название страницы",
+                                 max_length=500)
+    section_of_page = models.CharField("Блок где будет ошибка",
+                                       max_length=500)
+    theme = models.CharField("Тема занятия",
+                             max_length=2000)
+    lesson_number = models.CharField("Номер занятия",
+                                     max_length=2000)
+    is_active = models.BooleanField("Статус применения")
+    description = models.TextField("Описание генерируемой ошибки")
+
+    def __str__(self):
+        return self.html_id_tag_a
+
+    class Meta:
+        verbose_name = "Объект моделирования функциональных ситуации Links"
+        verbose_name_plural = "Объекты моделирования функциональных ситуаций Links"
