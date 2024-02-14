@@ -20,11 +20,18 @@ function setCountItem(e) {
                 if(i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id){
                     if(i.count <= 1) {
                         e.target.parentElement.parentElement.parentElement.parentElement.remove()
+                        basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : ''
                     }
                     i.count -= 1
-                    console.log(i.price);
+                    // let price = Array.from(i.price).splice(0, 5)
+                    // price.splice(price.indexOf(','), 1,'.')
+                    // console.log(price);
+                    // let currency = Array.from(i.price).splice(5, i.length).join('')
+                    // console.log(currency);
+                    // i.price -= parseFloat(price)
                     e.target.parentElement.children[1].textContent = i.count
                     localStorage.setItem('basket', JSON.stringify(basketArrayObj))
+                    setCountInBasket()
                 }
             }
         }else {
@@ -32,7 +39,8 @@ function setCountItem(e) {
             for(let i of basketArrayObj){
                 if(i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id){
                     i.count += 1
-                    console.log(i.price);
+                    // i.price += Number(Array.from(i.price).splice(0, 5).join(''))
+                    setCountInBasket()
                     e.target.parentElement.children[1].textContent = i.count
                     localStorage.setItem('basket', JSON.stringify(basketArrayObj))
                 }
@@ -80,9 +88,6 @@ function addBasketItemToHover() {
             const li = document.createElement("li");
             li.classList.add("header__bottom-basket-hover-list-item");
             li.dataset.id = i.id
-            // if(i.title !== Array.from(basketHoverListItem)[basketCount].textContent){
-                
-            // }
             basketCount++
             li.innerHTML = `
         <div class="header__bottom-basket-hover-list-item-wrap">
