@@ -44,7 +44,7 @@ def get_page(request):
 def get_page_catalog(request):
     animals = Animal.objects.all()
     products = Product.objects.all()
-    products_on_sale = products.exclude(sale=1)
+    products_on_sale = products  #.exclude(sale=1)
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
