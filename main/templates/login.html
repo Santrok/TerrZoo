@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/registration_style.css' %}">
-    <title>Вход</title>
-</head>
-<body>
-<form action="" method="POST">
-    {% csrf_token %}
-    <h1>Авторизация</h1>
-    {% if messages %}
-        <ul class="errorlist">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {{ login_form }}
-    <input type="submit" value="Войти">
-    <a href="{% url 'reset_form' %}">Забыли пароль?</a>
-    <a href="{% url 'register' %}">Регистрация</a>
-</form>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="{% static 'css/null.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/registration_page/register_style.css' %}" />
+        <title>Вход</title>
+    </head>
+    <body>
+      <div class="wrapper">
+        <div class="page_wrapper">
+            <div class="form_wrap">
+                <form class="callback" method="POST">
+                  {% csrf_token %}
+                    <h2 class="callback__title">Авторизация</h2>
+                      <p>{{error}}</p>
+                    {{login_form}}
+                    <div class="down_panel">
+                    <button class="button">Вход</button>
+                    <a class="link_next_page" href="">Регистрация</a>
+                    <a class="link_next_page" href="">Забыли пароль?</a>
+                  </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </body>
 </html>

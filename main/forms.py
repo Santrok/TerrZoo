@@ -6,9 +6,9 @@ class LoginForm(forms.Form):
     """Форма авторизации """
     username = forms.CharField(
         widget=forms.TextInput(attrs={'id': 'username_login_field', 'placeholder': 'Введите Ваше имя'}),
-        label='')
+        label='Имя')
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'id': 'password_login_field', 'placeholder': 'Введите пароль'}), label='')
+        widget=forms.PasswordInput(attrs={'id': 'password_login_field', 'placeholder': 'Введите пароль'}), label='Пароль')
 
 
 class RegisterationForm(forms.Form):

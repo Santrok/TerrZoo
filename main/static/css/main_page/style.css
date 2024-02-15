@@ -2328,3 +2328,17 @@ footer {
     padding: 0;
   }
 }/*# sourceMappingURL=style.css.map */
+
+.header__up-login-button{
+    order: 5;
+  }
+  .header__up-login-button a {
+  color: #e13333;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "SF Pro Text";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  background: #fff;
+}

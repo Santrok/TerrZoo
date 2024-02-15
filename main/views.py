@@ -133,9 +133,12 @@ def login_view(request):
                 login(request, user)
                 return redirect('main')
             else:
-                messages.error(request, 'Неверное имя или пароль!')
+                error_login = 'Неверное имя или пароль!'
+                login_form = LoginForm(request.POST)
+                return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
+    error_login = ''
     login_form = LoginForm()
-    return render(request, 'login.html', {'login_form': login_form})
+    return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
 
 
 def registration_view(request):
