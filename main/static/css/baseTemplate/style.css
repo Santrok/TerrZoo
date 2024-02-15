@@ -1324,6 +1324,7 @@ footer {
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
+    user-select: none;
 }
 
 .slider__item-title {
@@ -1409,6 +1410,7 @@ footer {
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
+    user-select: none;
 }
 
 .slider__item-btn {
@@ -1424,6 +1426,7 @@ footer {
     font-weight: 500;
     line-height: 20px;
     background: none;
+    user-select: none;
 }
 .slider__item-btn:hover {
     background: var(--Icon-Highlight, #00a0ac);
