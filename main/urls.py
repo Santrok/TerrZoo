@@ -4,7 +4,7 @@ from django.urls import path, reverse_lazy
 
 from main.views import get_page, login_view, registration_view, logout_view, reset_password, get_basket_page, \
     get_page_catalog, get_details, get_page_catalog_by_animal, get_articles_page, activate_user, confirm_email, \
-    get_brands_page, get_artcile_by_article_id
+    get_brands_page, get_article_by_article_id, get_article_by_animals_id, get_promotions_page
 
 urlpatterns = [
     path('', get_page, name='main'),
@@ -38,5 +38,7 @@ urlpatterns = [
     path('activate/<str:uidb64>/<str:token>/', activate_user, name='activate'),
     path('confirm_email/', confirm_email, name='confirm_email'),
     path('brands/', get_brands_page, name='brands'),
-    path('article/<int:article_id>', get_artcile_by_article_id, name='article_by_id'),
+    path('article/<int:article_id>', get_article_by_article_id, name='article_by_id'),
+    path('articles/<int:animal_id>', get_article_by_animals_id, name='articles_by_animal_id'),
+    path('promotions/', get_promotions_page, name='promotions'),
 ]

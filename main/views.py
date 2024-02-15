@@ -1,4 +1,3 @@
-
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -43,10 +42,8 @@ def get_page(request):
 
 
 def get_page_catalog(request):
-
-    animals = Animal.objects.prefetch_related('brand_set', 'categoryproduct_set')  # Нам точно надо тут preferch?
+    animals = Animal.objects.all()
     products = Product.objects.all()
-    products_on_sale = products.exclude(sale=1)
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
@@ -55,8 +52,7 @@ def get_page_catalog(request):
     brands = Brand.objects.all()
 
     context = {"animals": animals,
-               "all_products": products,  # Это точно надо? На странички catalog.html не используется
-               "products_on_sale": products_on_sale,
+               "products": products,
                "popular_products": popular_products,
                "articals": articals,
                "categoty_products": category,
@@ -71,17 +67,16 @@ def get_page_catalog(request):
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
     animals = Animal.objects.all()
-    products = Product.objects.all()
-    products_on_sale = products
-    popular_products = sorted(products,
-                              key=lambda x: x.sales_counter,
-                              reverse=True)
     articles_on_animals = Article.objects.filter(animal=animal_id)
     category_by_animals = CategoryProduct.objects.filter(animal=animal_id)
     brands_by_animals = Brand.objects.filter(animal=animal_id)
+    products = Product.objects.filter(category__in=category_by_animals)
+    popular_products = sorted(products,
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
 
     context = {"animals": animals,
-               "products_on_sale": products_on_sale,
+               "products": products,
                "popular_products": popular_products,
                "articals": articles_on_animals,
                "categoty_products": category_by_animals,
@@ -116,7 +111,20 @@ def get_details(request, id):
 
 def get_basket_page(request):
     """Функция обработки данных страницы basket"""
-    return render(request, 'basket.html')
+    articals = Article.objects.all()
+    products = list(Product.objects.all())
+    popular_product = sorted(products,
+                             key=lambda x: x.sales_counter,
+                             reverse=True)
+    new_products = sorted(products,
+                          key=lambda x: x.id,
+                          reverse=True)
+    context = {
+        "popular_products": popular_product,
+        "new_products": new_products,
+        "articals": articals
+    }
+    return render(request, 'basket.html', context)
 
 
 # Beny tassks!!!!!========================
@@ -172,10 +180,10 @@ def registration_view(request):
         register_form = RegisterationForm()
         return render(request, 'registration.html', {"register_form": register_form})
 
+
 def confirm_email(request):
     """Шаблон информации об успешной регистрации и подтверждения имейл"""
-    return render(request,'confirmation_email.html')
-
+    return render(request, 'confirmation_email.html')
 
 
 def activate_user(request, uidb64, token):
@@ -205,7 +213,6 @@ def logout_view(request):
     return redirect('main')
 
 
-
 def get_articles_page(request):
     """Отдаем каталог по id животного"""
     animals = Animal.objects.all()
@@ -232,9 +239,52 @@ def get_brands_page(request):
     return render(request, 'brands.html', context)
 
 
-def get_artcile_by_article_id(request, article_id):
-    article = Article.objects.get(id=article_id)
-    context = {"article": article}
-    return render(request, 'article_by_id.html', context)
+def get_article_by_article_id(request, article_id):
+    """Отдаем выбранную статью"""
+    articles = Article.objects.all()
+    article = articles.get(id=article_id)
+    popular_products = sorted(Product.objects.all(),
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+
+    context = {"article": article,
+               "articles": articles,
+               "popular_products": popular_products}
+
+    return render(request=request,
+                  template_name='article_by_id.html',
+                  context=context)
 
 
+def get_article_by_animals_id(request, animal_id):
+    """Отдаем статьи по id животного"""
+    animals = Animal.objects.all()
+    articles = Article.objects.filter(animal=animal_id)
+    popular_products = sorted(Product.objects.all(),
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+
+    context = {"animals": animals,
+               "articles": articles,
+               "popular_products": popular_products}
+
+    return render(request=request,
+                  template_name='articles_by_animal_id.html',
+                  context=context)
+
+
+def get_promotions_page(request):
+    """Отдаем все акции"""
+    animals = Animal.objects.all()
+    promotions = Sale.objects.exclude(percent=0)
+    popular_products = sorted(Product.objects.all(),
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+
+    context = {"animals": animals,
+               "promotions": promotions,
+               "popular_products": popular_products}
+
+    return render(request=request,
+                  template_name='promotions.html',
+                  context=context)
