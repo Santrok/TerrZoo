@@ -37,6 +37,26 @@ class AnimalsListView(ListAPIView):
     queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            error_obj = SetErrorDataApiV1.objects.get(url_name="get_animals_list", is_active=True)
+            print("------------error_oj------------")
+            print(error_obj.section_error)
+            print("---end---------error_oj------------")
+
+
+
+
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class CategoryProductsListView(ListAPIView):
     queryset = CategoryProduct.objects.all()
@@ -98,6 +118,5 @@ class ProductListFilterView(ListAPIView):
         queryset = Product.objects.filter(**d)
         # for i in queryset:
         #     print(i.sale.all()[0])
-
 
         return queryset
