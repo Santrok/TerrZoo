@@ -7,7 +7,7 @@
 
 
 {% block title %}
-<title>Каталог</title>
+Каталог
 {% endblock %}
 
 
@@ -515,4 +515,9 @@
         </section>
     </div>
 </main>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+<script src="{% static 'js/catalog_page/select.js' %}"></script>
 {% endblock %}

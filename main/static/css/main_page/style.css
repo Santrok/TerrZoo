@@ -367,13 +367,13 @@
     flex: 1 1 auto;
     max-width: 80px;
 }
-.brand__list-item a {
+.brand__list-item div {
     display: block;
     padding: 8px;
     border-radius: 4px;
     background: #fff;
 }
-.brand__list-item a img {
+.brand__list-item div img {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -397,7 +397,7 @@
     .brand__list-item {
         max-width: 174px;
     }
-    .brand__list-item a {
+    .brand__list-item div {
         padding: 14px 20px;
     }
     .brand__title {
