@@ -442,7 +442,7 @@
                                                     {{ p.value }} <span>{{ p.unit }}</span>
                                                 </p>
                                                 <p class="about__product-item-price">
-                                                    {{ p.percent }}
+                                                   {{ p.total_price|floatformat:2 }} <span>BYN</span>
                                                 </p>
                                             </li>
                                         {% endfor %}

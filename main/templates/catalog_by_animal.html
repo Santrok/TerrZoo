@@ -590,13 +590,17 @@
                                 </aside>
                                 <div class="product__list-wrap">
                                     <ul class="products__list">
-                                        {% for product in products_on_sale %}
+                                        {% for product in products %}
                                         <li class="products__list-item">
                                             <article class="products___item">
                                                 <div class="products___item-img">
                                                     <img src="{{ product.image_prev.url }}" alt="item" />
                                                 </div>
-                                                <div class="products___item-promotion">Акция</div>
+                                                {% if product.sale.percent != 0 %}
+                                                    <div class="products___item-promotion">
+                                                        Акция
+                                                    </div>
+                                                    {% endif %}
                                                 <a href="{% url 'details' product.id %}" class="products___item-title">
                                                     {{ product.title }}
                                                 </a>
@@ -606,8 +610,14 @@
                                                     {% endfor %}
                                                 </ul>
                                                 <div class="products___item-price-basket">
-                                                    <p class="products___item-price-promotion">{{ product.price }}</p>
-                                                    <p class="products___item-price">12 <span>BYN</span></p>
+                                                    {% if product.sale.percent != 0 %}
+                                                        <p class="products___item-price-promotion">
+                                                            {{ product.price }}
+                                                        </p>
+                                                        <p class="products___item-price">{{ product.action_price|floatformat:2 }} <span>BYN</span></p>
+                                                        {% else %}
+                                                        <p class="products___item-price">{{ product.price }} <span>BYN</span></p>
+                                                        {% endif %}
                                                     <div class="products___item-basket">
                                                         <div class="slider__item-basket-text">+</div>
                                                         <div class="slider__item-basket-img">

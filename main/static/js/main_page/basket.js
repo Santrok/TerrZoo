@@ -23,11 +23,12 @@ function setCountItem(e) {
                         basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : ''
                     }
                     i.count -= 1
-                    let price = Array.from(i.price).splice(0, 5)
-                    price.splice(price.indexOf(','), 1,'.')
-                    console.log(price);
-                    i.price = parseFloat(price.join(''))
-                    i.price -= parseFloat(price.join(''))
+                    // let price = Array.from(i.price).splice(0, 5)
+                    // price.splice(price.indexOf(','), 1,'.')
+                    // console.log(price);
+                    // let currency = Array.from(i.price).splice(5, i.length).join('')
+                    // console.log(currency);
+                    // i.price -= parseFloat(price)
                     e.target.parentElement.children[1].textContent = i.count
                     localStorage.setItem('basket', JSON.stringify(basketArrayObj))
                     setCountInBasket()
@@ -39,11 +40,6 @@ function setCountItem(e) {
                 if(i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id){
                     i.count += 1
                     // i.price += Number(Array.from(i.price).splice(0, 5).join(''))
-                    let price = Array.from(i.price).splice(0, 5)
-                    price.splice(price.indexOf(','), 1,'.')
-                    console.log(price);
-                    i.price = parseFloat(price.join(''))
-                    i.price += parseFloat(price.join('')) + ' BYN'
                     setCountInBasket()
                     e.target.parentElement.children[1].textContent = i.count
                     localStorage.setItem('basket', JSON.stringify(basketArrayObj))
@@ -64,17 +60,10 @@ function addBasketItemToLocalStorage(e) {
     for(let i of basketArrayObj){
         if(i.id === e.currentTarget.parentElement.parentElement.dataset.id){
             i.count += 1
-            // let price = Array.from(i.price).splice(0, 5)
-            // price.splice(price.indexOf(','), 1,'.')
-            // console.log(price);
-            // i.price = parseFloat(price.join(''))
-            // i.price += parseFloat(price.join(''))
             localStorage.setItem('basket', JSON.stringify(basketArrayObj))
             return
         }
     }
-    console.log(e.currentTarget.parentElement.parentElement.children[3].children[0]);
-
     basketArrayObj.push({
         count:1,
         id: e.currentTarget.parentElement.parentElement.dataset.id,
