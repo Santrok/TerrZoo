@@ -109,6 +109,11 @@
                                 <div class="slider__item-img">
                                     <img src="{{card.image_prev.url}}" alt="item" />
                                 </div>
+                                {% if card.sale.percent != 0 %}
+                                <div class="slider__item-promotion">
+                                    Акция
+                                </div>
+                                {% endif %}
                                 <a href="{% url 'details' card.id %}" class="slider__item-title">
                                     {{card.title}}
                                 </a>
@@ -220,6 +225,11 @@
                                 <div class="slider__item-img">
                                     <img src="{{card_new.image_prev.url}}" alt="item" />
                                 </div>
+                                {% if card_new.sale.percent != 0 %}
+                                <div class="slider__item-promotion">
+                                    Акция
+                                </div>
+                                {% endif %}
                                 <a href="{% url 'details' card_new.id %}" class="slider__item-title">
                                     {{card_new.title}}
                                 </a>
