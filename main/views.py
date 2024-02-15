@@ -265,3 +265,20 @@ def get_article_by_animals_id(request, animal_id):
     return render(request=request,
                   template_name='articles_by_animal_id.html',
                   context=context)
+
+
+def get_promotions_page(request):
+    """Отдаем статьи по id животного"""
+    animals = Animal.objects.all()
+    promotions = Sale.objects.exclude(percent=0)
+    popular_products = sorted(Product.objects.all(),
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+
+    context = {"animals": animals,
+               "promotions": promotions,
+               "popular_products": popular_products}
+
+    return render(request=request,
+                  template_name='promotions.html',
+                  context=context)
