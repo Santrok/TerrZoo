@@ -11,11 +11,20 @@ from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale
 
 
 # Create your views here.
+
 class StyledComponentsListView(ListAPIView):
     queryset = StyledComponents.objects.filter(is_active=True)
     serializer_class = StyledComponentsSerializer
 
 
+class LinkComponentsListView(ListAPIView):
+    queryset = SetErrorLink.objects.filter(is_active=True)
+    serializer_class = LinkComponentsSerializer
+
+
+class StyledComponentsListView(ListAPIView):
+    queryset = StyledComponents.objects.filter(is_active=True)
+    serializer_class = StyledComponentsSerializer
 
 
 class LinkComponentsListView(ListAPIView):
@@ -54,7 +63,7 @@ class AnimalsListView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
                 return self.get_paginated_response(response_list)
 
@@ -83,7 +92,7 @@ class CategoryProductsListView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
                 return self.get_paginated_response(response_list)
 
@@ -113,7 +122,7 @@ class ProductsListView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
                 return self.get_paginated_response(response_list)
 
@@ -201,7 +210,7 @@ class ArticlesListView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
                 return self.get_paginated_response(response_list)
 
@@ -209,6 +218,7 @@ class ArticlesListView(ListAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class BrandsListView(ListAPIView):
     queryset = Brand.objects.all()
