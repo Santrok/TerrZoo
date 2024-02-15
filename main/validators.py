@@ -19,3 +19,6 @@ def validate_email(email):
 def validate_username(username):
     if User.objects.filter(username=username).exists():
         raise forms.ValidationError('Такой пользователь уже зарегистрирован')
+    # if not re.match(r'^(?!\\d+$)[a-zA-Zа-яА-Я\\d]{3,20}$', username):
+    #      raise forms.ValidationError('Недопустимое имя')
+
