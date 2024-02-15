@@ -3,7 +3,6 @@ const headerBottomBasketCount = document.querySelector(".header__bottom-basket >
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
 const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
 const sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
-const sliderItem = document.querySelectorAll('.slider__item')
 
 sliderItemWeightList.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -36,7 +35,6 @@ function setCountItem(e) {
                         basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
                     }
                     i.count -= 1;
-                    i.initPrice === 0 ? (i.initPrice = i.price) : "";
                     i.price = Number(i.price - i.initPrice);
                     e.target.parentElement.parentElement.children[1].textContent =
                         (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
@@ -50,7 +48,6 @@ function setCountItem(e) {
             for (let i of basketArrayObj) {
                 if (i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id) {
                     i.count += 1;
-                    i.initPrice === 0 ? (i.initPrice = i.price) : "";
                     i.price = Number(i.count * i.initPrice);
                     e.target.parentElement.parentElement.children[1].textContent =
                         (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
@@ -92,17 +89,19 @@ function addBasketItemToLocalStorage(e) {
         e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
     ).splice(0, 5);
     price.splice(price.indexOf(","), 1, ".");
-    basketArrayObj.push({
-        count: 1,
-        id: e.currentTarget.parentElement.parentElement.dataset.id,
-        title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(),
-        src: e.currentTarget.parentElement.parentElement.children[0].children[0].src,
-        weight: array,
-        initPrice: 0,
-        price: parseFloat(price.join("")),
-    });
-    localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-    setCountInBasket();
+    if(array.length !== 0) {
+        basketArrayObj.push({
+            count: 1,
+            id: e.currentTarget.parentElement.parentElement.dataset.id,
+            title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(),
+            src: e.currentTarget.parentElement.parentElement.children[0].children[0].src,
+            weight: array,
+            initPrice: parseFloat(price.join("")),
+            price: parseFloat(price.join("")),
+        });
+        localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+        setCountInBasket();
+    }
 }
 
 function addBasketItemToHover() {
@@ -168,8 +167,9 @@ function addBasketItemToHover() {
 
 addBasketItemToHover();
 
-sliderItem.forEach((item) => {
-    item.addEventListener("click", (e) => {
-        console.log(e.currentTarget.children);
+sliderItemBasketBtn.forEach((item) => {
+    item.addEventListener("click", (event) => {
+        addBasketItemToLocalStorage(event);
+        addBasketItemToHover();
     });
 });

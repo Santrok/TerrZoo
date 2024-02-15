@@ -224,14 +224,33 @@
                                     {{card_new.title}}
                                 </a>
                                 <ul class="slider__item-weight-list">
-                                    {% for count in card_new.countitemproduct_set.all%}
-                                    <li class="slider__item-weight-list-item">
-                                        {{count.value}} <span>{{count.unit}}.</span>
+                                    {% for count in card_new.countitemproduct_set.all %}
+                                    <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
+                                        {{count.value }} <span>{{count.unit}}.</span>
                                     </li>
                                     {% endfor %}
                                 </ul>
                                 <div class="slider__item-price-basket">
-                                    <p class="slider__item-price">{{card_new.price}} <span>BYN</span></p>
+                                    <div class="slider__item-price-basket-wrap">
+                                        {% if card_new.sale.percent != 0 %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider___item-price-promotion">
+                                                {{ card_new.price }}
+                                            </p>
+                                            <div class="slider__item-price-currency-wrap">
+                                                <p class="slider___item-price">{{ card_new.action_price|floatformat:2 }}</p>
+                                            <p class="slider__item-currency">
+                                                BYN
+                                            </p>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider__item-price">{{ card_new.price }}</p>
+                                            <p class="slider__item-currency">BYN</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                     <div class="slider__item-basket">
                                         <div class="slider__item-basket-text">+</div>
                                         <div class="slider__item-basket-img">
