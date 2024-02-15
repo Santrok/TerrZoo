@@ -35,6 +35,7 @@ function setCountItem(e) {
                         basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
                     }
                     i.count -= 1;
+                    i.initPrice === 0 ? (i.initPrice = i.price) : 0;
                     i.price = Number(i.price - i.initPrice);
                     e.target.parentElement.parentElement.children[1].textContent =
                         (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
@@ -86,10 +87,12 @@ function addBasketItemToLocalStorage(e) {
         }
     }
     let price = Array.from(
-        e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
+        e.currentTarget.parentElement.parentElement.children[5]?.classList.contains("slider__item-promotion")
+            ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0]
+            : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
     ).splice(0, 5);
     price.splice(price.indexOf(","), 1, ".");
-    if(array.length !== 0) {
+    if (array.length !== 0) {
         basketArrayObj.push({
             count: 1,
             id: e.currentTarget.parentElement.parentElement.dataset.id,
