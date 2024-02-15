@@ -121,7 +121,8 @@ class SetErrorDataApiV1(models.Model):
                   -для преподавателя Stormnet :):)))"""
 
     url_name = models.CharField("Название URL",
-                                max_length=1500)
+                                max_length=1500,
+                                unique=True)
     model_name = models.CharField("Название Модели",
                                   max_length=1500)
     section_error = models.TextField("Блок создания ошибки")
