@@ -46,8 +46,6 @@ class CategoryProduct(MPTTModel):
                             null=True,
                             blank=True,
                             verbose_name="Имя родительсокй категории")
-    animal = models.ManyToManyField("Animal",
-                                    verbose_name="Животное")
 
     def __str__(self):
         return self.name
@@ -84,6 +82,8 @@ class Product(models.Model):
     key_features = models.TextField("Ключевые особенности",
                                     blank=True,
                                     null=True)
+    animal = models.ManyToManyField("Animal",
+                                    verbose_name="Животное")
     compound = models.TextField("Состав",
                                 blank=True,
                                 null=True)
@@ -100,7 +100,7 @@ class Product(models.Model):
     brand = models.ForeignKey("Brand",
                               verbose_name="Бренд товара",
                               on_delete=models.CASCADE)
-    sale = models.ForeignKey("Sale", on_delete=models.DO_NOTHING,
+    sale = models.ForeignKey("Sale", on_delete=models.SET_NULL,
                                   verbose_name="Товар на акции",
                                   blank=True,
                                   null=True)
@@ -159,9 +159,8 @@ class CountItemProduct(models.Model):
     unit = models.CharField("Единица измерения",
                             max_length=255)
     value = models.FloatField("Количество массы")
-    product = models.ForeignKey("Product",
-                                verbose_name="Продукт",
-                                on_delete=models.CASCADE)
+    product = models.ManyToManyField("Product",
+                                verbose_name="Продукт")
 
     def __str__(self):
         return f"{self.value} {self.unit}."
@@ -191,6 +190,9 @@ class Sale(models.Model):
     percent = models.PositiveIntegerField("Процент")
     start_sale = models.DateTimeField("Время начала акции")
     stop_sale = models.DateTimeField("Время окончания акции")
+    image = models.ImageField('Баннер',
+                              upload_to="sale",
+                              default='default/action.png')
 
     def __str__(self):
         return self.title
@@ -245,7 +247,6 @@ class Brand(models.Model):
                             unique=True)
     image = models.ImageField("Изображение",
                               upload_to="brands_images")
-    animal = models.ManyToManyField("Animal")
 
     def __str__(self):
         return self.name
@@ -269,6 +270,10 @@ class Review(models.Model):
     user = models.ForeignKey(User,
                              verbose_name="Пользователь",
                              on_delete=models.CASCADE)
+    phone_number = models.CharField('Номер телефона',
+                                    max_length=13,
+                                    blank=True,
+                                    null=True)
 
     def __str__(self):
         return self.user.username

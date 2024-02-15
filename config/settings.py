@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'mptt',
+    'django_dump_load_utf8',
 
     'main',
     "api",

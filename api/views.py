@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
+
 from rest_framework.response import Response
 from django.forms.models import model_to_dict
 from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
@@ -30,6 +31,7 @@ class StyledComponentsListView(ListAPIView):
 class LinkComponentsListView(ListAPIView):
     queryset = SetErrorLink.objects.filter(is_active=True)
     serializer_class = LinkComponentsSerializer
+
 
 
 class ProductPagination(PageNumberPagination):
@@ -319,7 +321,7 @@ class ProductListFilterView(ListAPIView):
         c = data.items()
         d = {}
         for i in c:
-            d[i[0]] = i[1]
+            d[i[0]]=i[1]
 
         print(d)
         queryset = Product.objects.filter(**d)
