@@ -1,22 +1,9 @@
-<!DOCTYPE html>
+{% extends 'registration_base.html'%} 
 {% load static %}
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="{% static 'css/null.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/registration_page/register_style.css' %}" />
-        <title>Регистрация</title>
-    </head>
-    <body>
-        <div class="wrapper">
+{% block content %} 
             <div class="page_wrapper">
                 <div class="form_wrap_register">
-                    <div class="cross">
-                        <a href="{% url 'main' %}">
-                            <img src="{% static '/img/cross.png' %}" alt="" />
-                        </a>
-                    </div>
-                    <form class="callback" method="POST">
+                    <form class="callback_auth" method="POST">
                         {% csrf_token %}
                         <h2 class="callback__title">Регистрация</h2>
                         <p>{{error}}</p>
@@ -29,6 +16,4 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </body>
-</html>
+{% endblock %}

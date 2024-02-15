@@ -1,8 +1,5 @@
-.wrapper {
-  background-color:#b9b9b9
-}
 .page_wrapper{
-  height: 100vh;
+  height: 70vh;
   width: 500px;
   margin: 0 auto;
   display: flex;
@@ -11,9 +8,9 @@
 }
 .form_wrap {
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: white;
-  height: 340px;
+  height: 275px;
   width: 100%;
   align-items: center;
 }
@@ -25,19 +22,26 @@
   width: 100%;
   align-items: center;
 }
-.callback {
-  height: 100%;
+.form_wrap_foget {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  height: 220px;
+  width: 100%;
+  align-items: center;
+}
+.form_wrap_set_pass {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  height: 300px;
+  width: 100%;
+  align-items: center;
+}
 
-}
-.callback__title {
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Display;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 28px;
-  text-align: center;
-}
-input {
+
+
+.callback_auth input{
   width: 100%;
   border-radius: 4px;
   background: rgb(255, 255, 255);
@@ -49,6 +53,31 @@ input {
   font-weight: 400;
   line-height: 20px;
   margin-bottom: 10px;
+}
+
+.callback__title {
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Display;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  text-align: center;
+}
+.auth_input {
+  width: 100%;
+  border-radius: 4px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(167, 172, 177);
+  padding: 8px 12px;
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Text;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+#id_new_password1 {
+
 }
 label {
   color: black;
@@ -66,6 +95,7 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 15px;
 }
 .link_next_page {
   color: #0c2563;
@@ -99,7 +129,7 @@ li {
 }
 
 @media (min-width: 992px) {
-  .callback {
+  .callback_auth {
     padding: 14px 42px;
 }
 
@@ -136,12 +166,3 @@ p {
   font-size: 1rem;
   line-height: 1.5;
 }
-.cross {
-  height: 30px;
-  display: flex;
-  justify-content: end;
-}
-  & img {
-    width: 30px;
-    height: 30px;
-  }

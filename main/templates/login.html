@@ -1,34 +1,19 @@
-<!DOCTYPE html>
+{% extends 'registration_base.html'%} 
 {% load static %}
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="{% static 'css/null.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/registration_page/register_style.css' %}" />
-        <title>Вход</title>
-    </head>
-    <body>
-      <div class="wrapper">
-        <div class="page_wrapper">
-            <div class="form_wrap">
-              <div class="cross">
-                <a href="{% url 'main' %}">
-                  <img src="{% static '/img/cross.png' %}" alt="">
-                </a>
-              </div>
-                <form class="callback" method="POST">
-                  {% csrf_token %}
-                    <h2 class="callback__title">Авторизация</h2>
-                      <p class="login_error">{{error}}</p>
-                    {{login_form}}
-                    <div class="down_panel">
+{% block content %} 
+    <div class="page_wrapper">
+        <div class="form_wrap">
+            <form class="callback_auth" method="POST">
+                {% csrf_token %}
+                <h2 class="callback__title">Авторизация</h2>
+                <p class="login_error">{{error}}</p>
+                {{login_form}}
+                <div class="down_panel">
                     <button class="button">Вход</button>
                     <a class="link_next_page" href="{% url 'register' %}">Регистрация</a>
                     <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
-                  </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-      </div>
-    </body>
-</html>
+</div>
+{% endblock %}
