@@ -908,19 +908,19 @@
                             </div>
                         </div>
                         <div class="articles__slider">
-                            {% for articsl in articals %}
+                            {% for article in articals %}
                                 <article class="articles__slider-item">
                                     <div class="articles__slider-item-img">
-                                        <img src="{{ articsl.image.url }}" alt="articlesImg"/>
+                                        <img src="{{ article.image.url }}" alt="articlesImg"/>
                                     </div>
                                     <div class="articles__slider-item-text-wrap">
-                                        <a href="{% url 'article_by_id' articsl.id %}">
+                                        <a href="{% url 'article_by_id' article.id %}">
                                             <h3 class="articles__slider-item-title">
-                                                {{ articsl.title }}
+                                                {{ article.title }}
                                             </h3>
                                         </a>
                                         <p class="articles__slider-item-text">
-                                            {{ articsl.text }}
+                                            {{ article.text|striptags }}
                                         </p>
                                     </div>
                                     <div class="articles__slider-item-time-wrap">
@@ -941,7 +941,7 @@
                                                     />
                                                 </svg>
                                             </div>
-                                            <p>Время чтения: {{ articsl.read_time }}</p>
+                                            <p>Время чтения: {{ article.read_time }}</p>
                                         </div>
                                         <div class="articles__slider-item-date">
                                             <div class="articles__slider-item-time-date">
@@ -960,7 +960,7 @@
                                                     />
                                                 </svg>
                                             </div>
-                                            <p>{{ articsl.date_create|date:"d F Y" }}</p>
+                                            <p>{{ article.date_create|date:"d F Y" }}</p>
                                         </div>
                                     </div>
                                 </article>
