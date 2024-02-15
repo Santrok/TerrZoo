@@ -7,7 +7,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.generics import ListAPIView
 
 from config import settings
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct
+from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -142,9 +142,12 @@ def login_view(request):
                 login(request, user)
                 return redirect('main')
             else:
-                messages.error(request, 'Неверное имя или пароль!')
+                error_login = 'Неверное имя или пароль!'
+                login_form = LoginForm(request.POST)
+                return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
+    error_login = ''
     login_form = LoginForm()
-    return render(request, 'login.html', {'login_form': login_form})
+    return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
 
 
 def registration_view(request):
@@ -153,7 +156,7 @@ def registration_view(request):
         register_form = RegisterationForm(request.POST)
         if register_form.is_valid():
             user = User()
-            user.username = register_form.cleaned_data.get('name').lower()
+            user.username = register_form.cleaned_data.get('name')
             user.email = register_form.cleaned_data.get('email')
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
@@ -167,8 +170,11 @@ def registration_view(request):
                       settings.EMAIL_HOST_USER,
                       [user.email],
                       fail_silently=False)
+           
             return redirect('confirm_email')
         else:
+            print(register_form.errors)
+            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
@@ -205,7 +211,7 @@ def reset_password(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('main')
 
 
 def get_articles_page(request):
@@ -266,3 +272,32 @@ def get_article_by_animals_id(request, animal_id):
     return render(request=request,
                   template_name='articles_by_animal_id.html',
                   context=context)
+
+
+def get_promotions_page(request):
+    """Отдаем все акции"""
+    animals = Animal.objects.all()
+    promotions = Sale.objects.exclude(percent=0)
+    popular_products = sorted(Product.objects.all(),
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+
+    context = {"animals": animals,
+               "promotions": promotions,
+               "popular_products": popular_products}
+
+    return render(request=request,
+                  template_name='promotions.html',
+                  context=context)
+
+
+def get_profile_page(request):
+    """Личный кабинет"""
+    orders = Order.objects.prefetch_related('product_set', 'pay_card')
+
+    context = {"orders": orders}
+
+    return render(request=request,
+                  template_name='profile.html',
+                  context=context)
+

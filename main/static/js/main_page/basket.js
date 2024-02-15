@@ -2,6 +2,18 @@ const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
 const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
+const sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
+
+sliderItemWeightList.forEach((item) => {
+    item.addEventListener("click", () => {
+        sliderItemWeightList.forEach((el) => {
+            if (el.classList.contains("slider__item-weight-list-item-active")) {
+                el.classList.remove("slider__item-weight-list-item-active");
+            }
+        });
+        item.classList.add("slider__item-weight-list-item-active");
+    });
+});
 
 let count = localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("basket")).length : 0;
 headerBottomBasketCount.textContent = count;
@@ -25,7 +37,8 @@ function setCountItem(e) {
                     i.count -= 1;
                     i.initPrice === 0 ? (i.initPrice = i.price) : "";
                     i.price = Number(i.price - i.initPrice);
-                    e.target.parentElement.parentElement.children[1].textContent = (Math.floor(i.price * 100) / 100).toFixed(2) + ' BYN'
+                    e.target.parentElement.parentElement.children[1].textContent =
+                        (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
                     e.target.parentElement.children[1].textContent = i.count;
                     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
                     setCountInBasket();
@@ -38,7 +51,8 @@ function setCountItem(e) {
                     i.count += 1;
                     i.initPrice === 0 ? (i.initPrice = i.price) : "";
                     i.price = Number(i.count * i.initPrice);
-                    e.target.parentElement.parentElement.children[1].textContent = (Math.floor(i.price * 100) / 100).toFixed(2) + ' BYN'
+                    e.target.parentElement.parentElement.children[1].textContent =
+                        (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
                     e.target.parentElement.children[1].textContent = i.count;
                     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
                     setCountInBasket();
@@ -53,12 +67,22 @@ headerBottomHover.addEventListener("click", setCountItem);
 function addBasketItemToLocalStorage(e) {
     let array = [];
     for (let i of Array.from(e.currentTarget.parentElement.parentElement.children[2].children)) {
-        array.push(i.textContent.trim());
+        if (i.classList.contains("slider__item-weight-list-item-active")) {
+            array.push(i.textContent.trim());
+        }
     }
     localStorage.getItem("basket") === null ? "" : (basketArrayObj = JSON.parse(localStorage.getItem("basket")));
     for (let i of basketArrayObj) {
-        if (i.id === e.currentTarget.parentElement.parentElement.dataset.id) {
+        if (
+            i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
+            Array.from(e.currentTarget.parentElement.parentElement.children[2].children)
+            .map((item) =>
+            item.classList.contains("slider__item-weight-list-item-active") ? item.textContent.trim() : false
+            )
+            .includes(i.weight.join(""))
+            ) {
             i.count += 1;
+            i.price = Number(i.count * i.initPrice);
             localStorage.setItem("basket", JSON.stringify(basketArrayObj));
             return;
         }
@@ -102,7 +126,8 @@ function addBasketItemToHover() {
             </h3>
             <ul class="header__bottom-basket-hover-list-item-weight-list">
                 ${i.weight.map(
-                    (item) => `<li class='header__bottom-basket-hover-list-item-weight-list-item'>${item}</li>`
+                    (item) =>
+                        `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
                 )}}
             </ul>
             <div class="header__bottom-basket-hover-list-item-wrap-weight-wrap">

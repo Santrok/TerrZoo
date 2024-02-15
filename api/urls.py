@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import StyledComponentsListView, AnimalsListView, CategoryProductsListView, ProductsListView, \
+from .views import AnimalsListView, CategoryProductsListView, ProductsListView, \
     CountItemProductsListView, SaleListView, ArticlesListView, BrandsListView, ReviewsListView, OrdersListView, \
-    LinkComponentsListView,ProductListFilterView
+    ProductListFilterView, StyledComponentsListView, LinkComponentsListView
 
 urlpatterns = [
     path("get_bugs_css/", StyledComponentsListView.as_view()),

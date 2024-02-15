@@ -1324,6 +1324,7 @@ footer {
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
+    user-select: none;
 }
 
 .slider__item-title {
@@ -1409,6 +1410,7 @@ footer {
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
+    user-select: none;
 }
 
 .slider__item-btn {
@@ -1424,6 +1426,7 @@ footer {
     font-weight: 500;
     line-height: 20px;
     background: none;
+    user-select: none;
 }
 .slider__item-btn:hover {
     background: var(--Icon-Highlight, #00a0ac);
@@ -1512,7 +1515,38 @@ footer {
     box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.2) inset, 0px 1px 0px 0px rgba(0, 0, 0, 0.08);
 }
 
+.slider__item-weight-list-item-active {
+    background: rgb(68, 157, 167);
+    color: #fff;
+}
+
 .modal__active {
     display: flex;
 }
 /*# sourceMappingURL=style.css.map */
+.header__up-login-button a {
+    color:#2c6ecb;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    background: #fff;
+}
+.profile a {
+    color: var(--Interactive-Default, #2c6ecb);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    background: #fff;
+}
+.header__up-login-button {
+    order: 6;
+}
+.profile {
+    order: 5;
+}

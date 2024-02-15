@@ -8,7 +8,7 @@
     {% block css %}
     {% endblock %}
     <link rel="stylesheet" href="{% static 'css/baseTemplate/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main_page/bany_register_style.css' %}">
+    <link rel="stylesheet" href="{% static '/css/registration_page/register_style.css' %}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -324,17 +324,10 @@
                             <button class="header__up-button" type="button">Обратный звонок</button>
                             <div class="header__up-login-button">
                                 {% if user.is_authenticated %}
-                                <a href="{% url 'profile' %}">Личный кабинет</a>
+                                <a href="{% url 'logout' %}">Выйти</a>
                                 {% else %}
                                 <a href="{% url 'login' %}">Войти</a>
                                 {% endif %}
-                            </div>
-                            <div class="profile">
-                                {% if user.is_authenticated %}
-                                <a href="{% url 'profile' %}">Кабинет</
-                                {% endif %}
-
-
                             </div>
                         </div>
                     </div>
@@ -655,7 +648,6 @@
     <script async src="{% static 'js/main_page/modals.js' %}"></script>
     <script async src="{% static 'js/main_page/basket.js' %}"></script>
     <script async src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
-    <script async src="{% static 'js/main_page/set_bugs.js' %}"></script>
     {% block js %}
     {% endblock %}
 </body>
