@@ -497,11 +497,10 @@
                                     </div>
                                     <div class="filter__type">
                                         <h3 class="filter__type-title">
-                                            Тип товара
+                                            Выберите животного
                                         </h3>
                                         <ul class="filter__type-list">
-                                            {% for category in categoty_products %} 
-                                            {% if category.level == 0 %}
+                                            {% for animal in animals %} 
                                             <li class="filter__type-list-item">
                                                 <input
                                                     type="radio"
@@ -512,24 +511,9 @@
                                                 />
                                                 <label for="fodder{{category.id}}" class="filter__type-list-item-label">
                                                     <div></div>
-                                                    <p>{{ category.name }}</p>
+                                                    <p>{{ animal.type }}</p>
                                                 </label>
                                             </li>
-                                            {% elif category.level == 1 %}
-                                            <li class="brand__list-item">
-                                                <input
-                                                    type="checkbox"
-                                                    id="brand{{category.id}}"
-                                                    name="type"
-                                                    class="brand__type-list-item-hdie"
-                                                    data-category="{{category.id}}"
-                                                />
-                                                <label for="brand{{category.id}}" class="brand__list-item-label">
-                                                    <div></div>
-                                                    <p>{{ category.name }}</p>
-                                                </label>
-                                            </li>
-                                            {% endif %} 
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -593,7 +577,7 @@
                                                     <ul class="products___item-weight-list">
                                                         {% for count in product.countitemproduct_set.all %}
                                                         <li class="slider__item-weight-list-item">{{ count }}</li>
-                                                         {% endfor %}   
+                                                        {% endfor %}   
                                                     </ul>
                                                     <div class="products___item-price-basket">
                                                         <p class="products___item-price-promotion">
