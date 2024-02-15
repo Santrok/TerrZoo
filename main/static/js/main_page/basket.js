@@ -74,7 +74,6 @@ function addBasketItemToLocalStorage(e) {
         src: e.currentTarget.parentElement.parentElement.children[0].children[0].src,
         weight: array,
         initPrice: 0,
-        // price: e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim(),
         price: parseFloat(price.join("")),
     });
     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
