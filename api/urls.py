@@ -5,8 +5,6 @@ from .views import StyledComponentsListView, AnimalsListView, CategoryProductsLi
     LinkComponentsListView,ProductListFilterView
 
 urlpatterns = [
-    path("get_bugs_css/", StyledComponentsListView.as_view()),
-    path("get_bugs_link/",LinkComponentsListView.as_view()),
     path("get_animals_list/", AnimalsListView.as_view()),
     path("get_category_products_list/", CategoryProductsListView.as_view()),
     path("get_products_list/", ProductsListView.as_view()),
