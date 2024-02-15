@@ -1341,6 +1341,7 @@ footer {
     padding: 2px 8px;
     background: #ff733b;
     border-radius: 2px;
+    user-select: none;
 }
 
 .slider__item-title {
