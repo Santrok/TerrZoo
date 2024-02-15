@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 
 from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
     CountItemProductSerializer, SaleSerializer, ArticleSerializer, BrandSerializer, ReviewSerializer, OrderSerializer, \
     LinkComponentsSerializer
-from error_management.models import StyledComponents, SetErrorLink
+from error_management.models import StyledComponents, SetErrorLink, SetErrorDataApiV1
 from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale, Article, Brand, Review, Order
 
 
@@ -18,7 +19,6 @@ class StyledComponentsListView(ListAPIView):
 class LinkComponentsListView(ListAPIView):
     queryset = SetErrorLink.objects.filter(is_active=True)
     serializer_class = LinkComponentsSerializer
-
 
 
 class ProductPagination(PageNumberPagination):
@@ -36,6 +36,26 @@ class ArticlesPagination(PageNumberPagination):
 class AnimalsListView(ListAPIView):
     queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            error_obj = SetErrorDataApiV1.objects.get(url_name="get_animals_list", is_active=True)
+            print("------------error_oj------------")
+            print(error_obj.section_error)
+            print("---end---------error_oj------------")
+
+
+
+
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class CategoryProductsListView(ListAPIView):
@@ -92,12 +112,11 @@ class ProductListFilterView(ListAPIView):
         c = data.items()
         d = {}
         for i in c:
-            d[i[0]]=i[1]
+            d[i[0]] = i[1]
 
         print(d)
         queryset = Product.objects.filter(**d)
         # for i in queryset:
         #     print(i.sale.all()[0])
-
 
         return queryset
