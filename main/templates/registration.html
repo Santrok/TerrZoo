@@ -1,20 +1,19 @@
-<!DOCTYPE html>
+{% extends 'registration_base.html'%} 
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/registration_style.css' %}">
-    <title>Регистрация</title>
-</head>
-<body>
-<form action="" method="POST">
-       {% csrf_token %}
-    <h1>Регистрация</h1>
-    {{ register_form }}
-    <input type="submit" value="Зарегистрироваться"/>
-    <a href="{% url 'reset_form' %}">Забыли пароль?</a>
-    <a href="{% url 'login' %}">Войти</a>
-</form>
-
-</body>
-</html>
+{% block content %} 
+            <div class="page_wrapper">
+                <div class="form_wrap_register">
+                    <form class="callback_auth" method="POST">
+                        {% csrf_token %}
+                        <h2 class="callback__title">Регистрация</h2>
+                        <p>{{error}}</p>
+                        {{register_form}}
+                        <div class="down_panel">
+                            <button class="button">Регистрация</button>
+                            <a class="link_next_page" href="{% url 'login' %}">Вход</a>
+                            <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+{% endblock %}
