@@ -7,7 +7,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.generics import ListAPIView
 
 from config import settings
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct
+from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -282,3 +282,15 @@ def get_promotions_page(request):
     return render(request=request,
                   template_name='promotions.html',
                   context=context)
+
+
+def get_profile_page(request):
+    """Личный кабинет"""
+    orders = Order.objects.prefetch_related('product_set', 'pay_card')
+
+    context = {"orders": orders}
+
+    return render(request=request,
+                  template_name='profile.html',
+                  context=context)
+
