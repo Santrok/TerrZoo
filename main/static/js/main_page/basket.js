@@ -3,6 +3,7 @@ const headerBottomBasketCount = document.querySelector(".header__bottom-basket >
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
 const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
 const sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
+const sliderItem = document.querySelectorAll('.slider__item')
 
 sliderItemWeightList.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -11,10 +12,6 @@ sliderItemWeightList.forEach((item) => {
                 el.classList.remove("slider__item-weight-list-item-active");
             }
         });
-        // e.currentTarget.parentElement.parentElement.children[3].children[1].addEventListener("click", (event) => {
-        //     addBasketItemToLocalStorage(event);
-        //     addBasketItemToHover();
-        // });
         item.classList.add("slider__item-weight-list-item-active");
     });
 });
@@ -171,9 +168,8 @@ function addBasketItemToHover() {
 
 addBasketItemToHover();
 
-sliderItemBasketBtn.forEach((item) => {
-    item.addEventListener("click", (event) => {
-        addBasketItemToLocalStorage(event);
-        addBasketItemToHover();
+sliderItem.forEach((item) => {
+    item.addEventListener("click", (e) => {
+        console.log(e.currentTarget.children);
     });
 });
