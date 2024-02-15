@@ -100,7 +100,7 @@ class Product(models.Model):
     brand = models.ForeignKey("Brand",
                               verbose_name="Бренд товара",
                               on_delete=models.CASCADE)
-    sale = models.ManyToManyField("Sale",
+    sale = models.ForeignKey("Sale", on_delete=models.DO_NOTHING,
                                   verbose_name="Товар на акции",
                                   blank=True,
                                   null=True)
@@ -112,6 +112,11 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.title}  id:{self.id}"
+
+    def action_price(self):
+        """Метод расчета цены в период
+         акции в процентном соотношении"""
+        return (100 - self.sale.percent)/100 * float(self.price)
 
     class Meta:
         verbose_name = "Продукт"
@@ -160,6 +165,11 @@ class CountItemProduct(models.Model):
 
     def __str__(self):
         return f"{self.value} {self.unit}."
+
+    def total_price(self):
+        """Метод расчета цены в зависимости
+         от веса в процентном соотношении"""
+        return self.percent/100 * float(self.product.price)
 
     class Meta:
         verbose_name = "Количество товара"

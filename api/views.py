@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
+from rest_framework.pagination import PageNumberPagination
 
 from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
     CountItemProductSerializer, SaleSerializer, ArticleSerializer, BrandSerializer, ReviewSerializer, OrderSerializer, \
@@ -19,6 +20,19 @@ class LinkComponentsListView(ListAPIView):
     serializer_class = LinkComponentsSerializer
 
 
+
+class ProductPagination(PageNumberPagination):
+    page_size = 15
+    page_size_query_param = 'page_size'
+    max_page_size = 30
+
+
+class ArticlesPagination(PageNumberPagination):
+    page_size = 6
+    page_size_query_param = 'page_size'
+    max_page_size = 30
+
+
 class AnimalsListView(ListAPIView):
     queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
@@ -32,6 +46,7 @@ class CategoryProductsListView(ListAPIView):
 class ProductsListView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    pagination_class = ProductPagination
 
 
 class CountItemProductsListView(ListAPIView):
@@ -47,6 +62,7 @@ class SaleListView(ListAPIView):
 class ArticlesListView(ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    pagination_class = ArticlesPagination
 
 
 class BrandsListView(ListAPIView):
@@ -69,6 +85,7 @@ class OrdersListView(ListAPIView):
 
 class ProductListFilterView(ListAPIView):
     serializer_class = ProductSerializer
+    pagination_class = ProductPagination
 
     def get_queryset(self):
         data = self.request.query_params
@@ -79,8 +96,8 @@ class ProductListFilterView(ListAPIView):
 
         print(d)
         queryset = Product.objects.filter(**d)
-        for i in queryset:
-            print(i.sale.all()[0])
+        # for i in queryset:
+        #     print(i.sale.all()[0])
 
 
         return queryset
