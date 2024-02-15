@@ -5,6 +5,10 @@
 {% endblock %} 
 
 
+{% block title %}
+Корзина
+{% endblock %}
+
 {% block content %}
 <main>
     <div class="main__wrapper">
@@ -593,4 +597,8 @@
         </section>
     </div>
 </main>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/basket_page/basketItems.js' %}"></script>
 {% endblock %}

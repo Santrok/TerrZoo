@@ -1309,6 +1309,7 @@ footer {
     justify-content: space-between;
     gap: 16px;
     transition: 0.2s;
+    position: relative;
 }
 .slider__item:hover {
     transition: 0.2s;
@@ -1325,6 +1326,21 @@ footer {
     -o-object-fit: cover;
     object-fit: cover;
     user-select: none;
+}
+
+.slider__item-promotion {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    color: rgb(255, 255, 255);
+    font-family: SF Pro Text;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    padding: 2px 8px;
+    background: #ff733b;
+    border-radius: 2px;
 }
 
 .slider__item-title {
@@ -1545,8 +1561,15 @@ footer {
     background: #fff;
 }
 .header__up-login-button {
+    flex: 0 1 135px;
     order: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
 }
-.profile {
-    order: 5;
+
+.header__up-login-button a:first-child {
+    flex: 0 1 60px;
 }
+
