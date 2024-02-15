@@ -324,7 +324,7 @@
                             <button class="header__up-button" type="button">Обратный звонок</button>
                             <div class="header__up-login-button">
                                 {% if user.is_authenticated %}
-                                <a href="{% url 'logout' %}">Выйти</a>
+                                <a href="{% url 'profile' %}">Личный кабинет</a>
                                 {% else %}
                                 <a href="{% url 'login' %}">Войти</a>
                                 {% endif %}
