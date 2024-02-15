@@ -5,12 +5,16 @@ const headerBottomHover = document.querySelector(".header__bottom-basket-hover")
 const sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
 
 sliderItemWeightList.forEach((item) => {
-    item.addEventListener("click", () => {
+    item.addEventListener("click", (e) => {
         sliderItemWeightList.forEach((el) => {
             if (el.classList.contains("slider__item-weight-list-item-active")) {
                 el.classList.remove("slider__item-weight-list-item-active");
             }
         });
+        // e.currentTarget.parentElement.parentElement.children[3].children[1].addEventListener("click", (event) => {
+        //     addBasketItemToLocalStorage(event);
+        //     addBasketItemToHover();
+        // });
         item.classList.add("slider__item-weight-list-item-active");
     });
 });
@@ -76,11 +80,11 @@ function addBasketItemToLocalStorage(e) {
         if (
             i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
             Array.from(e.currentTarget.parentElement.parentElement.children[2].children)
-            .map((item) =>
-            item.classList.contains("slider__item-weight-list-item-active") ? item.textContent.trim() : false
-            )
-            .includes(i.weight.join(""))
-            ) {
+                .map((item) =>
+                    item.classList.contains("slider__item-weight-list-item-active") ? item.textContent.trim() : null
+                )
+                .includes(i.weight.join(""))
+        ) {
             i.count += 1;
             i.price = Number(i.count * i.initPrice);
             localStorage.setItem("basket", JSON.stringify(basketArrayObj));
