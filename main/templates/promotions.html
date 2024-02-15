@@ -3,11 +3,11 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static '/css/articles_page/style.css' %}">
+<link rel="stylesheet" href="{% static '/css/promotions_page/style.css' %}">
 {% endblock %}
 
 {% block title %}
-    Статьи
+    Акции
 {% endblock %}
 
 {% block content %}
@@ -57,22 +57,22 @@
                 </div>
             </div>
         </section>
-        <section class="articles">
+        <section class="promotions">
             <div class="container">
-                <div class="articles__wrap">
-                    <div class="articles__title-wrap">
-                        <h2 class="articles__title">Акции</h2>
+                <div class="promotions__wrap">
+                    <div class="promotions__title-wrap">
+                        <h2 class="promotions__title">Акции</h2>
                     </div>
-                    <ul class="articles__list">
+                    <ul class="promotions__list">
                         {% for promotion in promotions %}
-                            <li class="articles__list-item">
-                                <article class="article__item">
-                                    <div class="articles__slider-item-text-wrap">
-                                        <p class="articles__slider-item-title">
-                                            <H3>{{ promotion.title }}</H3>
-                                            <H3>Скидка {{ promotion.percent }}</H3>
-                                        </p>   
-                                        <p class="articles__slider-item-text">
+                            <li class="promotions__list-item">
+                                <article class="promotions__item">
+                                    <div class="promotions__slider-item-text-wrap">
+                                        <p class="promotions__slider-item-title">
+                                            <h2>{{ promotion.title }}</h2>
+                                            <h3>Скидка {{ promotion.percent }}</h3>
+                                        </p>
+                                        <p class="promotions__slider-item-text">
                                             <p>Начало акции: {{ promotion.start_sale|date:"d F Y H:h" }}</p>
                                             <p>Конец акции: {{ promotion.stop_sale|date:"d F Y H:h" }}</p>
                                         </p>
