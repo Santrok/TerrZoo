@@ -15,9 +15,15 @@
   background-color: white;
   height: 340px;
   width: 100%;
-
   align-items: center;
-
+}
+.form_wrap_register {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  height: 450px;
+  width: 100%;
+  align-items: center;
 }
 .callback {
   height: 100%;
@@ -45,9 +51,15 @@ input {
   margin-bottom: 10px;
 }
 label {
-  color: black
+  color: black;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "SF Pro Text";
+  font-size: 14px;
 }
-p {
+.login_error {
+  color: red;
+}
+li {
   color: red;
 }
 .down_panel {
@@ -88,7 +100,7 @@ p {
 
 @media (min-width: 992px) {
   .callback {
-    padding: 64px 42px;
+    padding: 14px 42px;
 }
 
 .button {
@@ -105,4 +117,31 @@ p {
   font-weight: 500;
   line-height: 20px;
 }
+.reset_done_message {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  padding: 20px;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+}
 
+.alert-heading {
+  color: #333366;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.cross {
+  height: 30px;
+  display: flex;
+  justify-content: end;
+}
+  & img {
+    width: 30px;
+    height: 30px;
+  }

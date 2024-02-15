@@ -11,15 +11,20 @@
       <div class="wrapper">
         <div class="page_wrapper">
             <div class="form_wrap">
+              <div class="cross">
+                <a href="{% url 'main' %}">
+                  <img src="{% static '/img/cross.png' %}" alt="">
+                </a>
+              </div>
                 <form class="callback" method="POST">
                   {% csrf_token %}
                     <h2 class="callback__title">Авторизация</h2>
-                      <p>{{error}}</p>
+                      <p class="login_error">{{error}}</p>
                     {{login_form}}
                     <div class="down_panel">
                     <button class="button">Вход</button>
-                    <a class="link_next_page" href="">Регистрация</a>
-                    <a class="link_next_page" href="">Забыли пароль?</a>
+                    <a class="link_next_page" href="{% url 'register' %}">Регистрация</a>
+                    <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
                   </div>
                 </form>
             </div>

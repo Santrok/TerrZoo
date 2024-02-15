@@ -147,7 +147,7 @@ def registration_view(request):
         register_form = RegisterationForm(request.POST)
         if register_form.is_valid():
             user = User()
-            user.username = register_form.cleaned_data.get('name').lower()
+            user.username = register_form.cleaned_data.get('name')
             user.email = register_form.cleaned_data.get('email')
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
@@ -161,8 +161,11 @@ def registration_view(request):
                       settings.EMAIL_HOST_USER,
                       [user.email],
                       fail_silently=False)
+           
             return redirect('confirm_email')
         else:
+            print(register_form.errors)
+            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
@@ -199,7 +202,7 @@ def reset_password(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('main')
 
 
 

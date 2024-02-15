@@ -15,17 +15,17 @@ class RegisterationForm(forms.Form):
     """Форма регистрации с использованием валидаторов электронной почты, пароля и пользователя"""
 
     name = forms.CharField(error_messages={'required': 'Не указано контактное лицо'},
-                           max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Ваше имя'}), label='',
+                           max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Ваше имя'}), label='Имя',
                            validators=[validate_username])
     email = forms.CharField(error_messages={'required': 'Не указан адрес электронной почты'},
                             widget=forms.EmailInput(
                                 attrs={'id': 'email_register_field', 'placeholder': 'Введите Вашу почту'}),
-                            validators=[validate_email], label='')
+                            validators=[validate_email], label='Адрес электронной почты')
     password = forms.CharField(error_messages={'required': 'Введите пароль'},
                                widget=forms.PasswordInput(
                                    attrs={'id': 'password_register_field', 'placeholder': 'Введите пароль'}),
-                               validators=[validate_password], label='')
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Повторите пароль'}), label='')
+                               validators=[validate_password], label='Пароль')
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Повторите пароль'}), label='Повторите пароль')
 
     def clean(self):
         """Проверка совпадения паролей"""
