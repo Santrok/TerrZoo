@@ -24,10 +24,12 @@ for (let i of eventItem) {
         fetch(`http://127.0.0.1:8000/api/get_products_filter/${queryStr}`)
             .then((resp) => resp.json())
             .then((data) => {
+            console.log(data.results)
+
                 if (data) {
                     const productList = document.querySelector(".products__list");
                     productList.innerHTML = "";
-                    for (let i of data) {
+                    for (let i of data.results) {
                         const li = document.createElement("li");
                         li.classList.add("product__list-item");
                         li.innerHTML = `
@@ -40,7 +42,6 @@ for (let i of eventItem) {
                                                     ${i.title}
                                                 </a>
                                                 <ul class="products___item-weight-list">
-                                                ${i.sale.map(item => `<li class="slider__item-weight-list-item">${item}</li>`)}
                                                 </ul>
                                                 <div class="products___item-price-basket">
                                                     <p class="products___item-price-promotion"></p>
