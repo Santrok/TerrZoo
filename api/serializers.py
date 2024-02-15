@@ -9,10 +9,12 @@ class StyledComponentsSerializer(serializers.ModelSerializer):
         model = StyledComponents
         fields = ["style", "css_class_name"]
 
+
 class LinkComponentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SetErrorLink
         fields = ["href", "html_id_tag_a"]
+
 
 class AnimalSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,6 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+        depth = 1
 
 
 class CountItemProductSerializer(serializers.ModelSerializer):

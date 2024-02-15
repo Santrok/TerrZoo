@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import StyledComponentsListView, AnimalsListView, CategoryProductsListView, ProductsListView, \
+from .views import AnimalsListView, CategoryProductsListView, ProductsListView, \
     CountItemProductsListView, SaleListView, ArticlesListView, BrandsListView, ReviewsListView, OrdersListView, \
-    LinkComponentsListView,ProductListFilterView
+    ProductListFilterView
 
 urlpatterns = [
     path("get_animals_list/", AnimalsListView.as_view()),
