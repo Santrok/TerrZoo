@@ -267,10 +267,10 @@ def get_article_by_animals_id(request, animal_id):
                   context=context)
 
 
-def get_sale_page(request):
+def get_promotions_page(request):
     """Отдаем статьи по id животного"""
     animals = Animal.objects.all()
-    promotions = Sale.objects.all()
+    promotions = Sale.objects.exclude(percent=0)
     popular_products = sorted(Product.objects.all(),
                               key=lambda x: x.sales_counter,
                               reverse=True)
