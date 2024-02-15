@@ -73,16 +73,16 @@ function addBasketItemToLocalStorage(e) {
     }
     localStorage.getItem("basket") === null ? "" : (basketArrayObj = JSON.parse(localStorage.getItem("basket")));
     for (let i of basketArrayObj) {
-        console.log();
         if (
             i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
             Array.from(e.currentTarget.parentElement.parentElement.children[2].children)
-                .map((item) =>
-                    item.classList.contains("slider__item-weight-list-item-active") ? item.textContent.trim() : null
-                )
-                .includes(i.weight.join(""))
-        ) {
+            .map((item) =>
+            item.classList.contains("slider__item-weight-list-item-active") ? item.textContent.trim() : false
+            )
+            .includes(i.weight.join(""))
+            ) {
             i.count += 1;
+            i.price = Number(i.count * i.initPrice);
             localStorage.setItem("basket", JSON.stringify(basketArrayObj));
             return;
         }
