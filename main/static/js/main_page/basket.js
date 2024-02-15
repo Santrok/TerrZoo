@@ -1,7 +1,7 @@
 const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
-const headerBottomHover = document.querySelector('.header__bottom-basket-hover');
+const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
 
 let count = localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("basket")).length : 0;
 headerBottomBasketCount.textContent = count;
@@ -13,82 +13,85 @@ function setCountInBasket() {
 }
 
 function setCountItem(e) {
-    if(e.target.tagName === 'BUTTON') {
-        if(e.target.classList.contains('minus')) {
-            basketArrayObj = JSON.parse(localStorage.getItem('basket'));
-            for(let i of basketArrayObj){
-                if(i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id){
-                    if(i.count <= 1) {
-                        e.target.parentElement.parentElement.parentElement.parentElement.remove()
-                        basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : ''
+    if (e.target.tagName === "BUTTON") {
+        if (e.target.classList.contains("minus")) {
+            basketArrayObj = JSON.parse(localStorage.getItem("basket"));
+            for (let i of basketArrayObj) {
+                if (i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id) {
+                    if (i.count <= 1) {
+                        e.target.parentElement.parentElement.parentElement.parentElement.remove();
+                        basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
                     }
-                    i.count -= 1
-                    // let price = Array.from(i.price).splice(0, 5)
-                    // price.splice(price.indexOf(','), 1,'.')
-                    // console.log(price);
-                    // let currency = Array.from(i.price).splice(5, i.length).join('')
-                    // console.log(currency);
-                    // i.price -= parseFloat(price)
-                    e.target.parentElement.children[1].textContent = i.count
-                    localStorage.setItem('basket', JSON.stringify(basketArrayObj))
-                    setCountInBasket()
+                    i.count -= 1;
+                    i.initPrice === 0 ? (i.initPrice = i.price) : "";
+                    i.price = Number(i.price - i.initPrice);
+                    e.target.parentElement.parentElement.children[1].textContent = (Math.floor(i.price * 100) / 100).toFixed(2) + ' BYN'
+                    e.target.parentElement.children[1].textContent = i.count;
+                    localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+                    setCountInBasket();
                 }
             }
-        }else {
-            basketArrayObj = JSON.parse(localStorage.getItem('basket'));
-            for(let i of basketArrayObj){
-                if(i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id){
-                    i.count += 1
-                    // i.price += Number(Array.from(i.price).splice(0, 5).join(''))
-                    setCountInBasket()
-                    e.target.parentElement.children[1].textContent = i.count
-                    localStorage.setItem('basket', JSON.stringify(basketArrayObj))
+        } else {
+            basketArrayObj = JSON.parse(localStorage.getItem("basket"));
+            for (let i of basketArrayObj) {
+                if (i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id) {
+                    i.count += 1;
+                    i.initPrice === 0 ? (i.initPrice = i.price) : "";
+                    i.price = Number(i.count * i.initPrice);
+                    e.target.parentElement.parentElement.children[1].textContent = (Math.floor(i.price * 100) / 100).toFixed(2) + ' BYN'
+                    e.target.parentElement.children[1].textContent = i.count;
+                    localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+                    setCountInBasket();
                 }
             }
         }
     }
 }
 
-headerBottomHover.addEventListener('click', setCountItem)
+headerBottomHover.addEventListener("click", setCountItem);
 
 function addBasketItemToLocalStorage(e) {
     let array = [];
     for (let i of Array.from(e.currentTarget.parentElement.parentElement.children[2].children)) {
         array.push(i.textContent.trim());
     }
-    localStorage.getItem('basket') === null ? '' : basketArrayObj = JSON.parse(localStorage.getItem('basket'));
-    for(let i of basketArrayObj){
-        if(i.id === e.currentTarget.parentElement.parentElement.dataset.id){
-            i.count += 1
-            localStorage.setItem('basket', JSON.stringify(basketArrayObj))
-            return
+    localStorage.getItem("basket") === null ? "" : (basketArrayObj = JSON.parse(localStorage.getItem("basket")));
+    for (let i of basketArrayObj) {
+        if (i.id === e.currentTarget.parentElement.parentElement.dataset.id) {
+            i.count += 1;
+            localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+            return;
         }
     }
+    let price = Array.from(
+        e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
+    ).splice(0, 5);
+    price.splice(price.indexOf(","), 1, ".");
     basketArrayObj.push({
-        count:1,
+        count: 1,
         id: e.currentTarget.parentElement.parentElement.dataset.id,
         title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(),
         src: e.currentTarget.parentElement.parentElement.children[0].children[0].src,
         weight: array,
-        price: e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim(),
+        initPrice: 0,
+        // price: e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim(),
+        price: parseFloat(price.join("")),
     });
     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
     setCountInBasket();
 }
 
-
-
 function addBasketItemToHover() {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
-    const basketHoverListItem = document.querySelectorAll('.header__bottom-basket-hover-list-item-title')
-    let basketCount = 0
-    headerBottomHoverList.innerHTML = ''
+    const basketHoverListItem = document.querySelectorAll(".header__bottom-basket-hover-list-item-title");
+    let basketCount = 0;
+    headerBottomHoverList.innerHTML = "";
     if (basketArray) {
         for (let i of basketArray) {
             const li = document.createElement("li");
             li.classList.add("header__bottom-basket-hover-list-item");
-            li.dataset.id = i.id
-            basketCount++
+            li.dataset.id = i.id;
+            basketCount++;
             li.innerHTML = `
         <div class="header__bottom-basket-hover-list-item-wrap">
         <div class="header__bottom-basket-hover-list-item-img">
@@ -128,7 +131,7 @@ function addBasketItemToHover() {
                 </button>
             </div>
             <p>
-                ${i.price}
+                ${(Math.floor(i.price * 100) / 100).toFixed(2)} BYN
             </p>
         </div>
     </div>
@@ -146,8 +149,3 @@ sliderItemBasketBtn.forEach((item) => {
         addBasketItemToHover();
     });
 });
-
-
-
-
-
