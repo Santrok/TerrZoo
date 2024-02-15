@@ -892,6 +892,7 @@
 }
 
 .slider__item {
+    position: relative;
     margin: 0 8px;
     padding: 8px;
     border-radius: 5px;
