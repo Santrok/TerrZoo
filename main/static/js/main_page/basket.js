@@ -126,26 +126,15 @@ function addBasketItemToHover() {
             <img src="${i.src}" alt="">
         </div>
         <div class="header__bottom-basket-hover-list-item-action">
-            <h3 class="header__bottom-basket-hover-list-item-title">
+            <a href="#" class="header__bottom-basket-hover-list-item-title">
                 ${i.title}
-            </h3>
+            </a>
             <ul class="header__bottom-basket-hover-list-item-weight-list">
                 ${i.weight.map(
                     (item) =>
                         `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
                 )}}
             </ul>
-            <div class="header__bottom-basket-hover-list-item-wrap-weight-wrap">
-                <h4 class="header__bottom-basket-hover-list-item-wrap-weight-title">
-                    Указать свой вес
-                </h4>
-                <div class="header__bottom-basket-hover-list-item-wrap-weight">
-                    <input type="text" name="weight" id="" placeholder="Укажите вес">
-                    <button type="button">
-                        Применить
-                    </button>
-                </div>
-            </div>
         </div>
         <div class="header__bottom-basket-hover-list-item-quantity">
             <div class="header__bottom-basket-hover-list-item-quantity-wrap">
@@ -185,3 +174,6 @@ productItemBtn.forEach((item) => {
         addBasketItemToHover();
     });
 });
+
+
+// export {setCountItem, addBasketItemToLocalStorage, addBasketItemToHover}

@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
                         }
                     }
+                    console.log(queryStr);
                     // console.log(selectActive.textContent);
                     // console.log(queryStr);
                     // console.log(queryStr.split("&"));
