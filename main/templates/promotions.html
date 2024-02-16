@@ -59,6 +59,9 @@
                                             <h2>{{ promotion.title }}</h2>
                                             <h3>Скидка {{ promotion.percent }} %</h3>
                                         </p>
+                                        <div class="promotions__slider-item-title-img">
+                                            <img src="{{ promotion.image.url }}" alt="">
+                                        </div>
                                         <p class="promotions__slider-item-text">
                                             <p>Начало акции: {{ promotion.start_sale|date:"d F Y H:h" }}</p>
                                             <p>Конец акции: {{ promotion.stop_sale|date:"d F Y H:h" }}</p>

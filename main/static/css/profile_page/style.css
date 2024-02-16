@@ -50,3 +50,9 @@ p {
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
 }
+
+.article__title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
