@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         const productList = document.querySelector(".products__list");
                         productList.innerHTML = "";
                         for (let i of data.results) {
-                            console.log(i);
                             const li = document.createElement("li");
                             li.classList.add("product__list-item");
                             li.innerHTML = `
@@ -54,9 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             </a>
                             <ul class="slider__item-weight-list">
                                 {% for count in product.countitemproduct_set.all %}
-                                <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
-                                    {{count.value }} <span>{{count.unit}}.</span>
-                                </li>
+                                    ${i.countitemproduct_set?.map(item => `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`).join('')} 
                                 {% endfor %}
                             </ul>
                             <div class="products___item-price-basket">

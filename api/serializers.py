@@ -25,15 +25,23 @@ class AnimalSerializer(serializers.ModelSerializer):
 class CategoryProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryProduct
-        fields = ['name', 'parent', 'animal']
+        fields = ["id", 'name', 'parent']
 
+
+class CountItemProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CountItemProduct
+        fields = ["id", "percent", "value", "unit"]
 
 class ProductSerializer(serializers.ModelSerializer):
+    countitemproduct_set = CountItemProductSerializer(many=True)
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ["id", "title", "image_prev", "price", "description", "key_features",
+                  "animal", "compound", "guaranteed_analysis", "nutritional_supplements",
+                  'quantity', "category", "brand", "sale", "order", "sales_counter",
+                  "countitemproduct_set"]
         depth = 1
-
 
 class CountItemProductSerializer(serializers.ModelSerializer):
     class Meta:
