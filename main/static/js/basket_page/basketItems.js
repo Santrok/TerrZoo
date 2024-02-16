@@ -106,7 +106,8 @@ basketItem.forEach(item => {
 
 function setBasketItems(e) {
     console.log(e.currentTarget);
-    for (let i of JSON.parse(localStorage.getItem('basket'))){
+    arrayBasket = JSON.parse(localStorage.getItem('basket'))
+    for (let i of arrayBasket){
         if(i.id === e.currentTarget.dataset.id) {
             console.log(11);
             if(e.target.textContent === '+') {
