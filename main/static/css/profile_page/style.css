@@ -11,21 +11,21 @@
 
 .main__nav-list-item a {
   color: rgb(32, 34, 35);
-  font-family: SF Pro Text;
+  font-family: "SF Pro Text";
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   text-align: left;
 }
 
 .main__nav-list-item-active a {
   color: rgb(109, 113, 117);
-  font-family: SF Pro Text;
+  font-family: "SF Pro Text";
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   text-align: left;
 }
 
@@ -103,7 +103,7 @@ h3 {
     height: 128px;
     border-radius: 8px;
     gap: 10px;
-    -webkit-box-shadow: 0px 1px 12px 7px rgba(34, 60, 80, 0.37);
-    -moz-box-shadow: 0px 1px 12px 7px rgba(34, 60, 80, 0.37);
-    box-shadow: 0px 1px 12px 7px rgba(34, 60, 80, 0.37);
+    -webkit-box-shadow: 0 1px 12px 7px rgba(34, 60, 80, 0.37);
+    -moz-box-shadow: 0 1px 12px 7px rgba(34, 60, 80, 0.37);
+    box-shadow: 0 1px 12px 7px rgba(34, 60, 80, 0.37);
 }
