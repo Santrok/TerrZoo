@@ -230,6 +230,7 @@
                         <ul class="products__list">
                             {% for product in products %}
                             <li class="products__list-item">
+                                
                                 <article class="products___item">
                                     <div class="products___item-img">
                                         <img src="{{ product.image_prev.url }}" alt="item" />
@@ -379,20 +380,41 @@
                         </div>
                         <div class="popular__goods-slider slider">
                             {% for product in popular_products %}
-                            <article class="slider__item">
+                            <article class="slider__item" data-id="{{product.id}}">
                                 <div class="slider__item-img">
-                                    <img src="{{ product.image_prev.url }}" alt="item" />
+                                    <img src="{{product.image_prev.url}}" alt="item" />
                                 </div>
                                 <a href="{% url 'details' product.id %}" class="slider__item-title">
                                     {{product.title}}
                                 </a>
                                 <ul class="slider__item-weight-list">
                                     {% for count in product.countitemproduct_set.all %}
-                                    <li class="slider__item-weight-list-item">{{ count }}</li>
+                                    <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
+                                        {{count.value }} <span>{{count.unit}}.</span>
+                                    </li>
                                     {% endfor %}
                                 </ul>
                                 <div class="slider__item-price-basket">
-                                    <p class="slider__item-price">{{ product.price }}</p>
+                                    <div class="slider__item-price-basket-wrap">
+                                        {% if product.sale.percent != 0 %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider___item-price-promotion">
+                                                {{ product.price }}
+                                            </p>
+                                            <div class="slider__item-price-currency-wrap">
+                                                <p class="slider___item-price">{{ product.action_price|floatformat:2 }}</p>
+                                            <p class="slider__item-currency">
+                                                BYN
+                                            </p>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider__item-price">{{ product.price }}</p>
+                                            <p class="slider__item-currency">BYN</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                     <div class="slider__item-basket">
                                         <div class="slider__item-basket-text">+</div>
                                         <div class="slider__item-basket-img">
@@ -413,6 +435,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% if product.sale.percent != 0 %}
+                                <div class="slider__item-promotion">
+                                    Акция
+                                </div>
+                                {% endif %}
                                 <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                             </article>
                             {% endfor %}
@@ -525,7 +552,8 @@
     </div>
 </main>
 {% endblock %} {% block js %}
-<script src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
-<script src="{% static 'js/catalog_page/select.js' %}"></script>
-<script src="{% static 'js/catalog_page/checkbox.js' %}"></script>
+<script async defer  src="{% static 'js/catalog_page/animal.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/select.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/checkbox.js' %}"></script>
 {% endblock %}

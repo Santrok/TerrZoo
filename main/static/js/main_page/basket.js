@@ -1,4 +1,5 @@
 const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
+const productItemBtn = document.querySelectorAll(".products___item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
 const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
@@ -87,8 +88,9 @@ function addBasketItemToLocalStorage(e) {
         }
     }
     let price = Array.from(
-        e.currentTarget.parentElement.parentElement.children[5]?.classList.contains("slider__item-promotion")
-            ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0]
+        e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+            e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
+            ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
             : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
     ).splice(0, 5);
     price.splice(price.indexOf(","), 1, ".");
@@ -171,6 +173,13 @@ function addBasketItemToHover() {
 addBasketItemToHover();
 
 sliderItemBasketBtn.forEach((item) => {
+    item.addEventListener("click", (event) => {
+        addBasketItemToLocalStorage(event);
+        addBasketItemToHover();
+    });
+});
+
+productItemBtn.forEach((item) => {
     item.addEventListener("click", (event) => {
         addBasketItemToLocalStorage(event);
         addBasketItemToHover();
