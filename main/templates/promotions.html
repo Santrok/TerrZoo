@@ -44,19 +44,6 @@
                 </ul>
             </div>
         </nav>
-        <section class="filter">
-            <div class="container">
-                <div class="filter__wrap">
-                    {% for animal in animals %}
-                    <a href="{% url 'articles_by_animal_id' animal.id %}" class="filter__item filter__item-active">
-                        <div class="filter__item-img" style="background-image: url({{animal.image.url}});">
-                        </div>
-                        <h3 class="filter__item-text">{{ animal.type }}</h3>
-                    </a>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
         <section class="promotions">
             <div class="container">
                 <div class="promotions__wrap">
