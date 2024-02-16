@@ -49,18 +49,37 @@
                     <div class="container">
                         <div class="article__title-wrap">
                             {% for order in orders %}
-                                <div class="main_order">
-                                    <div>
-                                        <p>Номер заказа: {{ order.order_number }} </p>
-                                        <p>Продукты:</p>
+                                <div class="article__title-wrap-order">
+                                    <div class="article__title-wrap-order-item">
+                                        <h2>Номер заказа: {{ order.order_number }} </h2>
+                                        <h3>Продукты:</h3>
                                         {% for prod in order.product_set.all %}
-                                            <p>{{ prod.title }}</p>
+                                            <li>{{ forloop.counter }}. {{ prod.title }}</li>
                                         {% endfor %}
-                                        <p>Время заказа: {{ order.data_create }}</p>
-                                        <p>Сумма заказа: {{ order.total_price }}</p>
+                                        <p class="order-item-time">Время заказа: {{ order.data_create }}</p>
+                                        <p class="order-item-time">Сумма заказа: {{ order.total_price }}</p>
                                     </div>
-                                    <div>
-                                        <p>Номер карты: {{ order.pay_card.card_number }} </p>
+                                    <div class="article__title-wrap-order-card">
+                                        <p>Карта:</p>
+                                        <div class="article__title-wrap-order-card-item">
+                                            <div>
+                                                <p>Номер карты:</p>
+                                                <p>
+                                                    {{ order.pay_card.card_number|slice:"0:4" }}
+                                                     -
+                                                    {{ order.pay_card.card_number|slice:"4:8" }}
+                                                     -
+                                                    {{ order.pay_card.card_number|slice:"8:12" }}
+                                                     -
+                                                    {{ order.pay_card.card_number|slice:"12:16" }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p>Владелец:</p>
+                                                <p>{{ order.user.first_name }} {{ order.user.last_name }}</p>                                                
+                                            </div>
+                                        </div>
+                                        <p>Баланс: {{ order.pay_card.balance }}</p>
                                     </div>
                                 </div>
                             {% endfor %}
