@@ -87,12 +87,15 @@ function addBasketItemToLocalStorage(e) {
             return;
         }
     }
+
+    console.log(e.currentTarget.parentElement.parentElement);
     let price = Array.from(
         e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
             e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
             ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
             : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
     ).splice(0, 5);
+    console.log(price);
     price.splice(price.indexOf(","), 1, ".");
     if (array.length !== 0) {
         basketArrayObj.push({
