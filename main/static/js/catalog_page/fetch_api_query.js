@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 const eventItem = document.querySelectorAll(".catalog__filter-mob  li");
 let queryStr = "?";
 for (let i of eventItem) {
@@ -8,7 +10,7 @@ for (let i of eventItem) {
             for (let li of eventItem1) {
                 if (li.children[0].checked) {
                     if (li.children[0].dataset.sale) {
-                        queryStr += `sale=${li.children[0].dataset.sale}&`;
+                        queryStr += `sale__percent__gt=${li.children[0].dataset.sale}&`;
                     }
                     if (li.children[0].dataset.category) {
                         queryStr += `category_id=${li.children[0].dataset.category}&`;
@@ -37,8 +39,9 @@ for (let i of eventItem) {
                                                 <div class="products___item-img">
                                                     <img src="${i.image_prev}" alt="item" />
                                                 </div>
-                                                <div class="products___item-promotion">Акция</div>
-                                                <a href="{% url 'details' product.id %}" class="products___item-title">
+
+                                                <div class="products___item-promotion">${i.sale.percent!==0? "Акция":'<p style="background:red" ></p>'}</div>
+                                                <a href=http://127.0.0.1:8000/details/${i.id} class="products___item-title">
                                                     ${i.title}
                                                 </a>
                                                 <ul class="products___item-weight-list">
@@ -78,3 +81,4 @@ for (let i of eventItem) {
         queryStr = "?";
     });
 }
+})

@@ -67,12 +67,24 @@ def get_page_catalog(request):
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
     products = Product.objects.filter(animal=animal_id)
+
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
     animals = Animal.objects.all()
     articles_on_animals = Article.objects.filter(animal=animal_id)
     category_by_animals = CategoryProduct.objects.filter(product__id__in=products)
+
+    c = set(list(category_by_animals))
+
+    j =[]
+    for i in list(c):
+        print(i.get_family())
+        for p in i.get_family():
+           j.append(p)
+    st = list(set(j))
+    print(list(st),"+++++++++++++++++++++++++++++++")
+    print(category_by_animals)
     brands_by_animals = Brand.objects.filter()
 
 
@@ -80,7 +92,7 @@ def get_page_catalog_by_animal(request, animal_id):
                "products": products,
                "popular_products": popular_products,
                "articals": articles_on_animals,
-               "categoty_products": category_by_animals,
+               "category_products": st,
                "brands": brands_by_animals}
     return render(request=request,
                   template_name='catalog_by_animal.html',
