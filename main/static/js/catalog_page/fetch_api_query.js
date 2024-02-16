@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="products___item-img">
                                 <img src="${i.image_prev}" alt="item" />
                             </div>
-                            <a href="{% url 'details' ${i.id}.id %}" class="products___item-title">
+                            <a href="http://127.0.0.1:8000/details/${i.id}" class="products___item-title">
                                 ${i.title}
                             </a>
                             <ul class="slider__item-weight-list">
