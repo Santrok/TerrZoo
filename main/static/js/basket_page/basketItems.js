@@ -1,15 +1,12 @@
-// import { addBasketItemToHover, addBasketItemToLocalStorage, setCountItem } from "../main_page/basket.js";
-
 const basketList = document.querySelector(".basket__list");
+const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 
 
-function initBasketItem() { 
-
-    for(let i of JSON.parse(localStorage.getItem('basket'))){
+function initBasketItem() {
+    for (let i of JSON.parse(localStorage.getItem("basket"))) {
         const li = document.createElement("li");
-        console.log(i);
-        li.classList.add('basket__list-item')
-        li.dataset.id = i.id
+        li.classList.add("basket__list-item");
+        li.dataset.id = i.id;
         li.innerHTML = `
         <div class="basket__list-item-img-wrap">
         <div class="basket__list-item-img">
@@ -21,28 +18,30 @@ function initBasketItem() {
         </a>
         <ul class="basket__list-item-weight-list">
         ${i.weight.map(
-            (item) =>
-                `<li class='basket__list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
+            (item) => `<li class='basket__list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
         )}
         </ul>
-        ${i.weight.map(item => {
-            if(item.split(' ')[1] !== 'шт.'){
+        ${i.weight.map((item) => {
+            if (item.split(" ")[1] !== "шт.") {
                 return `<div class="basket__list-item-weight-wrap">
                 <p class="basket__list-item-weight-text">Указать свой вес</p>
                 <div class="basket__list-item-weight">
                     <input type="text" name="" id="" placeholder="Укажите вес" />
                     <button type="button">Применить</button>
                 </div>
-            </div>`
+            </div>`;
             }
         })}
     </div>
         </div>
     <div class="basket__list-action-wrap">
-        <div class="basket__list-action">
-            <button type="button" class="basket__list-action-mius">-</button>
-            <div>${i.count}</div>
-            <button type="button" class="basket__list-action-plus">+</button>
+        <div class="basket__list-action-wrap-text">
+            <div class="basket__list-action">
+                <button type="button" class="minus">-</button>
+                <div>${i.count}</div>
+                <button type="button" class="plus">+</button>
+            </div>
+            <div class="basket__list-action-price">${(Math.floor(i.price * 100) / 100).toFixed(2)} BYN</div>
         </div>
         <div class="basket__list-action-img">
             <svg
@@ -76,48 +75,60 @@ function initBasketItem() {
             </svg>
         </div>
     </div>
-        `
-        basketList.append(li)
+        `;
+        basketList.append(li);
     }
 }
-initBasketItem()
 
-const basketItem = document.querySelectorAll('.basket__list-item')
-console.log(basketItem);
-basketItem.forEach(item => {
-    item.addEventListener('click', (e) => {
-        if(e.target.textContent === '+') {
-            console.log('+');
-            setBasketItems(e)
-        }else if(e.target.textContent === '-') {
-            console.log('-');
-            setBasketItems(e)
-
-        }
-        if(e.target.tagName === 'svg' || e.target.tagName === 'path') {
-            console.log('svg');
-        }
-        if(e.target.textContent === 'Указать свой вес'){
-            console.log('weight');
-        }
-    })
-})
+let count = localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("basket")).length : 0;
 
 
-function setBasketItems(e) {
-    console.log(e.currentTarget);
-    arrayBasket = JSON.parse(localStorage.getItem('basket'))
-    for (let i of arrayBasket){
-        if(i.id === e.currentTarget.dataset.id) {
-            console.log(11);
-            if(e.target.textContent === '+') {
-                i.count += 1
-                console.log(e.currentTarget.children[1].children[0].children[1]);
-                console.log(i.count);
-            }else if(e.target.textContent === '-') {
-                i.count -= 1
-                console.log(i.count);
+function setCountInBasket() {
+    count = JSON.parse(localStorage.getItem("basket")).length;
+    headerBottomBasketCount.textContent = count;
+}
+
+initBasketItem();
+const basketItem = document.querySelectorAll(".basket__list-item");
+let basketArrayObj = []
+
+basketItem.forEach((item) => {
+    item.addEventListener("click", (e) => {
+        if (e.target.classList.contains("minus")) {
+            basketArrayObj = JSON.parse(localStorage.getItem("basket"));
+            for (let i of basketArrayObj) {
+                if (i.id === e.currentTarget.dataset.id) {
+                    if (i.count <= 1) {
+                        e.currentTarget.remove()
+                        basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
+                    }
+                    i.count -= 1;
+                    i.initPrice === 0 ? (i.initPrice = i.price) : 0;
+                    i.price = Number(i.price - i.initPrice);
+                    e.target.parentElement.parentElement.children[1].textContent =
+                        (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
+                    e.target.parentElement.children[1].textContent = i.count;
+                    localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+                }
+            }
+        } else if(e.target.classList.contains("plus")) {
+            basketArrayObj = JSON.parse(localStorage.getItem("basket"));
+            for (let i of basketArrayObj) {
+                if (i.id === e.currentTarget.dataset.id) {
+                    i.count += 1;
+                    i.price = Number(i.count * i.initPrice);
+                    e.target.parentElement.parentElement.children[1].textContent =
+                        (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
+                    e.target.parentElement.children[1].textContent = i.count;
+                    localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+                    setCountInBasket();
+                }
             }
         }
-    }
-}
+        if (e.target.classList.contains("minus")) {
+        }
+        if (e.target.textContent === "Указать свой вес") {
+            console.log("weight");
+        }
+    });
+});
