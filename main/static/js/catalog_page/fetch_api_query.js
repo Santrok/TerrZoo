@@ -21,6 +21,8 @@ for (let i of eventItem) {
                     }
                 }
             }
+
+            // таска: собрать с инпута сортировки данные, ключ order_by=
         }
 
         fetch(`http://127.0.0.1:8000/api/get_products_filter/${queryStr}`)
@@ -40,7 +42,7 @@ for (let i of eventItem) {
                                                     <img src="${i.image_prev}" alt="item" />
                                                 </div>
 
-                                                <div class="products___item-promotion">${i.sale.percent!==0? "Акция":'<p style="background:red" ></p>'}</div>
+                                                <div class="products___item-promotion">${i.sale.percent!==0? "Акция":''}</div>
                                                 <a href=http://127.0.0.1:8000/details/${i.id} class="products___item-title">
                                                     ${i.title}
                                                 </a>

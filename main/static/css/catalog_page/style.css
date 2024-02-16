@@ -346,11 +346,6 @@
   gap: 12px;
 }
 
-
-.filter__type-list .brand__list-item {
-  padding-left: 24px;
-}
-
 .filter__type-list-item input {
   display: none;
 }
@@ -369,6 +364,7 @@
   line-height: 20px;
   letter-spacing: 0px;
 }
+
 .filter__type-list-item-label div {
   width: 20px;
   height: 20px;
@@ -391,6 +387,16 @@
 .filter__type-list-item-hide {
   display: none;
 }
+
+.filter__type-list-item ul {
+  padding-left: 20px;
+  margin-top: 5px;
+  display: none;
+}
+.filter__type-list-item-hide:checked ~ .filter__type-list {
+  display: flex;
+}
+
 .filter__type-list-item-hide:checked ~ .filter__type-list-item-label div {
   border: 2px solid rgb(0, 128, 96);
 }
@@ -494,6 +500,8 @@
   background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
   border: none;
 }
+
+
 
 .filter__button {
   margin-top: 25px;
