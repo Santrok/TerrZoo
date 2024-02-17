@@ -282,3 +282,17 @@ def get_promotions_page(request):
     return render(request=request,
                   template_name='promotions.html',
                   context=context)
+
+
+def get_placing_an_order_page(request):
+    '''Отдает страничку оформления заказов'''
+    context = {}
+    # if request.method=="POST":
+
+
+
+
+    return render(request=request,
+                  template_name='placing_an_order.html',
+                  context=context
+    )

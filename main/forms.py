@@ -41,3 +41,5 @@ class ForgetPasswordForm(forms.Form):
     email = forms.CharField(error_messages={'required': 'Не указан адрес электронной почты'},
                             widget=forms.EmailInput(
                                 attrs={'id': 'forget_email_field', 'placeholder': 'Введите Вашу почту'}))
+
+
