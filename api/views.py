@@ -59,11 +59,9 @@ class AnimalsListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_animals_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -92,11 +90,9 @@ class CategoryProductsListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_category_products_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -125,11 +121,9 @@ class ProductsListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_products_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -158,11 +152,9 @@ class CountItemProductsListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_count_item_products_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -191,11 +183,9 @@ class SaleListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_sales_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -225,11 +215,9 @@ class ArticlesListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_articles_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -258,11 +246,9 @@ class BrandsListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_brands_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -291,11 +277,9 @@ class ReviewsListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_reviews_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -324,11 +308,9 @@ class OrdersListView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_orders_list", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -355,14 +337,13 @@ class ProductListFilterView(ListAPIView):
 
     def get_queryset(self):
         data = self.request.query_params
+        print(data)
         d = dict(data.copy())
-
+        print(d)
+        order = d.pop("order")
         if data.get('sale__percent__gt'):
             d['sale__percent__gt'] = d.get('sale__percent__gt')[0]
-
-        print(d)
-        queryset = Product.objects.filter(**d)
-
+        queryset = Product.objects.filter(**d).order_by(order[0])
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -372,11 +353,9 @@ class ProductListFilterView(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_products_filter", is_active=True)
-            print(error_queryset)
             if error_queryset:
                 if error_queryset[0].error_status_code != "0":
                     status_code = error_queryset[0].error_status_code
-                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []

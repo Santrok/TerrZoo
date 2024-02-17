@@ -10,6 +10,7 @@ select.addEventListener('click', () => {
 selectListItem.forEach(item => {
     item.addEventListener('click', () => {
         catalogSelectActive.innerText = item.innerText
+        catalogSelectActive.setAttribute("data-order",item.dataset.order)
     })
 })
 

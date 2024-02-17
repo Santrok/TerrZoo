@@ -5,8 +5,6 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib import admin
 
 
-
-
 # Модели (плюс классы для админ панели)
 #  сущностей сайта в базулечке
 # ==============================================
@@ -101,13 +99,14 @@ class Product(models.Model):
                               verbose_name="Бренд товара",
                               on_delete=models.CASCADE)
     sale = models.ForeignKey("Sale", on_delete=models.SET_NULL,
-                                  verbose_name="Товар на акции",
-                                  blank=True,
-                                  null=True)
+                             verbose_name="Товар на акции",
+                             blank=True,
+                             null=True)
     countitemproduct = models.ManyToManyField("CountItemProduct",
                                               verbose_name="Количество товара",
                                               blank=True,
                                               null=True)
+    date_create = models.DateTimeField(auto_now_add=True)
     sales_counter = models.PositiveIntegerField("Сколько раз продан")
 
     def __str__(self):
@@ -116,7 +115,7 @@ class Product(models.Model):
     def action_price(self):
         """Метод для расчета цены в период
          акции в процентном соотношении"""
-        res = (100 - self.sale.percent)/100 * float(self.price)
+        res = (100 - self.sale.percent) / 100 * float(self.price)
         return res
 
     class Meta:
@@ -167,7 +166,7 @@ class CountItemProduct(models.Model):
     def total_price(self):
         """Метод расчета цены в зависимости
          от веса в процентном соотношении"""
-        return self.percent/100 * float(self.product.price)
+        return self.percent / 100 * float(self.product.price)
 
     class Meta:
         verbose_name = "Количество товара"
@@ -297,9 +296,9 @@ class Order(models.Model):
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
     products = models.ManyToManyField("Product",
-                                       verbose_name="Продукты",
-                                       blank=True,
-                                       null=True)
+                                      verbose_name="Продукты",
+                                      blank=True,
+                                      null=True)
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name="Пользователь")
@@ -364,7 +363,3 @@ class PayCard(models.Model):
 class AdminPayCard(admin.ModelAdmin):
     """Класс управления отображения в
         админ панели сущности: PayCard"""
-
-
-
-
