@@ -1,15 +1,6 @@
-{% extends 'base_template.html' %}
-{% load static %}
-{% block css %}
+{% extends 'base_template.html' %} {% load static %} {% block css %}
 <link rel="stylesheet" href="{% static 'css/basket_page/style.css' %}" />
-{% endblock %} 
-
-
-{% block title %}
-Корзина
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block title %} Корзина {% endblock %} {% block content %}
 <main>
     <div class="main__wrapper">
         <nav class="main__nav">
@@ -49,6 +40,7 @@
                     <h1 class="basket__title">Моя корзина</h1>
                     <div class="basket__block">
                         <ul class="basket__list">
+                            
                         </ul>
                         <div class="basket__total">
                             <p class="basket__total-text">
@@ -234,9 +226,7 @@
                                 <div class="slider__item-img">
                                     <img src="{{card.image_prev.url}}" alt="item" />
                                 </div>
-                                <a href="{% url 'details' card.id %}" class="slider__item-title">
-                                    {{card.title}}
-                                </a>
+                                <a href="{% url 'details' card.id %}" class="slider__item-title"> {{card.title}} </a>
                                 <ul class="slider__item-weight-list">
                                     {% for count in card.countitemproduct_set.all %}
                                     <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
@@ -248,14 +238,10 @@
                                     <div class="slider__item-price-basket-wrap">
                                         {% if card.sale.percent != 0 %}
                                         <div class="slider__item-price-wrap">
-                                            <p class="slider___item-price-promotion">
-                                                {{ card.price }}
-                                            </p>
+                                            <p class="slider___item-price-promotion">{{ card.price }}</p>
                                             <div class="slider__item-price-currency-wrap">
                                                 <p class="slider___item-price">{{ card.action_price|floatformat:2 }}</p>
-                                            <p class="slider__item-currency">
-                                                BYN
-                                            </p>
+                                                <p class="slider__item-currency">BYN</p>
                                             </div>
                                         </div>
                                         {% else %}
@@ -286,9 +272,7 @@
                                     </div>
                                 </div>
                                 {% if card.sale.percent != 0 %}
-                                <div class="slider__item-promotion">
-                                    Акция
-                                </div>
+                                <div class="slider__item-promotion">Акция</div>
                                 {% endif %}
                                 <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                             </article>
@@ -349,9 +333,7 @@
                                     <img src="{{card_new.image_prev.url}}" alt="item" />
                                 </div>
                                 {% if card_new.sale.percent != 0 %}
-                                <div class="slider__item-promotion">
-                                    Акция
-                                </div>
+                                <div class="slider__item-promotion">Акция</div>
                                 {% endif %}
                                 <a href="{% url 'details' card_new.id %}" class="slider__item-title">
                                     {{card_new.title}}
@@ -367,14 +349,12 @@
                                     <div class="slider__item-price-basket-wrap">
                                         {% if card_new.sale.percent != 0 %}
                                         <div class="slider__item-price-wrap">
-                                            <p class="slider___item-price-promotion">
-                                                {{ card_new.price }}
-                                            </p>
+                                            <p class="slider___item-price-promotion">{{ card_new.price }}</p>
                                             <div class="slider__item-price-currency-wrap">
-                                                <p class="slider___item-price">{{ card_new.action_price|floatformat:2 }}</p>
-                                            <p class="slider__item-currency">
-                                                BYN
-                                            </p>
+                                                <p class="slider___item-price">
+                                                    {{ card_new.action_price|floatformat:2 }}
+                                                </p>
+                                                <p class="slider__item-currency">BYN</p>
                                             </div>
                                         </div>
                                         {% else %}
@@ -518,8 +498,6 @@
         </section>
     </div>
 </main>
-{% endblock %}
-
-{% block js %}
-    <script src="{% static 'js/basket_page/basketItems.js' %}"></script>
+{% endblock %} {% block js %}
+<script async defer type="module" src="{% static 'js/basket_page/basketItems.js' %}"></script>
 {% endblock %}
