@@ -1,9 +1,10 @@
 const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
-const productItemBtn = document.querySelectorAll(".products___item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
 const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
-const sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
+const productsList = document.querySelector('.products__list')
+let productItemBtn = document.querySelectorAll(".products___item-basket");
+let sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
 
 sliderItemWeightList.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -95,7 +96,6 @@ function addBasketItemToLocalStorage(e) {
             ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
             : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
     ).splice(0, 5);
-    price.splice(price.indexOf(","), 1, ".");
     if (array.length !== 0) {
         basketArrayObj.push({
             count: 1,
@@ -169,6 +169,32 @@ sliderItemBasketBtn.forEach((item) => {
         addBasketItemToHover();
     });
 });
+
+
+let obsever = new MutationObserver(() => {
+    productItemBtn = document.querySelectorAll(".products___item-basket");
+    productItemBtn.forEach((item) => {
+        item.addEventListener("click", (event) => {
+            addBasketItemToLocalStorage(event);
+            addBasketItemToHover();
+        });
+    });
+    sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
+    sliderItemWeightList.forEach((item) => {
+        item.addEventListener("click", (e) => {
+            sliderItemWeightList.forEach((el) => {
+                if (el.classList.contains("slider__item-weight-list-item-active")) {
+                    el.classList.remove("slider__item-weight-list-item-active");
+                }
+            });
+            item.classList.add("slider__item-weight-list-item-active");
+        });
+    });
+})
+
+obsever.observe(productsList,{
+    childList: true,
+})
 
 productItemBtn.forEach((item) => {
     item.addEventListener("click", (event) => {

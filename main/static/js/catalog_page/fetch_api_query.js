@@ -3,18 +3,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const eventItem = document.querySelectorAll(".catalog__filter-mob li");
     const filterInner = document.querySelectorAll(".filter__inner");
 
-    // for (let i of filterInner) {
-    //     i.addEventListener("click", (e) => {
-    //         e.currentTarget.children[0].classList.toggle("filter__brand-active");
-    //     });
-    // }
+    for (let i of filterInner) {
+        i.addEventListener("click", (e) => {
+            e.currentTarget.parentElement.children[1].children[0].classList.toggle("filter__item-active-aside");
+        });
+    }
     let queryStr = "?";
     for (let i of eventItem) {
         i.addEventListener("change", (e) => {
-            console.log(!e.currentTarget.children[1].children[0].classList.contains("filter__brand-active"))
-            // if(e.currentTarget.children[0])
-            if(!e.currentTarget.children[1].children[0].classList.contains("filter__brand-active")){
-                // document.querySelectorAll('.filter__brand-active').forEach(item => item.classList.remove('filter__brand-active'))
+            if (e.currentTarget.children[2]) {
+                for (let i of e.currentTarget.children[2].children) {
+                    i.children[1].children[0].classList.add("filter__item-active-aside");
+                }
+                e.currentTarget.classList.add('active')
+                if(document.querySelectorAll('.active').length > 1) {
+                    for(let i of document.querySelectorAll('.active')[0].children[2].children) {
+                        i.children[1].children[0].classList.remove('filter__item-active-aside')
+                    }
+                    e.currentTarget.classList.remove('active')
+                }
             }
             const eventItem1 = document.querySelectorAll(".catalog__filter-mob li");
             if (e.target.checked == true || e.target.checked == false) {
@@ -25,23 +32,32 @@ document.addEventListener("DOMContentLoaded", () => {
                             queryStr += `sale__percent__gt=${li.children[0].dataset.sale}&`;
                         }
                         if (li.children[0].dataset.category) {
+                            queryStr = `?`;
                             queryStr += `category_id__in=${li.children[0].dataset.category}&`;
+                            let activeCheckbox = document.querySelectorAll(".filter__item-active-aside");
+                            for (let j of activeCheckbox) {
+                                queryStr += `category_id__in=${j.dataset.category}&`;
+                            }
                         }
                         if (li.children[0].dataset.brand) {
                             count += 1;
                             queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
                         }
                     }
-                    console.log(queryStr);
                 }
-
-                // таска: собрать с инпута сортировки данные, ключ order_by=
+                if (
+                    !e.currentTarget.children[2] &&
+                    !e.currentTarget.children[1].classList.contains("brand__list-item-label")
+                ) {
+                    document.querySelectorAll(".filter__item-active-aside").forEach((el) => {
+                        el.classList.remove("filter__item-active-aside");
+                        queryStr = "?";
+                    });
+                }                
             }
-
             fetch(`http://127.0.0.1:8000/api/get_products_filter/${queryStr}`)
                 .then((resp) => resp.json())
                 .then((data) => {
-                    // console.log(data.results);
                     if (data) {
                         const productList = document.querySelector(".products__list");
                         productList.innerHTML = "";
@@ -57,14 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ${i.title}
                             </a>
                             <ul class="slider__item-weight-list">
-                                {% for count in product.countitemproduct.all %}
                                     ${i.countitemproduct
                                         ?.map(
                                             (item) =>
-                                                `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`
+                                                `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
                                         )
                                         .join("")} 
-                                {% endfor %}
                             </ul>
                             <div class="products___item-price-basket">
                                 <div class="products___item-price-basket-wrap">
@@ -72,10 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                         i.sale?.percent
                                             ? `<div class="products___item-price-wrap">
                                     <p class="products___item-price-promotion">
-                                        ${i.sale.percent}
+                                    ${i.price} BYN
                                     </p>
                                     <div class="products___item-price-currency-wrap">
-                                        <p class="products___item-price">${i.price}</p>
+                                        <p class="products___item-price">${(
+                                            ((100 - i.sale.percent) / 100) *
+                                            parseFloat(i.price)
+                                        ).toFixed(2)}</p>
                                     <p class="products___item-currency">
                                         BYN
                                     </p>
@@ -127,7 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     }
                 });
-            queryStr = "?";
         });
     }
 });
