@@ -3,21 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const eventItem = document.querySelectorAll(".catalog__filter-mob li");
     const filterIner = document.querySelectorAll('.filter__inner');
 
-    console.log(filterIner);
 
-    for(let i of filterIner) {
-        i.addEventListener('click', (e) => {
-            console.log();
-            if(e.currentTarget.children[0].className === 'ЖОПА') {
-                e.currentTarget.children[0].className = 'НЕТУ ЖОПЫ'
-            }else{
-                e.currentTarget.children[0].className = 'ЖОПА'
-            }
-            // if(e.currentTarget.children[0].className === 'НЕТУ ЖОПЫ') {
-            //     e.currentTarget.children[0].className = 'ЖОПА'
-            // }
-        })
-    }
     let queryStr = "?";
     for (let i of eventItem) {
         i.addEventListener("change", (e) => {
