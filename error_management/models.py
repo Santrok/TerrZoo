@@ -126,6 +126,7 @@ class SetErrorDataApiV1(models.Model):
     model_name = models.CharField("Название Модели",
                                   max_length=1500)
     section_error = models.TextField("Блок создания ошибки")
+    error_status_code = models.IntegerField("Блок изменения статус кода",default=0)
     theme = models.CharField("Тема занятия",
                              max_length=2000)
     lesson_number = models.CharField("Номер занятия",
@@ -150,6 +151,7 @@ class AdminSetErrorDataApiV1(admin.ModelAdmin):
     list_display = ["url_name",
                     "model_name",
                     "section_error",
+                    "error_status_code",
                     "theme",
                     "lesson_number",
                     "is_active",
@@ -157,6 +159,7 @@ class AdminSetErrorDataApiV1(admin.ModelAdmin):
     list_filter = ["url_name",
                    "model_name",
                    "section_error",
+                   "error_status_code",
                    "theme",
                    "lesson_number",
                    "is_active", ]
