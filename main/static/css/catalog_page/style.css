@@ -386,11 +386,11 @@
 .filter__type-list-item ul {
     padding-left: 20px;
     margin-top: 5px;
-    display: none;
+    /* display: none; */
 }
-.filter__type-list-item-hide:checked ~ .filter__type-list {
+/* .filter__type-list-item-hide:checked ~ .filter__type-list {
     display: flex;
-}
+} */
 
 .filter__type-list-item-hide:checked ~ .filter__type-list-item-label div {
     border: 2px solid rgb(0, 128, 96);
@@ -413,6 +413,12 @@
     line-height: 24px;
     letter-spacing: 0px;
     margin-bottom: 8px;
+}
+
+
+.filter__brand-active {
+    background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
+    border: none;
 }
 
 .brand__search {

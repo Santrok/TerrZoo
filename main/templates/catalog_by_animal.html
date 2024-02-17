@@ -173,7 +173,7 @@
                                         data-category="{{node.id}}"
                                     />
                                     <label for="fodder{{node.id}}" class="filter__type-list-item-label">
-                                        <div></div>
+                                        <div class="ЖОПА" ></div>
                                         <p style="padding: 1px">{{ node.name }}</p>
                                     </label>
                                     {% if not node.is_leaf_node %}
@@ -567,8 +567,8 @@
     </div>
 </main>
 {% endblock %} {% block js %}
-<script async defer  src="{% static 'js/catalog_page/animal.js' %}"></script>
-<script async defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
-<script async defer src="{% static 'js/catalog_page/select.js' %}"></script>
-<script async defer src="{% static 'js/catalog_page/checkbox.js' %}"></script>
+<script defer  src="{% static 'js/catalog_page/animal.js' %}"></script>
+<script defer src="{% static 'js/catalog_page/select.js' %}"></script>
+<script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+<script defer src="{% static 'js/catalog_page/checkbox.js' %}"></script>
 {% endblock %}
