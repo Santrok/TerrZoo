@@ -44,19 +44,6 @@
                 </ul>
             </div>
         </nav>
-        <section class="filter">
-            <div class="container">
-                <div class="filter__wrap">
-                    {% for animal in animals %}
-                    <a href="{% url 'articles_by_animal_id' animal.id %}" class="filter__item filter__item-active">
-                        <div class="filter__item-img" style="background-image: url({{animal.image.url}});">
-                        </div>
-                        <h3 class="filter__item-text">{{ animal.type }}</h3>
-                    </a>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
         <section class="promotions">
             <div class="container">
                 <div class="promotions__wrap">
@@ -70,8 +57,11 @@
                                     <div class="promotions__slider-item-text-wrap">
                                         <p class="promotions__slider-item-title">
                                             <h2>{{ promotion.title }}</h2>
-                                            <h3>Скидка {{ promotion.percent }}</h3>
+                                            <h3>Скидка {{ promotion.percent }} %</h3>
                                         </p>
+                                        <div class="promotions__slider-item-title-img">
+                                            <img src="{{ promotion.image.url }}" alt="">
+                                        </div>
                                         <p class="promotions__slider-item-text">
                                             <p>Начало акции: {{ promotion.start_sale|date:"d F Y H:h" }}</p>
                                             <p>Конец акции: {{ promotion.stop_sale|date:"d F Y H:h" }}</p>

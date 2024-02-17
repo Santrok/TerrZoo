@@ -9,10 +9,12 @@ class StyledComponentsSerializer(serializers.ModelSerializer):
         model = StyledComponents
         fields = ["style", "css_class_name"]
 
+
 class LinkComponentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SetErrorLink
         fields = ["href", "html_id_tag_a"]
+
 
 class AnimalSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,19 +25,24 @@ class AnimalSerializer(serializers.ModelSerializer):
 class CategoryProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryProduct
-        fields = ['name', 'parent', 'animal']
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = '__all__'
+        fields = ["id", 'name', 'parent']
 
 
 class CountItemProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CountItemProduct
-        fields = '__all__'
+        fields = ["id", "percent", "value", "unit"]
+
+class ProductSerializer(serializers.ModelSerializer):
+    countitemproduct_set = CountItemProductSerializer(many=True)
+    class Meta:
+        model = Product
+        fields = ["id", "title", "image_prev", "price", "description", "key_features",
+                  "animal", "compound", "guaranteed_analysis", "nutritional_supplements",
+                  'quantity', "category", "brand", "sale", "order", "sales_counter",
+                  "countitemproduct_set"]
+        depth = 1
+
 
 
 class ArticleSerializer(serializers.ModelSerializer):

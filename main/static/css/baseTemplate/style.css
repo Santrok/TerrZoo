@@ -1309,6 +1309,7 @@ footer {
     justify-content: space-between;
     gap: 16px;
     transition: 0.2s;
+    position: relative;
 }
 .slider__item:hover {
     transition: 0.2s;
@@ -1324,6 +1325,22 @@ footer {
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
+    user-select: none;
+}
+
+.slider__item-promotion {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    color: rgb(255, 255, 255);
+    font-family: SF Pro Text;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    padding: 2px 8px;
+    background: #ff733b;
+    border-radius: 2px;
     user-select: none;
 }
 
@@ -1445,6 +1462,50 @@ footer {
     margin: 0 auto;
 }
 
+.slider__item-price-wrap{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.slider___item-price{
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Text;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 130%;
+    text-align: left;
+}
+
+.slider__item-currency{
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Text;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 130%;
+    text-align: left;
+}
+
+.slider___item-price-promotion{
+    color: rgb(140, 145, 150);
+    font-family: SF Pro Text;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 130%;
+    letter-spacing: 0px;
+    text-align: left;
+    text-decoration: line-through;
+    text-decoration-color: red;
+    border: 1px dashed gainsboro;
+}
+
+.slider__item-price-currency-wrap{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 @media (min-width: 992px) {
     .slider__title {
         font-size: 28px;
@@ -1515,7 +1576,50 @@ footer {
     box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.2) inset, 0px 1px 0px 0px rgba(0, 0, 0, 0.08);
 }
 
+.slider__item-weight-list-item-active {
+    background: rgb(68, 157, 167);
+    color: #fff;
+}
+
 .modal__active {
     display: flex;
 }
 /*# sourceMappingURL=style.css.map */
+.header__up-login-button a {
+    color:#2c6ecb;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    background: #fff;
+}
+.profile a {
+    color: var(--Interactive-Default, #2c6ecb);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    background: #fff;
+}
+.header__up-login-button {
+    flex: 0 1 135px;
+    order: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.header__up-login-button a:first-child {
+    flex: 0 1 60px;
+}
+
+.filter__item-active {
+    opacity: 1;
+    border: 2px solid rgb(0, 128, 96);
+}
+

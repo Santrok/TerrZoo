@@ -1,6 +1,9 @@
+from collections import OrderedDict
+
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
+
 from rest_framework.response import Response
 from django.forms.models import model_to_dict
 from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
@@ -8,14 +11,24 @@ from api.serializers import StyledComponentsSerializer, AnimalSerializer, Catego
     LinkComponentsSerializer
 from error_management.models import StyledComponents, SetErrorLink, SetErrorDataApiV1
 from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale, Article, Brand, Review, Order
+from rest_framework.pagination import LimitOffsetPagination
 
 
 # Create your views here.
+
 class StyledComponentsListView(ListAPIView):
     queryset = StyledComponents.objects.filter(is_active=True)
     serializer_class = StyledComponentsSerializer
 
 
+class LinkComponentsListView(ListAPIView):
+    queryset = SetErrorLink.objects.filter(is_active=True)
+    serializer_class = LinkComponentsSerializer
+
+
+class StyledComponentsListView(ListAPIView):
+    queryset = StyledComponents.objects.filter(is_active=True)
+    serializer_class = StyledComponentsSerializer
 
 
 class LinkComponentsListView(ListAPIView):
@@ -42,11 +55,15 @@ class AnimalsListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_animals_list", is_active=True)
-
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -54,12 +71,12 @@ class AnimalsListView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -71,11 +88,15 @@ class CategoryProductsListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_category_products_list", is_active=True)
-
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -83,15 +104,14 @@ class CategoryProductsListView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
 
 class ProductsListView(ListAPIView):
     queryset = Product.objects.all()
@@ -101,11 +121,15 @@ class ProductsListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_products_list", is_active=True)
-
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -113,12 +137,12 @@ class ProductsListView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -130,11 +154,15 @@ class CountItemProductsListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_count_item_products_list", is_active=True)
-
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -144,10 +172,10 @@ class CountItemProductsListView(ListAPIView):
                     for key in error_obj_from_bd:
                         obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -159,11 +187,15 @@ class SaleListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_sales_list", is_active=True)
-
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -173,10 +205,10 @@ class SaleListView(ListAPIView):
                     for key in error_obj_from_bd:
                         obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -189,39 +221,15 @@ class ArticlesListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_articles_list", is_active=True)
-
+            print(error_queryset)
             if error_queryset:
-                error_obj_from_bd = eval(error_queryset[0].section_error)
-                response_list = []
-                for i in queryset:
-                    obj = {}
-                    item_to_dict = model_to_dict(i)
-                    for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,"Hi) guys!! Привет от Johana:))) ищи ошибку )")
-                    response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-class BrandsListView(ListAPIView):
-    queryset = Brand.objects.all()
-    serializer_class = BrandSerializer
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_brands_list", is_active=True)
-
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -231,10 +239,43 @@ class BrandsListView(ListAPIView):
                     for key in error_obj_from_bd:
                         obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
+
+class BrandsListView(ListAPIView):
+    queryset = Brand.objects.all()
+    serializer_class = BrandSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        status_code = "0"
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_brands_list", is_active=True)
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
+            if error_queryset:
+                error_obj_from_bd = eval(error_queryset[0].section_error)
+                response_list = []
+                for i in queryset:
+                    obj = {}
+                    item_to_dict = model_to_dict(i)
+                    for key in error_obj_from_bd:
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                    response_list.append(obj)
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
+            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -246,11 +287,15 @@ class ReviewsListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_reviews_list", is_active=True)
-
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -260,10 +305,10 @@ class ReviewsListView(ListAPIView):
                     for key in error_obj_from_bd:
                         obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -275,11 +320,15 @@ class OrdersListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_orders_list", is_active=True)
-            print("------------error_oj------------")
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -289,10 +338,10 @@ class OrdersListView(ListAPIView):
                     for key in error_obj_from_bd:
                         obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-            print("---end---------error_oj------------")
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -321,12 +370,15 @@ class ProductListFilterView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-
+        status_code = "0"
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_products_filter",
-                                                              is_active=True)
-
+            error_queryset = SetErrorDataApiV1.objects.filter(url_name="get_products_filter", is_active=True)
+            print(error_queryset)
+            if error_queryset:
+                if error_queryset[0].error_status_code != "0":
+                    status_code = error_queryset[0].error_status_code
+                    print(status_code)
             if error_queryset:
                 error_obj_from_bd = eval(error_queryset[0].section_error)
                 response_list = []
@@ -334,13 +386,11 @@ class ProductListFilterView(ListAPIView):
                     obj = {}
                     item_to_dict = model_to_dict(i)
                     for key in error_obj_from_bd:
-                        obj[key] = item_to_dict.get(key,
-                                                    "Hi) guys!! Привет от Johana:))) ищи ошибку )")
+                        obj[key] = item_to_dict.get(key, "Hi) guys!! Привет от Johana:))) ищи ошибку )")
                     response_list.append(obj)
-                return self.get_paginated_response(response_list)
-
+                response = self.get_paginated_response(response_list)
+                response.status_code = int(status_code)
+                return response
             return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset,
-                                         many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)

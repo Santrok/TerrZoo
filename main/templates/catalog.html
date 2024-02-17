@@ -148,16 +148,21 @@
             <div class="container">
                 <div class="products__wrap">
                     <aside class="catalog__filter-mob">
-                        <div for="promotional" class="promotional__item">
-                            <input type="checkbox" name="promotional" id="promotional" class="promotional__item-input-hide">
-                            <label for="promotional" class="promotional__item-label">
-                                <div>
-                                </div>
-                                <p>
-                                    Только акционные товары
-                                </p>
-                            </label>
-                        </div>
+                        <ul>
+                            <li for="promotional" class="promotional__item">
+                                <input
+                                    type="checkbox"
+                                    name="promotional"
+                                    id="promotional"
+                                    class="promotional__item-input-hide"
+                                    data-sale="0"
+                                />
+                                <label for="promotional" class="promotional__item-label">
+                                    <div></div>
+                                    <p>Только акционные товары</p>
+                                </label>
+                            </li>
+                        </ul>
                         <div class="filter__type">
                             <h3 class="filter__type-title">
                                 Выберите животного
@@ -167,12 +172,12 @@
                                 <li class="filter__type-list-item">
                                     <input
                                         type="radio"
-                                        id="fodder{{category.id}}"
+                                        id="fodder{{animal.id}}"
                                         name="type"
                                         class="filter__type-list-item-hide"
-                                        data-category="{{category.id}}"
+                                        data-category="{{animal.id}}"
                                     />
-                                    <label for="fodder{{category.id}}" class="filter__type-list-item-label">
+                                    <label for="fodder{{animal.id}}" class="filter__type-list-item-label">
                                         <div></div>
                                         <p>{{ animal.type }}</p>
                                     </label>
@@ -181,39 +186,39 @@
                             </ul>
                         </div>
                         <div class="filter__brand">
-                            <h3 class="filter__brand-title">
-                                Бренд
-                            </h3>
+                            <h3 class="filter__brand-title">Бренд</h3>
                             <search class="brand__search">
                                 <div class="brand__search-img">
                                     <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M8 12C5.791 12 4 10.209 4 8C4 5.791 5.791 4 8 4C10.209 4 12 5.791 12 8C12 10.209 10.209 12 8 12ZM17.707 16.293L12.887 11.473C13.585 10.492 14 9.296 14 8C14 4.687 11.313 2 8 2C4.687 2 2 4.687 2 8C2 11.313 4.687 14 8 14C9.296 14 10.492 13.585 11.473 12.887L16.293 17.707C16.488 17.902 16.744 18 17 18C17.256 18 17.512 17.902 17.707 17.707C18.098 17.316 18.098 16.684 17.707 16.293Z"
-                                    fill="#5C5F62"
-                                />
-                            </svg>
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 20 20"
+                                        fill="none"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M8 12C5.791 12 4 10.209 4 8C4 5.791 5.791 4 8 4C10.209 4 12 5.791 12 8C12 10.209 10.209 12 8 12ZM17.707 16.293L12.887 11.473C13.585 10.492 14 9.296 14 8C14 4.687 11.313 2 8 2C4.687 2 2 4.687 2 8C2 11.313 4.687 14 8 14C9.296 14 10.492 13.585 11.473 12.887L16.293 17.707C16.488 17.902 16.744 18 17 18C17.256 18 17.512 17.902 17.707 17.707C18.098 17.316 18.098 16.684 17.707 16.293Z"
+                                            fill="#5C5F62"
+                                        />
+                                    </svg>
                                 </div>
                                 <input type="text" name="brand" placeholder="Название бренда" />
                             </search>
                             <ul class="brand__list">
                                 {% for brand in brands %}
                                 <li class="brand__list-item">
-                                    <input type="checkbox" id="brand{{brand.id}}" name="type" class="brand__type-list-item-hdie">
+                                    <input
+                                        type="checkbox"
+                                        id="brand{{brand.id}}"
+                                        name="type"
+                                        class="brand__type-list-item-hdie"
+                                        data-brand="{{brand.id}}"
+                                    />
                                     <label for="brand{{brand.id}}" class="brand__list-item-label">
-                                        <div>
-
-                                        </div>
-                                        <p>
-                                            {{ brand.name }}
-                                        </p>
+                                        <div></div>
+                                        <p>{{ brand.name }}</p>
                                     </label>
                                 </li>
                                 {% endfor %}
@@ -227,35 +232,44 @@
                         <ul class="products__list">
                             {% for product in products %}
                                 <li class="products__list-item">
-                                    <article class="products___item">
+                                    <article class="products___item" data-id="{{product.id}}">
                                         <div class="products___item-img">
-                                            <img src="{{ product.image_prev.url }}" alt="item" />
+                                            <img src="{{product.image_prev.url}}" alt="item" />
                                         </div>
-                                        {% if product.sale.percent != 0 %}
-                                        <div class="products___item-promotion">
-                                            Акция
-                                        </div>
-                                        {% endif %}
                                         <a href="{% url 'details' product.id %}" class="products___item-title">
                                             {{ product.title }}
                                         </a>
-                                        <ul class="products___item-weight-list">
+                                        <ul class="slider__item-weight-list">
                                             {% for count in product.countitemproduct_set.all %}
-                                            <li class="slider__item-weight-list-item">{{ count }}</li>
-                                            {% endfor %}   
+                                            <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
+                                                {{count.value }} <span>{{count.unit}}.</span>
+                                            </li>
+                                            {% endfor %}
                                         </ul>
                                         <div class="products___item-price-basket">
-                                            {% if product.sale.percent != 0 %}
-                                            <p class="products___item-price-promotion">
-                                                {{ product.price }}
-                                            </p>
-                                            <p class="products___item-price">{{ product.action_price|floatformat:2 }} <span>BYN</span></p>
-                                            {% else %}
-                                            <p class="products___item-price">{{ product.price }} <span>BYN</span></p>
-                                            {% endif %}
+                                            <div class="products___item-price-basket-wrap">
+                                                {% if product.sale.percent != 0 %}
+                                                <div class="products___item-price-wrap">
+                                                    <p class="products___item-price-promotion">
+                                                        {{ product.price }}
+                                                    </p>
+                                                    <div class="products___item-price-currency-wrap">
+                                                        <p class="products___item-price">{{ product.action_price|floatformat:2 }}</p>
+                                                    <p class="products___item-currency">
+                                                        BYN
+                                                    </p>
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                <div class="products___item-price-wrap">
+                                                    <p class="products___item-price">{{ product.price }}</p>
+                                                    <p class="products___item-currency">BYN</p>
+                                                </div>
+                                                {% endif %}
+                                            </div>
                                             <div class="products___item-basket">
-                                                <div class="slider__item-basket-text">+</div>
-                                                <div class="slider__item-basket-img">
+                                                <div class="products___item-basket-text">+</div>
+                                                <div class="products___item-basket-img">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         width="20"
@@ -273,6 +287,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% if product.sale.percent != 0 %}
+                                        <div class="products___item-promotion">
+                                            Акция
+                                        </div>
+                                        {% endif %}
                                         <button type="button" class="products___item-btn">Купить в 1 клик</button>
                                     </article>
                                 </li>
@@ -366,20 +385,41 @@
                         </div>
                         <div class="popular__goods-slider slider">
                             {% for product in popular_products %}
-                            <article class="slider__item">
+                            <article class="slider__item" data-id="{{product.id}}">
                                 <div class="slider__item-img">
-                                    <img src="{{ product.image_prev.url }}" alt="item" />
+                                    <img src="{{product.image_prev.url}}" alt="item" />
                                 </div>
                                 <a href="{% url 'details' product.id %}" class="slider__item-title">
                                     {{product.title}}
                                 </a>
                                 <ul class="slider__item-weight-list">
                                     {% for count in product.countitemproduct_set.all %}
-                                    <li class="slider__item-weight-list-item">{{ count }}</li>
-                                     {% endfor %}   
+                                    <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
+                                        {{count.value }} <span>{{count.unit}}.</span>
+                                    </li>
+                                    {% endfor %}
                                 </ul>
                                 <div class="slider__item-price-basket">
-                                    <p class="slider__item-price">{{ product.price }}</p>
+                                    <div class="slider__item-price-basket-wrap">
+                                        {% if product.sale.percent != 0 %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider___item-price-promotion">
+                                                {{ product.price }}
+                                            </p>
+                                            <div class="slider__item-price-currency-wrap">
+                                                <p class="slider___item-price">{{ product.action_price|floatformat:2 }}</p>
+                                            <p class="slider__item-currency">
+                                                BYN
+                                            </p>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider__item-price">{{ product.price }}</p>
+                                            <p class="slider__item-currency">BYN</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                     <div class="slider__item-basket">
                                         <div class="slider__item-basket-text">+</div>
                                         <div class="slider__item-basket-img">
@@ -400,6 +440,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% if product.sale.percent != 0 %}
+                                <div class="slider__item-promotion">
+                                    Акция
+                                </div>
+                                {% endif %}
                                 <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                             </article>
                             {% endfor %}
@@ -518,6 +563,7 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
-<script src="{% static 'js/catalog_page/select.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/linkToAnimal.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/select.js' %}"></script>
 {% endblock %}

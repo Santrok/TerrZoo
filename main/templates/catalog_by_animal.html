@@ -1,16 +1,6 @@
-{% extends 'base_template.html' %}
-{% load static %}
-
-{% block css %}
-    <link rel="stylesheet" href="{% static '/css/catalog_page/style.css' %}" />
-{% endblock %}
-
-{% block title %}
-    <title>Каталог</title>
-{% endblock %}
-
-
-{% block content %}
+{% extends 'base_template.html' %} {% load static %} {% load mptt_tags %} {% block css %}
+<link rel="stylesheet" href="{% static '/css/catalog_page/style.css' %}" />
+{% endblock %} {% block title %} Каталог {% endblock %} {% block content %}
 <main>
     <div class="main__wrapper">
         <nav class="main__nav">
@@ -49,10 +39,7 @@
                 <div class="filter__wrap">
                     {% for animal in animals %}
                     <a href="{% url 'catalog_by_animal' animal.id %}" class="filter__item">
-                        <div
-                            class="filter__item-img"
-                            style="background-image: url({{animal.image.url}});"
-                        ></div>
+                        <div class="filter__item-img" style="background-image: url({{animal.image.url}});"></div>
                         <h3 class="filter__item-text">{{animal.type}}</h3>
                     </a>
                     {% endfor %}
@@ -63,7 +50,7 @@
             <div class="container">
                 <div class="catalog__wrap">
                     <div class="catalog__title-wrap">
-                        <h1 class="catalog__title">Каталог товаров <span>для</span></h1>
+                        <h1 class="catalog__title">Каталог товаров <span>для {{ anima }}</span></h1>
                         <div class="catalog__sort">
                             <div class="catalog__sort-text">Сортировать по:</div>
                             <div class="catalog__sort-select">
@@ -166,7 +153,7 @@
                                 name="promotional"
                                 id="promotional"
                                 class="promotional__item-input-hide"
-                                data-sale="sale"
+                                data-sale="0"
                             />
                             <label for="promotional" class="promotional__item-label">
                                 <div></div>
@@ -176,37 +163,26 @@
                         <div class="filter__type">
                             <h3 class="filter__type-title">Тип товара</h3>
                             <ul class="filter__type-list">
-                                {% for category in categoty_products %} 
-                                {% if category.level == 0 %}
+                                {% recursetree category_products %}
                                 <li class="filter__type-list-item">
                                     <input
                                         type="radio"
-                                        id="fodder{{category.id}}"
+                                        id="fodder{{node.id}}"
                                         name="type"
                                         class="filter__type-list-item-hide"
-                                        data-category="{{category.id}}"
+                                        data-category="{{node.id}}"
                                     />
-                                    <label for="fodder{{category.id}}" class="filter__type-list-item-label">
+                                    <label for="fodder{{node.id}}" class="filter__type-list-item-label">
                                         <div></div>
-                                        <p>{{ category.name }}</p>
+                                        <p style="padding: 1px">{{ node.name }}</p>
                                     </label>
+                                    {% if not node.is_leaf_node %}
+                                    <ul class="filter__type-list">
+                                        {{ children }}
+                                    </ul>
+                                    {% endif %}
                                 </li>
-                                {% elif category.level == 1 %}
-                                <li class="brand__list-item">
-                                    <input
-                                        type="checkbox"
-                                        id="brand{{category.id}}"
-                                        name="type"
-                                        class="brand__type-list-item-hdie"
-                                        data-category="{{category.id}}"
-                                    />
-                                    <label for="brand{{category.id}}" class="brand__list-item-label">
-                                        <div></div>
-                                        <p>{{ category.name }}</p>
-                                    </label>
-                                </li>
-                                {% endif %} 
-                                {% endfor %}
+                                {% endrecursetree %}
                             </ul>
                         </div>
                         <div class="filter__brand">
@@ -254,35 +230,44 @@
                         <ul class="products__list">
                             {% for product in products %}
                             <li class="products__list-item">
-                                <article class="products___item">
+                                <article class="products___item" data-id="{{product.id}}">
                                     <div class="products___item-img">
-                                        <img src="{{ product.image_prev.url }}" alt="item" />
+                                        <img src="{{product.image_prev.url}}" alt="item" />
                                     </div>
-                                    {% if product.sale.percent != 0 %}
-                                        <div class="products___item-promotion">
-                                            Акция
-                                        </div>
-                                        {% endif %}
                                     <a href="{% url 'details' product.id %}" class="products___item-title">
                                         {{ product.title }}
                                     </a>
-                                    <ul class="products___item-weight-list">
+                                    <ul class="slider__item-weight-list">
                                         {% for count in product.countitemproduct_set.all %}
-                                        <li class="slider__item-weight-list-item">{{ count }}</li>
+                                        <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
+                                            {{count.value }} <span>{{count.unit}}.</span>
+                                        </li>
                                         {% endfor %}
                                     </ul>
                                     <div class="products___item-price-basket">
-                                        {% if product.sale.percent != 0 %}
-                                            <p class="products___item-price-promotion">
-                                                {{ product.price }}
-                                            </p>
-                                            <p class="products___item-price">{{ product.action_price|floatformat:2 }} <span>BYN</span></p>
+                                        <div class="products___item-price-basket-wrap">
+                                            {% if product.sale.percent != 0 %}
+                                            <div class="products___item-price-wrap">
+                                                <p class="products___item-price-promotion">
+                                                    {{ product.price }}
+                                                </p>
+                                                <div class="products___item-price-currency-wrap">
+                                                    <p class="products___item-price">{{ product.action_price|floatformat:2 }}</p>
+                                                <p class="products___item-currency">
+                                                    BYN
+                                                </p>
+                                                </div>
+                                            </div>
                                             {% else %}
-                                            <p class="products___item-price">{{ product.price }} <span>BYN</span></p>
+                                            <div class="products___item-price-wrap">
+                                                <p class="products___item-price">{{ product.price }}</p>
+                                                <p class="products___item-currency">BYN</p>
+                                            </div>
                                             {% endif %}
+                                        </div>
                                         <div class="products___item-basket">
-                                            <div class="slider__item-basket-text">+</div>
-                                            <div class="slider__item-basket-img">
+                                            <div class="products___item-basket-text">+</div>
+                                            <div class="products___item-basket-img">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     width="20"
@@ -300,9 +285,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="products___item-btn">
-                                        Купить в 1 клик
-                                    </button>
+                                    {% if product.sale.percent != 0 %}
+                                    <div class="products___item-promotion">
+                                        Акция
+                                    </div>
+                                    {% endif %}
+                                    <button type="button" class="products___item-btn">Купить в 1 клик</button>
                                 </article>
                             </li>
                             {% endfor %}
@@ -332,11 +320,7 @@
                                 <p>Предыдущая</p>
                             </div>
                             <ul class="products__pagination-list">
-                                <li
-                                    class="products__pagination-list-item products__pagination-list-item-active"
-                                >
-                                    1
-                                </li>
+                                <li class="products__pagination-list-item products__pagination-list-item-active">1</li>
                                 <li class="products__pagination-list-item">2</li>
                                 <li class="products__pagination-list-item">3</li>
                             </ul>
@@ -411,20 +395,41 @@
                         </div>
                         <div class="popular__goods-slider slider">
                             {% for product in popular_products %}
-                            <article class="slider__item">
+                            <article class="slider__item" data-id="{{product.id}}">
                                 <div class="slider__item-img">
-                                    <img src="{{ product.image_prev.url }}" alt="item" />
+                                    <img src="{{product.image_prev.url}}" alt="item" />
                                 </div>
                                 <a href="{% url 'details' product.id %}" class="slider__item-title">
                                     {{product.title}}
                                 </a>
                                 <ul class="slider__item-weight-list">
                                     {% for count in product.countitemproduct_set.all %}
-                                    <li class="slider__item-weight-list-item">{{ count }}</li>
+                                    <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
+                                        {{count.value }} <span>{{count.unit}}.</span>
+                                    </li>
                                     {% endfor %}
                                 </ul>
                                 <div class="slider__item-price-basket">
-                                    <p class="slider__item-price">{{ product.price }}</p>
+                                    <div class="slider__item-price-basket-wrap">
+                                        {% if product.sale.percent != 0 %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider___item-price-promotion">
+                                                {{ product.price }}
+                                            </p>
+                                            <div class="slider__item-price-currency-wrap">
+                                                <p class="slider___item-price">{{ product.action_price|floatformat:2 }}</p>
+                                            <p class="slider__item-currency">
+                                                BYN
+                                            </p>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="slider__item-price-wrap">
+                                            <p class="slider__item-price">{{ product.price }}</p>
+                                            <p class="slider__item-currency">BYN</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                     <div class="slider__item-basket">
                                         <div class="slider__item-basket-text">+</div>
                                         <div class="slider__item-basket-img">
@@ -445,6 +450,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% if product.sale.percent != 0 %}
+                                <div class="slider__item-promotion">
+                                    Акция
+                                </div>
+                                {% endif %}
                                 <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                             </article>
                             {% endfor %}
@@ -556,4 +566,9 @@
         </section>
     </div>
 </main>
+{% endblock %} {% block js %}
+<script async defer  src="{% static 'js/catalog_page/animal.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/select.js' %}"></script>
+<script async defer src="{% static 'js/catalog_page/checkbox.js' %}"></script>
 {% endblock %}
