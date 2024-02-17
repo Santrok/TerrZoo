@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                         if (li.children[0].dataset.category) {
                             // проверку нужно добавить на удаление из строки category_id, когда чекбокс отжимаешь или переходишь на другой товар, без дополнителного выбора
-                            queryStr += `category_id=${li.children[0].dataset.category}&`;
+                            queryStr += `category_id__in=${li.children[0].dataset.category}&`;
                         }
                         if (li.children[0].dataset.brand) {
                             count += 1;

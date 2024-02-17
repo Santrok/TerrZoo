@@ -43,10 +43,6 @@ class ProductSerializer(serializers.ModelSerializer):
                   "countitemproduct_set"]
         depth = 1
 
-class CountItemProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CountItemProduct
-        fields = '__all__'
 
 
 class ArticleSerializer(serializers.ModelSerializer):

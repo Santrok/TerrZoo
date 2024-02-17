@@ -303,6 +303,15 @@ def get_promotions_page(request):
                   context=context)
 
 
+def get_placing_an_order_page(request):
+    '''Отдает страничку оформления заказов'''
+    context = {}
+
+    return render(request=request,
+                  template_name='placing_an_order.html',
+                  context=context
+    )
+
 def get_profile_page(request):
     """Личный кабинет"""
     orders = Order.objects.prefetch_related('product_set', 'pay_card')
