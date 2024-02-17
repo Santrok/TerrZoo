@@ -93,7 +93,8 @@ def get_page_catalog_by_animal(request, animal_id):
                "popular_products": popular_products,
                "articals": articles_on_animals,
                "category_products": st,
-               "brands": brands_by_animals}
+               "brands": brands_by_animals
+    }
     return render(request=request,
                   template_name='catalog_by_animal.html',
                   context=context)
@@ -314,7 +315,7 @@ def get_placing_an_order_page(request):
 
 def get_profile_page(request):
     """Личный кабинет"""
-    orders = Order.objects.prefetch_related('product_set', 'pay_card')
+    orders = Order.objects.prefetch_related('products', 'pay_card').filter(user=request.user.id)
 
     context = {"orders": orders}
 
