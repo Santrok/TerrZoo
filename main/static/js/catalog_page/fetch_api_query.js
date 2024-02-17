@@ -2,10 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectActive = document.querySelector(".catalog__sort-select-active");
     const eventItem = document.querySelectorAll(".catalog__filter-mob li");
     const filterInner = document.querySelectorAll(".filter__inner");
-    let activAnimalId = ""
-//    let animal__in="animal"
-    if(document.querySelector(".filter__item-active")){
-     activAnimalId = `animal__in=${document.querySelector(".filter__item-active").dataset.animal}`
+    let activAnimalId = "";
+    if (document.querySelector(".filter__item-active")) {
+        activAnimalId = `animal__in=${document.querySelector(".filter__item-active").dataset.animal}`;
     }
 
     for (let i of filterInner) {
@@ -15,19 +14,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let queryStr = "";
-    let queryStr_2 =""
+    let queryStr_2 = "";
     for (let i of eventItem) {
         i.addEventListener("change", (e) => {
             if (e.currentTarget.children[2]) {
                 for (let i of e.currentTarget.children[2].children) {
                     i.children[1].children[0].classList.add("filter__item-active-aside");
                 }
-                e.currentTarget.classList.add('active')
-                if(document.querySelectorAll('.active').length > 1) {
-                    for(let i of document.querySelectorAll('.active')[0].children[2].children) {
-                        i.children[1].children[0].classList.remove('filter__item-active-aside')
+                e.currentTarget.classList.add("active");
+                if (document.querySelectorAll(".active").length > 1) {
+                    for (let i of document.querySelectorAll(".active")[0].children[2].children) {
+                        i.children[1].children[0].classList.remove("filter__item-active-aside");
                     }
-                    e.currentTarget.classList.remove('active')
+                    e.currentTarget.classList.remove("active");
                 }
             }
             const eventItem1 = document.querySelectorAll(".catalog__filter-mob li");
@@ -60,13 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         el.classList.remove("filter__item-active-aside");
                         queryStr = "";
                     });
-                }                
+                }
             }
-
-
-            let order = document.querySelector(".catalog__sort-select-active")
-            let order_str =document.querySelector(".catalog__sort-select-active").dataset.order
-            console.log(`http://127.0.0.1:8000/api/get_products_filter/${queryStr}order=${order_str}&animal_id=${activAnimalId}`)
+            let order_str = document.querySelector(".catalog__sort-select-active").dataset.order;
+            console.log(
+                `http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`
+            );
             fetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`)
                 .then((resp) => resp.json())
                 .then((data) => {
@@ -156,29 +154,29 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     }
                 });
-            queryStr_2=queryStr
+            queryStr_2 = queryStr;
             queryStr = "";
         });
     }
 
-
-     let order_n = document.querySelector(".catalog__sort-select-active")
- let order_str_n =document.querySelector(".catalog__sort-select-active").dataset.order
-let order = document.querySelector(".catalog__sort-select-list")
-    order.addEventListener("click",(e)=>{
-
-    console.log(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${e.target.dataset.order}`)
-    fetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr_2}order=${e.target.dataset.order}&${activAnimalId}`)
-                .then((resp) => resp.json())
-                .then((data) => {
-                    // console.log(data.results);
-                    if (data) {
-                        const productList = document.querySelector(".products__list");
-                        productList.innerHTML = "";
-                        for (let i of data.results) {
-                            const li = document.createElement("li");
-                            li.classList.add("product__list-item");
-                            li.innerHTML = `
+    let order_n = document.querySelector(".catalog__sort-select-active");
+    let order_str_n = document.querySelector(".catalog__sort-select-active").dataset.order;
+    let order = document.querySelector(".catalog__sort-select-list");
+    order.addEventListener("click", (e) => {
+        console.log(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${e.target.dataset.order}`);
+        fetch(
+            `http://127.0.0.1:8000/api/get_products_filter/?${queryStr_2}order=${e.target.dataset.order}&${activAnimalId}`
+        )
+            .then((resp) => resp.json())
+            .then((data) => {
+                // console.log(data.results);
+                if (data) {
+                    const productList = document.querySelector(".products__list");
+                    productList.innerHTML = "";
+                    for (let i of data.results) {
+                        const li = document.createElement("li");
+                        li.classList.add("product__list-item");
+                        li.innerHTML = `
                             <article class="products___item" data-id="${i.id}">
                             <div class="products___item-img">
                                 <img src="${i.image_prev}" alt="item" />
@@ -253,15 +251,11 @@ let order = document.querySelector(".catalog__sort-select-list")
                             <button type="button" class="products___item-btn">Купить в 1 клик</button>
                         </article>
                         `;
-                            productList.append(li);
-                        }
+                        productList.append(li);
                     }
-                });
+                }
+            });
 
-//      queryStr_2=""
-    })
-
-
-
+        //      queryStr_2=""
+    });
 });
-
