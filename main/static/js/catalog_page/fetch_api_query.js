@@ -4,6 +4,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterIner = document.querySelectorAll('.filter__inner');
 
 
+    const filterInner = document.querySelectorAll('.filter__inner');
+    let k = document.querySelectorAll(".johan")
+
+
+
+function fn(e){
+
+    console.log(e.currentTarget)
+//    e.currentTarget.children[0].classList.toggle("filter__brand-active")
+  }
+
+
+    for(let i of filterInner) {
+        i.addEventListener('click', fn)
+        console.log(i)
+    }
     let queryStr = "?";
     for (let i of eventItem) {
         i.addEventListener("change", (e) => {
@@ -23,19 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
                             count += 1;
                             queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
                         }
-                        if(e.currentTarget.children[2]) {
-                            for(let j = 0;  j < e.currentTarget.children[2].children[0].children.length; j++) {
-                                e.currentTarget.children[2].children[j].children[0].setAttribute('checked', true)
-                            }
-                        }else {
-                            const filterIner = document.querySelectorAll('.filter__inner')
-                            for(let i of filterIner) {
-                                console.log(i.value);
-                                i.removeAttribute('checked')
-                            }
-                        }
+//                        if(e.currentTarget.children[2]) {
+//                            for(let j = 0;  j < e.currentTarget.children[2].children[0].children.length; j++) {
+//                                e.currentTarget.children[2].children[j].children[0].setAttribute('checked', true)
+//                            }
+//                        }else {
+//                            const filterIner = document.querySelectorAll('.filter__inner')
+//                            for(let i of filterIner) {
+//                                console.log(i.value);
+//                                i.removeAttribute('checked')
+//                            }
+//                        }
                     }
-                    // console.log(queryStr)
+                     console.log(queryStr)
                 }
 
                 // таска: собрать с инпута сортировки данные, ключ order_by=
