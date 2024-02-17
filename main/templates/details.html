@@ -1,6 +1,7 @@
 {% extends 'base_template.html' %}
 
 {% load static %}
+{% load templatetag %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/details_page/style.css' %}"/>
@@ -100,9 +101,15 @@
                                         <p class="about__product-item-weight">
                                             {{ p.value }} <span>{{ p.unit }}</span>
                                         </p>
+                                        {% if product.sale.percent != 0 %}
                                         <p class="about__product-item-price">
-                                                                                        {{ p }} <span>BYN</span>
+                                            {% total_price p.percent product.action_price %} <span>BYN</span>
                                         </p>
+                                        {% else %}
+                                        <p class="about__product-item-price">
+                                            {% total_price p.percent product.price %} <span>BYN</span>
+                                        </p>
+                                        {% endif %}
                                     </li>
                                     {% endfor %}
                                 </ul>
