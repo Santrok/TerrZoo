@@ -33,16 +33,12 @@ class CountItemProductSerializer(serializers.ModelSerializer):
         model = CountItemProduct
         fields = ["id", "percent", "value", "unit"]
 
+
 class ProductSerializer(serializers.ModelSerializer):
-    countitemproduct_set = CountItemProductSerializer(many=True)
     class Meta:
         model = Product
-        fields = ["id", "title", "image_prev", "price", "description", "key_features",
-                  "animal", "compound", "guaranteed_analysis", "nutritional_supplements",
-                  'quantity', "category", "brand", "sale", "order", "sales_counter",
-                  "countitemproduct_set"]
+        fields = "__all__"
         depth = 1
-
 
 
 class ArticleSerializer(serializers.ModelSerializer):

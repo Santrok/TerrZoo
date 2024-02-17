@@ -104,10 +104,10 @@ class Product(models.Model):
                                   verbose_name="Товар на акции",
                                   blank=True,
                                   null=True)
-    order = models.ManyToManyField("Order",
-                                   verbose_name="Заказ",
-                                   blank=True,
-                                   null=True)
+    countitemproduct = models.ManyToManyField("CountItemProduct",
+                                              verbose_name="Количество товара",
+                                              blank=True,
+                                              null=True)
     sales_counter = models.PositiveIntegerField("Сколько раз продан")
 
     def __str__(self):
@@ -156,11 +156,9 @@ class CountItemProduct(models.Model):
 
     percent = models.PositiveIntegerField("Процент от "
                                           "стоимости единицы товара")
+    value = models.FloatField("Количество массы")
     unit = models.CharField("Единица измерения",
                             max_length=255)
-    value = models.FloatField("Количество массы")
-    product = models.ManyToManyField("Product",
-                                verbose_name="Продукт")
 
     def __str__(self):
         return f"{self.value} {self.unit}."
@@ -297,6 +295,10 @@ class Order(models.Model):
                                                unique=True)
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
+    products = models.ManyToManyField("Product",
+                                       verbose_name="Продукты",
+                                       blank=True,
+                                       null=True)
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name="Пользователь")

@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ${i.title}
                             </a>
                             <ul class="slider__item-weight-list">
-                                {% for count in product.countitemproduct_set.all %}
-                                    ${i.countitemproduct_set?.map(item => `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`).join('')} 
+                                {% for count in product.countitemproduct.all %}
+                                    ${i.countitemproduct?.map(item => `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`).join('')} 
                                 {% endfor %}
                             </ul>
                             <div class="products___item-price-basket">

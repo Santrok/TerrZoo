@@ -179,7 +179,7 @@
                                     {{card.title}}
                                 </a>
                                 <ul class="slider__item-weight-list">
-                                    {% for count in card.countitemproduct_set.all %}
+                                    {% for count in card.countitemproduct.all %}
                                     <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
                                         {{count.value }} <span>{{count.unit}}.</span>
                                     </li>

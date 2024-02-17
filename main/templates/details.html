@@ -95,7 +95,7 @@
                                     Варианты фасовки. Выберите удобный вес
                                 </h3>
                                 <ul class="about__product-weight-list">
-                                    {% for p in product.countitemproduct_set.all %}
+                                    {% for p in product.countitemproduct.all %}
                                     <li class="about__product-weight-list-item">
                                         <p class="about__product-item-weight">
                                             {{ p.value }} <span>{{ p.unit }}</span>
@@ -412,7 +412,7 @@
                                     {{card.title}}
                                 </a>
                                 <ul class="slider__item-weight-list">
-                                    {% for count in card.countitemproduct_set.all %}
+                                    {% for count in card.countitemproduct.all %}
                                     <li class="slider__item-weight-list-item">
                                         {{count.value}} <span>{{count.unit}}.</span>
                                     </li>
@@ -528,7 +528,7 @@
                                     {{card_joint.title}}
                                 </a>
                                 <ul class="slider__item-weight-list">
-                                    {% for count in card_joint.countitemproduct_set.all%}
+                                    {% for count in card_joint.countitemproduct.all%}
                                     <li class="slider__item-weight-list-item">
                                         {{count.value}} <span>{{count.unit}}.</span>
                                     </li>
