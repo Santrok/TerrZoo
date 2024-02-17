@@ -1,22 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     const selectActive = document.querySelector('.catalog__sort-select-active')
     const eventItem = document.querySelectorAll(".catalog__filter-mob li");
-    const filterIner = document.querySelectorAll('.filter__inner');
+    const filterInner = document.querySelectorAll('.filter__inner');
+    let k = document.querySelectorAll(".johan")
 
-    console.log(filterIner);
 
-    for(let i of filterIner) {
-        i.addEventListener('click', (e) => {
-            console.log();
-            if(e.currentTarget.children[0].className === 'ЖОПА') {
-                e.currentTarget.children[0].className = 'НЕТУ ЖОПЫ'
-            }else{
-                e.currentTarget.children[0].className = 'ЖОПА'
-            }
-            // if(e.currentTarget.children[0].className === 'НЕТУ ЖОПЫ') {
-            //     e.currentTarget.children[0].className = 'ЖОПА'
-            // }
-        })
+
+function fn(e){
+
+    console.log(e.currentTarget)
+//    e.currentTarget.children[0].classList.toggle("filter__brand-active")
+  }
+
+
+    for(let i of filterInner) {
+        i.addEventListener('click', fn)
+        console.log(i)
     }
     let queryStr = "?";
     for (let i of eventItem) {
@@ -37,19 +36,19 @@ document.addEventListener("DOMContentLoaded", () => {
                             count += 1;
                             queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
                         }
-                        if(e.currentTarget.children[2]) {
-                            for(let j = 0;  j < e.currentTarget.children[2].children[0].children.length; j++) {
-                                e.currentTarget.children[2].children[j].children[0].setAttribute('checked', true)
-                            }
-                        }else {
-                            const filterIner = document.querySelectorAll('.filter__inner')
-                            for(let i of filterIner) {
-                                console.log(i.value);
-                                i.removeAttribute('checked')
-                            }
-                        }
+//                        if(e.currentTarget.children[2]) {
+//                            for(let j = 0;  j < e.currentTarget.children[2].children[0].children.length; j++) {
+//                                e.currentTarget.children[2].children[j].children[0].setAttribute('checked', true)
+//                            }
+//                        }else {
+//                            const filterIner = document.querySelectorAll('.filter__inner')
+//                            for(let i of filterIner) {
+//                                console.log(i.value);
+//                                i.removeAttribute('checked')
+//                            }
+//                        }
                     }
-                    // console.log(queryStr)
+                     console.log(queryStr)
                 }
 
                 // таска: собрать с инпута сортировки данные, ключ order_by=
