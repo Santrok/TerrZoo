@@ -173,7 +173,7 @@
                                         data-category="{{node.id}}"
                                     />
                                     <label for="fodder{{node.id}}" class="filter__type-list-item-label" >
-                                        <div class="" id="{{node.id}}" ></div>
+                                        <div class="checked__div" data-category="{{node.id}}"></div>
                                         <p style="padding: 1px">{{ node.name }}</p>
                                     </label>
                                     {% if not node.is_leaf_node %}

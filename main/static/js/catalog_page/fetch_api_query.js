@@ -1,28 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const selectActive = document.querySelector('.catalog__sort-select-active')
+    const selectActive = document.querySelector(".catalog__sort-select-active");
     const eventItem = document.querySelectorAll(".catalog__filter-mob li");
-    const filterIner = document.querySelectorAll('.filter__inner');
+    const filterInner = document.querySelectorAll(".filter__inner");
 
-
-    const filterInner = document.querySelectorAll('.filter__inner');
-    let k = document.querySelectorAll(".johan")
-
-
-
-function fn(e){
-
-    console.log(e.currentTarget)
-//    e.currentTarget.children[0].classList.toggle("filter__brand-active")
-  }
-
-
-    for(let i of filterInner) {
-        i.addEventListener('click', fn)
-        console.log(i)
-    }
+    // for (let i of filterInner) {
+    //     i.addEventListener("click", (e) => {
+    //         e.currentTarget.children[0].classList.toggle("filter__brand-active");
+    //     });
+    // }
     let queryStr = "?";
     for (let i of eventItem) {
         i.addEventListener("change", (e) => {
+            console.log(!e.currentTarget.children[1].children[0].classList.contains("filter__brand-active"))
+            // if(e.currentTarget.children[0])
+            if(!e.currentTarget.children[1].children[0].classList.contains("filter__brand-active")){
+                // document.querySelectorAll('.filter__brand-active').forEach(item => item.classList.remove('filter__brand-active'))
+            }
             const eventItem1 = document.querySelectorAll(".catalog__filter-mob li");
             if (e.target.checked == true || e.target.checked == false) {
                 let count = 0;
@@ -32,26 +25,14 @@ function fn(e){
                             queryStr += `sale__percent__gt=${li.children[0].dataset.sale}&`;
                         }
                         if (li.children[0].dataset.category) {
-                            // проверку нужно добавить на удаление из строки category_id, когда чекбокс отжимаешь или переходишь на другой товар, без дополнителного выбора
                             queryStr += `category_id__in=${li.children[0].dataset.category}&`;
                         }
                         if (li.children[0].dataset.brand) {
                             count += 1;
                             queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
                         }
-//                        if(e.currentTarget.children[2]) {
-//                            for(let j = 0;  j < e.currentTarget.children[2].children[0].children.length; j++) {
-//                                e.currentTarget.children[2].children[j].children[0].setAttribute('checked', true)
-//                            }
-//                        }else {
-//                            const filterIner = document.querySelectorAll('.filter__inner')
-//                            for(let i of filterIner) {
-//                                console.log(i.value);
-//                                i.removeAttribute('checked')
-//                            }
-//                        }
                     }
-                     console.log(queryStr)
+                    console.log(queryStr);
                 }
 
                 // таска: собрать с инпута сортировки данные, ключ order_by=
@@ -77,13 +58,19 @@ function fn(e){
                             </a>
                             <ul class="slider__item-weight-list">
                                 {% for count in product.countitemproduct.all %}
-                                    ${i.countitemproduct?.map(item => `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`).join('')} 
+                                    ${i.countitemproduct
+                                        ?.map(
+                                            (item) =>
+                                                `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`
+                                        )
+                                        .join("")} 
                                 {% endfor %}
                             </ul>
                             <div class="products___item-price-basket">
                                 <div class="products___item-price-basket-wrap">
-                                    ${i.sale?.percent ?
-                                `<div class="products___item-price-wrap">
+                                    ${
+                                        i.sale?.percent
+                                            ? `<div class="products___item-price-wrap">
                                     <p class="products___item-price-promotion">
                                         ${i.sale.percent}
                                     </p>
@@ -93,16 +80,18 @@ function fn(e){
                                         BYN
                                     </p>
                                     </div>
-                                </div>` 
-                                : ''}
-                                    ${i.sale?.percent ?
-                                        `` 
-                                        : 
-                                `<div class="products___item-price-wrap">
+                                </div>`
+                                            : ""
+                                    }
+                                    ${
+                                        i.sale?.percent
+                                            ? ``
+                                            : `<div class="products___item-price-wrap">
                                     <p class="products___item-price">${i.price}</p>
                                     <p class="products___item-currency">BYN</p>
                                 </div>
-                                `}
+                                `
+                                    }
                                 </div>
                                 <div class="products___item-basket">
                                     <div class="products___item-basket-text">+</div>
@@ -124,12 +113,13 @@ function fn(e){
                                     </div>
                                 </div>
                             </div>
-                            ${i.sale?.percent 
-                            ? 
-                            `<div class="products___item-promotion">
+                            ${
+                                i.sale?.percent
+                                    ? `<div class="products___item-promotion">
                                 Акция
-                            </div>` :
-                            ''}
+                            </div>`
+                                    : ""
+                            }
                             <button type="button" class="products___item-btn">Купить в 1 клик</button>
                         </article>
                         `;
