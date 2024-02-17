@@ -114,9 +114,10 @@ class Product(models.Model):
         return f"{self.title}  id:{self.id}"
 
     def action_price(self):
-        """Метод расчета цены в период
+        """Метод для расчета цены в период
          акции в процентном соотношении"""
-        return (100 - self.sale.percent)/100 * float(self.price)
+        res = (100 - self.sale.percent)/100 * float(self.price)
+        return res
 
     class Meta:
         verbose_name = "Продукт"
