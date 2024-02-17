@@ -415,6 +415,12 @@
     margin-bottom: 8px;
 }
 
+
+.filter__brand-active {
+    background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
+    border: none;
+}
+
 .brand__search {
     display: flex;
     position: relative;

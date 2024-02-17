@@ -1,6 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
     const selectActive = document.querySelector('.catalog__sort-select-active')
     const eventItem = document.querySelectorAll(".catalog__filter-mob li");
+    const filterIner = document.querySelectorAll('.filter__inner');
+
+    console.log(filterIner);
+
+    for(let i of filterIner) {
+        i.addEventListener('click', (e) => {
+            console.log();
+            if(e.currentTarget.children[0].className === 'ЖОПА') {
+                e.currentTarget.children[0].className = 'НЕТУ ЖОПЫ'
+            }else{
+                e.currentTarget.children[0].className = 'ЖОПА'
+            }
+            // if(e.currentTarget.children[0].className === 'НЕТУ ЖОПЫ') {
+            //     e.currentTarget.children[0].className = 'ЖОПА'
+            // }
+        })
+    }
     let queryStr = "?";
     for (let i of eventItem) {
         i.addEventListener("change", (e) => {
@@ -20,14 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
                             count += 1;
                             queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
                         }
+                        if(e.currentTarget.children[2]) {
+                            for(let j = 0;  j < e.currentTarget.children[2].children[0].children.length; j++) {
+                                e.currentTarget.children[2].children[j].children[0].setAttribute('checked', true)
+                            }
+                        }else {
+                            const filterIner = document.querySelectorAll('.filter__inner')
+                            for(let i of filterIner) {
+                                console.log(i.value);
+                                i.removeAttribute('checked')
+                            }
+                        }
                     }
-                    console.log(queryStr);
-                    // console.log(selectActive.textContent);
-                    // console.log(queryStr);
-                    // console.log(queryStr.split("&"));
-                    // for(let i of queryStr.split("&")){
-                    //     console.log(i);
-                    // }
+                    // console.log(queryStr)
                 }
 
                 // таска: собрать с инпута сортировки данные, ключ order_by=
@@ -36,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch(`http://127.0.0.1:8000/api/get_products_filter/${queryStr}`)
                 .then((resp) => resp.json())
                 .then((data) => {
-                    console.log(data.results);
+                    // console.log(data.results);
                     if (data) {
                         const productList = document.querySelector(".products__list");
                         productList.innerHTML = "";
