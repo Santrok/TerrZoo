@@ -386,11 +386,11 @@
 .filter__type-list-item ul {
     padding-left: 20px;
     margin-top: 5px;
-    display: none;
+    /* display: none; */
 }
-.filter__type-list-item-hide:checked ~ .filter__type-list {
+/* .filter__type-list-item-hide:checked ~ .filter__type-list {
     display: flex;
-}
+} */
 
 .filter__type-list-item-hide:checked ~ .filter__type-list-item-label div {
     border: 2px solid rgb(0, 128, 96);
