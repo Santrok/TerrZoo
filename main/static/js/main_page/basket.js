@@ -192,9 +192,9 @@ let obsever = new MutationObserver(() => {
     });
 })
 
-obsever.observe(productsList,{
+productsList ? obsever.observe(productsList,{
     childList: true,
-})
+}) : ''
 
 productItemBtn.forEach((item) => {
     item.addEventListener("click", (event) => {
