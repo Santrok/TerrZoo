@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -7,7 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.generics import ListAPIView
 
 from config import settings
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order
+from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -305,9 +307,54 @@ def get_promotions_page(request):
 
 def get_placing_an_order_page(request):
     '''Отдает страничку оформления заказов'''
+    user = request.user
     if request.method == "POST":
-        # print(request.body)
-        print(request.POST)
+        if user.is_authenticated:
+            pay_card = (f"{request.POST.get('num_paycard_1_4')}"
+                        f"{request.POST.get('num_paycard_5_8')}"
+                        f"{request.POST.get('num_paycard_9_12')}"
+                        f"{request.POST.get('num_paycard_13_16')}")
+            if len(pay_card) < 16:
+                date_card = request.POST.get('date')
+                cvc = request.POST.get('CVV')
+                card_zapros = PayCard.objects.filter(card_number=pay_card,
+                                                     cvc=cvc,
+                                                     expiration_date=date_card,
+                                                     user=user)
+                if card_zapros:
+                    json_obj = json.loads(request.POST.get('basket'))
+                    product_list_id = []
+                    for i in json_obj:
+                        product_list_id.append(i.get('id'))
+                    product_list = Product.objects.filter(id__in=product_list_id)
+                    last_order = Order.objects.last()
+                    order = Order(order_number=last_order.id + 1,
+                                  user=user,
+                                  check_order=f'/media/cheks/chek{user.id}.txt',
+                                  total_price=0,
+                                  pay_card=card_zapros[0])
+                    order.save()
+                    for i in product_list:
+                        order.products.add(i)
+                else:
+                    print('вернуть ошибку')
+            else:
+                json_obj = json.loads(request.POST.get('basket'))
+                product_list_id = []
+                for i in json_obj:
+                    product_list_id.append(i.get('id'))
+                product_list = Product.objects.filter(id__in=product_list_id)
+                last_order = Order.objects.last()
+                order = Order(order_number=last_order.id + 1,
+                              user=user,
+                              check_order=f'/media/cheks/chek{user.id}.txt',
+                              total_price=0)
+                order.save()
+                for i in product_list:
+                    order.products.add(i)
+
+
+
     context = {}
 
     return render(request=request,
