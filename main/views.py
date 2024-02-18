@@ -77,16 +77,15 @@ def get_page_catalog_by_animal(request, animal_id):
 
     c = set(list(category_by_animals))
 
-    j =[]
+    j = []
     for i in list(c):
         print(i.get_family())
         for p in i.get_family():
-           j.append(p)
+            j.append(p)
     st = list(set(j))
-    print(list(st),"+++++++++++++++++++++++++++++++")
+    print(list(st), "+++++++++++++++++++++++++++++++")
     print(category_by_animals)
     brands_by_animals = Brand.objects.filter()
-
 
     context = {"animals": animals,
                "products": products,
@@ -94,7 +93,7 @@ def get_page_catalog_by_animal(request, animal_id):
                "articals": articles_on_animals,
                "category_products": st,
                "brands": brands_by_animals
-    }
+               }
     return render(request=request,
                   template_name='catalog_by_animal.html',
                   context=context)
@@ -183,7 +182,7 @@ def registration_view(request):
                       settings.EMAIL_HOST_USER,
                       [user.email],
                       fail_silently=False)
-           
+
             return redirect('confirm_email')
         else:
             print(register_form.errors)
@@ -306,12 +305,16 @@ def get_promotions_page(request):
 
 def get_placing_an_order_page(request):
     '''Отдает страничку оформления заказов'''
+    if request.method == "POST":
+        # print(request.body)
+        print(request.POST)
     context = {}
 
     return render(request=request,
                   template_name='placing_an_order.html',
                   context=context
-    )
+                  )
+
 
 def get_profile_page(request):
     """Личный кабинет"""
@@ -322,4 +325,3 @@ def get_profile_page(request):
     return render(request=request,
                   template_name='profile.html',
                   context=context)
-
