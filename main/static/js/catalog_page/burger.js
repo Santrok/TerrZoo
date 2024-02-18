@@ -2,6 +2,7 @@ const burger = document.querySelector('.header__bottom-burger');
 const burgerBlock = document.querySelector('.header__up')
 const catalogFilter = document.querySelector('.catalog__filter')
 const filter = document.querySelector('.catalog__filter-mob')
+console.log(filter);
 
 
 burger.addEventListener('click', () => {
@@ -16,7 +17,10 @@ burger.addEventListener('click', () => {
     }
 })
 
+
+
 catalogFilter.addEventListener('click', () => {
+    console.log(11);
     filter.classList.add('catalog__filter-active')
     burger.classList.add('header__bottom-burger-active')
     document.body.style.overflow = 'hidden';

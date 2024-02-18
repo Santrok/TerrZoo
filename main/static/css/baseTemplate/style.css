@@ -2,11 +2,11 @@
     max-width: 1200px;
     padding: 0 10px;
     margin: 0 auto;
-    position: relative;
 }
 
 @media (min-width: 992px) {
     .container {
+        position: relative;
         padding: 0 15px;
     }
 }
@@ -28,7 +28,7 @@
     align-items: center;
     gap: 6px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .header__logo-text {
