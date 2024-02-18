@@ -333,7 +333,7 @@ def get_placing_an_order_page(request):
                         last_order = Order.objects.last()
                         order = Order(order_number=last_order.id + 1,
                                       user=user,
-                                      check_order=f'/media/cheks/chek{user.id}.txt',
+                                      check_order=f'/media/cheks/check_{last_order.id + 1}.txt',
                                       total_price=request.POST.get('order_price'),
                                       pay_card=card_zapros[0])
                         if card_zapros[0].balance > float(request.POST.get('order_price')):
@@ -382,9 +382,11 @@ def get_placing_an_order_page(request):
 
 def get_profile_page(request):
     """Личный кабинет"""
-    orders = Order.objects.prefetch_related('products', 'pay_card').filter(user=request.user.id)
+    orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
+    pay_cards = PayCard.objects.filter(user=request.user.id)
 
-    context = {"orders": orders}
+    context = {"orders": orders,
+               "pay_cards": pay_cards}
 
     return render(request=request,
                   template_name='profile.html',
