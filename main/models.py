@@ -309,7 +309,9 @@ class Order(models.Model):
                                       decimal_places=2)
     pay_card = models.ForeignKey("PayCard",
                                  on_delete=models.CASCADE,
-                                 verbose_name="Карта")
+                                 verbose_name="Карта",
+                                 blank=True,
+                                 null=True)
 
     def __str__(self):
         return f"{self.user.username} {self.order_number}"
@@ -344,6 +346,9 @@ class PayCard(models.Model):
                                    max_length=16,
                                    unique=True)
     cvc = models.PositiveIntegerField("CVC")
+    expiration_date = models.CharField("Дата окончания срока действия карты",
+                                       max_length=5,
+                                       default='')
     balance = models.DecimalField("Баланс на карте",
                                   max_digits=100,
                                   decimal_places=2,
