@@ -135,7 +135,7 @@ function addBasketItemToHover() {
                 ${i.weight.map(
                     (item) =>
                         `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
-                )}}
+                )}
             </ul>
         </div>
         <div class="header__bottom-basket-hover-list-item-quantity">
