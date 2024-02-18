@@ -308,6 +308,7 @@ def get_placing_an_order_page(request):
     if request.method == "POST":
         # print(request.body)
         print(request.POST)
+
     context = {}
 
     return render(request=request,
