@@ -310,11 +310,12 @@ def get_placing_an_order_page(request):
     user = request.user
     if request.method == "POST":
         if user.is_authenticated:
-            pay_card = (f"{request.POST.get('num_paycard_1_4')}"
-                        f"{request.POST.get('num_paycard_5_8')}"
-                        f"{request.POST.get('num_paycard_9_12')}"
-                        f"{request.POST.get('num_paycard_13_16')}")
-            if len(pay_card) < 16:
+            pay_card = (f"{request.POST.get('num_paycard_1_4','0')}"
+                        f"{request.POST.get('num_paycard_5_8','0')}"
+                        f"{request.POST.get('num_paycard_9_12','0')}"
+                        f"{request.POST.get('num_paycard_13_16','0')}")
+            print(pay_card,"+++++++++++++")
+            if len(pay_card) == 16:
                 date_card = request.POST.get('date')
                 cvc = request.POST.get('CVV')
                 card_zapros = PayCard.objects.filter(card_number=pay_card,
@@ -331,13 +332,15 @@ def get_placing_an_order_page(request):
                     order = Order(order_number=last_order.id + 1,
                                   user=user,
                                   check_order=f'/media/cheks/chek{user.id}.txt',
-                                  total_price=0,
+                                  total_price=request.POST.get('order_price'),
                                   pay_card=card_zapros[0])
                     order.save()
                     for i in product_list:
                         order.products.add(i)
+                    return JsonResponse({"order_number": order.id})
                 else:
                     print('вернуть ошибку')
+                    return JsonResponse({"error": "Введенные данные не верны"})
             else:
                 json_obj = json.loads(request.POST.get('basket'))
                 product_list_id = []
@@ -348,13 +351,11 @@ def get_placing_an_order_page(request):
                 order = Order(order_number=last_order.id + 1,
                               user=user,
                               check_order=f'/media/cheks/chek{user.id}.txt',
-                              total_price=0)
+                              total_price=request.POST.get('order_price'))
                 order.save()
                 for i in product_list:
                     order.products.add(i)
-
-
-
+                return JsonResponse({"order_number": order.id})
     context = {}
 
     return render(request=request,
