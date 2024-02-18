@@ -7,20 +7,30 @@ document.addEventListener("DOMContentLoaded", () => {
         activAnimalId = `animal__in=${document.querySelector(".filter__item-active").dataset.animal}`;
     }
 
-    for (let i of filterInner) {
-        i.addEventListener("click", (e) => {
-            e.currentTarget.parentElement.children[1].children[0].classList.toggle("filter__item-active-aside");
-        });
-    }
+
 
     let queryStr = "";
     let queryStr_2 = "";
     for (let i of eventItem) {
         i.addEventListener("change", (e) => {
+            e.preventDefault()
             if (e.currentTarget.children[2]) {
                 for (let i of e.currentTarget.children[2].children) {
-                    i.children[1].children[0].classList.add("filter__item-active-aside");
-                }
+                    if (e.target.parentNode?.children[1]?.children[0]?.classList.contains('filter__item-active-aside')) {
+                        e.target.parentNode.children[1].children[0].classList.remove('filter__item-active-aside')
+                        console.log('проверка в if');
+                        break
+                    }else {
+                        if(e.target.parentNode.children[1].children[0] == i.children[1].children[0]){
+                            console.log(e.target.parentNode.children[1].children[0] == i.children[1].children[0], 'проверка в else');
+                            e.target.parentNode.children[1].children[0].classList.add('filter__item-active-aside')
+                            break
+                        }
+                    }
+                    if (e.target.parentNode.children[2]) {
+                        i.children[1].children[0].classList.add(`filter__item-active-aside`);
+                    }
+                }  
                 e.currentTarget.classList.add("active");
                 if (document.querySelectorAll(".active").length > 1) {
                     for (let i of document.querySelectorAll(".active")[0].children[2].children) {
@@ -50,15 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
                         }
                     }
-                }
-                if (
-                    !e.currentTarget.children[2] &&
-                    !e.currentTarget.children[1].classList.contains("brand__list-item-label")
-                ) {
-                    document.querySelectorAll(".filter__item-active-aside").forEach((el) => {
-                        el.classList.remove("filter__item-active-aside");
-                        queryStr = "";
-                    });
                 }
             }
             let order_str = document.querySelector(".catalog__sort-select-active").dataset.order;
@@ -163,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let order_str_n = document.querySelector(".catalog__sort-select-active").dataset.order;
     let order = document.querySelector(".catalog__sort-select-list");
     order.addEventListener("click", (e) => {
-        console.log(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${e.target.dataset.order}`);
+        // console.log(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${e.target.dataset.order}`);
         fetch(
             `http://127.0.0.1:8000/api/get_products_filter/?${queryStr_2}order=${e.target.dataset.order}&${activAnimalId}`
         )
