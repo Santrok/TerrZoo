@@ -18,20 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 for (let i of e.currentTarget.children[2].children) {
                     if (e.target.parentNode?.children[1]?.children[0]?.classList.contains('filter__item-active-aside')) {
                         e.target.parentNode.children[1].children[0].classList.remove('filter__item-active-aside')
-                        console.log('проверка в if');
                         break
                     }else {
                         if(e.target.parentNode.children[1].children[0] == i.children[1].children[0]){
-                            console.log(e.target.parentNode.children[1].children[0] == i.children[1].children[0], 'проверка в else');
                             e.target.parentNode.children[1].children[0].classList.add('filter__item-active-aside')
                             break
                         }
                     }
                     if (e.target.parentNode.children[2]) {
+                        e.currentTarget.classList.add("active");
                         i.children[1].children[0].classList.add(`filter__item-active-aside`);
                     }
                 }  
-                e.currentTarget.classList.add("active");
                 if (document.querySelectorAll(".active").length > 1) {
                     for (let i of document.querySelectorAll(".active")[0].children[2].children) {
                         i.children[1].children[0].classList.remove("filter__item-active-aside");
