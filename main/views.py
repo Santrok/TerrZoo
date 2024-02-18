@@ -310,38 +310,49 @@ def get_placing_an_order_page(request):
     user = request.user
     if request.method == "POST":
         if user.is_authenticated:
-            pay_card = (f"{request.POST.get('num_paycard_1_4','0')}"
-                        f"{request.POST.get('num_paycard_5_8','0')}"
-                        f"{request.POST.get('num_paycard_9_12','0')}"
-                        f"{request.POST.get('num_paycard_13_16','0')}")
-            print(pay_card,"+++++++++++++")
-            if len(pay_card) == 16:
-                date_card = request.POST.get('date')
-                cvc = request.POST.get('CVV')
-                card_zapros = PayCard.objects.filter(card_number=pay_card,
-                                                     cvc=cvc,
-                                                     expiration_date=date_card,
-                                                     user=user)
-                if card_zapros:
-                    json_obj = json.loads(request.POST.get('basket'))
-                    product_list_id = []
-                    for i in json_obj:
-                        product_list_id.append(i.get('id'))
-                    product_list = Product.objects.filter(id__in=product_list_id)
-                    last_order = Order.objects.last()
-                    order = Order(order_number=last_order.id + 1,
-                                  user=user,
-                                  check_order=f'/media/cheks/chek{user.id}.txt',
-                                  total_price=request.POST.get('order_price'),
-                                  pay_card=card_zapros[0])
-                    order.save()
-                    for i in product_list:
-                        order.products.add(i)
-                    return JsonResponse({"order_number": order.id})
+            if request.POST.get('check') == 'pay_online':
+                pay_card = (f"{request.POST.get('num_paycard_1_4','0')}"
+                            f"{request.POST.get('num_paycard_5_8','0')}"
+                            f"{request.POST.get('num_paycard_9_12','0')}"
+                            f"{request.POST.get('num_paycard_13_16','0')}")
+                if len(pay_card) == 16:
+                    date_card = request.POST.get('date','0')
+                    cvc = request.POST.get('CVV')
+                    if not cvc:
+                        cvc = 000
+                    card_zapros = PayCard.objects.filter(card_number=pay_card,
+                                                         cvc=cvc,
+                                                         expiration_date=date_card,
+                                                         user=user)
+                    if card_zapros:
+                        json_obj = json.loads(request.POST.get('basket'))
+                        product_list_id = []
+                        for i in json_obj:
+                            product_list_id.append(i.get('id'))
+                        product_list = Product.objects.filter(id__in=product_list_id)
+                        last_order = Order.objects.last()
+                        order = Order(order_number=last_order.id + 1,
+                                      user=user,
+                                      check_order=f'/media/cheks/chek{user.id}.txt',
+                                      total_price=request.POST.get('order_price'),
+                                      pay_card=card_zapros[0])
+                        if card_zapros[0].balance > float(request.POST.get('order_price')):
+                            card_zapros[0].balance = float(card_zapros[0].balance) - float(request.POST.get('order_price'))
+                            card_zapros[0].save()
+                            order.save()
+                            for i in product_list:
+                                i.sales_counter += 1
+                                i.quantity -= 1
+                                i.save()
+                                order.products.add(i)
+                            return JsonResponse({"order_number": order.id})
+                        else:
+                            return JsonResponse({"error": "Недостаточно средств"})
+                    else:
+                        return JsonResponse({"error": "Введенные данные не верны"})
                 else:
-                    print('вернуть ошибку')
                     return JsonResponse({"error": "Введенные данные не верны"})
-            else:
+            elif request.POST.get('check') == 'cash':
                 json_obj = json.loads(request.POST.get('basket'))
                 product_list_id = []
                 for i in json_obj:
@@ -354,8 +365,13 @@ def get_placing_an_order_page(request):
                               total_price=request.POST.get('order_price'))
                 order.save()
                 for i in product_list:
+                    i.sales_counter += 1
+                    i.quantity -= 1
+                    i.save()
                     order.products.add(i)
                 return JsonResponse({"order_number": order.id})
+            else:
+                return JsonResponse({"error": "Не выбран ни один из способов заказа"})
     context = {}
 
     return render(request=request,
