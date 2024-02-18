@@ -314,7 +314,7 @@ def get_placing_an_order_page(request):
                         f"{request.POST.get('num_paycard_5_8')}"
                         f"{request.POST.get('num_paycard_9_12')}"
                         f"{request.POST.get('num_paycard_13_16')}")
-            if len(pay_card) < 16:
+            if len(pay_card) == 16:
                 date_card = request.POST.get('date')
                 cvc = request.POST.get('CVV')
                 card_zapros = PayCard.objects.filter(card_number=pay_card,
