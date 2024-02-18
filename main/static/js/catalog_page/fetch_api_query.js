@@ -9,9 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let catalogObserver = new MutationObserver((mutations) => {
     activeCollection = document.querySelectorAll(".active");
-    // console.log(activeCollection);
-    // console.log(activeCollection);
-    // console.log(mutations);
   });
   catalogObserver.observe(filterTypeList, {
     childList: true,
@@ -51,9 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if(e.currentTarget !== i){
                 i.childNodes[3].children[0].classList.remove("filter__item-active-aside");
             }
-            console.log(e.currentTarget);
-            console.log(i);
-
           }
         }
         activeCollection[0].classList.remove("active");
