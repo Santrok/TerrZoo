@@ -366,7 +366,7 @@ def get_placing_an_order_page(request):
 
 def get_profile_page(request):
     """Личный кабинет"""
-    orders = Order.objects.prefetch_related('products', 'pay_card').filter(user=request.user.id)
+    orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
 
     context = {"orders": orders}
 
