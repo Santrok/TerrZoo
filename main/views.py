@@ -333,7 +333,7 @@ def get_placing_an_order_page(request):
                         last_order = Order.objects.last()
                         order = Order(order_number=last_order.id + 1,
                                       user=user,
-                                      check_order=f'/media/cheks/chek{user.id}.txt',
+                                      check_order=f'/media/cheks/check_{last_order.id + 1}.txt',
                                       total_price=request.POST.get('order_price'),
                                       pay_card=card_zapros[0])
                         if card_zapros[0].balance > float(request.POST.get('order_price')):
