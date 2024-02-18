@@ -1,79 +1,99 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const selectActive = document.querySelector(".catalog__sort-select-active");
-    const eventItem = document.querySelectorAll(".catalog__filter-mob li");
-    const filterInner = document.querySelectorAll(".filter__inner");
-    let activAnimalId = "";
-    if (document.querySelector(".filter__item-active")) {
-        activAnimalId = `animal__in=${document.querySelector(".filter__item-active").dataset.animal}`;
-    }
+  const eventItem = document.querySelectorAll(".catalog__filter-mob li");
+  const filterTypeList = document.querySelector(".filter__type-list");
+  let activAnimalId = "";
+  if (document.querySelector(".filter__item-active")) {
+    activAnimalId = `animal__in=${document.querySelector(".filter__item-active").dataset.animal}`;
+  }
+  let activeCollection = document.querySelectorAll(".active");
 
+  let catalogObserver = new MutationObserver((mutations) => {
+    activeCollection = document.querySelectorAll(".active");
+    // console.log(activeCollection);
+    // console.log(activeCollection);
+    // console.log(mutations);
+  });
+  catalogObserver.observe(filterTypeList, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+  });
 
-
-    let queryStr = "";
-    let queryStr_2 = "";
-    for (let i of eventItem) {
-        i.addEventListener("change", (e) => {
-            e.preventDefault()
-            if (e.currentTarget.children[2]) {
-                for (let i of e.currentTarget.children[2].children) {
-                    if (e.target.parentNode?.children[1]?.children[0]?.classList.contains('filter__item-active-aside')) {
-                        e.target.parentNode.children[1].children[0].classList.remove('filter__item-active-aside')
-                        break
-                    }else {
-                        if(e.target.parentNode.children[1].children[0] == i.children[1].children[0]){
-                            e.target.parentNode.children[1].children[0].classList.add('filter__item-active-aside')
-                            break
-                        }
-                    }
-                    if (e.target.parentNode.children[2]) {
-                        e.currentTarget.classList.add("active");
-                        i.children[1].children[0].classList.add(`filter__item-active-aside`);
-                    }
-                }  
-                if (document.querySelectorAll(".active").length > 1) {
-                    for (let i of document.querySelectorAll(".active")[0].children[2].children) {
-                        i.children[1].children[0].classList.remove("filter__item-active-aside");
-                    }
-                    e.currentTarget.classList.remove("active");
-                }
+  let queryStr = "";
+  let queryStr_2 = "";
+  for (let i of eventItem) {
+    i.addEventListener("change", (e) => {
+      e.preventDefault();
+      //---- toggle
+      if (e.currentTarget.children[2]) {
+        for (let i of e.currentTarget.children[2].children) {
+          if (e.target.parentNode?.children[1]?.children[0]?.classList.contains("filter__item-active-aside")) {
+            e.target.parentNode.children[1].children[0].classList.remove("filter__item-active-aside");
+            break;
+          } else {
+            if (e.target.parentNode.children[1].children[0] == i.children[1].children[0]) {
+              e.target.parentNode.children[1].children[0].classList.add("filter__item-active-aside");
+              break;
             }
-            const eventItem1 = document.querySelectorAll(".catalog__filter-mob li");
-            if (e.target.checked == true || e.target.checked == false) {
-                let count = 0;
-                for (let li of eventItem1) {
-                    if (li.children[0].checked) {
-                        if (li.children[0].dataset.sale) {
-                            queryStr += `sale__percent__gt=${li.children[0].dataset.sale}&`;
-                        }
-                        if (li.children[0].dataset.category) {
-                            queryStr = ``;
-                            queryStr += `category_id__in=${li.children[0].dataset.category}&`;
-                            let activeCheckbox = document.querySelectorAll(".filter__item-active-aside");
-                            for (let j of activeCheckbox) {
-                                queryStr += `category_id__in=${j.dataset.category}&`;
-                            }
-                        }
-                        if (li.children[0].dataset.brand) {
-                            count += 1;
-                            queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
-                        }
-                    }
-                }
+          }
+          if (e.target.parentNode.children[2]) {
+            i.children[1].children[0].classList.add("filter__item-active-aside");
+          }
+        }
+      }
+      // ---- end toggle
+      // --- start remove children
+      e.currentTarget.classList.add("active");
+      if (activeCollection.length >= 1) {
+        if (activeCollection[0]?.childNodes[5]) {
+            console.log('remove children filter');
+          for (let i of activeCollection[0]?.childNodes[5]?.children) {
+            if(e.currentTarget !== i){
+                i.childNodes[3].children[0].classList.remove("filter__item-active-aside");
             }
-            let order_str = document.querySelector(".catalog__sort-select-active").dataset.order;
-            console.log(
-                `http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`
-            );
-            fetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`)
-                .then((resp) => resp.json())
-                .then((data) => {
-                    if (data) {
-                        const productList = document.querySelector(".products__list");
-                        productList.innerHTML = "";
-                        for (let i of data.results) {
-                            const li = document.createElement("li");
-                            li.classList.add("product__list-item");
-                            li.innerHTML = `
+            console.log(e.currentTarget);
+            console.log(i);
+
+          }
+        }
+        activeCollection[0].classList.remove("active");
+      }
+      // end remove children filter
+      const eventItem1 = document.querySelectorAll(".catalog__filter-mob li");
+      if (e.target.checked == true || e.target.checked == false) {
+        let count = 0;
+        for (let li of eventItem1) {
+          if (li.children[0].checked) {
+            if (li.children[0].dataset.sale) {
+              queryStr += `sale__percent__gt=${li.children[0].dataset.sale}&`;
+            }
+            if (li.children[0].dataset.category) {
+              queryStr = ``;
+              queryStr += `category_id__in=${li.children[0].dataset.category}&`;
+              let activeCheckbox = document.querySelectorAll(".filter__item-active-aside");
+              for (let j of activeCheckbox) {
+                queryStr += `category_id__in=${j.dataset.category}&`;
+              }
+            }
+            if (li.children[0].dataset.brand) {
+              count += 1;
+              queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
+            }
+          }
+        }
+      }
+      let order_str = document.querySelector(".catalog__sort-select-active").dataset.order;
+    //   console.log(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`);
+      fetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`)
+        .then((resp) => resp.json())
+        .then((data) => {
+          if (data) {
+            const productList = document.querySelector(".products__list");
+            productList.innerHTML = "";
+            for (let i of data.results) {
+              const li = document.createElement("li");
+              li.classList.add("product__list-item");
+              li.innerHTML = `
                             <article class="products___item" data-id="${i.id}">
                             <div class="products___item-img">
                                 <img src="${i.image_prev}" alt="item" />
@@ -83,36 +103,36 @@ document.addEventListener("DOMContentLoaded", () => {
                             </a>
                             <ul class="slider__item-weight-list">
                                     ${i.countitemproduct
-                                        ?.map(
-                                            (item) =>
-                                                `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
-                                        )
-                                        .join("")} 
+                                      ?.map(
+                                        (item) =>
+                                          `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
+                                      )
+                                      .join("")} 
                             </ul>
                             <div class="products___item-price-basket">
                                 <div class="products___item-price-basket-wrap">
                                     ${
-                                        i.sale?.percent
-                                            ? `<div class="products___item-price-wrap">
+                                      i.sale?.percent
+                                        ? `<div class="products___item-price-wrap">
                                     <p class="products___item-price-promotion">
                                     ${i.price} BYN
                                     </p>
                                     <div class="products___item-price-currency-wrap">
                                         <p class="products___item-price">${(
-                                            ((100 - i.sale.percent) / 100) *
-                                            parseFloat(i.price)
+                                          ((100 - i.sale.percent) / 100) *
+                                          parseFloat(i.price)
                                         ).toFixed(2)}</p>
                                     <p class="products___item-currency">
                                         BYN
                                     </p>
                                     </div>
                                 </div>`
-                                            : ""
+                                        : ""
                                     }
                                     ${
-                                        i.sale?.percent
-                                            ? ``
-                                            : `<div class="products___item-price-wrap">
+                                      i.sale?.percent
+                                        ? ``
+                                        : `<div class="products___item-price-wrap">
                                     <p class="products___item-price">${i.price}</p>
                                     <p class="products___item-currency">BYN</p>
                                 </div>
@@ -140,42 +160,42 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                             </div>
                             ${
-                                i.sale?.percent
-                                    ? `<div class="products___item-promotion">
+                              i.sale?.percent
+                                ? `<div class="products___item-promotion">
                                 Акция
                             </div>`
-                                    : ""
+                                : ""
                             }
                             <button type="button" class="products___item-btn">Купить в 1 клик</button>
                         </article>
                         `;
-                            productList.append(li);
-                        }
-                    }
-                });
-            queryStr_2 = queryStr;
-            queryStr = "";
+              productList.append(li);
+            }
+          }
         });
-    }
+      queryStr_2 = queryStr;
+      queryStr = "";
+    });
+  }
 
-    let order_n = document.querySelector(".catalog__sort-select-active");
-    let order_str_n = document.querySelector(".catalog__sort-select-active").dataset.order;
-    let order = document.querySelector(".catalog__sort-select-list");
-    order.addEventListener("click", (e) => {
-        // console.log(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${e.target.dataset.order}`);
-        fetch(
-            `http://127.0.0.1:8000/api/get_products_filter/?${queryStr_2}order=${e.target.dataset.order}&${activAnimalId}`
-        )
-            .then((resp) => resp.json())
-            .then((data) => {
-                // console.log(data.results);
-                if (data) {
-                    const productList = document.querySelector(".products__list");
-                    productList.innerHTML = "";
-                    for (let i of data.results) {
-                        const li = document.createElement("li");
-                        li.classList.add("product__list-item");
-                        li.innerHTML = `
+  let order_n = document.querySelector(".catalog__sort-select-active");
+  let order_str_n = document.querySelector(".catalog__sort-select-active").dataset.order;
+  let order = document.querySelector(".catalog__sort-select-list");
+  order.addEventListener("click", (e) => {
+    // console.log(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${e.target.dataset.order}`);
+    fetch(
+      `http://127.0.0.1:8000/api/get_products_filter/?${queryStr_2}order=${e.target.dataset.order}&${activAnimalId}`
+    )
+      .then((resp) => resp.json())
+      .then((data) => {
+        // console.log(data.results);
+        if (data) {
+          const productList = document.querySelector(".products__list");
+          productList.innerHTML = "";
+          for (let i of data.results) {
+            const li = document.createElement("li");
+            li.classList.add("product__list-item");
+            li.innerHTML = `
                             <article class="products___item" data-id="${i.id}">
                             <div class="products___item-img">
                                 <img src="${i.image_prev}" alt="item" />
@@ -186,18 +206,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             <ul class="slider__item-weight-list">
                                 {% for count in product.countitemproduct.all %}
                                     ${i.countitemproduct
-                                        ?.map(
-                                            (item) =>
-                                                `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`
-                                        )
-                                        .join("")}
+                                      ?.map(
+                                        (item) =>
+                                          `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`
+                                      )
+                                      .join("")}
                                 {% endfor %}
                             </ul>
                             <div class="products___item-price-basket">
                                 <div class="products___item-price-basket-wrap">
                                     ${
-                                        i.sale?.percent
-                                            ? `<div class="products___item-price-wrap">
+                                      i.sale?.percent
+                                        ? `<div class="products___item-price-wrap">
                                     <p class="products___item-price-promotion">
                                         ${i.sale.percent}
                                     </p>
@@ -208,12 +228,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                     </p>
                                     </div>
                                 </div>`
-                                            : ""
+                                        : ""
                                     }
                                     ${
-                                        i.sale?.percent
-                                            ? ``
-                                            : `<div class="products___item-price-wrap">
+                                      i.sale?.percent
+                                        ? ``
+                                        : `<div class="products___item-price-wrap">
                                     <p class="products___item-price">${i.price}</p>
                                     <p class="products___item-currency">BYN</p>
                                 </div>
@@ -241,20 +261,20 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                             </div>
                             ${
-                                i.sale?.percent
-                                    ? `<div class="products___item-promotion">
+                              i.sale?.percent
+                                ? `<div class="products___item-promotion">
                                 Акция
                             </div>`
-                                    : ""
+                                : ""
                             }
                             <button type="button" class="products___item-btn">Купить в 1 клик</button>
                         </article>
                         `;
-                        productList.append(li);
-                    }
-                }
-            });
+            productList.append(li);
+          }
+        }
+      });
 
-        //      queryStr_2=""
-    });
+    //      queryStr_2=""
+  });
 });

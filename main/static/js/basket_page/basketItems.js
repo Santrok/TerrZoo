@@ -4,32 +4,35 @@ const headerBottomBasketCount = document.querySelector(".header__bottom-basket >
 
 function initBasketItem() {
     for (let i of JSON.parse(localStorage.getItem("basket"))) {
+        console.log(i);
         const li = document.createElement("li");
         li.classList.add("basket__list-item");
         li.dataset.id = i.id;
         li.innerHTML = `
+    <div class="basket__list-item-promotion">Акция</div>
         <div class="basket__list-item-img-wrap">
-        <div class="basket__list-item-img">
-        <img src="${i.src}" alt="${i.title}" />
-    </div>
-    <div class="basket__list-item-wrap">
-        <a href="#" class="basket__list-item-title">
-            ${i.title}
-        </a>
-        <ul class="basket__list-item-weight-list">
-        ${i.weight.map(
-            (item) => `<li class='basket__list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
-        )}
-        </ul>
-        ${i.weight.map((item) => {
-            if (item.split(" ")[1] !== "шт.") {
-                return `<div class="basket__list-item-weight-wrap">
-                <p class="basket__list-item-weight-text">Указать свой вес</p>
-                <div class="basket__list-item-weight">
-                    <input type="text" name="" id="" placeholder="Укажите вес" />
-                    <button type="button">Применить</button>
-                </div>
-            </div>`;
+            <div class="basket__list-item-img">
+                <img src="${i.src}" alt="${i.title}" />
+            </div>
+            <div class="basket__list-item-wrap">
+            <a href="#" class="basket__list-item-title">
+                ${i.title}
+            </a>
+            <ul class="basket__list-item-weight-list">
+                ${i.weight.map(
+                    (item) => `<li class='basket__list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
+                )}
+            </ul>
+            ${i.weight.map((item) => {
+                if (item.split(" ")[1] !== "шт.") {
+                    return `
+                <div class="basket__list-item-weight-wrap">
+                    <p class="basket__list-item-weight-text">Указать свой вес</p>
+                    <div class="basket__list-item-weight">
+                        <input type="text" name="" id="" placeholder="Укажите вес" />
+                        <button type="button">Применить</button>
+                    </div>
+                </div>`;
             }
         })}
     </div>
@@ -124,11 +127,6 @@ basketItem.forEach((item) => {
                     setCountInBasket();
                 }
             }
-        }
-        if (e.target.classList.contains("minus")) {
-        }
-        if (e.target.textContent === "Указать свой вес") {
-            console.log("weight");
         }
     });
 });
