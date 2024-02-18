@@ -38,6 +38,15 @@ function send_form(){
         data.append("basket",JSON.stringify(data_storage))
         data.append("order_price",JSON.stringify(price))
         data.append("product_count",JSON.stringify(count))
+    let check = ''
+    if(document.querySelector("#cash").checked){
+        check = document.querySelector("#cash").id
+    }
+    else if (document.querySelector("#pay_online").checked){
+        check = document.querySelector("#pay_online").id
+    }
+    console.log(check)
+    data.append("check",check)
     if(document.querySelector("#cash").checked || document.querySelector("#pay_online").checked){
      fetch("http://127.0.0.1:8000/placing_an_order/",{
                                                         method:"POST",
@@ -48,10 +57,10 @@ function send_form(){
                                   })
                                   .then(resp=>resp.json())
                                   .then(data=>{
-                                                console.log(data.order_number)
+                                                console.log(data.error)
                                                 if(data.error){
                                                 let er=document.querySelector(".error")
-                                                el.innerHTML=`<p style="color:red">${data.error}</p>`
+                                                er.innerHTML=`<p style="color:red">${data.error}</p>`
                                                 }else{
                                                   if(document.querySelector("#cash").checked){
                                                       let happy= document.querySelector(".block_placing_an_order")
