@@ -239,7 +239,7 @@
                                                 {% if product.sale.percent != 0 %}
                                                 <div class="products___item-price-wrap">
                                                     <p class="products___item-price-promotion">
-                                                        {{ product.price }}
+                                                        {{ product.price }} BYN
                                                     </p>
                                                     <div class="products___item-price-currency-wrap">
                                                         <p class="products___item-price">{{ product.action_price|floatformat:2 }}</p>
@@ -392,7 +392,7 @@
                                         {% if product.sale.percent != 0 %}
                                         <div class="slider__item-price-wrap">
                                             <p class="slider___item-price-promotion">
-                                                {{ product.price }}
+                                                {{ product.price }} BYN
                                             </p>
                                             <div class="slider__item-price-currency-wrap">
                                                 <p class="slider___item-price">{{ product.action_price|floatformat:2 }}</p>
@@ -551,8 +551,7 @@
 {% endblock %}
 
 {% block js %}
-<script async defer src="{% static 'js/catalog_page/linkToAnimal.js' %}"></script>
-<script async defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
-<script async defer src="{% static 'js/catalog_page/select.js' %}"></script>
-<script async defer src="{% static 'js/catalog_page/linkToAnimal.js' %}"></script>
+<script defer src="{% static 'js/catalog_page/linkToAnimal.js' %}"></script>
+<script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+<script defer src="{% static 'js/catalog_page/select.js' %}"></script>
 {% endblock %}

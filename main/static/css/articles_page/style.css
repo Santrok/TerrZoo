@@ -119,7 +119,7 @@
 
 .articles__list {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 
     gap: 16px;
     margin-bottom: 17px;
@@ -131,7 +131,9 @@
     padding: 8px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 12px;
+    height: 100%;
 }
 .article__item:hover {
     background: #fff;

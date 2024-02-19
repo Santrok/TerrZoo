@@ -1,5 +1,7 @@
+
 const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
+const headerBottomBasketValueMob = document.querySelector('.header__bottom-basket-value')
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
 const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
 const productsList = document.querySelector('.products__list')
@@ -22,9 +24,14 @@ headerBottomBasketCount.textContent = count;
 let basketArrayObj = [];
 
 function setCountInBasket() {
-    count = JSON.parse(localStorage.getItem("basket")).length;
+    if(localStorage.getItem("basket") === null) {
+        return
+    }
+    count = JSON.parse(localStorage.getItem("basket"))?.length;
     headerBottomBasketCount.textContent = count;
+    headerBottomBasketValueMob.textContent = count
 }
+setCountInBasket()
 
 
 function setCountItem(e) {
@@ -40,6 +47,7 @@ function setCountItem(e) {
                     i.count -= 1;
                     i.initPrice === 0 ? (i.initPrice = i.price) : 0;
                     i.price = Number(i.price - i.initPrice);
+                    console.log(i.price);
                     e.target.parentElement.parentElement.children[1].textContent =
                         (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
                     e.target.parentElement.children[1].textContent = i.count;
@@ -52,6 +60,7 @@ function setCountItem(e) {
             for (let i of basketArrayObj) {
                 if (i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id) {
                     i.count += 1;
+                    console.log(i.price);
                     i.price = Number(i.count * i.initPrice);
                     e.target.parentElement.parentElement.children[1].textContent =
                         (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
@@ -96,6 +105,7 @@ function addBasketItemToLocalStorage(e) {
             ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
             : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
     ).splice(0, 5);
+    price.splice(price.indexOf(','), 1, '.')
     if (array.length !== 0) {
         basketArrayObj.push({
             count: 1,
@@ -202,4 +212,3 @@ productItemBtn.forEach((item) => {
         addBasketItemToHover();
     });
 });
-

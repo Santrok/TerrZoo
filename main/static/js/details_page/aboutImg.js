@@ -3,7 +3,6 @@ const aboutListImg = document.querySelectorAll('.about__product-img-list-item > 
 
 aboutListImg.forEach(item => {
     item.addEventListener('click', () => {
-        console.log();
         for(let i of item.parentNode.parentNode.children){
             if(i.classList.contains('about__product-img-list-item-active')){
                 i.classList.remove('about__product-img-list-item-active')
