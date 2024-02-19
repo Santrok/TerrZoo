@@ -7,6 +7,7 @@ from main.models import Order
 
 
 def get_check_file(basket, order_price, user):
+    """Создание файла чек"""
     basket_obj = json.loads(basket)
     last_order = Order.objects.last()
 
@@ -27,6 +28,7 @@ def get_check_file(basket, order_price, user):
 
 
 def send_check_for_mail(order_number, file_url, user):
+    """Отправка содержимого чека на почту"""
     file_check = file_url
     with open(file_check, 'r', encoding="utf-8") as file:
         content = file.read()
