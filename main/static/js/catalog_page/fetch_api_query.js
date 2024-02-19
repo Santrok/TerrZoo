@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.currentTarget.classList.add("active");
       if (activeCollection.length >= 1) {
         if (activeCollection[0]?.childNodes[5]) {
-            console.log('remove children filter');
           for (let i of activeCollection[0]?.childNodes[5]?.children) {
             if(e.currentTarget !== i){
                 i.childNodes[3].children[0].classList.remove("filter__item-active-aside");
@@ -198,14 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ${i.title}
                             </a>
                             <ul class="slider__item-weight-list">
-                                {% for count in product.countitemproduct.all %}
                                     ${i.countitemproduct
                                       ?.map(
                                         (item) =>
-                                          `<li class="slider__item-weight-list-item" data-weight-id="${i.id}">${item.value} <span>${item.unit}</span></li>`
+                                          `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
                                       )
-                                      .join("")}
-                                {% endfor %}
+                                      .join("")} 
                             </ul>
                             <div class="products___item-price-basket">
                                 <div class="products___item-price-basket-wrap">
@@ -213,10 +210,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                       i.sale?.percent
                                         ? `<div class="products___item-price-wrap">
                                     <p class="products___item-price-promotion">
-                                        ${i.sale.percent}
+                                    ${i.price} BYN
                                     </p>
                                     <div class="products___item-price-currency-wrap">
-                                        <p class="products___item-price">${i.price}</p>
+                                        <p class="products___item-price">${(
+                                          ((100 - i.sale.percent) / 100) *
+                                          parseFloat(i.price)
+                                        ).toFixed(2)}</p>
                                     <p class="products___item-currency">
                                         BYN
                                     </p>

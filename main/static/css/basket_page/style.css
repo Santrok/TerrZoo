@@ -81,6 +81,16 @@
     gap: 16px;
 }
 
+.basket__list-item-empty{
+    font-family: SF Pro Text;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 0px;
+    color: black;
+}
+
 .basket__list-item-promotion {
     position: absolute;
     bottom: 0;
