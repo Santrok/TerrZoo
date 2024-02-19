@@ -3,8 +3,10 @@ const headerBottomBasketCount = document.querySelector(".header__bottom-basket >
 
 
 function initBasketItem() {
+    if(localStorage.getItem("basket") === null) {
+        return
+    }
     for (let i of JSON.parse(localStorage.getItem("basket"))) {
-        console.log(i);
         const li = document.createElement("li");
         li.classList.add("basket__list-item");
         li.dataset.id = i.id;
@@ -79,6 +81,9 @@ function initBasketItem() {
         </div>
     </div>
         `;
+        if(basketList.children[0].classList.contains('basket__list-item-empty')) {
+            basketList.innerHTML = ''
+        }
         basketList.append(li);
     }
 }
@@ -87,6 +92,9 @@ let count = localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("ba
 
 
 function setCountInBasket() {
+    if(localStorage.getItem("basket") === null) {
+        return
+    }
     count = JSON.parse(localStorage.getItem("basket")).length;
     headerBottomBasketCount.textContent = count;
 }

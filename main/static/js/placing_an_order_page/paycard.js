@@ -16,14 +16,14 @@ button_order.addEventListener("click", send_form);
 const order_price = document.querySelector(".order_price");
 const product_count = document.querySelector(".product_count");
 const data_storage = JSON.parse(localStorage.getItem("basket"));
-let price = 0;
-let count = 0;
+let pricePayCard = 0;
+let countPayCard = 0;
 for (let i of data_storage) {
-  price = price + i.price;
-  count = count + i.count;
+  pricePayCard = pricePayCard + i.price;
+  countPayCard = countPayCard + i.count;
 }
-order_price.innerHTML = price;
-product_count.innerHTML = count;
+order_price.innerHTML = pricePayCard;
+product_count.innerHTML = countPayCard;
 
 function getCookie(name) {
   let matches = document.cookie.match(
@@ -35,15 +35,14 @@ function getCookie(name) {
 function send_form() {
   let data = new FormData(form_payment);
   data.append("basket", JSON.stringify(data_storage));
-  data.append("order_price", JSON.stringify(price));
-  data.append("product_count", JSON.stringify(count));
+  data.append("order_price", JSON.stringify(pricePayCard));
+  data.append("product_count", JSON.stringify(countPayCard));
   let check = "";
   if (document.querySelector("#cash").checked) {
     check = document.querySelector("#cash").id;
   } else if (document.querySelector("#pay_online").checked) {
     check = document.querySelector("#pay_online").id;
   }
-  console.log(check);
   data.append("check", check);
   if (document.querySelector("#cash").checked || document.querySelector("#pay_online").checked) {
     fetch("http://127.0.0.1:8000/placing_an_order/", {
@@ -55,7 +54,6 @@ function send_form() {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data.error);
         if (data.error) {
           let er = document.querySelector(".error");
           er.innerHTML = `<p style="color:red">${data.error}</p>`;
@@ -63,14 +61,79 @@ function send_form() {
           if (document.querySelector("#cash").checked) {
             let happy = document.querySelector(".block_placing_an_order");
             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number}  оформлен, оплата на пункте выдачи</h1>`;
-            localStorage.removeItem("basket");
+            localStorage.setItem("basket", JSON.stringify([]));
+            setCountInBasket()
+            addBasketItemToHover()
           } else {
             let happy = document.querySelector(".block_placing_an_order");
             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ № ${data.order_number} оформлен, чек отправлен на email</h1>`;
-            localStorage.removeItem("basket");
+            localStorage.setItem("basket", JSON.stringify([]));
+            addBasketItemToHover()
+            setCountInBasket()
           }
         }
       });
   }
 }
 //-----------------------------------------------------------
+// фукнции обновления счетчика в корзине и выпадающего меню
+
+
+
+function addBasketItemToHover() {
+  const basketArray = JSON.parse(localStorage.getItem("basket"));
+  let basketCount = 0;
+  headerBottomHoverList.innerHTML = "";
+  if (basketArray) {
+      for (let i of basketArray) {
+          const li = document.createElement("li");
+          li.classList.add("header__bottom-basket-hover-list-item");
+          li.dataset.id = i.id;
+          basketCount++;
+          li.innerHTML = `
+      <div class="header__bottom-basket-hover-list-item-wrap">
+      <div class="header__bottom-basket-hover-list-item-img">
+          <img src="${i.src}" alt="">
+      </div>
+      <div class="header__bottom-basket-hover-list-item-action">
+          <a href="#" class="header__bottom-basket-hover-list-item-title">
+              ${i.title}
+          </a>
+          <ul class="header__bottom-basket-hover-list-item-weight-list">
+              ${i.weight.map(
+                  (item) =>
+                      `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
+              )}
+          </ul>
+      </div>
+      <div class="header__bottom-basket-hover-list-item-quantity">
+          <div class="header__bottom-basket-hover-list-item-quantity-wrap">
+              <button type="button" class="minus">
+                  -
+              </button>
+              <div>
+                  ${i.count}
+              </div>
+              <button type="button" class="plus">
+                  +
+              </button>
+          </div>
+          <p>
+              ${(Math.floor(i.price * 100) / 100).toFixed(2)} BYN
+          </p>
+      </div>
+  </div>
+  `;
+          headerBottomHoverList.append(li);
+      }
+  }
+}
+
+function setCountInBasket() {
+  if(localStorage.getItem("basket") === null) {
+      return
+  }
+  countFunc = JSON.parse(localStorage.getItem("basket"))?.length;
+  headerBottomBasketCount.textContent = count;
+  headerBottomBasketValueMob.textContent = count
+}

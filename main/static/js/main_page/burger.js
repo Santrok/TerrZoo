@@ -25,7 +25,6 @@ burger.addEventListener('click', () => {
 
 if(catalogFilter){
     catalogFilter.addEventListener('click', () => {
-        console.log(11);
         filter.classList.add('catalog__filter-active')
         burger.classList.add('header__bottom-burger-active')
         document.body.style.overflow = 'hidden';
