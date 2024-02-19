@@ -1,3 +1,4 @@
+
 const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 const headerBottomBasketValueMob = document.querySelector('.header__bottom-basket-value')
@@ -46,6 +47,7 @@ function setCountItem(e) {
                     i.count -= 1;
                     i.initPrice === 0 ? (i.initPrice = i.price) : 0;
                     i.price = Number(i.price - i.initPrice);
+                    console.log(i.price);
                     e.target.parentElement.parentElement.children[1].textContent =
                         (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
                     e.target.parentElement.children[1].textContent = i.count;
@@ -58,6 +60,7 @@ function setCountItem(e) {
             for (let i of basketArrayObj) {
                 if (i.id === e.target.parentElement.parentElement.parentElement.parentElement.dataset.id) {
                     i.count += 1;
+                    console.log(i.price);
                     i.price = Number(i.count * i.initPrice);
                     e.target.parentElement.parentElement.children[1].textContent =
                         (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
@@ -209,6 +212,3 @@ productItemBtn.forEach((item) => {
         addBasketItemToHover();
     });
 });
-
-
-
