@@ -332,21 +332,28 @@
                 <h2 class="description__title">Описание</h2>
                 <div class="description__wrap">
                     <div class="description__features-composition-wrap description__first">
+                    {% if product.description %}
                         <p class="description__text">{{ product.description }}</p>
+                    {% endif %}
+                    {% if product.key_features %}
                         <div class="description__features">
                             <h3 class="description__features-title">Ключевые особенности:</h3>
                             <ul class="description__features-list">
                                 <li class="description__features-list-item">{{ product.key_features }}</li>
                             </ul>
                         </div>
+                    {% endif %}
+                    {% if product.compound %}
                         <div class="description__composition">
                             <h3 class="description__composition-title">Состав:</h3>
                             <ul class="description__composition-list">
                                 <li class="description__composition-list-item">{{ product.compound }}</li>
                             </ul>
                         </div>
+                    {% endif %}
                     </div>
                     <div class="description__features-composition-wrap description__second">
+                        {% if product.guaranteed_analysis %}
                         <div class="description__features">
                             <h3 class="description__features-title">Гарантированный анализ:</h3>
                             <ul class="description__features-list">
@@ -355,6 +362,8 @@
                                 </li>
                             </ul>
                         </div>
+                        {% endif %}
+                        {% if product.nutritional_supplements %}
                         <div class="description__composition">
                             <h3 class="description__composition-title">Пищевые добавки:</h3>
                             <ul class="description__composition-list">
@@ -363,6 +372,7 @@
                                 </li>
                             </ul>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
