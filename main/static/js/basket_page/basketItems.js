@@ -170,7 +170,7 @@ new MutationObserver((mutation) => {
 new MutationObserver((mutation) => {
   const list = document.querySelectorAll('.basket__list-item');;
   list.forEach((item) => {
-    if(event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id) {
+    if(event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id && event?.currentTarget?.children[1]?.children[1].children[1].children[0].textContent.trim() === item.children[0].children[1].children[1].children[0].textContent.trim()) {
       item.children[2].children[0].children[0].children[1].textContent = event?.target.parentElement.children[1].textContent.trim();
       item.children[2].children[0].children[1].textContent = event?.target.parentElement.parentElement.children[1].textContent.trim();
       if(Number(item.children[2].children[0].children[0].children[1].textContent.trim()) === 0) {
