@@ -16,6 +16,9 @@ button_order.addEventListener("click", send_form);
 const order_price = document.querySelector(".order_price");
 const product_count = document.querySelector(".product_count");
 const data_storage = JSON.parse(localStorage.getItem("basket"));
+const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
+const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
+const headerBottomBasketValueMob = document.querySelector('.header__bottom-basket-value')
 let pricePayCard = 0;
 let countPayCard = 0;
 for (let i of data_storage) {
@@ -54,7 +57,9 @@ function send_form() {
     })
       .then((resp) => resp.json())
       .then((data) => {
+      console.log(data)
         if (data.error) {
+
           let er = document.querySelector(".error");
           er.innerHTML = `<p style="color:red">${data.error}</p>`;
         } else {
@@ -62,12 +67,14 @@ function send_form() {
             let happy = document.querySelector(".block_placing_an_order");
             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number}  оформлен, оплата на пункте выдачи</h1>`;
             localStorage.setItem("basket", JSON.stringify([]));
+            countPayCard=0
             setCountInBasket()
             addBasketItemToHover()
           } else {
             let happy = document.querySelector(".block_placing_an_order");
-            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ № ${data.order_number} оформлен, чек отправлен на email</h1>`;
+            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ № ${data.order_number} оформлен, чек отправлен на email:${data.user_email}</h1>`;
             localStorage.setItem("basket", JSON.stringify([]));
+            countPayCard =0
             addBasketItemToHover()
             setCountInBasket()
           }
@@ -83,6 +90,7 @@ function send_form() {
 function addBasketItemToHover() {
   const basketArray = JSON.parse(localStorage.getItem("basket"));
   let basketCount = 0;
+  const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
   headerBottomHoverList.innerHTML = "";
   if (basketArray) {
       for (let i of basketArray) {
@@ -134,6 +142,6 @@ function setCountInBasket() {
       return
   }
   countFunc = JSON.parse(localStorage.getItem("basket"))?.length;
-  headerBottomBasketCount.textContent = count;
-  headerBottomBasketValueMob.textContent = count
+  headerBottomBasketCount.textContent = countPayCard;
+  headerBottomBasketValueMob.textContent = countPayCard
 }

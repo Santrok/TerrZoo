@@ -349,7 +349,7 @@ def get_placing_an_order_page(request):
                                 i.quantity -= 1
                                 i.save()
                                 order.products.add(i)
-                            return JsonResponse({"order_number": order.id})
+                            return JsonResponse({"order_number": order.id,"user_email":user.email})
                         else:
                             return JsonResponse({"error": "Недостаточно средств"})
                     else:
