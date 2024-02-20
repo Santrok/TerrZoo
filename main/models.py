@@ -313,7 +313,7 @@ class Order(models.Model):
                              on_delete=models.CASCADE,
                              verbose_name="Пользователь")
     check_order = models.FileField("Чек",
-                                   upload_to="cheks")
+                                   upload_to="checks")
     total_price = models.DecimalField("Сумма заказа",
                                       max_digits=8,
                                       decimal_places=2)
@@ -378,3 +378,11 @@ class PayCard(models.Model):
 class AdminPayCard(admin.ModelAdmin):
     """Класс управления отображения в
         админ панели сущности: PayCard"""
+
+
+class ArticleForOrders(models.Model):
+    """Модель для хранения артикля для формирования номера заказа"""
+    article = models.PositiveIntegerField()
+
+    # def __str__(self):
+    #     return self.article

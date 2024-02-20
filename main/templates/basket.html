@@ -40,7 +40,9 @@
                     <h1 class="basket__title">Моя корзина</h1>
                     <div class="basket__block">
                         <ul class="basket__list">
-                            
+                            <li class="basket__list-item-empty">
+                                Ваша корзина пуста
+                            </li>
                         </ul>
                         <div class="basket__total">
                             <p class="basket__total-text">
@@ -501,5 +503,5 @@
     </div>
 </main>
 {% endblock %} {% block js %}
-<script async defer type="module" src="{% static 'js/basket_page/basketItems.js' %}"></script>
+<script defer src="{% static 'js/basket_page/basketItems.js' %}"></script>
 {% endblock %}

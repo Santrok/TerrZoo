@@ -155,9 +155,16 @@
 .about__product-title-wrap {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
     margin-bottom: 32px;
     position: relative;
+}
+@media (min-width:992px) {
+    .about__product-title-wrap{
+        justify-content: space-between;
+        flex-direction: initial;
+    }
 }
 
 .about__product-titlte-promotion {
@@ -170,9 +177,6 @@
     font-weight: 600;
     line-height: 24px;
     text-align: left;
-    position: absolute;
-    top: 0;
-    right: 0;
 }
 
 .about__product-options {
@@ -188,25 +192,24 @@
     letter-spacing: 0px;
 }
 
-.about__product-link {
-    color: rgb(44, 110, 203);
-    font-family: SF Pro Text;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: 0px;
-}
-
 .about__product-img-wrap {
     display: grid;
-    grid-template-columns: 80% 1fr;
+    grid-template-columns: 1fr minmax(56px, 92px);
     gap: 10px;
 }
 
 .about__product-img {
-    flex: 1 0 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #fff;
     border-radius: 8px;
+}
+
+.about__product-second{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .about__product-img img {
     border-radius: 5px;
@@ -224,15 +227,16 @@
 }
 
 .about__product-img-list-item {
-    flex: 1 1 auto;
+    flex: 0 1 92px;
     border-radius: 5px;
     background: #fff;
+    cursor: pointer;
 }
 .about__product-img-list-item img {
     width: 100%;
     height: 100%;
-    -o-object-fit: cover;
-    object-fit: cover;
+    -o-object-fit: contain;
+    object-fit: contain;
     border-radius: 5px;
 }
 
@@ -426,6 +430,12 @@
     flex-direction: column;
     gap: 8px;
 }
+
+@media(min-width:992px) {
+    .about__product-pickup-adress-wrap {
+        flex-direction: initial;
+    }
+}
 .about__product-pickup-adress-wrap p {
     color: rgb(32, 34, 35);
     font-family: SF Pro Text;
@@ -587,6 +597,7 @@
     .about__product-wrap {
         flex-direction: initial;
         margin-bottom: 64px;
+        gap: 90px;
     }
     .about__product {
         margin-top: 24px;
@@ -599,10 +610,8 @@
         gap: 24px;
     }
     .about__product-img-wrap {
+        gap: 16px;
         flex: 0 0 580px;
-    }
-    .about__product-img-list {
-        flex: 0 1 92px;
     }
 }
 .popular__goods {

@@ -16,6 +16,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm
 
+from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
+
 
 # Create your views here.
 
@@ -311,12 +313,12 @@ def get_placing_an_order_page(request):
     if request.method == "POST":
         if user.is_authenticated:
             if request.POST.get('check') == 'pay_online':
-                pay_card = (f"{request.POST.get('num_paycard_1_4','0')}"
-                            f"{request.POST.get('num_paycard_5_8','0')}"
-                            f"{request.POST.get('num_paycard_9_12','0')}"
-                            f"{request.POST.get('num_paycard_13_16','0')}")
+                pay_card = (f"{request.POST.get('num_paycard_1_4', '0')}"
+                            f"{request.POST.get('num_paycard_5_8', '0')}"
+                            f"{request.POST.get('num_paycard_9_12', '0')}"
+                            f"{request.POST.get('num_paycard_13_16', '0')}")
                 if len(pay_card) == 16:
-                    date_card = request.POST.get('date','0')
+                    date_card = request.POST.get('date', '0')
                     cvc = request.POST.get('CVV')
                     if not cvc:
                         cvc = 000
@@ -330,22 +332,28 @@ def get_placing_an_order_page(request):
                         for i in json_obj:
                             product_list_id.append(i.get('id'))
                         product_list = Product.objects.filter(id__in=product_list_id)
-                        last_order = Order.objects.last()
-                        order = Order(order_number=last_order.id + 1,
+                        article_for_orders = get_article_for_orders()
+                        file_url = get_check_file(request.POST.get('basket'),
+                                                  request.POST.get('order_price'),
+                                                  user,
+                                                  article_for_orders)
+                        order = Order(order_number=article_for_orders,
                                       user=user,
-                                      check_order=f'/media/cheks/check_{last_order.id + 1}.txt',
+                                      check_order=file_url,
                                       total_price=request.POST.get('order_price'),
                                       pay_card=card_zapros[0])
                         if card_zapros[0].balance > float(request.POST.get('order_price')):
-                            card_zapros[0].balance = float(card_zapros[0].balance) - float(request.POST.get('order_price'))
+                            card_zapros[0].balance = float(card_zapros[0].balance) - float(
+                                request.POST.get('order_price'))
                             card_zapros[0].save()
                             order.save()
+                            send_check_for_mail(order.order_number, file_url, user)
                             for i in product_list:
                                 i.sales_counter += 1
                                 i.quantity -= 1
                                 i.save()
                                 order.products.add(i)
-                            return JsonResponse({"order_number": order.id})
+                            return JsonResponse({"order_number": order.order_number, "user_email": user.email})
                         else:
                             return JsonResponse({"error": "Недостаточно средств"})
                     else:
@@ -358,10 +366,13 @@ def get_placing_an_order_page(request):
                 for i in json_obj:
                     product_list_id.append(i.get('id'))
                 product_list = Product.objects.filter(id__in=product_list_id)
-                last_order = Order.objects.last()
-                order = Order(order_number=last_order.id + 1,
+                article_for_orders = get_article_for_orders()
+                order = Order(order_number=article_for_orders,
                               user=user,
-                              check_order=f'/media/cheks/chek{user.id}.txt',
+                              check_order=get_check_file(request.POST.get('basket'),
+                                                         request.POST.get('order_price'),
+                                                         user,
+                                                         article_for_orders),
                               total_price=request.POST.get('order_price'))
                 order.save()
                 for i in product_list:
@@ -369,7 +380,7 @@ def get_placing_an_order_page(request):
                     i.quantity -= 1
                     i.save()
                     order.products.add(i)
-                return JsonResponse({"order_number": order.id})
+                return JsonResponse({"order_number": order.order_number})
             else:
                 return JsonResponse({"error": "Не выбран ни один из способов заказа"})
     context = {}
