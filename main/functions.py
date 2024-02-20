@@ -2,6 +2,7 @@ import os
 import json
 from django.core.mail import send_mail
 from config import settings
+from django.core.mail import EmailMessage
 
 from main.models import Order
 
@@ -29,11 +30,11 @@ def get_check_file(basket, order_price, user):
 
 def send_check_for_mail(order_number, file_url, user):
     """Отправка содержимого чека на почту"""
-    file_check = file_url
-    with open(file_check, 'r', encoding="utf-8") as file:
-        content = file.read()
-    send_mail(f"Территория Zoo заказ №{order_number}",
-              f'{content}',
-              settings.EMAIL_HOST_USER,
-              [user.email],
-              fail_silently=False)
+    email = EmailMessage(
+        f"Территория Zoo заказ №{order_number}",
+        "Чек",
+        settings.EMAIL_HOST_USER,
+        [user.email],
+    )
+    email.attach_file(file_url)
+    email.send()
