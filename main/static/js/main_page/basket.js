@@ -119,6 +119,7 @@ function addBasketItemToLocalStorage(e) {
       weight: array,
       initPrice: parseFloat(price.join("")),
       price: parseFloat(price.join("")),
+      promotion: e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ? true : false
     });
     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
     setCountInBasket();

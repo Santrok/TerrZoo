@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       li.classList.add("basket__list-item");
       li.dataset.id = i.id;
       li.innerHTML = `
-    <div class="basket__list-item-promotion">Акция</div>
+      ${i.promotion ? '<div class="basket__list-item-promotion">Акция</div>' : ''}
         <div class="basket__list-item-img-wrap">
             <div class="basket__list-item-img">
                 <img src="${i.src}" alt="${i.title}" />
