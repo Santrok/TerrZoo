@@ -40,7 +40,11 @@ def send_check_for_mail(order_number, file_url, user):
 
 def get_article_for_orders():
     """Счетчик для артикля заказа"""
-    order = Order.objects.last()
+    if Order.objects.last():
+        order = Order.objects.last()
+        number = order.order_number + 1
+    else:
+        number = 1
 
     if ArticleForOrders.objects.last():
         article = ArticleForOrders.objects.last()
@@ -48,7 +52,7 @@ def get_article_for_orders():
         article.save()
         return article.article
     else:
-        article_new = ArticleForOrders(article=order.order_number + 1)
+        article_new = ArticleForOrders(article=number)
         article_new.save()
         return article_new.article
 
