@@ -59,6 +59,29 @@ class AdminCategoryProduct(admin.ModelAdmin):
            CategoryProduct"""
 
 
+class ImageProduct(models.Model):
+    """Модель изображений продукта,
+         связи: с продуктами(FK)"""
+
+    image = models.ImageField("Изображение продукта",
+                              upload_to="products_images")
+    product = models.ForeignKey("Product",
+                                on_delete=models.CASCADE,
+                                verbose_name="Продукт")
+
+    def __str__(self):
+        return f'{self.product}'
+
+    class Meta:
+        verbose_name = "Изображение продукта"
+        verbose_name_plural = "Изображения продуктов"
+
+
+class AdminImageProduct(admin.ModelAdmin):
+    """Класс управления отображения
+        в админ панели сущности: ImageProduct"""
+
+
 class Product(models.Model):
     """ Модель продуктов, связи с категориями(FK),
          брендами(FK), скидкамии (акция) (M2M),
@@ -107,7 +130,7 @@ class Product(models.Model):
                                               blank=True,
                                               null=True)
     date_create = models.DateTimeField(auto_now_add=True)
-    sales_counter = models.PositiveIntegerField("Сколько раз продан")
+    sales_counter = models.PositiveIntegerField("Сколько раз продан", default=0)
 
     def __str__(self):
         return f"{self.title}  id:{self.id}"
@@ -122,33 +145,19 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
 
+class ImageProductInlines(admin.StackedInline):
+    model = ImageProduct
+    max_num = 10
+    extra = 0
 
 class AdminProduct(admin.ModelAdmin):
     """Класс управления отображения
         в админ панели сущности: Product"""
 
-
-class ImageProduct(models.Model):
-    """Модель изображений продукта,
-         связи: с продуктами(FK)"""
-
-    image = models.ImageField("Изображение продукта",
-                              upload_to="products_images")
-    product = models.ForeignKey("Product",
-                                on_delete=models.CASCADE,
-                                verbose_name="Продукт")
-
-    def __str__(self):
-        return f'{self.product}'
-
-    class Meta:
-        verbose_name = "Изображение продукта"
-        verbose_name_plural = "Изображения продуктов"
-
-
-class AdminImageProduct(admin.ModelAdmin):
-    """Класс управления отображения
-        в админ панели сущности: ImageProduct"""
+    inlines = [ImageProductInlines, ]
+    list_display = ['title',
+                    'image_prev',
+                    'sale',]
 
 
 class CountItemProduct(models.Model):
@@ -171,6 +180,7 @@ class CountItemProduct(models.Model):
     class Meta:
         verbose_name = "Количество товара"
         verbose_name_plural = "Количество товара"
+        ordering = ['value', ]
 
 
 class AdminCountItemProduct(admin.ModelAdmin):
