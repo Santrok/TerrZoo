@@ -368,3 +368,11 @@ class PayCard(models.Model):
 class AdminPayCard(admin.ModelAdmin):
     """Класс управления отображения в
         админ панели сущности: PayCard"""
+
+
+class ArticleForOrders(models.Model):
+    """Модель для хранения артикля для формирования номера заказа"""
+    article = models.PositiveIntegerField()
+
+    # def __str__(self):
+    #     return self.article
