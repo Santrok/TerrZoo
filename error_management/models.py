@@ -67,7 +67,7 @@ class SetErrorLink(models.Model):
              -для моделирования ситуаций возможных ошибок
               -для преподавателя Stormnet :):)))"""
 
-    html_id_tag_a = models.CharField("ID HTML тег <a id='ид элемента' ></a> разметки",
+    html_id_tag_a = models.CharField("Class HTML тег <a class='class элемента' ></a> разметки",
                                      max_length=255,
                                      help_text="Выберите из элемента a в HTML"
                                                " на странице значение атрибута id")

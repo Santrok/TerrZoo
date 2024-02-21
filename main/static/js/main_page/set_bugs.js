@@ -15,7 +15,7 @@ fetch("http://127.0.0.1:8000/api/get_bugs_link")
   .then((resp) => resp.json())
   .then((data) => {
     for (let i of data.results) {
-      let a = document.querySelector(`#${i.html_id_tag_a}`);
+      let a = document.querySelector(`.${i.html_id_tag_a}`);
       a.setAttribute("href", `${i.href}`);
     }
   });
