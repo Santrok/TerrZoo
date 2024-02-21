@@ -1363,6 +1363,12 @@ footer {
     user-select: none;
 }
 
+.slider__item-hearts {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
 .slider__item-title {
     color: #000;
     font-feature-settings: "clig" off, "liga" off;
