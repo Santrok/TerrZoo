@@ -9,6 +9,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
@@ -16,7 +18,7 @@ from rest_framework.generics import ListAPIView
 from config import settings
 
 from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm
+from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserForm
 
 from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
 
@@ -408,18 +410,58 @@ def get_profile_page(request):
                   context=context)
 
 
+@login_required
 def get_profile_page_data_user(request):
     """Личный кабинет первая страница"""
     user = request.user
-    instance = get_object_or_404(Profile, user=user)
+    profile = Profile.objects.get(user=user)
+
     if request.method == 'POST':
-        form_data = ProfileForm(request.POST, instance=instance)
-        if form_data.is_valid():
-            form_data.save()
 
-    form = ProfileForm(instance=instance)
+        if request.POST.get('action') == 'profile':
+            form_data_profile = ProfileForm(request.POST, instance=profile)
+            form_data_user = ProfileForm(request.POST, instance=user)
+            if form_data_profile.is_valid() and form_data_user.is_valid():
+                form_data_profile.save()
+                form_data_user.save()
 
-    context = {"form_profile": form}
+        elif request.POST.get('action') == 'profile_user':
+            print('------------------------- 11')
+            form_data = ProfileUserForm(request.POST)
+            if form_data.is_valid():
+                print('------------------------- 22')
+                password = form_data.cleaned_data.get('password')
+                new_password = form_data.cleaned_data.get(' new_password')
+                repeat_password = form_data.cleaned_data.get('repeat_password')
+                if check_password(password, user.password) and password and new_password and repeat_password:
+                    user.set_password(new_password)
+                    print(1)
+                    user.save()
+                    # form_data.save()
+                    messages.success(request, 'Данные успешно изменены!1')
+                    messages.success(request, 'Пароль успешно изменен')
+                # if check_password(password, user.password):
+                #     print(2)
+                #     messages.error(request, 'Ошибка пароля')
+                else:
+                    print('-------------------------------')
+                    print(form_data.cleaned_data)
+                    print(form_data.cleaned_data.get('username'))
+                    print(form_data.cleaned_data.get('password'))
+                    print(form_data.cleaned_data.get('new_password'))
+                    print(form_data.cleaned_data.get('repeat_new_pass'))
+                    user.username = form_data.cleaned_data.get('username')
+                    user.save()
+                    # form_data.save()
+                    messages.success(request, 'Данные успешно изменены!')
+            else:
+                print('говно')
+
+    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
+    form_profile_user = ProfileUserForm(instance=user)
+
+    context = {"form_profile": form_profile,
+               "form_profile_user": form_profile_user}
 
     return render(request=request,
                   template_name='profile_data_user.html',

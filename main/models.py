@@ -390,9 +390,10 @@ class ArticleForOrders(models.Model):
 
 class Profile(models.Model):
     """Модель профайла связана с User по FK"""
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE,
-                             verbose_name="Пользователь")
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                verbose_name="Пользователь",
+                                blank=True)
     phone_number = models.CharField(verbose_name="Номер телефона",
                                     max_length=17,
                                     blank=True)

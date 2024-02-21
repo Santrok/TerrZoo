@@ -18,17 +18,23 @@ class RegisterationForm(forms.Form):
     """Форма регистрации с использованием валидаторов электронной почты, пароля и пользователя"""
 
     name = forms.CharField(error_messages={'required': 'Не указано контактное лицо'},
-                           max_length=50, widget=forms.TextInput(attrs={'class': 'auth_input','placeholder': 'Ваше имя'}), label='Имя',
+                           max_length=50,
+                           widget=forms.TextInput(attrs={'class': 'auth_input', 'placeholder': 'Ваше имя'}),
+                           label='Имя',
                            validators=[validate_username])
     email = forms.CharField(error_messages={'required': 'Не указан адрес электронной почты'},
                             widget=forms.EmailInput(
-                                attrs={'class': 'auth_input','id': 'email_register_field', 'placeholder': 'Введите Вашу почту'}),
+                                attrs={'class': 'auth_input', 'id': 'email_register_field',
+                                       'placeholder': 'Введите Вашу почту'}),
                             validators=[validate_email], label='Адрес электронной почты')
     password = forms.CharField(error_messages={'required': 'Введите пароль'},
                                widget=forms.PasswordInput(
-                                   attrs={'class': 'auth_input','id': 'password_register_field', 'placeholder': 'Введите пароль'}),
+                                   attrs={'class': 'auth_input', 'id': 'password_register_field',
+                                          'placeholder': 'Введите пароль'}),
                                validators=[validate_password], label='Пароль')
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'auth_input','placeholder': 'Повторите пароль'}), label='Повторите пароль')
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'auth_input', 'placeholder': 'Повторите пароль'}),
+        label='Повторите пароль')
 
     def clean(self):
         """Проверка совпадения паролей"""
@@ -47,11 +53,13 @@ class ForgetPasswordForm(forms.Form):
 
 
 class ProfileForm(forms.ModelForm):
-    user = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput)
+    first_name = forms.CharField(label='Имя', required=False)
+    last_name = forms.CharField(label='Фамилия', required=False)
 
     class Meta:
         model = Profile
-        fields = ('user',
+        fields = ('first_name',
+                  'last_name',
                   'phone_number',
                   'date_of_birth',
                   'city',
@@ -62,3 +70,38 @@ class ProfileForm(forms.ModelForm):
                   'postal_code')
 
 
+class ProfileUserForm(forms.ModelForm):
+    username = forms.CharField(label='Имя',
+                               widget=forms.TextInput(
+                                   attrs={'class': 'auth_input',
+                                          'placeholder': 'Введите Ваше имя'}))
+    password = forms.CharField(required=False,
+                               error_messages={'required': 'Введите пароль'},
+                               label='Введите пароль',
+                               widget=forms.PasswordInput(
+                                   attrs={'id': 'password_person_reset_field',
+                                          'placeholder': 'Введите старый пароль'}),
+                               validators=[validate_password])
+    new_password = forms.CharField(required=False,
+                                   label='Введите новый пароль',
+                                   widget=forms.PasswordInput(
+                                       attrs={'id': 'password_register_field',
+                                              'placeholder': 'Введите новый пароль'}),
+                                   validators=[validate_password])
+    repeat_new_pass = forms.CharField(required=False,
+                                      label='Повторите новый пароль',
+                                      widget=forms.PasswordInput(
+                                          attrs={'id': 'password_register_field',
+                                                 'placeholder': 'Повторите новый пароль'}),
+                                      validators=[validate_password])
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        repeat_new_pass = cleaned_data.get('repeat_new_pass')
+        if new_password and repeat_new_pass and new_password != repeat_new_pass:
+            self.add_error('repeat_new_pass', 'Пароли не совпадают')
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
