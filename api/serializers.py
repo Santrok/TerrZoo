@@ -69,3 +69,9 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+
+
+class SearchProduct(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'image_prev']
