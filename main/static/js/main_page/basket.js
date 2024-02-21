@@ -1,4 +1,5 @@
-const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
+addEventListener('DOMContentLoaded', () => {
+  const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 const headerBottomBasketValueMob = document.querySelector(".header__bottom-basket-value");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
@@ -80,6 +81,7 @@ function setCountItem(e) {
 headerBottomHover.addEventListener("click", setCountItem);
 
 function addBasketItemToLocalStorage(e) {
+  console.log(e.target);
   let array = [];
   for (let i of Array.from(e.currentTarget.parentElement.parentElement.children[2].children)) {
     if (i.classList.contains("slider__item-weight-list-item-active")) {
@@ -218,3 +220,4 @@ productItemBtn.forEach((item) => {
     addBasketItemToHover();
   });
 });
+})

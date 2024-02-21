@@ -6,6 +6,7 @@ $(document).ready(function() {
         initialSlide: 0,
         variableWidth: true,
         touchMove:false,
+        lazyload: 'progressive',
         nextArrow: $('.popular__goods-arrow-next'),
         prevArrow: $('.popular__goods-arrow-prev'),
         responsive: {
@@ -21,6 +22,7 @@ $(document).ready(function() {
         Infinity: true,
         initialSlide: 0,
         variableWidth: true,
+        lazyload: 'progressive',
         nextArrow: $('.new__product-arrow-next'),
         prevArrow: $('.new__product-arrow-prev'),
         responsive: {
@@ -34,6 +36,7 @@ $(document).ready(function() {
         slidesToShow: 1,
         slidesToScroll:1,
         Infinity: true,
+        lazyload: 'progressive',
         nextArrow: $('.feedback__arrow-next'),
         prevArrow: $('.feedback__arrow-prev')
     })
@@ -42,6 +45,7 @@ $(document).ready(function() {
         slidesToScroll:1,
         Infinity:true,
         variableWidth:true,
+        lazyload: 'progressive',
         nextArrow: $('.articles__arrow-next'),
         prevArrow: $('.articles__arrow-prev'),
         responsive: {

@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from django.forms.models import model_to_dict
 from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
     CountItemProductSerializer, SaleSerializer, ArticleSerializer, BrandSerializer, ReviewSerializer, OrderSerializer, \
-    LinkComponentsSerializer
+    LinkComponentsSerializer, SearchProduct
 from error_management.models import StyledComponents, SetErrorLink, SetErrorDataApiV1
 from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale, Article, Brand, Review, Order
 from rest_framework.pagination import LimitOffsetPagination
@@ -371,3 +371,13 @@ class ProductListFilterView(ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class SearchProductView(ListAPIView):
+    serializer_class = SearchProduct
+
+    def get_queryset(self):
+        data = self.request.query_params
+        queryset = Product.objects.filter(title__icontains=data.get('title'))
+
+        return queryset
