@@ -6,15 +6,17 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from rest_framework.generics import ListAPIView
-
-from config import settings
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm
+
+from rest_framework.generics import ListAPIView
+from config import settings
+
+from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
+from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm
 
 from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
 
@@ -403,4 +405,22 @@ def get_profile_page(request):
 
     return render(request=request,
                   template_name='profile.html',
+                  context=context)
+
+
+def get_profile_page_data_user(request):
+    """Личный кабинет первая страница"""
+    user = request.user
+    instance = get_object_or_404(Profile, user=user)
+    if request.method == 'POST':
+        form_data = ProfileForm(request.POST, instance=instance)
+        if form_data.is_valid():
+            form_data.save()
+
+    form = ProfileForm(instance=instance)
+
+    context = {"form_profile": form}
+
+    return render(request=request,
+                  template_name='profile_data_user.html',
                   context=context)

@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth.models import User
+
+from main.models import Profile
 from main.validators import validate_email, validate_password, validate_username
 
 
@@ -41,4 +44,21 @@ class ForgetPasswordForm(forms.Form):
     email = forms.CharField(error_messages={'required': 'Не указан адрес электронной почты'},
                             widget=forms.EmailInput(
                                 attrs={'class': 'auth_input', 'placeholder': 'Введите Вашу почту'}))
+
+
+class ProfileForm(forms.ModelForm):
+    user = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput)
+
+    class Meta:
+        model = Profile
+        fields = ('user',
+                  'phone_number',
+                  'date_of_birth',
+                  'city',
+                  'street',
+                  'house_number',
+                  'entrance_number',
+                  'apartment_number',
+                  'postal_code')
+
 
