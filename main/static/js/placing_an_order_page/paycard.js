@@ -85,8 +85,6 @@ function send_form() {
 //-----------------------------------------------------------
 // фукнции обновления счетчика в корзине и выпадающего меню
 
-
-
 function addBasketItemToHover() {
   const basketArray = JSON.parse(localStorage.getItem("basket"));
   let basketCount = 0;

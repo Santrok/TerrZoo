@@ -81,6 +81,9 @@
                             <img src="{{ product.image_prev.url }}" alt="product"/>
                         </div>
                         <ul class="about__product-img-list">
+                            <li class="about__product-img-list-item">
+                                <img src="{{product.image_prev.url}}" alt="product"/>
+                            </li>
                             {% for image in product.imageproduct_set.all %}
                             <li class="about__product-img-list-item">
                                 <img src="{{image.image.url}}" alt="product"/>
