@@ -1,168 +1,178 @@
-.page_wrapper{
-  height: 70vh;
-  width: 500px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.page_wrapper {
+    width: 500px;
+    margin: 24px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 135px;
 }
+
 .form_wrap {
-  border: 1px solid black;
-  border-radius: 10px;
-  background-color: white;
-  height: 275px;
-  width: 100%;
-  align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    height: 275px;
+    width: 100%;
 }
+
 .form_wrap_register {
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: white;
-  height: 450px;
-  width: 100%;
-  align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    height: 450px;
+    width: 100%;
 }
-.form_wrap_foget {
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: white;
-  height: 220px;
-  width: 100%;
-  align-items: center;
+
+.form_wrap_forget {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    height: 220px;
+    width: 100%;
 }
+
 .form_wrap_set_pass {
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: white;
-  height: 300px;
-  width: 100%;
-  align-items: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+    height: 300px;
+    width: 100%;
+    align-items: center;
 }
 
 
-
-.callback_auth input{
-  width: 100%;
-  border-radius: 4px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgb(167, 172, 177);
-  padding: 8px 12px;
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Text;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  margin-bottom: 10px;
+.callback_auth input {
+    width: 100%;
+    border-radius: 4px;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(167, 172, 177);
+    padding: 8px 12px;
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Text;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-bottom: 10px;
 }
 
 .callback__title {
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Display;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 28px;
-  text-align: center;
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Display;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: center;
 }
+
 .auth_input {
-  width: 100%;
-  border-radius: 4px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgb(167, 172, 177);
-  padding: 8px 12px;
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Text;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  margin-bottom: 10px;
+    width: 100%;
+    border-radius: 4px;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(167, 172, 177);
+    padding: 8px 12px;
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Text;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-bottom: 10px;
 }
+
 #id_new_password1 {
 
 }
+
 label {
-  color: black;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: "SF Pro Text";
-  font-size: 14px;
+    color: black;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 14px;
 }
+
 .login_error {
-  color: red;
+    color: red;
 }
+
 li {
-  color: red;
+    color: red;
 }
+
 .down_panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
 }
+
 .link_next_page {
-  color: #0c2563;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: "SF Pro Text";
-  font-size: 14px;
+    color: #0c2563;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 14px;
 }
 
 .callback__field-item input::-moz-placeholder {
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Text;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Text;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
 }
+
 .callback__field-item input::placeholder {
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Text;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Text;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
 }
 
 .callback__field-item-title {
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Text;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 130%;
-  letter-spacing: 0px;
+    color: rgb(32, 34, 35);
+    font-family: SF Pro Text;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 130%;
+    letter-spacing: 0px;
 }
 
 @media (min-width: 992px) {
-  .callback_auth {
-    padding: 14px 42px;
+    .callback_auth {
+        padding: 14px 42px;
+    }
 }
 
 .button {
-  border-radius: 4px;
-  background: var(--Icon-Highlight, #00a0ac);
-  box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.2) inset, 0px 1px 0px 0px rgba(0, 0, 0, 0.08);
-  padding: 8px 16px;
-  color: var(--Text-On-Primary, #fff);
-  text-align: center;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: "SF Pro Text";
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
+    border-radius: 4px;
+    background: var(--Icon-Highlight, #00a0ac);
+    box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.2) inset, 0px 1px 0px 0px rgba(0, 0, 0, 0.08);
+    padding: 8px 16px;
+    color: var(--Text-On-Primary, #fff);
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
 }
+
 .reset_done_message {
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
-  padding: 20px;
-  border-radius: 5px;
-  font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    padding: 20px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
 }
 
 .alert-heading {
-  color: #333366;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+    color: #333366;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }
 
 p {
-  color: #555;
-  font-size: 1rem;
-  line-height: 1.5;
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.5;
 }
