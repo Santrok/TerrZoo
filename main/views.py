@@ -400,7 +400,7 @@ def get_placing_an_order_page(request):
                   context=context)
 
 
-def get_profile_page(request):
+def get_profile_order_page(request):
     """Личный кабинет"""
     orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
     pay_cards = PayCard.objects.filter(user=request.user.id)
@@ -420,7 +420,6 @@ def get_profile_page_data_user(request):
     profile = Profile.objects.get(user=user)
 
     if request.method == 'POST':
-
         if request.POST.get('action') == 'profile':
             form_data_profile = ProfileForm(request.POST, instance=profile)
             form_data_user = ProfileForm(request.POST, instance=user)
@@ -429,69 +428,28 @@ def get_profile_page_data_user(request):
                 form_data_user.save()
 
         elif request.POST.get('action') == 'profile_user_password':
-            print('------------------------- 11')
-            print(request.POST)
-
             form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
-
             if form_data_pass.is_valid():
-
-                print('------------------------- 22')
-                password = form_data_pass.cleaned_data.get('password')
+                password = make_password(form_data_pass.cleaned_data.get('password'))
                 new_password = form_data_pass.cleaned_data.get('new_password')
                 repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
-                password = make_password(password)
-
-                print('check_password: ', check_password(user.password, password))
-                # print(password, user.password)
-                # print('password: ', bool(password))
-                # print('new_password: ', bool(new_password))
-                # print('repeat_password: ', bool(repeat_password))
-
                 if check_password(user.password, password, ) and password and new_password and repeat_password:
-                    print('------------------------- 33')
-                    print(form_data_pass.cleaned_data)
-
                     user.set_password(new_password)
                     user.save()
-
                     update_session_auth_hash(request, user)
-                    # username = user.username
-                    # password = user.password
-                    # print(username, password)
-                    #
-                    # user_new = authenticate(request,
-                    #                         username=username,
-                    #                         passwoed=password,
-                    #                         backend=user.backend)
-                    # login(request, user_new)
-
-                    # form_data.save()
-                    messages.success(request, 'Данные успешно изменены!')
                     messages.success(request, 'Пароль успешно изменен')
-                # if check_password(password, user.password):
-                #     print(2)
-                #     messages.error(request, 'Ошибка пароля')
-                print(user.username)
             else:
-                print('ПАРОЛЬ НЕТ ВОЛИДАЦИИ!!!')
+                messages.error(request, 'Ошибка пароля')
 
         elif request.POST.get('action') == 'profile_user_username':
-
             form_data_user = ProfileUserNameForm(request.POST)
-
             if form_data_user.is_valid():
-                print(user.username)
                 if form_data_user.cleaned_data.get('username'):
-                    print('------------------------- 44')
-                    print(form_data_user.cleaned_data)
-                    print(form_data_user.cleaned_data.get('username'))
                     user.username = form_data_user.cleaned_data.get('username')
                     user.save()
-                    # form_data_user.save()
                     messages.success(request, 'Данные успешно изменены!')
             else:
-                print('ПОЛЬЗОВАТЕЛЬ НЕТ ВОЛИДАЦИИ!!!')
+                messages.error(request, 'Ошибка пароля')
 
     form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
     form_profile_user = ProfileUserNameForm(instance=user)

@@ -326,7 +326,7 @@
                                     {% if request.path == '/profile/' %}
                                         <a href="{% url 'logout' %}">Выйти</a>
                                     {% else %}
-                                        <a href="{% url 'profile' %}">Личный кабинет</a>
+                                        <a href="{% url 'profile_data_user' %}">Личный кабинет</a>
                                     {% endif %}
                                 {% else %}
                                 <a href="{% url 'login' %}">Войти</a>
