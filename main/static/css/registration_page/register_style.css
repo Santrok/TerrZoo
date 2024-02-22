@@ -104,6 +104,13 @@ li {
     margin-top: 15px;
 }
 
+.social_auth_panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
 .link_next_page {
     color: #0c2563;
     font-feature-settings: "clig" off, "liga" off;
