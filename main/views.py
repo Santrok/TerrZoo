@@ -425,7 +425,7 @@ def get_profile_order_page(request):
                "pay_cards": pay_cards}
 
     return render(request=request,
-                  template_name='profile.html',
+                  template_name='profile_order.html',
                   context=context)
 
 
@@ -447,8 +447,9 @@ def get_profile_comparisonlist_page(request):
         'products': products
     }
     return render(request=request,
-                  template_name='profile_comparisonlist.html',context =
-                      context)
+                  template_name='profile_comparisonlist.html', context=context)
+
+
 @login_required
 def get_profile_page_data_user(request):
     """Личный кабинет первая страница"""
