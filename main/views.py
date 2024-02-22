@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-
+from django.db.models import Count
 from rest_framework.generics import ListAPIView
 from config import settings
 
@@ -108,7 +108,7 @@ def get_page_catalog_by_animal(request, animal_id):
     j = []
     for i in list(c):
         print(i.get_family())
-        for p in i.get_family():
+        for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
     print(list(st), "+++++++++++++++++++++++++++++++")
