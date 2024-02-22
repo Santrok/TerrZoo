@@ -22,10 +22,12 @@ const headerBottomBasketValueMob = document.querySelector('.header__bottom-baske
 let pricePayCard = 0;
 let countPayCard = 0;
 for (let i of data_storage) {
-  pricePayCard = pricePayCard + i.price;
+  pricePayCard = (pricePayCard + i.price);
+  
+  
   countPayCard = countPayCard + i.count;
 }
-order_price.innerHTML = pricePayCard;
+order_price.innerHTML = pricePayCard.toFixed(2);
 product_count.innerHTML = countPayCard;
 
 function getCookie(name) {
