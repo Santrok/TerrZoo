@@ -10,25 +10,42 @@
 {% endblock %}
 
 {% block profile_content %}
-        <section class="pay__card">
-                <div class="promotions__wrap">
-                    <div class="pay__card__title-wrap">
-                        <h2 class="pay__card__title">Профайл</h2>
+    <section class="user__data">
+        <div class="user__data__wrap">
+            <div class="user__data__title-wrap">
+                <h2 class="user__data__title">Профайл</h2>
+            </div>
+            <div class="user__data-from-wrap">
+                <form class="user__data-form" method="post">
+                    {% csrf_token %}
+                    {{ form_profile.as_p }}
+                    <div class="user__data-button-wrap">
+                        <button class="user__data-button" type="submit" name="action" value="profile">Save</button>
                     </div>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form_profile.as_p }}
-                        <button type="submit" name="action" value="profile">Save</button>
-                    </form>
-                    <form method="post">
+
+                </form>
+                <form class="user__data-form" method="post">
                         {% csrf_token %}
                         {{ form_profile_user.as_p }}
-                        <button type="submit" name="action" value="profile_user_username">Save</button>
+                        <div class="user__data-button-wrap">
+                            <button class="user__data-button" type="submit" name="action" value="profile_user_username">
+                                Save
+                            </button>
+                        </div>
                         {{ form_profile_password.as_p }}
-                        <button type="submit" name="action" value="profile_user_password">Save</button>
-                    </form>
-                </div>
-        </section>
+                        <div class="user__data-button-wrap">
+                            <button class="user__data-button" type="submit" name="action" value="profile_user_password">
+                                Save
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
     </div>
-</main>
+    </main>
 {% endblock %}
