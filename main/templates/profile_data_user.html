@@ -2,68 +2,50 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/profile_page/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile_page/style.css' %}">
 {% endblock %}
 
 {% block title %}
     Личный кабинет
 {% endblock %}
 
-{% block content %}
-<main>
-    <div class="main__wrap">
-        <nav class="main__nav">
-            <div class="container">
-                <ul class="main__nav-list">
-                    <li class="main__nav-list-item">
-                        <a href="{% url 'main' %}">Главная</a>
-                    </li>
-                    <li class="mian__nav-list-item-arrow">
-                        <svg
-                            width="20.000000"
-                            height="20.000000"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                        >
-                            <defs />
-                            <path
-                                id="Primary fill"
-                                d="M8.00049 16C7.74414 16 7.48828 15.902 7.29346 15.707C6.90234 15.316 6.90234 14.684 7.29346 14.293L11.5864 10L7.29346 5.707C6.90234 5.316 6.90234 4.684 7.29346 4.293C7.68408 3.902 8.31641 3.902 8.70703 4.293L13.707 9.293C14.0981 9.684 14.0981 10.316 13.707 10.707L8.70703 15.707C8.51221 15.902 8.25635 16 8.00049 16Z"
-                                fill="#5C5F62"
-                                fill-opacity="1.000000"
-                                fill-rule="evenodd"
-                            />
-                        </svg>
-                    </li>
-                    <li class="main__nav-list-item-active">
-                        <a href="{% url 'profile' %}">Личный кабинет</a>
-                    </li>
-                </ul>
+{% block profile_content %}
+    <section class="user__data">
+        <div class="user__data__wrap">
+            <div class="user__data__title-wrap">
+                <h2 class="user__data__title">Профайл</h2>
             </div>
-        </nav>
-        <section class="pay__card">
-            <div class="container">
-                <div class="promotions__wrap">
-                    <div class="pay__card__title-wrap">
-                        <h2 class="pay__card__title">Профайл</h2>
+            <div class="user__data-from-wrap">
+                <form class="user__data-form" method="post">
+                    {% csrf_token %}
+                    {{ form_profile.as_p }}
+                    <div class="user__data-button-wrap">
+                        <button class="user__data-button" type="submit" name="action" value="profile">Save</button>
                     </div>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form_profile.as_p }}
-                        <button type="submit" name="action" value="profile">Save</button>
-                    </form>
-                    <form method="post">
+
+                </form>
+                <form class="user__data-form" method="post">
                         {% csrf_token %}
                         {{ form_profile_user.as_p }}
-                        <button type="submit" name="action" value="profile_user_username">Save</button>
+                        <div class="user__data-button-wrap">
+                            <button class="user__data-button" type="submit" name="action" value="profile_user_username">
+                                Save
+                            </button>
+                        </div>
                         {{ form_profile_password.as_p }}
-                        <button type="submit" name="action" value="profile_user_password">Save</button>
-                    </form>
-                </div>
+                        <div class="user__data-button-wrap">
+                            <button class="user__data-button" type="submit" name="action" value="profile_user_password">
+                                Save
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
             </div>
-        </section>
+
+        </div>
+    </section>
     </div>
-</main>
+    </main>
 {% endblock %}

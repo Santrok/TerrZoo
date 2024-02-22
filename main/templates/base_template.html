@@ -330,7 +330,7 @@
                                 {% if request.path == '/profile/' %}
                                     <a href="{% url 'logout' %}">Выйти</a>
                                 {% else %}
-                                    <a href="{% url 'profile' %}">Личный кабинет</a>
+                                    <a href="{% url 'profile_data_user' %}">Личный кабинет</a>
                                 {% endif %}
                             {% else %}
                                 <a href="{% url 'login' %}">Войти</a>
@@ -534,7 +534,7 @@
                         <nav class="profile__nav">
                             <ul class="profile__nav-list">
                                 <li class="profile__nav-list-item">
-                                    <a href="#">История заказов</a>
+                                    <a href="{% url 'profile' %}">История заказов</a>
                                 </li>
                                 <li class="profile__nav-list-item">
                                     <a href="{% url 'wishlist' %}">Избранное</a>
@@ -549,7 +549,7 @@
                                     <a href="#">Подписки</a>
                                 </li>
                                 <li class="profile__nav-list-item">
-                                    <a href="#">Личные данные</a>
+                                    <a href="{% url 'profile_data_user' %}">Личные данные</a>
                                 </li>
                             </ul>
                         </nav>
