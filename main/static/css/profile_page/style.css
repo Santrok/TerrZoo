@@ -262,6 +262,7 @@ main h3 {
     padding-left: 350px;
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(34, 60, 80, 0.2);
+
     & p {
         font-size: large;
     }
@@ -322,4 +323,60 @@ main h3 {
 .product__item-compound, .product__item-supplements {
     height: 300px;
     margin-right: 10px;
+}
+
+.user__data__wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 0 0 24px 0;
+    width: 1030px;
+
+}
+
+.user__data__title-wrap {
+    text-align: center;
+    border-bottom: 1px solid rgba(34, 60, 80, 0.2);
+    padding-bottom: 10px;
+}
+
+.user__data-from-wrap {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.user__data-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+
+    & p {
+        border: 1px solid rgb(0, 160, 172);
+        border-radius: 4px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        padding-left: 5px;
+        background: white;
+    }
+}
+
+.user__data-button-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.user__data-button {
+    display: flex;
+    justify-content: center;
+    background: rgb(0, 160, 172);
+    height: 30px;
+    border-radius: 4px;
+    width: 200px;
+    align-items: center;
+    font-family: SF Pro Text;
+    color: white;
+    /*font-size: smaller;*/
 }
