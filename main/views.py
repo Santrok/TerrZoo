@@ -3,27 +3,23 @@ import json
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
-from rest_framework.generics import ListAPIView
 from config import settings
-
+from django.db.models import Count
 from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserForm
+from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserPasswordForm, \
+    ProfileUserNameForm
 
 from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
 
-
-# Create your views here.
 
 def get_page(request):
     """"""
@@ -48,6 +44,7 @@ def get_page(request):
                   template_name='index.html',
                   context=context)
 
+
 def search_catalog(request):
     animals = Animal.objects.all()
     products = Product.objects.all()
@@ -69,6 +66,8 @@ def search_catalog(request):
     return render(request=request,
                   template_name='search.html',
                   context=context)
+
+
 def get_page_catalog(request):
     animals = Animal.objects.all()
     products = Product.objects.all()
@@ -108,7 +107,7 @@ def get_page_catalog_by_animal(request, animal_id):
     j = []
     for i in list(c):
         print(i.get_family())
-        for p in i.get_family():
+        for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
     print(list(st), "+++++++++++++++++++++++++++++++")
@@ -417,7 +416,7 @@ def get_placing_an_order_page(request):
                   context=context)
 
 
-def get_profile_page(request):
+def get_profile_order_page(request):
     """Личный кабинет"""
     orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
     pay_cards = PayCard.objects.filter(user=request.user.id)
@@ -437,7 +436,6 @@ def get_profile_page_data_user(request):
     profile = Profile.objects.get(user=user)
 
     if request.method == 'POST':
-
         if request.POST.get('action') == 'profile':
             form_data_profile = ProfileForm(request.POST, instance=profile)
             form_data_user = ProfileForm(request.POST, instance=user)
@@ -445,40 +443,37 @@ def get_profile_page_data_user(request):
                 form_data_profile.save()
                 form_data_user.save()
 
-        elif request.POST.get('action') == 'profile_user':
-            print('------------------------- 11')
-            form_data = ProfileUserForm(request.POST)
-            if form_data.is_valid():
-                print('------------------------- 22')
-                password = form_data.cleaned_data.get('password')
-                new_password = form_data.cleaned_data.get(' new_password')
-                repeat_password = form_data.cleaned_data.get('repeat_password')
-                if check_password(password, user.password) and password and new_password and repeat_password:
+        elif request.POST.get('action') == 'profile_user_password':
+            form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
+            if form_data_pass.is_valid():
+                password = make_password(form_data_pass.cleaned_data.get('password'))
+                new_password = form_data_pass.cleaned_data.get('new_password')
+                repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
+                if check_password(user.password, password, ) and password and new_password and repeat_password:
                     user.set_password(new_password)
-                    print(1)
                     user.save()
-                    # form_data.save()
-                    messages.success(request, 'Данные успешно изменены!1')
+                    update_session_auth_hash(request, user)
                     messages.success(request, 'Пароль успешно изменен')
-                # if check_password(password, user.password):
-                #     print(2)
-                #     messages.error(request, 'Ошибка пароля')
-                else:
-                    print('-------------------------------')
-                    print(form_data.cleaned_data)
-                    print(form_data.cleaned_data.get('username'))
-                    user.username = form_data.cleaned_data.get('username')
+            else:
+                messages.error(request, 'Ошибка пароля')
+
+        elif request.POST.get('action') == 'profile_user_username':
+            form_data_user = ProfileUserNameForm(request.POST)
+            if form_data_user.is_valid():
+                if form_data_user.cleaned_data.get('username'):
+                    user.username = form_data_user.cleaned_data.get('username')
                     user.save()
-                    # form_data.save()
                     messages.success(request, 'Данные успешно изменены!')
             else:
-                print('говно')
+                messages.error(request, 'Ошибка пароля')
 
     form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
-    form_profile_user = ProfileUserForm(instance=user)
+    form_profile_user = ProfileUserNameForm(instance=user)
+    form_profile_password = ProfileUserPasswordForm(instance=user)
 
     context = {"form_profile": form_profile,
-               "form_profile_user": form_profile_user}
+               "form_profile_user": form_profile_user,
+               "form_profile_password": form_profile_password}
 
     return render(request=request,
                   template_name='profile_data_user.html',
