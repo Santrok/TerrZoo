@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function getLocalStorageSetPage(){
     let productsSearchList = JSON.parse(localStorage.getItem("result_search_objects"))
-    console.log(productsSearchList,"Объекты из сторадж search")
 
     for (let i of productsSearchList) {
                                      const product_list = document.querySelector(".products__list");

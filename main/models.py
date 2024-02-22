@@ -159,7 +159,7 @@ class AdminProduct(admin.ModelAdmin):
 
     inlines = [ImageProductInlines, ]
     list_display = ['title',
-                    'image_prev',
+                    'category',
                     'sale', ]
 
 
