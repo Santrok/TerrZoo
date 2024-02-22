@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Получение элементов для событий
 
     const searchInput = document.querySelector("#search__input")
+    
     searchInput.addEventListener('input', fetchQueryParams)
     searchInput.addEventListener('keyup', getPageCatalog)
 
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch(`http://127.0.0.1:8000/api/get_search_product/?title=${searchInput.value}`)
                 .then(resp => resp.json())
                 .then(data => {
+                    
                     localStorage.setItem("result_search_objects", JSON.stringify(data.results))
                     let insertResultData = document.querySelector('.search__drop-down')
                     insertResultData.style.display = 'block'
