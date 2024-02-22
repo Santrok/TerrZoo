@@ -8,17 +8,20 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+
+from django.contrib.auth.views import PasswordChangeView
 
 from rest_framework.generics import ListAPIView
 from config import settings
 
 from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserForm
+from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserPasswordForm, \
+    ProfileUserNameForm
 
 from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
 
@@ -425,40 +428,78 @@ def get_profile_page_data_user(request):
                 form_data_profile.save()
                 form_data_user.save()
 
-        elif request.POST.get('action') == 'profile_user':
+        elif request.POST.get('action') == 'profile_user_password':
             print('------------------------- 11')
-            form_data = ProfileUserForm(request.POST)
-            if form_data.is_valid():
+            print(request.POST)
+
+            form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
+
+            if form_data_pass.is_valid():
+
                 print('------------------------- 22')
-                password = form_data.cleaned_data.get('password')
-                new_password = form_data.cleaned_data.get(' new_password')
-                repeat_password = form_data.cleaned_data.get('repeat_password')
-                if check_password(password, user.password) and password and new_password and repeat_password:
+                password = form_data_pass.cleaned_data.get('password')
+                new_password = form_data_pass.cleaned_data.get('new_password')
+                repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
+                password = make_password(password)
+
+                print('check_password: ', check_password(user.password, password))
+                # print(password, user.password)
+                # print('password: ', bool(password))
+                # print('new_password: ', bool(new_password))
+                # print('repeat_password: ', bool(repeat_password))
+
+                if check_password(user.password, password, ) and password and new_password and repeat_password:
+                    print('------------------------- 33')
+                    print(form_data_pass.cleaned_data)
+
                     user.set_password(new_password)
-                    print(1)
                     user.save()
+
+                    update_session_auth_hash(request, user)
+                    # username = user.username
+                    # password = user.password
+                    # print(username, password)
+                    #
+                    # user_new = authenticate(request,
+                    #                         username=username,
+                    #                         passwoed=password,
+                    #                         backend=user.backend)
+                    # login(request, user_new)
+
                     # form_data.save()
-                    messages.success(request, 'Данные успешно изменены!1')
+                    messages.success(request, 'Данные успешно изменены!')
                     messages.success(request, 'Пароль успешно изменен')
                 # if check_password(password, user.password):
                 #     print(2)
                 #     messages.error(request, 'Ошибка пароля')
-                else:
-                    print('-------------------------------')
-                    print(form_data.cleaned_data)
-                    print(form_data.cleaned_data.get('username'))
-                    user.username = form_data.cleaned_data.get('username')
+                print(user.username)
+            else:
+                print('ПАРОЛЬ НЕТ ВОЛИДАЦИИ!!!')
+
+        elif request.POST.get('action') == 'profile_user_username':
+
+            form_data_user = ProfileUserNameForm(request.POST)
+
+            if form_data_user.is_valid():
+                print(user.username)
+                if form_data_user.cleaned_data.get('username'):
+                    print('------------------------- 44')
+                    print(form_data_user.cleaned_data)
+                    print(form_data_user.cleaned_data.get('username'))
+                    user.username = form_data_user.cleaned_data.get('username')
                     user.save()
-                    # form_data.save()
+                    # form_data_user.save()
                     messages.success(request, 'Данные успешно изменены!')
             else:
-                print('говно')
+                print('ПОЛЬЗОВАТЕЛЬ НЕТ ВОЛИДАЦИИ!!!')
 
     form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
-    form_profile_user = ProfileUserForm(instance=user)
+    form_profile_user = ProfileUserNameForm(instance=user)
+    form_profile_password = ProfileUserPasswordForm(instance=user)
 
     context = {"form_profile": form_profile,
-               "form_profile_user": form_profile_user}
+               "form_profile_user": form_profile_user,
+               "form_profile_password": form_profile_password}
 
     return render(request=request,
                   template_name='profile_data_user.html',

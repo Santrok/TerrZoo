@@ -70,29 +70,36 @@ class ProfileForm(forms.ModelForm):
                   'postal_code')
 
 
-class ProfileUserForm(forms.ModelForm):
+class ProfileUserNameForm(forms.ModelForm):
     username = forms.CharField(required=False,
                                label='Имя',
                                widget=forms.TextInput(
                                    attrs={'class': 'auth_input',
                                           'placeholder': 'Введите Ваше имя'}))
+
+    class Meta:
+        model = User
+        fields = ['username']
+
+
+class ProfileUserPasswordForm(forms.ModelForm):
     password = forms.CharField(required=False,
                                error_messages={'required': 'Введите пароль'},
                                label='Введите пароль',
                                widget=forms.PasswordInput(
-                                   attrs={'id': 'password_person_reset_field',
+                                   attrs={'class': 'password_person_reset_field',
                                           'placeholder': 'Введите старый пароль'}),
                                validators=[validate_password])
     new_password = forms.CharField(required=False,
                                    label='Введите новый пароль',
                                    widget=forms.PasswordInput(
-                                       attrs={'id': 'password_register_field',
+                                       attrs={'class': 'password_register_field',
                                               'placeholder': 'Введите новый пароль'}),
                                    validators=[validate_password])
     repeat_new_pass = forms.CharField(required=False,
                                       label='Повторите новый пароль',
                                       widget=forms.PasswordInput(
-                                          attrs={'id': 'password_register_field',
+                                          attrs={'class': 'password_register_field',
                                                  'placeholder': 'Повторите новый пароль'}),
                                       validators=[validate_password])
 
@@ -105,4 +112,4 @@ class ProfileUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['password']

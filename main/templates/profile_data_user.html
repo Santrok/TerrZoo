@@ -57,7 +57,9 @@
                     <form method="post">
                         {% csrf_token %}
                         {{ form_profile_user.as_p }}
-                        <button type="submit" name="action" value="profile_user">Save</button>
+                        <button type="submit" name="action" value="profile_user_username">Save</button>
+                        {{ form_profile_password.as_p }}
+                        <button type="submit" name="action" value="profile_user_password">Save</button>
                     </form>
                 </div>
             </div>
