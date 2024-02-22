@@ -404,3 +404,25 @@ def get_profile_page(request):
     return render(request=request,
                   template_name='profile.html',
                   context=context)
+
+
+def get_profile_wishlist_page(request):
+    '''Отдаем страничку с избранными товарами из личного кабинета'''
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request=request,
+                  template_name='profile_wishlist.html',
+                  context=context)
+
+
+def get_profile_comparisonlist_page(request):
+    '''Отдаем страничку со списком сравнения из личного кабинета'''
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request=request,
+                  template_name='profile_comparisonlist.html',
+                  context=context)

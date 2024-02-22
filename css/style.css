@@ -210,6 +210,15 @@
     font-weight: 400;
     line-height: 20px;
   }
+  .header__bottom-search input::-moz-placeholder {
+    color: var(--Text-Subdued, #6d7175);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
   .header__bottom-search input::placeholder {
     color: var(--Text-Subdued, #6d7175);
     font-feature-settings: "clig" off, "liga" off;
@@ -278,6 +287,15 @@
   border-radius: 4px;
   border: 1px solid var(--Text-input-border, #a7acb1);
   background: var(--Surface-Default, #fff);
+  color: var(--Text-Subdued, #6d7175);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "SF Pro Text";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.header__up-search input::-moz-placeholder {
   color: var(--Text-Subdued, #6d7175);
   font-feature-settings: "clig" off, "liga" off;
   font-family: "SF Pro Text";
@@ -512,7 +530,8 @@
 .slider__item-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .slider__item-title {
@@ -1070,6 +1089,27 @@
   max-height: 20px;
 }
 
+.profile__nav {
+  padding: 16px 0 0 0;
+}
+
+.profile__nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile__nav-list-item a {
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Text;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
 .callback {
   display: none;
   background: #fff;
@@ -1108,6 +1148,13 @@
   background: rgb(255, 255, 255);
   border: 1px solid rgb(167, 172, 177);
   padding: 8px 12px;
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Text;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.callback__field-item input::-moz-placeholder {
   color: rgb(32, 34, 35);
   font-family: SF Pro Text;
   font-size: 15px;
@@ -1449,7 +1496,8 @@ footer {
 .article__img-mob img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   max-height: 306px;
 }
 
@@ -1459,7 +1507,8 @@ footer {
 .article__img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   max-height: 306px;
 }
 
@@ -1485,6 +1534,4 @@ footer {
   .article__img {
     display: block;
   }
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
