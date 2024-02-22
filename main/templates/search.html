@@ -1,5 +1,5 @@
-{% extends 'base_template.html' %} 
-{% load static %} 
+{% extends 'base_template.html' %}
+{% load static %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static '/css/catalog_page/style.css' %}" />
@@ -156,7 +156,7 @@
                                 Выберите животного
                             </h3>
                             <ul class="filter__type-list">
-                                {% for animal in animals %} 
+                                {% for animal in animals %}
                                 <li class="filter__type-list-item">
                                     <input
                                         type="radio"
@@ -489,5 +489,5 @@
 <script defer src="{% static 'js/catalog_page/linkToAnimal.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/select.js' %}"></script>
-<script defer src="{% static 'js/catalog_page/setallproductscatalogpage.js' %}"></script>
+<script defer src="{% static 'js/search/search.js' %}"></script>
 {% endblock %}

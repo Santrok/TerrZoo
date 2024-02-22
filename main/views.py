@@ -3,10 +3,8 @@ import json
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -14,9 +12,6 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
-from django.contrib.auth.views import PasswordChangeView
-
-from rest_framework.generics import ListAPIView
 from config import settings
 
 from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
@@ -25,8 +20,6 @@ from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, Profile
 
 from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
 
-
-# Create your views here.
 
 def get_page(request):
     """"""
@@ -49,6 +42,29 @@ def get_page(request):
                "articals": articals}
     return render(request=request,
                   template_name='index.html',
+                  context=context)
+
+
+def search_catalog(request):
+    animals = Animal.objects.all()
+    products = Product.objects.all()
+    popular_products = sorted(products,
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+    articals = Article.objects.all()
+    category = CategoryProduct.objects.all()
+    brands = Brand.objects.all()
+
+    context = {"animals": animals,
+               "products": products,
+               "popular_products": popular_products,
+               "articals": articals,
+               "categoty_products": category,
+
+               "brands": brands}
+
+    return render(request=request,
+                  template_name='search.html',
                   context=context)
 
 
