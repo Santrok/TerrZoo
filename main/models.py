@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 from mptt.models import MPTTModel, TreeForeignKey
@@ -145,10 +146,12 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
 
+
 class ImageProductInlines(admin.StackedInline):
     model = ImageProduct
     max_num = 10
     extra = 0
+
 
 class AdminProduct(admin.ModelAdmin):
     """Класс управления отображения
@@ -156,8 +159,8 @@ class AdminProduct(admin.ModelAdmin):
 
     inlines = [ImageProductInlines, ]
     list_display = ['title',
-                    'image_prev',
-                    'sale',]
+                    'category',
+                    'sale', ]
 
 
 class CountItemProduct(models.Model):
@@ -384,5 +387,63 @@ class ArticleForOrders(models.Model):
     """Модель для хранения артикля для формирования номера заказа"""
     article = models.PositiveIntegerField()
 
-    # def __str__(self):
-    #     return self.article
+
+class Profile(models.Model):
+    """Модель профайла связана с User по FK"""
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                verbose_name="Пользователь",
+                                blank=True)
+    phone_number = models.CharField(verbose_name="Номер телефона",
+                                    max_length=17,
+                                    blank=True)
+    date_of_birth = models.DateField(verbose_name="Дата рождения",
+                                     blank=True,
+                                     null=True)
+    city = models.CharField(verbose_name="Город",
+                            max_length=120,
+                            blank=True,
+                            null=True)
+    street = models.CharField(verbose_name="Улица",
+                              max_length=40,
+                              blank=True,
+                              null=True)
+    house_number = models.CharField(verbose_name="Номер дома",
+                                    max_length=4,
+                                    blank=True,
+                                    null=True)
+    entrance_number = models.CharField(verbose_name="Номер подъезда",
+                                       max_length=2,
+                                       blank=True,
+                                       null=True)
+    apartment_number = models.CharField(verbose_name="Номер квартиры",
+                                        max_length=4,
+                                        blank=True,
+                                        null=True)
+    postal_code = models.CharField(verbose_name="Почтовый индекс",
+                                   max_length=6,
+                                   blank=True,
+                                   null=True)
+
+    class Meta:
+        verbose_name_plural = 'Профили пользователей'
+        verbose_name = 'Профиль пользователя'
+        ordering = ['user']
+
+    def __str__(self):
+        return self.user.username
+
+    # def clean(self):
+    #     """Проверка некоторых полей модели."""
+    #     errors = {}
+    #
+    #     # Проверка поля УНП
+    #     if not self.apartment_number.isdigit():
+    #         errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
+    #
+    #     # Проверка поля индекс
+    #     if len(self.postal_code) < 6 or not self.postal_code.isdigit():
+    #         errors.update({'postcode': 'Не верный формат'})
+    #
+    #     if errors:
+    #         raise ValidationError(errors)

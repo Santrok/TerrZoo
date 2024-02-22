@@ -1,5 +1,6 @@
 {% extends 'registration_base.html'%} 
 {% load static %}
+{% load socialaccount %}
 {% block content %} 
     <div class="page_wrapper">
         <div class="form_wrap">
@@ -12,6 +13,9 @@
                     <button class="button">Вход</button>
                     <a class="link_next_page" href="{% url 'register' %}">Регистрация</a>
                     <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
+                </div>
+                <div class="social_auth_panel">
+                    <a class="link_next_page" href="{% provider_login_url 'google' %}">Вход через Google</a>
                 </div>
             </form>
         </div>

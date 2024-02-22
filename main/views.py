@@ -3,23 +3,23 @@ import json
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from rest_framework.generics import ListAPIView
-
-from config import settings
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm
+
+from config import settings
+from django.db.models import Count
+from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
+from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserPasswordForm, \
+    ProfileUserNameForm
 
 from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
 
-
-# Create your views here.
 
 def get_page(request):
     """"""
@@ -42,6 +42,29 @@ def get_page(request):
                "articals": articals}
     return render(request=request,
                   template_name='index.html',
+                  context=context)
+
+
+def search_catalog(request):
+    animals = Animal.objects.all()
+    products = Product.objects.all()
+    popular_products = sorted(products,
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+    articals = Article.objects.all()
+    category = CategoryProduct.objects.all()
+    brands = Brand.objects.all()
+
+    context = {"animals": animals,
+               "products": products,
+               "popular_products": popular_products,
+               "articals": articals,
+               "categoty_products": category,
+
+               "brands": brands}
+
+    return render(request=request,
+                  template_name='search.html',
                   context=context)
 
 
@@ -84,7 +107,7 @@ def get_page_catalog_by_animal(request, animal_id):
     j = []
     for i in list(c):
         print(i.get_family())
-        for p in i.get_family():
+        for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
     print(list(st), "+++++++++++++++++++++++++++++++")
@@ -393,7 +416,7 @@ def get_placing_an_order_page(request):
                   context=context)
 
 
-def get_profile_page(request):
+def get_profile_order_page(request):
     """Личный кабинет"""
     orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
     pay_cards = PayCard.objects.filter(user=request.user.id)
@@ -406,6 +429,7 @@ def get_profile_page(request):
                   context=context)
 
 
+<<<<<<< HEAD
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
     products = Product.objects.all()
@@ -425,4 +449,54 @@ def get_profile_comparisonlist_page(request):
     }
     return render(request=request,
                   template_name='profile_comparisonlist.html',
+=======
+@login_required
+def get_profile_page_data_user(request):
+    """Личный кабинет первая страница"""
+    user = request.user
+    profile = Profile.objects.get(user=user)
+
+    if request.method == 'POST':
+        if request.POST.get('action') == 'profile':
+            form_data_profile = ProfileForm(request.POST, instance=profile)
+            form_data_user = ProfileForm(request.POST, instance=user)
+            if form_data_profile.is_valid() and form_data_user.is_valid():
+                form_data_profile.save()
+                form_data_user.save()
+
+        elif request.POST.get('action') == 'profile_user_password':
+            form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
+            if form_data_pass.is_valid():
+                password = make_password(form_data_pass.cleaned_data.get('password'))
+                new_password = form_data_pass.cleaned_data.get('new_password')
+                repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
+                if check_password(user.password, password, ) and password and new_password and repeat_password:
+                    user.set_password(new_password)
+                    user.save()
+                    update_session_auth_hash(request, user)
+                    messages.success(request, 'Пароль успешно изменен')
+            else:
+                messages.error(request, 'Ошибка пароля')
+
+        elif request.POST.get('action') == 'profile_user_username':
+            form_data_user = ProfileUserNameForm(request.POST)
+            if form_data_user.is_valid():
+                if form_data_user.cleaned_data.get('username'):
+                    user.username = form_data_user.cleaned_data.get('username')
+                    user.save()
+                    messages.success(request, 'Данные успешно изменены!')
+            else:
+                messages.error(request, 'Ошибка пароля')
+
+    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
+    form_profile_user = ProfileUserNameForm(instance=user)
+    form_profile_password = ProfileUserPasswordForm(instance=user)
+
+    context = {"form_profile": form_profile,
+               "form_profile_user": form_profile_user,
+               "form_profile_password": form_profile_password}
+
+    return render(request=request,
+                  template_name='profile_data_user.html',
+>>>>>>> main
                   context=context)
