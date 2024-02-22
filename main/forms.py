@@ -71,7 +71,8 @@ class ProfileForm(forms.ModelForm):
 
 
 class ProfileUserForm(forms.ModelForm):
-    username = forms.CharField(label='Имя',
+    username = forms.CharField(required=False,
+                               label='Имя',
                                widget=forms.TextInput(
                                    attrs={'class': 'auth_input',
                                           'placeholder': 'Введите Ваше имя'}))
