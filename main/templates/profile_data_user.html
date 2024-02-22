@@ -16,16 +16,16 @@
                 <h2 class="user__data__title">Профайл</h2>
             </div>
             <div class="user__data-from-wrap">
-                {% csrf_token %}
                 <form class="user__data-form-item" method="post">
+                    {% csrf_token %}
                     {{ form_profile.as_p }}
                     <div class="user__data-button-wrap">
                         <button class="user__data-button" type="submit" name="action" value="profile">Save</button>
                     </div>
                 </form>
                 <form class="user__data-form" method="post">
-                    {% csrf_token %}
                     <div class="user__data-form-item">
+                        {% csrf_token %}
                         {{ form_profile_user.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button" type="submit" name="action" value="profile_user_username">
@@ -34,6 +34,7 @@
                         </div>
                     </div>
                     <div class="user__data-form-item">
+                        {% csrf_token %}
                         {{ form_profile_password.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button" type="submit" name="action" value="profile_user_password">

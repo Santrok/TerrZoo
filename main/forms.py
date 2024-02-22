@@ -54,10 +54,8 @@ class ForgetPasswordForm(forms.Form):
 
 class ProfileForm(forms.ModelForm):
     first_name = forms.CharField(label='Имя',
-                                 label_suffix=': ',
                                  required=False)
     last_name = forms.CharField(label='Фамилия',
-                                label_suffix=': ',
                                 required=False)
 
     class Meta:
@@ -77,7 +75,6 @@ class ProfileForm(forms.ModelForm):
 class ProfileUserNameForm(forms.ModelForm):
     username = forms.CharField(required=False,
                                label='Имя',
-                               label_suffix=': ',
                                widget=forms.TextInput(
                                    attrs={'class': 'auth_input',
                                           'placeholder': 'Введите Ваше имя'}))
@@ -91,21 +88,18 @@ class ProfileUserPasswordForm(forms.ModelForm):
     password = forms.CharField(required=False,
                                error_messages={'required': 'Введите пароль'},
                                label='Введите пароль',
-                               label_suffix=': ',
                                widget=forms.PasswordInput(
                                    attrs={'class': 'password_person_reset_field',
                                           'placeholder': 'Введите старый пароль'}),
                                validators=[validate_password])
     new_password = forms.CharField(required=False,
                                    label='Введите новый пароль',
-                                   label_suffix=': ',
                                    widget=forms.PasswordInput(
                                        attrs={'class': 'password_register_field',
                                               'placeholder': 'Введите новый пароль'}),
                                    validators=[validate_password])
     repeat_new_pass = forms.CharField(required=False,
                                       label='Повторите новый пароль',
-                                      label_suffix=': ',
                                       widget=forms.PasswordInput(
                                           attrs={'class': 'password_register_field',
                                                  'placeholder': 'Повторите новый пароль'}),
