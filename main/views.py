@@ -429,7 +429,6 @@ def get_profile_order_page(request):
                   context=context)
 
 
-<<<<<<< HEAD
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
     products = Product.objects.all()
@@ -448,8 +447,8 @@ def get_profile_comparisonlist_page(request):
         'products': products
     }
     return render(request=request,
-                  template_name='profile_comparisonlist.html',
-=======
+                  template_name='profile_comparisonlist.html',context =
+                      context)
 @login_required
 def get_profile_page_data_user(request):
     """Личный кабинет первая страница"""
@@ -498,5 +497,4 @@ def get_profile_page_data_user(request):
 
     return render(request=request,
                   template_name='profile_data_user.html',
->>>>>>> main
                   context=context)

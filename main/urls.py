@@ -2,19 +2,12 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
     PasswordResetCompleteView
 from django.urls import path, reverse_lazy
 
-<<<<<<< HEAD
-from main.views import get_page, login_view, registration_view, logout_view, reset_password, get_basket_page, \
-    get_page_catalog, get_details, get_page_catalog_by_animal, get_articles_page, activate_user, confirm_email, \
-    get_brands_page, get_article_by_article_id, get_article_by_animals_id, get_promotions_page, \
-    get_placing_an_order_page, get_profile_page, get_profile_wishlist_page, get_profile_comparisonlist_page
-=======
 from main.views import (get_page, login_view, registration_view, logout_view, reset_password, get_basket_page,
                         get_page_catalog, get_details, get_page_catalog_by_animal, get_articles_page, activate_user,
                         confirm_email,
                         get_brands_page, get_article_by_article_id, get_article_by_animals_id, get_promotions_page,
                         search_catalog,
-                        get_placing_an_order_page, get_profile_page_data_user, get_profile_order_page)
->>>>>>> main
+                        get_placing_an_order_page, get_profile_page_data_user, get_profile_order_page, get_profile_page, get_profile_wishlist_page, get_profile_comparisonlist_page, get_profile_page_data_user)
 
 urlpatterns = [
     path('', get_page, name='main'),
@@ -53,12 +46,9 @@ urlpatterns = [
     path('articles/<int:animal_id>', get_article_by_animals_id, name='articles_by_animal_id'),
     path('promotions/', get_promotions_page, name='promotions'),
     path('placing_an_order/', get_placing_an_order_page, name='placing_an_order'),
-<<<<<<< HEAD
     path('profile/', get_profile_page, name='profile'),
     path('wishlist/', get_profile_wishlist_page, name='wishlist'),
     path('comparisonlist/', get_profile_comparisonlist_page, name='comparisonlist'),
-=======
     path('profile_data_user/', get_profile_page_data_user, name='profile_data_user'),
     path('profile/', get_profile_order_page, name='profile'),
->>>>>>> main
 ]
