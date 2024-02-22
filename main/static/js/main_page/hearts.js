@@ -1,6 +1,7 @@
 const hearts = document.querySelectorAll('.slider__item-hearts') 
 const heartsArr = []
-hearts.forEach(item => {
+localStorage.setItem('heartsProduct', JSON.stringify(heartsArr))
+hearts?.forEach(item => {
     for(let i of JSON.parse(localStorage.getItem('heartsProduct'))) {
         if(i.id === item.parentElement.dataset.id) {
             item.classList.add('slider__item-hearts-active')
