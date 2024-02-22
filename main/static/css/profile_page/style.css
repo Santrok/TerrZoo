@@ -361,14 +361,30 @@ main h3 {
     width: 400px;
 
     & p {
-        border: 1px solid rgb(0, 160, 172);
-        border-radius: 4px;
-        height: 30px;
         display: flex;
         align-items: center;
         padding-left: 5px;
         background: white;
-        gap: 5px;
+        gap: 10px;
+        & label {
+            width: 220px;
+        height: 30px;
+            align-items: center;
+            justify-content: flex-end;
+            display: flex;
+            text-align: end;
+        }
+        & input {
+            border: 1px solid rgb(0, 160, 172);
+        border-radius: 4px;
+        height: 30px;
+            width: 400px;
+            padding-left: 10px;
+        }
+        & input:disabled{
+            background: lightblue;
+            opacity: 0.5;
+        }
     }
 }
 
