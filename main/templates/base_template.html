@@ -329,8 +329,14 @@
                             {% if user.is_authenticated %}
                                 {% if request.path == '/profile/' %}
                                     <a href="{% url 'logout' %}">Выйти</a>
+                                {% elif request.path == '/profile_data_user/' %}
+                                    <a href="{% url 'logout' %}">Выйти</a>
+                                {% elif request.path == '/comparisonlist/' %}
+                                    <a href="{% url 'logout' %}">Выйти</a>
+                                {% elif request.path == '/wishlist/' %}
+                                    <a href="{% url 'logout' %}">Выйти</a>
                                 {% else %}
-                                    <a href="{% url 'profile_data_user' %}">Личный кабинет</a>
+                                    <a href="{% url 'profile_data_user' %}">ЛК</a>
                                 {% endif %}
                             {% else %}
                                 <a href="{% url 'login' %}">Войти</a>
@@ -534,6 +540,9 @@
                         <nav class="profile__nav">
                             <ul class="profile__nav-list">
                                 <li class="profile__nav-list-item">
+                                    <a href="{% url 'profile_data_user' %}">Личные данные</a>
+                                </li>
+                                <li class="profile__nav-list-item">
                                     <a href="{% url 'profile' %}">История заказов</a>
                                 </li>
                                 <li class="profile__nav-list-item">
@@ -547,9 +556,6 @@
                                 </li>
                                 <li class="profile__nav-list-item">
                                     <a href="#">Подписки</a>
-                                </li>
-                                <li class="profile__nav-list-item">
-                                    <a href="{% url 'profile_data_user' %}">Личные данные</a>
                                 </li>
                             </ul>
                         </nav>

@@ -16,36 +16,33 @@
                 <h2 class="user__data__title">Профайл</h2>
             </div>
             <div class="user__data-from-wrap">
-                <form class="user__data-form" method="post">
-                    {% csrf_token %}
+                {% csrf_token %}
+                <form class="user__data-form-item" method="post">
                     {{ form_profile.as_p }}
                     <div class="user__data-button-wrap">
                         <button class="user__data-button" type="submit" name="action" value="profile">Save</button>
                     </div>
-
                 </form>
                 <form class="user__data-form" method="post">
-                        {% csrf_token %}
+                    {% csrf_token %}
+                    <div class="user__data-form-item">
                         {{ form_profile_user.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button" type="submit" name="action" value="profile_user_username">
                                 Save
                             </button>
                         </div>
+                    </div>
+                    <div class="user__data-form-item">
                         {{ form_profile_password.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button" type="submit" name="action" value="profile_user_password">
                                 Save
                             </button>
                         </div>
-
                     </div>
-
                 </form>
             </div>
-
         </div>
     </section>
-    </div>
-    </main>
 {% endblock %}

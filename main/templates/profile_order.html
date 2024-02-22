@@ -12,43 +12,42 @@
 
 {% block profile_content %}
     <section class="user__data">
-        <div class="container">
-                <div class="promotions__wrap">
-                    <div class="pay__card__title-wrap">
-                        <h2 class="pay__card__title">Пластиковые карты</h2>
-                    </div>
-                    <ul class="pay__card__list">
-                        {% for pay_card in pay_cards %}
-                            <fieldset class="pay__card-item">
-                                <div class="numder_paycard">
-                                    <div class="input_item_active_num_paycard">
-                                        <p>{{ pay_card.card_number|slice:"0:4" }}</p>
-                                    </div>
-                                    <div class="input_item_active_num_paycard">
-                                        <p>{{ pay_card.card_number|slice:"4:8" }}</p>
-                                    </div>
-                                    <div class="input_item_active_num_paycard">
-                                        <p>{{ pay_card.card_number|slice:"8:12" }}</p>
-                                    </div>
-                                    <div class="input_item_active_num_paycard">
-                                        <p>{{ pay_card.card_number|slice:"12:16" }}</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p>Баланс: {{ pay_card.balance }}</p>
-                                </div>
-                                <div class="date_CVV_paycard">
-                                    <div class="input_item_active_date_paycard">
-                                        <p>{{ pay_card.expiration_date }}</p>
-                                    </div>
-                                    <div class="input_item_active_CVV_paycard">
-                                        <p>{{ pay_card.cvc }}</p>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        {% endfor %}
-                    </ul>
+            <div class="promotions__wrap">
+                <div class="pay__card__title-wrap">
+                    <h2 class="pay__card__title">Пластиковые карты</h2>
                 </div>
+                <ul class="pay__card__list">
+                    {% for pay_card in pay_cards %}
+                        <fieldset class="pay__card-item">
+                            <div class="numder_paycard">
+                                <div class="input_item_active_num_paycard">
+                                    <p>{{ pay_card.card_number|slice:"0:4" }}</p>
+                                </div>
+                                <div class="input_item_active_num_paycard">
+                                    <p>{{ pay_card.card_number|slice:"4:8" }}</p>
+                                </div>
+                                <div class="input_item_active_num_paycard">
+                                    <p>{{ pay_card.card_number|slice:"8:12" }}</p>
+                                </div>
+                                <div class="input_item_active_num_paycard">
+                                    <p>{{ pay_card.card_number|slice:"12:16" }}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Баланс: {{ pay_card.balance }}</p>
+                            </div>
+                            <div class="date_CVV_paycard">
+                                <div class="input_item_active_date_paycard">
+                                    <p>{{ pay_card.expiration_date }}</p>
+                                </div>
+                                <div class="input_item_active_CVV_paycard">
+                                    <p>{{ pay_card.cvc }}</p>
+                                </div>
+                            </div>
+                        </fieldset>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </section>
     <section class="article">
