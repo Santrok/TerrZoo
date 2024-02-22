@@ -421,6 +421,8 @@ def get_profile_order_page(request):
     orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
+    print(orders, pay_cards)
+
     context = {"orders": orders,
                "pay_cards": pay_cards}
 
