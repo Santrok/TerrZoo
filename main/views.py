@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 from config import settings
-
+from django.db.models import Count
 from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
 from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserPasswordForm, \
     ProfileUserNameForm
@@ -107,7 +107,7 @@ def get_page_catalog_by_animal(request, animal_id):
     j = []
     for i in list(c):
         print(i.get_family())
-        for p in i.get_family():
+        for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
     print(list(st), "+++++++++++++++++++++++++++++++")
