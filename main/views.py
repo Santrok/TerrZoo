@@ -48,7 +48,27 @@ def get_page(request):
                   template_name='index.html',
                   context=context)
 
+def search_catalog(request):
+    animals = Animal.objects.all()
+    products = Product.objects.all()
+    popular_products = sorted(products,
+                              key=lambda x: x.sales_counter,
+                              reverse=True)
+    articals = Article.objects.all()
+    category = CategoryProduct.objects.all()
+    brands = Brand.objects.all()
 
+    context = {"animals": animals,
+               "products": products,
+               "popular_products": popular_products,
+               "articals": articals,
+               "categoty_products": category,
+
+               "brands": brands}
+
+    return render(request=request,
+                  template_name='search.html',
+                  context=context)
 def get_page_catalog(request):
     animals = Animal.objects.all()
     products = Product.objects.all()
