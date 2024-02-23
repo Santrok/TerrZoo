@@ -76,17 +76,18 @@
                       placeholder="Иванов Иван Иванович"
                       id="name"
                       class="input_item_active"
+                      value="{{ request.user.first_name }}"
                     />
                   </div>
                   <div class="info_about_client_form_item">
                     <label for="phone" class="input_item_label">
                       <p>Номер телефона</p>
                     </label>
-                    <input type="tel" name="phone" placeholder="+375_____-__-__" id="phone" class="input_item_active" />
+                    <input type="tel" name="phone" placeholder="+375_____-__-__" id="phone" class="input_item_active" value="{{ request.user.profile.phone_number }}"/>
                   </div>
                   <div class="info_about_payment_method">
                     <label class="payment_method"
-                      ><input type="radio" name="payment_method" id="cash" />Оплата наличными при получение</label
+                      ><input type="radio" name="payment_method" id="cash" />Оплата наличными при получении</label
                     >
                     <label class="payment_method"
                       ><input type="radio" name="payment_method" id="pay_online" />Оплата картой онлайн</label
@@ -156,12 +157,12 @@
                       <div class="info_about_order_price">
                         {% if ptoduct.sale.percent != 0 %}
                         <p class="order_price_promotion">
-                          {# {{ product.price }}#} 670
-                          <span>BYN</span>
+                          {# {{ product.price }}#} {# 670 #}
+                          {#  <span>BYN</span> #}
                         </p>
                         <p class="order_price">
-                          {# {{ product.action_price|floatformat:2 }} #} 543
-                          <span>BYN</span>
+                          {# {{ product.action_price|floatformat:2 }} #} {# 543 #}
+                          {#  <span>BYN</span>  #}
                         </p>
                         {% else %}
                         <p class="order_price">
