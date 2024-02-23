@@ -1336,6 +1336,7 @@ footer {
 
 .slider__item-img {
   flex: 0 1 210px;
+  background: #fff;
 }
 .slider__item-img img {
   max-height: 210px;
@@ -1371,8 +1372,8 @@ footer {
   align-items: center;
   border: 1px solid #e6e8eb;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
   transition: 0.3s ease;
 }
