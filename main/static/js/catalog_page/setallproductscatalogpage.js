@@ -1,18 +1,48 @@
-// Вставка товаров 
+// Вставка товаров
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Загрузка товаров старт")
-    
-          fetch(`http://127.0.0.1:8000/api/get_products_list/`)
-               .then(resp=>resp.json())
-               .then(data=>{
-                for (let i of data.results) {
-                                 const product_list = document.querySelector(".products__list");
-                                 product_list.innerHTML += `
-                                                 <article class="products___item" data-id="${i.id}">
+  const product_list = document.querySelector(".products__list");
+  const productPaginationList = document.querySelectorAll(".products__pagination-item");
+  const paginationList = document.querySelector(".products__pagination-list");
+  let countPagination = 0;
+
+  productPaginationList.forEach((item) => {
+    item.addEventListener("click", (e) => {
+        if(e.currentTarget.children[0].textContent.trim() === 'Следующая') {
+            if(localStorage.getItem('nextPageCatalog') !== null) {
+                for(let i of paginationList.children) {
+                    i.classList.remove('products__pagination-list-item-active')
+                }
+                paginationList.children[++countPagination - 1].classList.add('products__pagination-list-item-active')
+                fetchProduct(localStorage.getItem('nextPageCatalog'));
+            }
+        }else {
+            if(localStorage.getItem('previousPageCatalog') !== null) {
+                for(let i of paginationList.children) {
+                    i.classList.remove('products__pagination-list-item-active')
+                }
+                paginationList.children[--countPagination - 1].classList.add('products__pagination-list-item-active')
+                fetchProduct(localStorage.getItem('previousPageCatalog'));
+            }
+        }
+        console.log(product_list.getBoundingClientRect().top - 120);
+        window.scrollBy({
+            top: product_list.getBoundingClientRect().top - 120,
+            behavior: 'smooth'
+        })
+    });
+  });
+
+  function renderProduct(data) {
+    product_list.innerHTML = "";
+    for (let i of data.results) {
+      product_list.innerHTML += `
+                                    <article class="products___item" data-id="${i.id}">
                                                  <div class="products___item-img">
                                                      <img src="${i.image_prev}" alt="item" />
                                                  </div>
-                                                 <a href="http://127.0.0.1:8000/details/${i.id}" class="products___item-title">
+                                                 <a href="http://127.0.0.1:8000/details/${
+                                                   i.id
+                                                 }" class="products___item-title">
                                                      ${i.title}
                                                  </a>
                                                  <ul class="slider__item-weight-list">
@@ -103,7 +133,50 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 </div>
                                                 </div>
                                              </article>
-                                             `;
-                               }
-                           });
-})
+                                 `;
+    }
+  }
+
+  function paginationProduct(data) {
+    let count = Math.ceil(data.count / 15);
+    paginationList.innerHTML = "";
+    for (let i = 1; i <= count; i++) {
+      const li = document.createElement("li");
+      li.classList.add("products__pagination-list-item");
+      li.innerText = i;
+      paginationList.append(li);
+      const paginationListItem = document.querySelectorAll(".products__pagination-list-item");
+      paginationListItem[0].classList.add("products__pagination-list-item-active");
+      paginationListItem.forEach((item) => {
+        item.addEventListener("click", (e) => {
+            paginationListItem.forEach((removeClassEl) => {
+                removeClassEl.classList.remove("products__pagination-list-item-active");
+            })
+          e.currentTarget.classList.add("products__pagination-list-item-active");
+          product_list.innerHTML = "";
+          fetchProduct(`http://127.0.0.1:8000/api/get_products_list/?page=${e.currentTarget.textContent.trim()}`);
+          window.scrollBy({
+            top: product_list.getBoundingClientRect().top - 120,
+            behavior: 'smooth'
+        })
+          countPagination = +e.currentTarget.textContent.trim()
+        });
+      });
+    }
+  }
+
+  function fetchProduct(url) {
+    fetch(url)
+      .then((resp) => resp.json())
+      .then((data) => {
+        localStorage.setItem('nextPageCatalog', data.next)
+        localStorage.setItem('previousPageCatalog', data.previous)
+        renderProduct(data);
+        if (paginationList.children.length === 0) {
+          paginationProduct(data);
+        }
+        return data;
+      });
+  }
+  fetchProduct(`http://127.0.0.1:8000/api/get_products_list/`)
+});

@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
  let queryStr_2 = "";
  for (let i of eventItem) {
    i.addEventListener("change", (e) => {
- 
      const eventItem1 = document.querySelectorAll(".catalog__filter-mob li");
      if (e.target.checked == true || e.target.checked == false) {
        let count = 0;
@@ -165,13 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
  let order_str_n = document.querySelector(".catalog__sort-select-active").dataset.order;
  let order = document.querySelector(".catalog__sort-select-list");
  order.addEventListener("click", (e) => {
-  
    fetch(
      `http://127.0.0.1:8000/api/get_products_filter/?${queryStr_2}order=${e.target.dataset.order}&${activAnimalId}`
    )
      .then((resp) => resp.json())
      .then((data) => {
-       
        if (data) {
          const productList = document.querySelector(".products__list");
          productList.innerHTML = "";
