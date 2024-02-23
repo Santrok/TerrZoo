@@ -1659,7 +1659,7 @@ footer {
   background: #fff;
 }
 .header__up-login-button {
-  flex: 0 1 135px;
+  /* flex: 0 1 135px; */
   order: 6;
   display: flex;
   align-items: center;
@@ -1668,7 +1668,7 @@ footer {
 }
 
 .header__up-login-button a:first-child {
-  flex: 0 1 60px;
+  /* flex: 0 1 60px; */
 }
 
 .filter__item-active {
