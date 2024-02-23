@@ -23,15 +23,15 @@
                         <div class="product__item-img">
                             <img src="{{ product.image_prev.url }}" alt="">
                         </div>
-                        <a href="#" class="product__item-title">
+                        <a href="/details/{{ product.id }}" class="product__item-title">
                             {{ product.title }}
                         </a>
-                        <a href="#" class="product__item-brand">
-                            <p class="product__item-title-brand">
+                        <p class="product__item-title-brand">
                                 Бренд:
                             </p>
+                        <p class="product__item-brand">
                             {{ product.brand }}
-                        </a>
+                        </p>
                             <p class="product__item-title-price">
                                 Стоимость <span>{{ count.unit }}</span>:
                             </p>

@@ -279,7 +279,7 @@ main h3 {
 .product__list {
     height: 1200px;
     display: flex;
-    gap: 16px 0px;
+    gap: 16px 2px;
 }
 
 .product__list-item {
@@ -317,15 +317,22 @@ main h3 {
     text-align: center;
     color: #222;
     border-bottom: 1px solid rgba(34, 60, 80, 0.2);
+    padding-left: 5px;
+}
+
+.product__item-brand, .product__item-price {
+    padding-left: 5px;
 }
 
 .product__item-title-price, .product__item-title-brand, .product__item-title-compound, .product__item-title-supplements {
     background: #98C6CD;
+    padding-left: 5px;
 }
 
 .product__item-compound, .product__item-supplements {
     height: 300px;
     margin-right: 10px;
+    padding-left: 5px;
 }
 
 .user__data__wrap {
