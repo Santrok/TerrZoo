@@ -106,12 +106,9 @@ def get_page_catalog_by_animal(request, animal_id):
 
     j = []
     for i in list(c):
-        print(i.get_family())
         for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
-    print(list(st), "+++++++++++++++++++++++++++++++")
-    print(category_by_animals)
     brands_by_animals = Brand.objects.filter()
 
     context = {"animals": animals,
@@ -167,12 +164,10 @@ def get_basket_page(request):
     return render(request, 'basket.html', context)
 
 
-# Beny tassks!!!!!========================
 def login_view(request):
     """Страница с формой авторизации"""
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
-        print(request.POST)
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
@@ -200,7 +195,7 @@ def registration_view(request):
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
-            login(request, user)
+            # login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_url = f"http://127.0.0.1:8000/activate/{uid}/{token}/"
@@ -212,8 +207,6 @@ def registration_view(request):
 
             return redirect('confirm_email')
         else:
-            print(register_form.errors)
-            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
@@ -371,6 +364,7 @@ def get_placing_an_order_page(request):
                                     request.POST.get('order_price'))
                                 card_zapros[0].save()
                                 order.save()
+                                print(user)
                                 send_check_for_mail(order.order_number, file_url, user)
                                 for i in product_list:
                                     i.sales_counter += 1
@@ -469,17 +463,26 @@ def get_profile_page_data_user(request):
 
         elif request.POST.get('action') == 'profile_user_password':
             form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
+            print(request.POST)
             if form_data_pass.is_valid():
+                print(0)
                 password = make_password(form_data_pass.cleaned_data.get('password'))
                 new_password = form_data_pass.cleaned_data.get('new_password')
                 repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
-                if check_password(user.password, password, ) and password and new_password and repeat_password:
+                print(check_password(user.password, password), new_password, repeat_password)
+                if check_password(user.password, password) and password and new_password and repeat_password:
+                    print(1)
                     user.set_password(new_password)
                     user.save()
                     update_session_auth_hash(request, user)
-                    messages.success(request, 'Пароль успешно изменен')
+                    messages.success(request, 'Пароль успешно изменен', 'password')
+                else:
+                    print(2)
+                    # messages.error(request, 'Пароли не совпадают.', 'password')
             else:
-                messages.error(request, 'Ошибка пароля')
+                print(form_data_pass.errors)
+                print(3)
+                # messages.error(request, '1111', 'password')
 
         elif request.POST.get('action') == 'profile_user_username':
             form_data_user = ProfileUserNameForm(request.POST)
@@ -487,11 +490,13 @@ def get_profile_page_data_user(request):
                 if form_data_user.cleaned_data.get('username'):
                     user.username = form_data_user.cleaned_data.get('username')
                     user.save()
-                    messages.success(request, 'Данные успешно изменены!')
+                    messages.success(request, 'Имя успешно изменено!', 'username')
             else:
-                messages.error(request, 'Ошибка пароля')
+                messages.error(request, 'Данное имя уже существует.', 'username')
 
-    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
+    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name,
+                                                          'last_name': user.last_name,
+                                                          'email': user.email})
     form_profile_user = ProfileUserNameForm(instance=user)
     form_profile_password = ProfileUserPasswordForm(instance=user)
 

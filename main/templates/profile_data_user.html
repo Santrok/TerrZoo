@@ -26,6 +26,13 @@
                 <form class="user__data-form" method="post">
                     <div class="user__data-form-item login__form">
                         {% csrf_token %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if 'username' in message.tags %}
+                                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         {{ form_profile_user.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button save__login-button" type="submit" name="action" value="profile_user_username">
@@ -38,6 +45,13 @@
                     </div>
                     <div class="user__data-form-item">
                         {% csrf_token %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if 'password' in message.tags %}
+                                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         {{ form_profile_password.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button save__password-button" type="submit" name="action" value="profile_user_password">

@@ -57,11 +57,14 @@ class ProfileForm(forms.ModelForm):
                                  required=False)
     last_name = forms.CharField(label='Фамилия',
                                 required=False)
+    email = forms.CharField(label='Почта',
+                            required=False)
 
     class Meta:
         model = Profile
         fields = ('first_name',
                   'last_name',
+                  'email',
                   'phone_number',
                   'date_of_birth',
                   'city',
@@ -92,8 +95,7 @@ class ProfileUserPasswordForm(forms.ModelForm):
                                widget=forms.PasswordInput(
                                    attrs={'class': 'password_person_reset_field',
                                           'placeholder': 'Введите старый пароль',
-                                          'disabled': 'disabled'}),
-                               validators=[validate_password])
+                                          'disabled': 'disabled'}))
     new_password = forms.CharField(required=False,
                                    label='Введите новый пароль',
                                    widget=forms.PasswordInput(
