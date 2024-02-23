@@ -74,10 +74,11 @@ class ProfileForm(forms.ModelForm):
 
 class ProfileUserNameForm(forms.ModelForm):
     username = forms.CharField(required=False,
-                               label='Имя',
+                               label='Логин',
                                widget=forms.TextInput(
                                    attrs={'class': 'auth_input',
-                                          'placeholder': 'Введите Ваше имя'}))
+                                          'placeholder': 'Введите Ваше имя',
+                                          'disabled': 'disabled'}))
 
     class Meta:
         model = User
@@ -90,19 +91,22 @@ class ProfileUserPasswordForm(forms.ModelForm):
                                label='Введите пароль',
                                widget=forms.PasswordInput(
                                    attrs={'class': 'password_person_reset_field',
-                                          'placeholder': 'Введите старый пароль'}),
+                                          'placeholder': 'Введите старый пароль',
+                                          'disabled': 'disabled'}),
                                validators=[validate_password])
     new_password = forms.CharField(required=False,
                                    label='Введите новый пароль',
                                    widget=forms.PasswordInput(
                                        attrs={'class': 'password_register_field',
-                                              'placeholder': 'Введите новый пароль'}),
+                                              'placeholder': 'Введите новый пароль',
+                                              'disabled': 'disabled'}),
                                    validators=[validate_password])
     repeat_new_pass = forms.CharField(required=False,
                                       label='Повторите новый пароль',
                                       widget=forms.PasswordInput(
-                                          attrs={'class': 'password_register_field',
-                                                 'placeholder': 'Повторите новый пароль'}),
+                                          attrs={'class': 'repeat_password_register_field',
+                                                 'placeholder': 'Повторите новый пароль',
+                                                 'disabled': 'disabled'}),
                                       validators=[validate_password])
 
     def clean(self):
