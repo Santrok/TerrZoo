@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const productPaginationList = document.querySelectorAll(".products__pagination-item");
   const paginationList = document.querySelector(".products__pagination-list");
   let countPagination = 0;
-  console.log("Загрузка товаров старт");
 
   productPaginationList.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -180,5 +179,5 @@ document.addEventListener("DOMContentLoaded", () => {
         return data;
       });
   }
-  fetchProduct(`http://127.0.0.1:8000/api/get_products_list/`);
+  fetchProduct(`http://127.0.0.1:8000/api/get_products_list/`)
 });

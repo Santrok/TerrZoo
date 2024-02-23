@@ -50,7 +50,7 @@
       <div class="container">
         <div class="catalog__wrap">
           <div class="catalog__title-wrap">
-            <h1 class="catalog__title">Каталог товаров <span>для {{ anima }}</span></h1>
+            <h1 class="catalog__title">Каталог товаров <span></span></h1>
             <div class="catalog__sort">
               <div class="catalog__sort-text">Сортировать по:</div>
               <div class="catalog__sort-select">
@@ -259,6 +259,27 @@
                   <div class="products___item-promotion">Акция</div>
                   {% endif %}
                   <button type="button" class="products___item-btn">Купить в 1 клик</button>
+                  <div class="slider__item-hearts">
+                    <div class="slider__item-hearts-wrap">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="20"
+                        height="20"
+                        fill="none"
+                        data-testid="icon"
+                        class=""
+                      >
+                        <path
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.30845 6.64165C6.00566 5.805 7.02478 5.19995 8.23072 5.19995C10.0058 5.19995 11.0834 5.94938 11.923 6.72841C12.7626 5.94938 13.8403 5.19995 15.6153 5.19995C16.8213 5.19995 17.8404 5.805 18.5376 6.64165C19.2314 7.47416 19.6461 8.57744 19.6461 9.69226C19.6461 10.4698 19.3137 11.2349 18.8738 11.9333C18.4267 12.643 17.8152 13.3666 17.1428 14.0773C16.3226 14.9444 15.3422 15.8607 14.4 16.7413C13.8267 17.2772 13.2675 17.7999 12.7671 18.2902C12.2983 18.7496 11.5478 18.7496 11.0789 18.2902C10.5786 17.7999 10.0194 17.2772 9.44602 16.7413C8.50383 15.8607 7.52343 14.9444 6.70323 14.0773C6.03085 13.3666 5.41934 12.643 4.97226 11.9333C4.5323 11.2349 4.19995 10.4698 4.19995 9.69226C4.19995 8.57744 4.61469 7.47416 5.30845 6.64165Z"
+                          fill="#e6e8eb"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
                 </article>
               </li>
               {% endfor %}
@@ -508,5 +529,4 @@
 <script defer src="{% static 'js/catalog_page/select.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/checkbox.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
-<script defer src="{% static 'js/catalog_page/setallproductscatalogpage.js' %}"></script>
 {% endblock %} {% block profile_navigation %} {% endblock %}

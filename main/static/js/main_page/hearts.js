@@ -1,7 +1,6 @@
-const hearts = document.querySelectorAll('.slider__item-hearts') 
+let hearts = document.querySelectorAll('.slider__item-hearts') 
 const heartsArr = []
 const productList = document.querySelector('.products__list')
-// localStorage.setItem('heartsProduct', JSON.stringify(heartsArr))
 
 hearts?.forEach(item => {
     for(let i of JSON.parse(localStorage.getItem('heartsProduct'))) {
@@ -41,5 +40,22 @@ function heartFunc(e,item) {
     }
     localStorage.setItem('heartsProduct', JSON.stringify(heartsArr))
 }
+hearts.forEach(item => {
+    item.addEventListener('click', (e) => heartFunc(e,item))
+})
 
+if(productList){
+    new MutationObserver(mutation => {
+        hearts = document.querySelectorAll('.slider__item-hearts')
+        hearts.forEach(item => {
+            item.addEventListener('click', (e) => {
+                heartFunc(e,item)
+            })
+        })
+    }).observe(productList, {
+        childList: true,
+        subtree: true,
+    })
+    
+}
 
