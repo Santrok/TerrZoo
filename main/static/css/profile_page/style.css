@@ -114,6 +114,10 @@ main h3 {
     box-shadow: 0 1px 12px 7px rgba(34, 60, 80, 0.37);
 }
 
+.profile__nav {
+    min-width: 135px;
+}
+
 .body__content {
     display: flex;
     /*justify-content: space-between;*/
@@ -184,9 +188,8 @@ main h3 {
     line-height: 20px;
     letter-spacing: 0px;
     text-align: center;
-
     padding: 8px 8px;
-    width: 75px;
+    width: 70px;
     height: 36px;
     max-width: 100%;
     max-height: 100%;
@@ -276,7 +279,7 @@ main h3 {
 .product__list {
     height: 1200px;
     display: flex;
-    gap: 16px 0px;
+    gap: 16px 2px;
 }
 
 .product__list-item {
@@ -314,15 +317,22 @@ main h3 {
     text-align: center;
     color: #222;
     border-bottom: 1px solid rgba(34, 60, 80, 0.2);
+    padding-left: 5px;
+}
+
+.product__item-brand, .product__item-price {
+    padding-left: 5px;
 }
 
 .product__item-title-price, .product__item-title-brand, .product__item-title-compound, .product__item-title-supplements {
     background: #98C6CD;
+    padding-left: 5px;
 }
 
 .product__item-compound, .product__item-supplements {
     height: 300px;
     margin-right: 10px;
+    padding-left: 5px;
 }
 
 .user__data__wrap {
@@ -343,23 +353,45 @@ main h3 {
 .user__data-from-wrap {
     display: flex;
     justify-content: space-around;
-    align-items: center;
 }
 
 .user__data-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.user__data-form-item {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 400px;
 
     & p {
-        border: 1px solid rgb(0, 160, 172);
-        border-radius: 4px;
-        height: 30px;
         display: flex;
         align-items: center;
         padding-left: 5px;
         background: white;
+        gap: 10px;
+        & label {
+            width: 220px;
+        height: 30px;
+            align-items: center;
+            justify-content: flex-end;
+            display: flex;
+            text-align: end;
+        }
+        & input {
+            border: 1px solid rgb(0, 160, 172);
+        border-radius: 4px;
+        height: 30px;
+            width: 400px;
+            padding-left: 10px;
+        }
+        & input:disabled{
+            background: lightblue;
+            opacity: 0.5;
+        }
     }
 }
 
@@ -379,4 +411,12 @@ main h3 {
     font-family: SF Pro Text;
     color: white;
     /*font-size: smaller;*/
+}
+
+.save__login-button {
+    display: none;
+}
+
+.save__password-button {
+    display: none;
 }

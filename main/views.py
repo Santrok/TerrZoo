@@ -416,12 +416,11 @@ def get_placing_an_order_page(request):
                   context=context)
 
 
+@login_required
 def get_profile_order_page(request):
     """Личный кабинет"""
     orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
     pay_cards = PayCard.objects.filter(user=request.user.id)
-
-    print(orders, pay_cards)
 
     context = {"orders": orders,
                "pay_cards": pay_cards}
@@ -431,6 +430,7 @@ def get_profile_order_page(request):
                   context=context)
 
 
+@login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
     products = Product.objects.all()
@@ -442,6 +442,7 @@ def get_profile_wishlist_page(request):
                   context=context)
 
 
+@login_required
 def get_profile_comparisonlist_page(request):
     '''Отдаем страничку со списком сравнения из личного кабинета'''
     products = Product.objects.all()
