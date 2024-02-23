@@ -264,7 +264,7 @@
               {% endfor %}
             </ul>
             <div class="products__pagination">
-              <div class="products__prev">
+              <div class="products__prev products__pagination-item">
                 <div class="products__prev-img">
                   <svg
                     width="16.000000"
@@ -288,11 +288,9 @@
                 <p>Предыдущая</p>
               </div>
               <ul class="products__pagination-list">
-                <li class="products__pagination-list-item products__pagination-list-item-active">1</li>
-                <li class="products__pagination-list-item">2</li>
-                <li class="products__pagination-list-item">3</li>
+                
               </ul>
-              <div class="products__next">
+              <div class="products__next products__pagination-item">
                 <p>Следующая</p>
                 <div class="products__next-img">
                   <svg
@@ -510,4 +508,5 @@
 <script defer src="{% static 'js/catalog_page/select.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/checkbox.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+<script defer src="{% static 'js/catalog_page/setallproductscatalogpage.js' %}"></script>
 {% endblock %} {% block profile_navigation %} {% endblock %}
