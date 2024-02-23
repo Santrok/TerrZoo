@@ -27,7 +27,7 @@ for (let i of data_storage) {
   
   countPayCard = countPayCard + i.count;
 }
-order_price.innerHTML = pricePayCard.toFixed(2);
+order_price.innerHTML = `${pricePayCard.toFixed(2)} BYN`;
 product_count.innerHTML = countPayCard;
 
 function getCookie(name) {
