@@ -4,6 +4,7 @@ const callbackForm = document.querySelector('.callback')
 const callbackBtn = document.querySelector('.callback > button');
 const accessCallback = document.querySelector('.access__callback')
 const accessCallbackButton = document.querySelector('.access__callback > button')
+const footerButtonCallcallback = document.querySelector('.footer__bottom-button')
 const cross = document.querySelectorAll('.cross')
 const buyOneClick = document.querySelector('.buy__one-click')
 const sliderButton = document.querySelectorAll('.slider__item-btn')
@@ -29,6 +30,13 @@ callback.addEventListener('click', () => {
     modal.classList.add('modal__active')
     callbackForm.classList.add('modal__active')
 })
+
+footerButtonCallcallback.addEventListener('click', () => {
+    document.body.style.overflow = 'hidden'
+    modal.classList.add('modal__active')
+    callbackForm.classList.add('modal__active')
+})
+
 
 cross.forEach(item => {
     item.addEventListener('click', () => {
@@ -75,5 +83,4 @@ accessCallbackButton.addEventListener('click', () => {
     document.body.style.overflow = 'auto'
     modal.classList.remove('modal__active')
     accessCallback.classList.remove('modal__active')
-
 })

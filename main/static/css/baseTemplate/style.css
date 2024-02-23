@@ -1336,6 +1336,7 @@ footer {
 
 .slider__item-img {
   flex: 0 1 210px;
+  background: #fff;
 }
 .slider__item-img img {
   max-height: 210px;
@@ -1371,8 +1372,8 @@ footer {
   align-items: center;
   border: 1px solid #e6e8eb;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
   transition: 0.3s ease;
 }
@@ -1659,16 +1660,11 @@ footer {
   background: #fff;
 }
 .header__up-login-button {
-  flex: 0 1 135px;
   order: 6;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
-}
-
-.header__up-login-button a:first-child {
-  flex: 0 1 60px;
 }
 
 .filter__item-active {

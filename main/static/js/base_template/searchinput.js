@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.addEventListener('input', fetchQueryParams)
     searchInput.addEventListener('keyup', getPageCatalog)
 
-
     function getPageCatalog(e) {
         if (e.code === "Enter") {
             window.location.href = 'http://127.0.0.1:8000/search/'
