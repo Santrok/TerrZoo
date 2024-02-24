@@ -4,7 +4,6 @@ const wishList = JSON.parse(localStorage.getItem("heartsProduct"));
 for (let i of wishList) {
   let li = document.createElement("li");
   li.classList.add("products__list-item");
-    console.log(i);
   li.innerHTML = `
     <article class="products___item" data-id="${i.id}">
     <div class="products___item-img">
