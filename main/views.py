@@ -129,7 +129,7 @@ def get_page_catalog_by_animal(request, animal_id):
 def get_details(request, id):
     '''Отдаем детальное описание товара по id'''
     product = Product.objects.get(id=id)
-    articals = Article.objects.all()
+    articles = Article.objects.all()
     products = list(Product.objects.all())
     popular_product = sorted(products,
                              key=lambda x: x.sales_counter,
@@ -138,11 +138,15 @@ def get_details(request, id):
     joint_products = sorted(products,
                             key=lambda x: x.id,
                             reverse=True)
+    product_unit = ''
+    for i in product.countitemproduct.all():
+        product_unit = i.unit
     context = {
         "product": product,
-        "articals": articals,
+        "articals": articles,
         "popular_products": popular_product,
         "joint_products": joint_products,
+        "product_unit": product_unit,
     }
     return render(request=request,
                   template_name='details.html',
