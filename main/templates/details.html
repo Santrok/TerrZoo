@@ -550,9 +550,6 @@
                 <div class="slider__item-img">
                   <img data-lazy="{{card_new.image_prev.url}}" alt="item" />
                 </div>
-                {% if card_new.sale.percent != 0 %}
-                <div class="slider__item-promotion">Акция</div>
-                {% endif %}
                 <a href="{% url 'details' card_new.id %}" class="slider__item-title"> {{card_new.title}} </a>
                 <ul class="slider__item-weight-list">
                   {% for count in card_new.countitemproduct.all %}
@@ -592,6 +589,9 @@
                     </div>
                   </div>
                 </div>
+                {% if card_new.sale.percent != 0 %}
+                <div class="slider__item-promotion">Акция</div>
+                {% endif %}
                 <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                 <div class="slider__item-hearts">
                   <div class="slider__item-hearts-wrap">
