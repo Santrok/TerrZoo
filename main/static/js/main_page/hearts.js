@@ -11,7 +11,6 @@ hearts?.forEach((item) => {
     }
   }
 });
-console.log(111);
 
 function heartFunc(e, item) {
   item.classList.toggle("slider__item-hearts-active");
@@ -32,7 +31,6 @@ function heartFunc(e, item) {
     for (let i of e.currentTarget.parentElement?.children[2]?.children) {
       heartsWeight.push(i.textContent.trim());
     }
-
     heartsArr.push({
       id: e.currentTarget.parentElement.dataset.id,
       src: e.currentTarget.parentElement.children[0].children[0].src,
@@ -67,7 +65,7 @@ if (!productList) {
   });
 }
 
-if (productList) {
+if (productList && window.location.href !== 'http://127.0.0.1:8000/wishlist/') {
   new MutationObserver((mutation) => {
     hearts = document.querySelectorAll(".slider__item-hearts");
     hearts.forEach((item) => {
