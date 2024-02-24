@@ -381,6 +381,21 @@
     background: #fff;
 }
 
+.about__product-price-promotion-noaction-price{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+
+}
+
+.about__product-price-promotion-noaction-price p:last-child {
+    color: rgb(140, 145, 150);    
+    font-family: SF Pro Text;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 7px;
+}
+
 .about__product-your-weight-title {
     color: rgb(32, 34, 35);
     font-family: SF Pro Text;
@@ -517,7 +532,8 @@
     align-items: stretch;
     gap: 6px;
 }
-.about__product-action div {
+
+.about__product-action input {
     border-radius: 4px;
     width: 36px;
     height: 36px;
@@ -528,10 +544,7 @@
     font-size: 15px;
     font-weight: 400;
     line-height: 20px;
-    letter-spacing: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 6px;
 }
 
 .about__product-btn {
@@ -591,6 +604,10 @@
     display: flex;
     gap: 9px;
     align-items: center;
+}
+
+.about__product-your-weight-button {
+    cursor: pointer;
 }
 
 @media (min-width: 992px) {
