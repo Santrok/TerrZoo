@@ -92,6 +92,7 @@
                         </ul>
                     </div>
                     <div class="about__product-second">
+                    {% if product.countitemproduct.all|length != 1  %}
                         <div class="about__product-options">
                             <div class="about__product-weight">
                                 <h3 class="about__product-weight-title">
@@ -127,6 +128,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                         <div class="about__product-pickup">
                             <div class="about__product-pickup-img">
                                 <svg

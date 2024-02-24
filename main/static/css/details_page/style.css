@@ -209,7 +209,6 @@
 .about__product-second{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 .about__product-img img {
     border-radius: 5px;
