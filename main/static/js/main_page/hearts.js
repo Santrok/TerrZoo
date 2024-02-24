@@ -11,6 +11,7 @@ hearts?.forEach((item) => {
     }
   }
 });
+console.log(111);
 
 function heartFunc(e, item) {
   item.classList.toggle("slider__item-hearts-active");
