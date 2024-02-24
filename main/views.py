@@ -1,4 +1,5 @@
 import json
+from random import random, randint
 
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
@@ -27,11 +28,11 @@ def get_page(request):
     reviews = Review.objects.select_related('user').all()
     brands = Brand.objects.all()[0:12]
     animals = Animal.objects.all()
-    products = list(Product.objects.all())
-    popular_product = sorted(products,
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct'))
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
-    new_products = sorted(products,
+    new_products = sorted(products[:30],
                           key=lambda x: x.id,
                           reverse=True)
     context = {"animals": animals,
@@ -47,8 +48,8 @@ def get_page(request):
 
 def search_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all()
-    popular_products = sorted(products,
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     articals = Article.objects.all()
@@ -70,8 +71,8 @@ def search_catalog(request):
 
 def get_page_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all()
-    popular_products = sorted(products,
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     articals = Article.objects.all()
@@ -93,27 +94,21 @@ def get_page_catalog(request):
 
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
-    products = Product.objects.filter(animal=animal_id)
+    products = Product.objects.filter(animal=animal_id).select_related('sale', 'category').prefetch_related('countitemproduct')
 
-    popular_products = sorted(products,
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     animals = Animal.objects.all()
     articles_on_animals = Article.objects.filter(animal=animal_id)
     category_by_animals = CategoryProduct.objects.filter(product__id__in=products)
-
     c = set(list(category_by_animals))
-
     j = []
     for i in list(c):
-        print(i.get_family())
         for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
-    print(list(st), "+++++++++++++++++++++++++++++++")
-    print(category_by_animals)
     brands_by_animals = Brand.objects.filter()
-
     context = {"animals": animals,
                "products": products,
                "popular_products": popular_products,
@@ -128,16 +123,17 @@ def get_page_catalog_by_animal(request, animal_id):
 
 def get_details(request, id):
     '''Отдаем детальное описание товара по id'''
-    product = Product.objects.get(id=id)
     articles = Article.objects.all()
-    products = list(Product.objects.all())
+    products_set = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    products = list(products_set)
+    product = products_set.get(id=id)
     popular_product = sorted(products,
                              key=lambda x: x.sales_counter,
                              reverse=True)
     # изменить сортировку на продукты с этим покупают
-    joint_products = sorted(products,
+    joint_products = sorted(products_set.order_by('?')[:randint(5, 13)],
                             key=lambda x: x.id,
-                            reverse=True)
+                            reverse=False)
     product_unit = ''
     for i in product.countitemproduct.all():
         product_unit = i.unit
@@ -156,7 +152,7 @@ def get_details(request, id):
 def get_basket_page(request):
     """Функция обработки данных страницы basket"""
     articals = Article.objects.all()
-    products = list(Product.objects.all())
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct'))
     popular_product = sorted(products,
                              key=lambda x: x.sales_counter,
                              reverse=True)
@@ -437,9 +433,8 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    products = Product.objects.all()
     context = {
-        'products': products
+
     }
     return render(request=request,
                   template_name='profile_wishlist.html',
