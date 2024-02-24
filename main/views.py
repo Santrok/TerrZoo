@@ -1,4 +1,5 @@
 import json
+from random import random, randint
 
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
@@ -27,11 +28,11 @@ def get_page(request):
     reviews = Review.objects.select_related('user').all()
     brands = Brand.objects.all()[0:12]
     animals = Animal.objects.all()
-    products = list(Product.objects.all())
-    popular_product = sorted(products,
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct'))
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
-    new_products = sorted(products,
+    new_products = sorted(products[:30],
                           key=lambda x: x.id,
                           reverse=True)
     context = {"animals": animals,
@@ -47,8 +48,8 @@ def get_page(request):
 
 def search_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all()
-    popular_products = sorted(products,
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     articals = Article.objects.all()
@@ -70,8 +71,8 @@ def search_catalog(request):
 
 def get_page_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all()
-    popular_products = sorted(products,
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     articals = Article.objects.all()
@@ -93,24 +94,21 @@ def get_page_catalog(request):
 
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
-    products = Product.objects.filter(animal=animal_id)
+    products = Product.objects.filter(animal=animal_id).select_related('sale', 'category').prefetch_related('countitemproduct')
 
-    popular_products = sorted(products,
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     animals = Animal.objects.all()
     articles_on_animals = Article.objects.filter(animal=animal_id)
     category_by_animals = CategoryProduct.objects.filter(product__id__in=products)
-
     c = set(list(category_by_animals))
-
     j = []
     for i in list(c):
         for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
-    brands_by_animals = Brand.objects.filter()
-
+    brands_by_animals = set(list(Brand.objects.filter(product__id__in=products)))
     context = {"animals": animals,
                "products": products,
                "popular_products": popular_products,
@@ -125,21 +123,26 @@ def get_page_catalog_by_animal(request, animal_id):
 
 def get_details(request, id):
     '''Отдаем детальное описание товара по id'''
-    product = Product.objects.get(id=id)
-    articals = Article.objects.all()
-    products = list(Product.objects.all())
-    popular_product = sorted(products,
+    articles = Article.objects.all()
+    products_set = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    products = list(products_set)
+    product = products_set.get(id=id)
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
     # изменить сортировку на продукты с этим покупают
-    joint_products = sorted(products,
+    joint_products = sorted(products_set.order_by('?')[:randint(5, 13)],
                             key=lambda x: x.id,
-                            reverse=True)
+                            reverse=False)
+    product_unit = ''
+    for i in product.countitemproduct.all():
+        product_unit = i.unit
     context = {
         "product": product,
-        "articals": articals,
+        "articals": articles,
         "popular_products": popular_product,
         "joint_products": joint_products,
+        "product_unit": product_unit,
     }
     return render(request=request,
                   template_name='details.html',
@@ -149,11 +152,11 @@ def get_details(request, id):
 def get_basket_page(request):
     """Функция обработки данных страницы basket"""
     articals = Article.objects.all()
-    products = list(Product.objects.all())
-    popular_product = sorted(products,
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct'))
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
-    new_products = sorted(products,
+    new_products = sorted(products[:30],
                           key=lambda x: x.id,
                           reverse=True)
     context = {
@@ -164,10 +167,12 @@ def get_basket_page(request):
     return render(request, 'basket.html', context)
 
 
+# Beny tassks!!!!!========================
 def login_view(request):
     """Страница с формой авторизации"""
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
+        print(request.POST)
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
@@ -195,7 +200,7 @@ def registration_view(request):
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
-            # login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_url = f"http://127.0.0.1:8000/activate/{uid}/{token}/"
@@ -207,6 +212,8 @@ def registration_view(request):
 
             return redirect('confirm_email')
         else:
+            print(register_form.errors)
+            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
@@ -426,9 +433,8 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    products = Product.objects.all()
     context = {
-        'products': products
+
     }
     return render(request=request,
                   template_name='profile_wishlist.html',

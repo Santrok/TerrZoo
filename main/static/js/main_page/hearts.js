@@ -31,7 +31,6 @@ function heartFunc(e, item) {
     for (let i of e.currentTarget.parentElement?.children[2]?.children) {
       heartsWeight.push(i.textContent.trim());
     }
-
     heartsArr.push({
       id: e.currentTarget.parentElement.dataset.id,
       src: e.currentTarget.parentElement.children[0].children[0].src,
@@ -53,20 +52,17 @@ function heartFunc(e, item) {
   localStorage.setItem("heartsProduct", JSON.stringify(heartsArr));
 }
 
-if(window.location.href === 'http://127.0.0.1:8000/wishlist/') {
-    hearts.forEach((item) => {
-        item.addEventListener("click", (e) => heartFunc(e, item));
-      });
-}
+// if(window.location.href === 'http://127.0.0.1:8000/wishlist/') {
+//     hearts.forEach((item) => {
+//         item.addEventListener("click", (e) => heartFunc(e, item));
+//       });
+// }
 
-
-if (!productList) {
   hearts.forEach((item) => {
     item.addEventListener("click", (e) => heartFunc(e, item));
   });
-}
 
-if (productList) {
+if (productList && window.location.href !== 'http://127.0.0.1:8000/wishlist/') {
   new MutationObserver((mutation) => {
     hearts = document.querySelectorAll(".slider__item-hearts");
     hearts.forEach((item) => {

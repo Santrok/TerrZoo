@@ -337,9 +337,7 @@ class ProductListFilterView(ListAPIView):
 
     def get_queryset(self):
         data = self.request.query_params
-        print(data)
         d = dict(data.copy())
-        print(d)
         order = d.pop("order")
         if data.get('sale__percent__gt'):
             d['sale__percent__gt'] = d.get('sale__percent__gt')[0]

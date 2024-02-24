@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
   });
 
-  basketTotalText[1].textContent = basket.length + ' товаров';
+  basketTotalText[1].textContent = basket?.length ? basket?.length : 0 + ' товаров';
   function initBasketItem() {
     if (localStorage.getItem("basket") === null) {
       return;
@@ -200,36 +200,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const list = document.querySelectorAll(".basket__list-item");
     const basket = JSON.parse(localStorage.getItem("basket"));
     priceInit = 0;
-    // if(basket.length > 0){
-    //   basketList. = ''
-    //   initBasketItem()
-    // }
     basketTotalText[1].textContent = basket.length + ' товаров';
     basket?.forEach((item) => {
-      if (event.target.classList.contains("plus")) {
-        priceInit += Number((item.price).toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
-      } else if (event.target.classList.contains("minus")) {
-        priceInit += Number((item.price).toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
+      if(event.target.classList) {
+        if (event?.target?.classList.contains("plus")) {
+          priceInit += Number((item.price).toFixed(2));
+          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
+        } else if (event?.target?.classList.contains("minus")) {
+          priceInit += Number((item.price).toFixed(2));
+          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
+      }
       }
     });
     list.forEach((item) => {
-      if (
-        event?.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-          "header__bottom-basket-hover-list-item"
-        ) &&
-        event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id &&
-        event?.target.parentElement.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim() ===
-          item.children[1].children[1].children[1].children[0].textContent.trim()
-      ) {
-        item.children[2].children[0].children[0].children[1].textContent =
-          event?.target.parentElement.children[1].textContent.trim();
-        item.children[2].children[0].children[1].textContent =
-          event?.target.parentElement.parentElement.children[1].textContent.trim();
-        if (Number(item.children[2].children[0].children[0].children[1].textContent) <= 0) {
-          item.remove();
-          basketTotalText[0].textContent = '0 BYN'
+      if(event?.target?.parentElement?.parentElement?.parentElement?.parentElement?.classList) {
+        if (
+          event?.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
+            "header__bottom-basket-hover-list-item"
+          ) &&
+          event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id &&
+          event?.target.parentElement.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim() ===
+            item.children[1].children[1].children[1].children[0].textContent.trim()
+        ) {
+          item.children[2].children[0].children[0].children[1].textContent =
+            event?.target.parentElement.children[1].textContent.trim();
+          item.children[2].children[0].children[1].textContent =
+            event?.target.parentElement.parentElement.children[1].textContent.trim();
+          if (Number(item.children[2].children[0].children[0].children[1].textContent) <= 0) {
+            item.remove();
+            basketTotalText[0].textContent = '0 BYN'
+          }
         }
       }
       setCountInBasket()
