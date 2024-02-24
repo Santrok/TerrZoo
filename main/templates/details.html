@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         <div class="about__product-your-weight">
-                            <p>Задать свой вес</p>
+                            <p class="about__product-your-weight-button">Задать свой вес</p>
                             <div class="about__product-your-weight-wrap">
                                 <h3 class="about__product-your-weight-title">Задайте свой вес</h3>
                                 <div class="about__product-your-weight-hide">
@@ -306,21 +306,28 @@
                         <div class="about__product-price-wrap">
                             <div class="about__product-price-promotion-wrap">
                                 {% if product.sale.percent != 0 %}
-                                <p class="products__item-price-promotion">
-                                    {{ product.price }}
+                                <div class="about__product-price-promotion-noaction-price">
+                                    <p class="products__item-price-promotion">
+                                        {{ product.price }} BYN 
+                                    </p>
+                                    <p>
+                                        Цена за 1 кг.
+                                    </p>
+                                </div>
+                                <p class="about__product-price">
+                                    {{ product.action_price|floatformat:2 }}
+                                    <span>BYN</span>
                                 </p>
-                                <p class="about__product-price">{{ product.action_price|floatformat:2 }}
-                                    <span>BYN</span></p>
                                 {% else %}
                                 <p class="about__product-price">{{ product.price }} <span>BYN</span></p>
                                 {% endif %}
                             </div>
-                            <p class="about__product-price-weight">Общий вес: 0,542 кг</p>
+                            <p class="about__product-price-weight">Общий вес: <span>1 кг</span></p>
                         </div>
                         <div class="about__product-action-wrap">
                             <div class="about__product-action">
                                 <button class="about__product-minus about__product-btn">-</button>
-                                <div>1</div>
+                                <input type="text" name="" value="1">
                                 <button class="about__product-plus about__product-btn">+</button>
                             </div>
                             <button class="about__product-basket-btn">Добавить в корзину</button>
@@ -696,7 +703,7 @@
                                             />
                                         </svg>
                                     </div>
-                                    <p>Время чтения: {{ articsl.read_time }}</p>
+                                    <p>Время чтения: {{ article.read_time }}</p>
                                 </div>
                                 <div class="articles__slider-item-date">
                                     <div class="articles__slider-item-time-date">
@@ -715,7 +722,7 @@
                                             />
                                         </svg>
                                     </div>
-                                    <p>{{ articsl.date_create|date:"d F Y" }}</p>
+                                    <p>{{ article.date_create|date:"d F Y" }}</p>
                                 </div>
                             </div>
                         </article>
