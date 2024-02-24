@@ -375,7 +375,7 @@ main h3 {
         gap: 10px;
         & label {
             width: 220px;
-        height: 30px;
+            height: 30px;
             align-items: center;
             justify-content: flex-end;
             display: flex;
@@ -383,14 +383,18 @@ main h3 {
         }
         & input {
             border: 1px solid rgb(0, 160, 172);
-        border-radius: 4px;
-        height: 30px;
+            border-radius: 4px;
+            height: 30px;
             width: 400px;
             padding-left: 10px;
         }
         & input:disabled{
             background: lightblue;
             opacity: 0.5;
+        }
+        & input:focus{
+            border: 2px solid rgb(0, 160, 172);
+            border-radius: 4px;
         }
     }
 }
