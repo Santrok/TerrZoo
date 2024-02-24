@@ -108,7 +108,7 @@ def get_page_catalog_by_animal(request, animal_id):
         for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
-    brands_by_animals = Brand.objects.filter()
+    brands_by_animals = set(list(Brand.objects.filter(product__id__in=products)))
     context = {"animals": animals,
                "products": products,
                "popular_products": popular_products,
@@ -127,7 +127,7 @@ def get_details(request, id):
     products_set = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
     products = list(products_set)
     product = products_set.get(id=id)
-    popular_product = sorted(products,
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
     # изменить сортировку на продукты с этим покупают
@@ -153,10 +153,10 @@ def get_basket_page(request):
     """Функция обработки данных страницы basket"""
     articals = Article.objects.all()
     products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct'))
-    popular_product = sorted(products,
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
-    new_products = sorted(products,
+    new_products = sorted(products[:30],
                           key=lambda x: x.id,
                           reverse=True)
     context = {
