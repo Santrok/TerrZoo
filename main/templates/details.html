@@ -4,744 +4,759 @@
 {% load templatetag %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/details_page/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/details_page/style.css' %}"/>
 {% endblock %}
 
 {% block title %}
-Страница товара
+    Страница товара
 {% endblock %}
 
 {% block content %}
-<main>
-    <div class="main__wrapper">
-        <nav class="main__nav">
-            <div class="container">
-                <ul class="main__nav-list">
-                    <li class="main__nav-list-item">
-                        <a href="{% url 'main' %}"> Главная </a>
-                    </li>
-                    <li class="mian__nav-list-item-arrow">
-                        <svg
-                                width="20.000000"
-                                height="20.000000"
-                                viewBox="0 0 20 20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                        >
-                            <defs/>
-                            <path
-                                    id="Primary fill"
-                                    d="M8.00049 16C7.74414 16 7.48828 15.902 7.29346 15.707C6.90234 15.316 6.90234 14.684 7.29346 14.293L11.5864 10L7.29346 5.707C6.90234 5.316 6.90234 4.684 7.29346 4.293C7.68408 3.902 8.31641 3.902 8.70703 4.293L13.707 9.293C14.0981 9.684 14.0981 10.316 13.707 10.707L8.70703 15.707C8.51221 15.902 8.25635 16 8.00049 16Z"
-                                    fill="#5C5F62"
-                                    fill-opacity="1.000000"
-                                    fill-rule="evenodd"
-                            />
-                        </svg>
-                    </li>
-                    <li class="main__nav-list-item-active">
-                        <a href="{% url 'catalog' %}"> Каталог </a>
-                    </li>
-                    <li class="mian__nav-list-item-arrow">
-                        <svg
-                                width="20.000000"
-                                height="20.000000"
-                                viewBox="0 0 20 20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                        >
-                            <defs/>
-                            <path
-                                    id="Primary fill"
-                                    d="M8.00049 16C7.74414 16 7.48828 15.902 7.29346 15.707C6.90234 15.316 6.90234 14.684 7.29346 14.293L11.5864 10L7.29346 5.707C6.90234 5.316 6.90234 4.684 7.29346 4.293C7.68408 3.902 8.31641 3.902 8.70703 4.293L13.707 9.293C14.0981 9.684 14.0981 10.316 13.707 10.707L8.70703 15.707C8.51221 15.902 8.25635 16 8.00049 16Z"
-                                    fill="#5C5F62"
-                                    fill-opacity="1.000000"
-                                    fill-rule="evenodd"
-                            />
-                        </svg>
-                    </li>
-                    <li class="main__nav-list-item-active">
-                        <a href="#"> {{ product.title }} </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <section class="about__product">
-            <div class="container">
-                <div class="about__product-title-wrap">
-                    <h1 class="about__product-title">{{ product.title }}</h1>
-                    {% if product.sale.percent != 0 %}
-                    <div class="about__product-titlte-promotion">Акция</div>
-                    {% endif %}
+    <main>
+        <div class="main__wrapper">
+            <nav class="main__nav">
+                <div class="container">
+                    <ul class="main__nav-list">
+                        <li class="main__nav-list-item">
+                            <a href="{% url 'main' %}"> Главная </a>
+                        </li>
+                        <li class="mian__nav-list-item-arrow">
+                            <svg
+                                    width="20.000000"
+                                    height="20.000000"
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                            >
+                                <defs/>
+                                <path
+                                        id="Primary fill"
+                                        d="M8.00049 16C7.74414 16 7.48828 15.902 7.29346 15.707C6.90234 15.316 6.90234 14.684 7.29346 14.293L11.5864 10L7.29346 5.707C6.90234 5.316 6.90234 4.684 7.29346 4.293C7.68408 3.902 8.31641 3.902 8.70703 4.293L13.707 9.293C14.0981 9.684 14.0981 10.316 13.707 10.707L8.70703 15.707C8.51221 15.902 8.25635 16 8.00049 16Z"
+                                        fill="#5C5F62"
+                                        fill-opacity="1.000000"
+                                        fill-rule="evenodd"
+                                />
+                            </svg>
+                        </li>
+                        <li class="main__nav-list-item-active">
+                            <a href="{% url 'catalog' %}"> Каталог </a>
+                        </li>
+                        <li class="mian__nav-list-item-arrow">
+                            <svg
+                                    width="20.000000"
+                                    height="20.000000"
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                            >
+                                <defs/>
+                                <path
+                                        id="Primary fill"
+                                        d="M8.00049 16C7.74414 16 7.48828 15.902 7.29346 15.707C6.90234 15.316 6.90234 14.684 7.29346 14.293L11.5864 10L7.29346 5.707C6.90234 5.316 6.90234 4.684 7.29346 4.293C7.68408 3.902 8.31641 3.902 8.70703 4.293L13.707 9.293C14.0981 9.684 14.0981 10.316 13.707 10.707L8.70703 15.707C8.51221 15.902 8.25635 16 8.00049 16Z"
+                                        fill="#5C5F62"
+                                        fill-opacity="1.000000"
+                                        fill-rule="evenodd"
+                                />
+                            </svg>
+                        </li>
+                        <li class="main__nav-list-item-active">
+                            <a href="#"> {{ product.title }} </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="about__product-wrap">
-                    <div class="about__product-img-wrap">
-                        <div class="about__product-img">
-                            <img src="{{ product.image_prev.url }}" alt="product"/>
-                        </div>
-                        <ul class="about__product-img-list">
-                            <li class="about__product-img-list-item">
-                                <img src="{{product.image_prev.url}}" alt="product"/>
-                            </li>
-                            {% for image in product.imageproduct_set.all %}
-                            <li class="about__product-img-list-item">
-                                <img src="{{image.image.url}}" alt="product"/>
-                            </li>
-                            {% endfor %}
-                        </ul>
+            </nav>
+            <section class="about__product">
+                <div class="container">
+                    <div class="about__product-title-wrap">
+                        <h1 class="about__product-title">{{ product.title }}</h1>
+                        {% if product.sale.percent != 0 %}
+                            <div class="about__product-titlte-promotion">Акция</div>
+                        {% endif %}
                     </div>
-                    <div class="about__product-second">
-                        <div class="about__product-options">
-                            <div class="about__product-weight">
-                                <h3 class="about__product-weight-title">
-                                    Варианты фасовки. Выберите удобный вес
-                                </h3>
-                                <ul class="about__product-weight-list">
-                                    {% for p in product.countitemproduct.all %}
-                                    <li class="about__product-weight-list-item">
-                                        <p class="about__product-item-weight">
-                                            {{ p.value }} <span>{{ p.unit }}</span>
-                                        </p>
-                                        {% if product.sale.percent != 0 %}
-                                        <p class="about__product-item-price">
-                                            {% total_price p.percent product.action_price %} <span>BYN</span>
-                                        </p>
-                                        {% else %}
-                                        <p class="about__product-item-price">
-                                            {% total_price p.percent product.price %} <span>BYN</span>
-                                        </p>
-                                        {% endif %}
+                    <div class="about__product-wrap">
+                        <div class="about__product-img-wrap">
+                            <div class="about__product-img">
+                                <img src="{{ product.image_prev.url }}" alt="product"/>
+                            </div>
+                            <ul class="about__product-img-list">
+                                <li class="about__product-img-list-item">
+                                    <img src="{{ product.image_prev.url }}" alt="product"/>
+                                </li>
+                                {% for image in product.imageproduct_set.all %}
+                                    <li class="about__product-img-list-item">
+                                        <img src="{{ image.image.url }}" alt="product"/>
                                     </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                                {% endfor %}
+                            </ul>
                         </div>
-                        <div class="about__product-your-weight">
-                            <p class="about__product-your-weight-button">Задать свой вес</p>
-                            <div class="about__product-your-weight-wrap">
-                                <h3 class="about__product-your-weight-title">Задайте свой вес</h3>
-                                <div class="about__product-your-weight-hide">
-                                    <input type="text" name="yourWeight" placeholder="Например: 1,2 кг"/>
-                                    <button>Применить</button>
+                        <div class="about__product-second">
+                            {% if product.countitemproduct.all|length != 1 %}
+                                <div class="about__product-options">
+                                    <div class="about__product-weight">
+                                        <h3 class="about__product-weight-title">
+                                            Варианты фасовки. Выберите удобный вес
+                                        </h3>
+                                        <ul class="about__product-weight-list">
+                                            {% for p in product.countitemproduct.all %}
+                                                <li class="about__product-weight-list-item">
+                                                    <p class="about__product-item-weight">
+                                                        {{ p.value }} <span>{{ p.unit }}</span>
+                                                    </p>
+                                                    {% if product.sale.percent != 0 %}
+                                                        <p class="about__product-item-price">
+                                                            {% total_price p.percent product.action_price %}
+                                                            <span>BYN</span>
+                                                        </p>
+                                                    {% else %}
+                                                        <p class="about__product-item-price">
+                                                            {% total_price p.percent product.price %} <span>BYN</span>
+                                                        </p>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="about__product-pickup">
-                            <div class="about__product-pickup-img">
-                                <svg
-                                        width="40.000000"
-                                        height="40.000000"
-                                        viewBox="0 0 40 40"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                >
-                                    <desc>Created with Pixso.</desc>
-                                    <defs>
-                                        <clipPath id="clip935_8382">
-                                            <rect
-                                                    id="Frame"
-                                                    width="40.000000"
-                                                    height="40.000000"
-                                                    fill="white"
-                                                    fill-opacity="0"
-                                            />
-                                        </clipPath>
-                                    </defs>
-                                    <rect
-                                            id="Frame"
+                                <div class="about__product-your-weight">
+                                    <p class="about__product-your-weight-button">Задать свой вес</p>
+                                    <div class="about__product-your-weight-wrap">
+                                        <h3 class="about__product-your-weight-title">Задайте свой вес</h3>
+                                        <div class="about__product-your-weight-hide">
+                                            <input type="text" name="yourWeight" placeholder="Например: 1,2 кг"/>
+                                            <button>Применить</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="about__product-pickup">
+                                <div class="about__product-pickup-img">
+                                    <svg
                                             width="40.000000"
                                             height="40.000000"
-                                            fill="#FFFFFF"
-                                            fill-opacity="0"
-                                    />
-                                    <g clip-path="url(#clip935_8382)">
-                                        <path
-                                                id="Vector"
-                                                d="M19.0186 0.244205L3.58008 8.43989C3.15186 8.66721 2.88428 9.11237 2.88428 9.59732L2.88428 30.1702C2.88428 31.0012 3.35107 31.7615 4.09229 32.1373L19.2314 39.816C19.7144 40.061 20.2852 40.061 20.7681 39.816L35.9077 32.1373C36.6484 31.7615 37.1157 31.001 37.1157 30.1702L37.1157 9.59732C37.1157 9.11237 36.8477 8.66721 36.4194 8.43989L20.9814 0.244205C20.3677 -0.0814018 19.6323 -0.0814018 19.0186 0.244205Z"
-                                                fill="#FFCE94"
-                                                fill-opacity="1.000000"
-                                                fill-rule="nonzero"
-                                        />
-                                        <path
-                                                id="Vector"
-                                                d="M20 40C20.2637 40 20.5269 39.9388 20.7686 39.8163L35.9077 32.1376C36.6489 31.7618 37.1157 31.0013 37.1157 30.1704L37.1157 9.59735C37.1157 9.38316 37.061 9.17819 36.9658 8.99487L20 18.031L20 40Z"
-                                                fill="#FCB043"
-                                                fill-opacity="1.000000"
-                                                fill-rule="nonzero"
-                                        />
-                                        <path
-                                                id="Vector"
-                                                d="M20 18.0311L3.03418 8.99475C2.93896 9.17807 2.88428 9.38304 2.88428 9.59723L2.88428 30.1702C2.88428 31.0012 3.35107 31.7615 4.09229 32.1374L19.2314 39.816C19.4731 39.9385 19.7363 39.9997 20 39.9997L20 18.0311L20 18.0311Z"
-                                                fill="#E2791B"
-                                                fill-opacity="1.000000"
-                                                fill-rule="nonzero"
-                                        />
-                                        <path
-                                                id="Vector"
-                                                d="M26.0483 2.9342L8.87842 12.0781L8.87842 15.004C8.87842 15.2848 9.0332 15.5427 9.28125 15.6749L12.2651 17.2653C12.502 17.3914 12.7876 17.2199 12.7876 16.9516L12.7876 14.2208L29.9844 5.02364L26.0483 2.9342Z"
-                                                fill="#DEF2FC"
-                                                fill-opacity="1.000000"
-                                                fill-rule="nonzero"
-                                        />
-                                        <path
-                                                id="Vector"
-                                                d="M22.4731 34.1617L27.0537 31.971C27.6401 31.6906 28.0073 31.092 27.9922 30.4422L27.9917 30.4219C27.979 29.8857 27.4097 29.5474 26.9326 29.7924L22.4731 32.0827L22.4731 34.1617L22.4731 34.1617Z"
-                                                fill="#403A46"
-                                                fill-opacity="1.000000"
-                                                fill-rule="nonzero"
-                                        />
-                                        <path
-                                                id="Vector"
-                                                d="M22.4731 37.356L24.9883 36.1875C25.584 35.9106 25.9595 35.3073 25.9438 34.6507C25.9312 34.1127 25.3584 33.7745 24.8813 34.023L22.4731 35.2767L22.4731 37.356Z"
-                                                fill="#403A46"
-                                                fill-opacity="1.000000"
-                                                fill-rule="nonzero"
-                                        />
-                                        <path
-                                                id="Vector"
-                                                d="M8.87842 12.1075L8.87842 15.004C8.87842 15.2848 9.0332 15.5427 9.28125 15.6749L12.2651 17.2653C12.502 17.3915 12.7876 17.2199 12.7876 16.9516L12.7876 14.2208L12.8169 14.2052C11.8062 13.6669 10.1646 12.7925 8.87842 12.1075Z"
-                                                fill="#B6C8CE"
-                                                fill-opacity="1.000000"
-                                                fill-rule="nonzero"
-                                        />
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="about__product-pickup-text-wrap">
-                                <h3 class="about__product-pickup-title">Самовывоз</h3>
-                                <p class="about__product-pickup-text">
-                                    В данный момент товар можно забрать только самовывозом из нашего уютного
-                                    магазина по адресу:
-                                </p>
-                                <div class="about__product-pickup-adress-wrap">
-                                    <div class="about__product-pickup-adress">
-                                        <div class="about__product-pickup-adress-img">
-                                            <svg
-                                                    width="16.000000"
-                                                    height="16.000000"
-                                                    viewBox="0 0 16 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            >
-                                                <desc>Created with Pixso.</desc>
-                                                <defs>
-                                                    <clipPath id="clip935_8397">
-                                                        <rect
-                                                                id="location_major"
-                                                                width="16.000000"
-                                                                height="16.000000"
-                                                                fill="white"
-                                                                fill-opacity="0"
-                                                        />
-                                                    </clipPath>
-                                                </defs>
-                                                <rect
-                                                        id="location_major"
-                                                        width="16.000000"
-                                                        height="16.000000"
-                                                        fill="#FFFFFF"
-                                                        fill-opacity="0"
-                                                />
-                                                <g clip-path="url(#clip935_8397)">
-                                                    <path
-                                                            id="Primary fill"
-                                                            d="M14.3999 6.4C14.3999 2.864 11.5361 0 8 0C4.46387 0 1.6001 2.864 1.6001 6.4C1.6001 6.52 1.6001 6.632 1.60791 6.752C1.71191 9.592 3.2002 12.848 7.31201 15.784C7.72021 16.072 8.28027 16.072 8.68799 15.784C12.8003 12.848 14.2881 9.592 14.3921 6.752C14.3999 6.63202 14.3999 6.51997 14.3999 6.4ZM9.69678 8.0968C10.1475 7.6472 10.3999 7.0368 10.3999 6.4C10.3999 5.7632 10.1465 5.1536 9.69678 4.7032C9.24707 4.2528 8.63672 4 8 4C7.36328 4 6.75391 4.2536 6.30322 4.7032C5.85303 5.1528 5.6001 5.7632 5.6001 6.4C5.6001 7.0368 5.85303 7.6472 6.30322 8.0968C6.75293 8.5472 7.36328 8.8 8 8.8C8.63623 8.8 9.24658 8.5472 9.69678 8.0968Z"
-                                                            fill="#8C9196"
-                                                            fill-opacity="1.000000"
-                                                            fill-rule="evenodd"
-                                                    />
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <p>Минск, ул. Чюрлёниса, 6.</p>
-                                    </div>
-                                    <div class="about__product-pickup-metro">
-                                        <div class="about__product-pickup-metro-img">
-                                            <svg
-                                                    width="18.000000"
-                                                    height="12.000000"
-                                                    viewBox="0 0 18 12"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                            >
-                                                <desc>Created with Pixso.</desc>
-                                                <defs>
-                                                    <clipPath id="clip935_8400">
-                                                        <rect
-                                                                id="Frame"
-                                                                width="18.000000"
-                                                                height="12.000000"
-                                                                fill="white"
-                                                                fill-opacity="0"
-                                                        />
-                                                    </clipPath>
-                                                </defs>
+                                            viewBox="0 0 40 40"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    >
+                                        <desc>Created with Pixso.</desc>
+                                        <defs>
+                                            <clipPath id="clip935_8382">
                                                 <rect
                                                         id="Frame"
-                                                        width="18.000000"
-                                                        height="12.000000"
-                                                        fill="#FFFFFF"
+                                                        width="40.000000"
+                                                        height="40.000000"
+                                                        fill="white"
                                                         fill-opacity="0"
                                                 />
-                                                <g clip-path="url(#clip935_8400)">
-                                                    <path
-                                                            id="Vector"
-                                                            d="M16.7617 10.3236L12.5566 0L9 6.03492L5.45752 0L1.23828 10.3236L0 10.3236L0 11.8882L6.36475 11.8882L6.36475 10.3236L5.41455 10.3236L6.33594 7.7532L9 12L11.6641 7.7532L12.5854 10.3236L11.6353 10.3236L11.6353 11.8882L18 11.8882L18 10.3236L16.7617 10.3236Z"
-                                                            fill="#D72C0D"
-                                                            fill-opacity="1.000000"
-                                                            fill-rule="nonzero"
+                                            </clipPath>
+                                        </defs>
+                                        <rect
+                                                id="Frame"
+                                                width="40.000000"
+                                                height="40.000000"
+                                                fill="#FFFFFF"
+                                                fill-opacity="0"
+                                        />
+                                        <g clip-path="url(#clip935_8382)">
+                                            <path
+                                                    id="Vector"
+                                                    d="M19.0186 0.244205L3.58008 8.43989C3.15186 8.66721 2.88428 9.11237 2.88428 9.59732L2.88428 30.1702C2.88428 31.0012 3.35107 31.7615 4.09229 32.1373L19.2314 39.816C19.7144 40.061 20.2852 40.061 20.7681 39.816L35.9077 32.1373C36.6484 31.7615 37.1157 31.001 37.1157 30.1702L37.1157 9.59732C37.1157 9.11237 36.8477 8.66721 36.4194 8.43989L20.9814 0.244205C20.3677 -0.0814018 19.6323 -0.0814018 19.0186 0.244205Z"
+                                                    fill="#FFCE94"
+                                                    fill-opacity="1.000000"
+                                                    fill-rule="nonzero"
+                                            />
+                                            <path
+                                                    id="Vector"
+                                                    d="M20 40C20.2637 40 20.5269 39.9388 20.7686 39.8163L35.9077 32.1376C36.6489 31.7618 37.1157 31.0013 37.1157 30.1704L37.1157 9.59735C37.1157 9.38316 37.061 9.17819 36.9658 8.99487L20 18.031L20 40Z"
+                                                    fill="#FCB043"
+                                                    fill-opacity="1.000000"
+                                                    fill-rule="nonzero"
+                                            />
+                                            <path
+                                                    id="Vector"
+                                                    d="M20 18.0311L3.03418 8.99475C2.93896 9.17807 2.88428 9.38304 2.88428 9.59723L2.88428 30.1702C2.88428 31.0012 3.35107 31.7615 4.09229 32.1374L19.2314 39.816C19.4731 39.9385 19.7363 39.9997 20 39.9997L20 18.0311L20 18.0311Z"
+                                                    fill="#E2791B"
+                                                    fill-opacity="1.000000"
+                                                    fill-rule="nonzero"
+                                            />
+                                            <path
+                                                    id="Vector"
+                                                    d="M26.0483 2.9342L8.87842 12.0781L8.87842 15.004C8.87842 15.2848 9.0332 15.5427 9.28125 15.6749L12.2651 17.2653C12.502 17.3914 12.7876 17.2199 12.7876 16.9516L12.7876 14.2208L29.9844 5.02364L26.0483 2.9342Z"
+                                                    fill="#DEF2FC"
+                                                    fill-opacity="1.000000"
+                                                    fill-rule="nonzero"
+                                            />
+                                            <path
+                                                    id="Vector"
+                                                    d="M22.4731 34.1617L27.0537 31.971C27.6401 31.6906 28.0073 31.092 27.9922 30.4422L27.9917 30.4219C27.979 29.8857 27.4097 29.5474 26.9326 29.7924L22.4731 32.0827L22.4731 34.1617L22.4731 34.1617Z"
+                                                    fill="#403A46"
+                                                    fill-opacity="1.000000"
+                                                    fill-rule="nonzero"
+                                            />
+                                            <path
+                                                    id="Vector"
+                                                    d="M22.4731 37.356L24.9883 36.1875C25.584 35.9106 25.9595 35.3073 25.9438 34.6507C25.9312 34.1127 25.3584 33.7745 24.8813 34.023L22.4731 35.2767L22.4731 37.356Z"
+                                                    fill="#403A46"
+                                                    fill-opacity="1.000000"
+                                                    fill-rule="nonzero"
+                                            />
+                                            <path
+                                                    id="Vector"
+                                                    d="M8.87842 12.1075L8.87842 15.004C8.87842 15.2848 9.0332 15.5427 9.28125 15.6749L12.2651 17.2653C12.502 17.3915 12.7876 17.2199 12.7876 16.9516L12.7876 14.2208L12.8169 14.2052C11.8062 13.6669 10.1646 12.7925 8.87842 12.1075Z"
+                                                    fill="#B6C8CE"
+                                                    fill-opacity="1.000000"
+                                                    fill-rule="nonzero"
+                                            />
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="about__product-pickup-text-wrap">
+                                    <h3 class="about__product-pickup-title">Самовывоз</h3>
+                                    <p class="about__product-pickup-text">
+                                        В данный момент товар можно забрать только самовывозом из нашего уютного
+                                        магазина по адресу:
+                                    </p>
+                                    <div class="about__product-pickup-adress-wrap">
+                                        <div class="about__product-pickup-adress">
+                                            <div class="about__product-pickup-adress-img">
+                                                <svg
+                                                        width="16.000000"
+                                                        height="16.000000"
+                                                        viewBox="0 0 16 16"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                >
+                                                    <desc>Created with Pixso.</desc>
+                                                    <defs>
+                                                        <clipPath id="clip935_8397">
+                                                            <rect
+                                                                    id="location_major"
+                                                                    width="16.000000"
+                                                                    height="16.000000"
+                                                                    fill="white"
+                                                                    fill-opacity="0"
+                                                            />
+                                                        </clipPath>
+                                                    </defs>
+                                                    <rect
+                                                            id="location_major"
+                                                            width="16.000000"
+                                                            height="16.000000"
+                                                            fill="#FFFFFF"
+                                                            fill-opacity="0"
                                                     />
-                                                </g>
-                                            </svg>
+                                                    <g clip-path="url(#clip935_8397)">
+                                                        <path
+                                                                id="Primary fill"
+                                                                d="M14.3999 6.4C14.3999 2.864 11.5361 0 8 0C4.46387 0 1.6001 2.864 1.6001 6.4C1.6001 6.52 1.6001 6.632 1.60791 6.752C1.71191 9.592 3.2002 12.848 7.31201 15.784C7.72021 16.072 8.28027 16.072 8.68799 15.784C12.8003 12.848 14.2881 9.592 14.3921 6.752C14.3999 6.63202 14.3999 6.51997 14.3999 6.4ZM9.69678 8.0968C10.1475 7.6472 10.3999 7.0368 10.3999 6.4C10.3999 5.7632 10.1465 5.1536 9.69678 4.7032C9.24707 4.2528 8.63672 4 8 4C7.36328 4 6.75391 4.2536 6.30322 4.7032C5.85303 5.1528 5.6001 5.7632 5.6001 6.4C5.6001 7.0368 5.85303 7.6472 6.30322 8.0968C6.75293 8.5472 7.36328 8.8 8 8.8C8.63623 8.8 9.24658 8.5472 9.69678 8.0968Z"
+                                                                fill="#8C9196"
+                                                                fill-opacity="1.000000"
+                                                                fill-rule="evenodd"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <p>Минск, ул. Чюрлёниса, 6.</p>
                                         </div>
-                                        <p>Малиновка</p>
+                                        <div class="about__product-pickup-metro">
+                                            <div class="about__product-pickup-metro-img">
+                                                <svg
+                                                        width="18.000000"
+                                                        height="12.000000"
+                                                        viewBox="0 0 18 12"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                >
+                                                    <desc>Created with Pixso.</desc>
+                                                    <defs>
+                                                        <clipPath id="clip935_8400">
+                                                            <rect
+                                                                    id="Frame"
+                                                                    width="18.000000"
+                                                                    height="12.000000"
+                                                                    fill="white"
+                                                                    fill-opacity="0"
+                                                            />
+                                                        </clipPath>
+                                                    </defs>
+                                                    <rect
+                                                            id="Frame"
+                                                            width="18.000000"
+                                                            height="12.000000"
+                                                            fill="#FFFFFF"
+                                                            fill-opacity="0"
+                                                    />
+                                                    <g clip-path="url(#clip935_8400)">
+                                                        <path
+                                                                id="Vector"
+                                                                d="M16.7617 10.3236L12.5566 0L9 6.03492L5.45752 0L1.23828 10.3236L0 10.3236L0 11.8882L6.36475 11.8882L6.36475 10.3236L5.41455 10.3236L6.33594 7.7532L9 12L11.6641 7.7532L12.5854 10.3236L11.6353 10.3236L11.6353 11.8882L18 11.8882L18 10.3236L16.7617 10.3236Z"
+                                                                fill="#D72C0D"
+                                                                fill-opacity="1.000000"
+                                                                fill-rule="nonzero"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <p>Малиновка</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="about__product-price-wrap">
-                            <div class="about__product-price-promotion-wrap">
-                                {% if product.sale.percent != 0 %}
-                                <div class="about__product-price-promotion-noaction-price">
-                                    <p class="products__item-price-promotion">
-                                        {{ product.price }} BYN 
-                                    </p>
-                                    <p>
-                                        Цена за 1 кг.
-                                    </p>
+                            <div class="about__product-price-wrap">
+                                <div class="about__product-price-promotion-wrap">
+                                    {% if product.sale.percent != 0 %}
+                                        <div class="about__product-price-promotion-noaction-price">
+                                            <p class="products__item-price-promotion">
+                                                {{ product.price }} BYN
+                                            </p>
+                                            <p>
+                                                Цена за 1 {{ product_unit }}.
+                                            </p>
+                                        </div>
+                                        <p class="about__product-price">
+                                            {{ product.action_price|floatformat:2 }}
+                                            <span>BYN</span>
+                                        </p>
+                                    {% else %}
+                                        <p class="about__product-price">{{ product.price }} <span>BYN</span></p>
+                                    {% endif %}
                                 </div>
-                                <p class="about__product-price">
-                                    {{ product.action_price|floatformat:2 }}
-                                    <span>BYN</span>
-                                </p>
+                                {% if product_unit == 'шт' %}
+                                    <p class="about__product-price-weight">Общее кол-во: <span>1 {{ product_unit }}</span></p>
                                 {% else %}
-                                <p class="about__product-price">{{ product.price }} <span>BYN</span></p>
+                                    <p class="about__product-price-weight">Общий вес: <span>1 {{ product_unit }}</span></p>
                                 {% endif %}
                             </div>
-                            <p class="about__product-price-weight">Общий вес: <span>1 кг</span></p>
-                        </div>
-                        <div class="about__product-action-wrap">
-                            <div class="about__product-action">
-                                <button class="about__product-minus about__product-btn">-</button>
-                                <input type="text" name="" value="1">
-                                <button class="about__product-plus about__product-btn">+</button>
-                            </div>
-                            <button class="about__product-basket-btn">Добавить в корзину</button>
-                            <p class="about__product-buy">Купить в 1 клик</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="description">
-            <div class="container">
-                <h2 class="description__title">Описание</h2>
-                <div class="description__wrap">
-                    <div class="description__features-composition-wrap description__first">
-                    {% if product.description %}
-                        <p class="description__text">{{ product.description }}</p>
-                    {% endif %}
-                    {% if product.key_features %}
-                        <div class="description__features">
-                            <h3 class="description__features-title">Ключевые особенности:</h3>
-                            <ul class="description__features-list">
-                                <li class="description__features-list-item">{{ product.key_features }}</li>
-                            </ul>
-                        </div>
-                    {% endif %}
-                    {% if product.compound %}
-                        <div class="description__composition">
-                            <h3 class="description__composition-title">Состав:</h3>
-                            <ul class="description__composition-list">
-                                <li class="description__composition-list-item">{{ product.compound }}</li>
-                            </ul>
-                        </div>
-                    {% endif %}
-                    </div>
-                    <div class="description__features-composition-wrap description__second">
-                        {% if product.guaranteed_analysis %}
-                        <div class="description__features">
-                            <h3 class="description__features-title">Гарантированный анализ:</h3>
-                            <ul class="description__features-list">
-                                <li class="description__features-list-item">
-                                    {{ product.guaranteed_analysis }}
-                                </li>
-                            </ul>
-                        </div>
-                        {% endif %}
-                        {% if product.nutritional_supplements %}
-                        <div class="description__composition">
-                            <h3 class="description__composition-title">Пищевые добавки:</h3>
-                            <ul class="description__composition-list">
-                                <li class="description__composition-list-item">
-                                    {{ product.nutritional_supplements }}
-                                </li>
-                            </ul>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="popular__goods slider__section">
-            <div class="container">
-                <div class="popular__goods-wrap slider__section-wrap">
-                    <div class="slider__wrap">
-                        <div class="popular__goods-title-wrap slider__title-wrap">
-                            <h2 class="popular__goods-title slider__title">Популярные товары</h2>
-                            <div class="popular__goods-actions slider__actions">
-                                <div class="popular__goods-arrow-prev slider__arrow">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="21"
-                                            viewBox="0 0 20 21"
-                                            fill="none"
-                                    >
-                                        <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
-                                                d="M11.9998 16.1299C11.7438 16.1299 11.4878 16.0319 11.2928 15.8369L6.29276 10.8369C5.90176 10.4459 5.90176 9.81389 6.29276 9.42289L11.2928 4.42289C11.6838 4.03189 12.3158 4.03189 12.7068 4.42289C13.0978 4.81389 13.0978 5.44589 12.7068 5.83689L8.41376 10.1299L12.7068 14.4229C13.0978 14.8139 13.0978 15.4459 12.7068 15.8369C12.5118 16.0319 12.2558 16.1299 11.9998 16.1299Z"
-                                                fill="#5C5F62"
-                                        />
-                                    </svg>
+                            <div class="about__product-action-wrap">
+                                <div class="about__product-action">
+                                    <button class="about__product-minus about__product-btn">-</button>
+                                    <input type="text" name="" value="1">
+                                    <button class="about__product-plus about__product-btn">+</button>
                                 </div>
-                                <div class="popular__goods-arrow-next slider__arrow">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="21"
-                                            viewBox="0 0 20 21"
-                                            fill="none"
-                                    >
-                                        <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
-                                                d="M7.99976 16.1299C7.74376 16.1299 7.48776 16.0319 7.29276 15.8369C6.90176 15.4459 6.90176 14.8139 7.29276 14.4229L11.5858 10.1299L7.29276 5.83689C6.90176 5.44589 6.90176 4.81389 7.29276 4.42289C7.68376 4.03189 8.31576 4.03189 8.70676 4.42289L13.7068 9.42289C14.0978 9.81389 14.0978 10.4459 13.7068 10.8369L8.70676 15.8369C8.51176 16.0319 8.25576 16.1299 7.99976 16.1299Z"
-                                                fill="#5C5F62"
-                                        />
-                                    </svg>
+                                <button class="about__product-basket-btn">Добавить в корзину</button>
+                                <p class="about__product-buy">Купить в 1 клик</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="description">
+                <div class="container">
+                    <h2 class="description__title">Описание</h2>
+                    <div class="description__wrap">
+                        <div class="description__features-composition-wrap description__first">
+                            {% if product.description %}
+                                <p class="description__text">{{ product.description }}</p>
+                            {% endif %}
+                            {% if product.key_features %}
+                                <div class="description__features">
+                                    <h3 class="description__features-title">Ключевые особенности:</h3>
+                                    <ul class="description__features-list">
+                                        <li class="description__features-list-item">{{ product.key_features }}</li>
+                                    </ul>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="popular__goods-slider slider">
-                            {% for card in popular_products %}
-                            <article class="slider__item" data-id="{{card.id}}">
-                <div class="slider__item-img">
-                  <img data-lazy="{{card.image_prev.url}}" alt="item" />
-                </div>
-                <a href="{% url 'details' card.id %}" class="slider__item-title"> {{card.title}} </a>
-                <ul class="slider__item-weight-list">
-                  {% for count in card.countitemproduct.all %}
-                  <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
-                    {{count.value }} <span>{{count.unit}}.</span>
-                  </li>
-                  {% endfor %}
-                </ul>
-                <div class="slider__item-price-basket">
-                  <div class="slider__item-price-basket-wrap">
-                    {% if card.sale.percent != 0 %}
-                    <div class="slider__item-price-wrap">
-                      <p class="slider___item-price-promotion">{{ card.price }} BYN</p>
-                      <div class="slider__item-price-currency-wrap">
-                        <p class="slider___item-price">{{ card.action_price|floatformat:2 }}</p>
-                        <p class="slider__item-currency">BYN</p>
-                      </div>
-                    </div>
-                    {% else %}
-                    <div class="slider__item-price-wrap">
-                      <p class="slider__item-price">{{ card.price }}</p>
-                      <p class="slider__item-currency">BYN</p>
-                    </div>
-                    {% endif %}
-                  </div>
-                  <div class="slider__item-basket">
-                    <div class="slider__item-basket-text">+</div>
-                    <div class="slider__item-basket-img">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M1 1C1 0.447715 1.44932 0 2.00358 0H3.50894C4.34034 0 5.01431 0.671572 5.01431 1.5V2.06055L17.5883 2.96818C18.4651 3.02278 19.1089 3.81081 18.9846 4.67739L18.1194 10.7121C18.0135 11.4511 17.3783 12 16.6292 12H5.01431V14H15.0572C16.72 14 18.068 15.3431 18.068 17C18.068 18.6569 16.72 20 15.0572 20C13.3945 20 12.0465 18.6569 12.0465 17C12.0465 16.6494 12.1069 16.3128 12.2178 16H6.85015C6.9611 16.3128 7.02147 16.6494 7.02147 17C7.02147 18.6569 5.67352 20 4.01073 20C2.34795 20 1 18.6569 1 17C1 15.6938 1.83779 14.5825 3.00716 14.1707V3.00923C3.00711 3.00372 3.00711 2.99821 3.00716 2.99268V2H2.00358C1.44932 2 1 1.55228 1 1ZM5.01431 4.06445V10H16.194L16.9208 4.93051L5.01431 4.06445ZM14.0537 17C14.0537 16.4477 14.503 16 15.0572 16C15.6115 16 16.0608 16.4477 16.0608 17C16.0608 17.5523 15.6115 18 15.0572 18C14.503 18 14.0537 17.5523 14.0537 17ZM3.00716 17C3.00716 16.4477 3.45647 16 4.01073 16C4.56499 16 5.01431 16.4477 5.01431 17C5.01431 17.5523 4.56499 18 4.01073 18C3.45647 18 3.00716 17.5523 3.00716 17Z"
-                          fill="#5C5F62"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                {% if card.sale.percent != 0 %}
-                <div class="slider__item-promotion">Акция</div>
-                {% endif %}
-                <button type="button" class="slider__item-btn">Купить в 1 клик</button>
-                <div class="slider__item-hearts">
-                  <div class="slider__item-hearts-wrap">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      data-testid="icon"
-                      class=""
-                    >
-                      <path
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M5.30845 6.64165C6.00566 5.805 7.02478 5.19995 8.23072 5.19995C10.0058 5.19995 11.0834 5.94938 11.923 6.72841C12.7626 5.94938 13.8403 5.19995 15.6153 5.19995C16.8213 5.19995 17.8404 5.805 18.5376 6.64165C19.2314 7.47416 19.6461 8.57744 19.6461 9.69226C19.6461 10.4698 19.3137 11.2349 18.8738 11.9333C18.4267 12.643 17.8152 13.3666 17.1428 14.0773C16.3226 14.9444 15.3422 15.8607 14.4 16.7413C13.8267 17.2772 13.2675 17.7999 12.7671 18.2902C12.2983 18.7496 11.5478 18.7496 11.0789 18.2902C10.5786 17.7999 10.0194 17.2772 9.44602 16.7413C8.50383 15.8607 7.52343 14.9444 6.70323 14.0773C6.03085 13.3666 5.41934 12.643 4.97226 11.9333C4.5323 11.2349 4.19995 10.4698 4.19995 9.69226C4.19995 8.57744 4.61469 7.47416 5.30845 6.64165Z"
-                        fill="#e6e8eb"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
-              </article>
-                            {% endfor %}
-                        </div>
-                        <a href="{% url 'catalog' %}">
-                            <button class="popular__goods-btn button slider__button">
-                                Смотреть больше товаров
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="new__product slider__section">
-            <div class="container">
-                <div class="new__product-wrap slider__section-wrap">
-                    <div class="slider__wrap">
-                        <div class="new__product-title-wrap slider__title-wrap">
-                            <h2 class="new__product-title slider__title">Вместе с этим товаром покупают</h2>
-                            <div class="new__product-actions slider__actions">
-                                <div class="new__product-arrow-prev slider__arrow">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="21"
-                                            viewBox="0 0 20 21"
-                                            fill="none"
-                                    >
-                                        <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
-                                                d="M11.9998 16.1299C11.7438 16.1299 11.4878 16.0319 11.2928 15.8369L6.29276 10.8369C5.90176 10.4459 5.90176 9.81389 6.29276 9.42289L11.2928 4.42289C11.6838 4.03189 12.3158 4.03189 12.7068 4.42289C13.0978 4.81389 13.0978 5.44589 12.7068 5.83689L8.41376 10.1299L12.7068 14.4229C13.0978 14.8139 13.0978 15.4459 12.7068 15.8369C12.5118 16.0319 12.2558 16.1299 11.9998 16.1299Z"
-                                                fill="#5C5F62"
-                                        />
-                                    </svg>
+                            {% endif %}
+                            {% if product.compound %}
+                                <div class="description__composition">
+                                    <h3 class="description__composition-title">Состав:</h3>
+                                    <ul class="description__composition-list">
+                                        <li class="description__composition-list-item">{{ product.compound }}</li>
+                                    </ul>
                                 </div>
-                                <div class="new__product-arrow-next slider__arrow">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="21"
-                                            viewBox="0 0 20 21"
-                                            fill="none"
-                                    >
-                                        <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
-                                                d="M7.99976 16.1299C7.74376 16.1299 7.48776 16.0319 7.29276 15.8369C6.90176 15.4459 6.90176 14.8139 7.29276 14.4229L11.5858 10.1299L7.29276 5.83689C6.90176 5.44589 6.90176 4.81389 7.29276 4.42289C7.68376 4.03189 8.31576 4.03189 8.70676 4.42289L13.7068 9.42289C14.0978 9.81389 14.0978 10.4459 13.7068 10.8369L8.70676 15.8369C8.51176 16.0319 8.25576 16.1299 7.99976 16.1299Z"
-                                                fill="#5C5F62"
-                                        />
-                                    </svg>
+                            {% endif %}
+                        </div>
+                        <div class="description__features-composition-wrap description__second">
+                            {% if product.guaranteed_analysis %}
+                                <div class="description__features">
+                                    <h3 class="description__features-title">Гарантированный анализ:</h3>
+                                    <ul class="description__features-list">
+                                        <li class="description__features-list-item">
+                                            {{ product.guaranteed_analysis }}
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="new__product-slider slider">
-                            {% for card_new in joint_products %}
-                            <article class="slider__item" data-id="{{card_new.id}}">
-                <div class="slider__item-img">
-                  <img data-lazy="{{card_new.image_prev.url}}" alt="item" />
-                </div>
-                <a href="{% url 'details' card_new.id %}" class="slider__item-title"> {{card_new.title}} </a>
-                <ul class="slider__item-weight-list">
-                  {% for count in card_new.countitemproduct.all %}
-                  <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
-                    {{count.value }} <span>{{count.unit}}.</span>
-                  </li>
-                  {% endfor %}
-                </ul>
-                <div class="slider__item-price-basket">
-                  <div class="slider__item-price-basket-wrap">
-                    {% if card_new.sale.percent != 0 %}
-                    <div class="slider__item-price-wrap">
-                      <p class="slider___item-price-promotion">{{ card_new.price }} BYN</p>
-                      <div class="slider__item-price-currency-wrap">
-                        <p class="slider___item-price">{{ card_new.action_price|floatformat:2 }}</p>
-                        <p class="slider__item-currency">BYN</p>
-                      </div>
-                    </div>
-                    {% else %}
-                    <div class="slider__item-price-wrap">
-                      <p class="slider__item-price">{{ card_new.price }}</p>
-                      <p class="slider__item-currency">BYN</p>
-                    </div>
-                    {% endif %}
-                  </div>
-                  <div class="slider__item-basket">
-                    <div class="slider__item-basket-text">+</div>
-                    <div class="slider__item-basket-img">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M1 1C1 0.447715 1.44932 0 2.00358 0H3.50894C4.34034 0 5.01431 0.671572 5.01431 1.5V2.06055L17.5883 2.96818C18.4651 3.02278 19.1089 3.81081 18.9846 4.67739L18.1194 10.7121C18.0135 11.4511 17.3783 12 16.6292 12H5.01431V14H15.0572C16.72 14 18.068 15.3431 18.068 17C18.068 18.6569 16.72 20 15.0572 20C13.3945 20 12.0465 18.6569 12.0465 17C12.0465 16.6494 12.1069 16.3128 12.2178 16H6.85015C6.9611 16.3128 7.02147 16.6494 7.02147 17C7.02147 18.6569 5.67352 20 4.01073 20C2.34795 20 1 18.6569 1 17C1 15.6938 1.83779 14.5825 3.00716 14.1707V3.00923C3.00711 3.00372 3.00711 2.99821 3.00716 2.99268V2H2.00358C1.44932 2 1 1.55228 1 1ZM5.01431 4.06445V10H16.194L16.9208 4.93051L5.01431 4.06445ZM14.0537 17C14.0537 16.4477 14.503 16 15.0572 16C15.6115 16 16.0608 16.4477 16.0608 17C16.0608 17.5523 15.6115 18 15.0572 18C14.503 18 14.0537 17.5523 14.0537 17ZM3.00716 17C3.00716 16.4477 3.45647 16 4.01073 16C4.56499 16 5.01431 16.4477 5.01431 17C5.01431 17.5523 4.56499 18 4.01073 18C3.45647 18 3.00716 17.5523 3.00716 17Z"
-                          fill="#5C5F62"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                {% if card_new.sale.percent != 0 %}
-                <div class="slider__item-promotion">Акция</div>
-                {% endif %}
-                <button type="button" class="slider__item-btn">Купить в 1 клик</button>
-                <div class="slider__item-hearts">
-                  <div class="slider__item-hearts-wrap">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      data-testid="icon"
-                      class=""
-                    >
-                      <path
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M5.30845 6.64165C6.00566 5.805 7.02478 5.19995 8.23072 5.19995C10.0058 5.19995 11.0834 5.94938 11.923 6.72841C12.7626 5.94938 13.8403 5.19995 15.6153 5.19995C16.8213 5.19995 17.8404 5.805 18.5376 6.64165C19.2314 7.47416 19.6461 8.57744 19.6461 9.69226C19.6461 10.4698 19.3137 11.2349 18.8738 11.9333C18.4267 12.643 17.8152 13.3666 17.1428 14.0773C16.3226 14.9444 15.3422 15.8607 14.4 16.7413C13.8267 17.2772 13.2675 17.7999 12.7671 18.2902C12.2983 18.7496 11.5478 18.7496 11.0789 18.2902C10.5786 17.7999 10.0194 17.2772 9.44602 16.7413C8.50383 15.8607 7.52343 14.9444 6.70323 14.0773C6.03085 13.3666 5.41934 12.643 4.97226 11.9333C4.5323 11.2349 4.19995 10.4698 4.19995 9.69226C4.19995 8.57744 4.61469 7.47416 5.30845 6.64165Z"
-                        fill="#e6e8eb"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
-              </article>
-                            {% endfor %}
-                        </div>
-                        <a href="{% url 'catalog' %}">
-                            <button class="popular__goods-btn button slider__button">
-                                Смотреть больше товаров
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="articles">
-            <div class="container">
-                <div class="articles__wrap">
-                    <div class="articles__title-wrap">
-                        <h2 class="articles__title">Полезные статьи</h2>
-                        <div class="articles__action">
-                            <div class="articles__arrow articles__arrow-prev">
-                                <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="21"
-                                        viewBox="0 0 20 21"
-                                        fill="none"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            clip-rule="evenodd"
-                                            d="M11.9998 16.77C11.7438 16.77 11.4878 16.672 11.2928 16.477L6.29276 11.477C5.90176 11.086 5.90176 10.454 6.29276 10.063L11.2928 5.06303C11.6838 4.67203 12.3158 4.67203 12.7068 5.06303C13.0978 5.45403 13.0978 6.08603 12.7068 6.47703L8.41376 10.77L12.7068 15.063C13.0978 15.454 13.0978 16.086 12.7068 16.477C12.5118 16.672 12.2558 16.77 11.9998 16.77Z"
-                                            fill="#5C5F62"
-                                    />
-                                </svg>
-                            </div>
-                            <div class="articles__arrow articles__arrow-next">
-                                <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="21"
-                                        viewBox="0 0 20 21"
-                                        fill="none"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            clip-rule="evenodd"
-                                            d="M7.99976 16.77C7.74376 16.77 7.48776 16.672 7.29276 16.477C6.90176 16.086 6.90176 15.454 7.29276 15.063L11.5858 10.77L7.29276 6.47703C6.90176 6.08603 6.90176 5.45403 7.29276 5.06303C7.68376 4.67203 8.31576 4.67203 8.70676 5.06303L13.7068 10.063C14.0978 10.454 14.0978 11.086 13.7068 11.477L8.70676 16.477C8.51176 16.672 8.25576 16.77 7.99976 16.77Z"
-                                            fill="#5C5F62"
-                                    />
-                                </svg>
-                            </div>
+                            {% endif %}
+                            {% if product.nutritional_supplements %}
+                                <div class="description__composition">
+                                    <h3 class="description__composition-title">Пищевые добавки:</h3>
+                                    <ul class="description__composition-list">
+                                        <li class="description__composition-list-item">
+                                            {{ product.nutritional_supplements }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="articles__slider">
-                        {% for article in articals %}
-                        <article class="articles__slider-item">
-                            <div class="articles__slider-item-img">
-                                <img src="{{ article.image.url }}" alt="articlesImg"/>
-                            </div>
-                            <div class="articles__slider-item-text-wrap">
-                                <a href="{% url 'article_by_id' article.id %}">
-                                    <h3 class="articles__slider-item-title">{{ article.title }}</h3>
-                                </a>
-                                <p class="articles__slider-item-text">{{ article.text|striptags }}</p>
-                            </div>
-                            <div class="articles__slider-item-time-wrap">
-                                <div class="articles__slider-item-time">
-                                    <div class="articles__slider-item-time-img">
+                </div>
+            </section>
+            <section class="popular__goods slider__section">
+                <div class="container">
+                    <div class="popular__goods-wrap slider__section-wrap">
+                        <div class="slider__wrap">
+                            <div class="popular__goods-title-wrap slider__title-wrap">
+                                <h2 class="popular__goods-title slider__title">Популярные товары</h2>
+                                <div class="popular__goods-actions slider__actions">
+                                    <div class="popular__goods-arrow-prev slider__arrow">
                                         <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                width="16"
-                                                height="17"
-                                                viewBox="0 0 16 17"
+                                                width="20"
+                                                height="21"
+                                                viewBox="0 0 20 21"
                                                 fill="none"
                                         >
                                             <path
                                                     fill-rule="evenodd"
                                                     clip-rule="evenodd"
-                                                    d="M8.0001 15.17C4.4713 15.17 1.6001 12.2988 1.6001 8.77002C1.6001 5.24122 4.4713 2.37002 8.0001 2.37002C11.5289 2.37002 14.4001 5.24122 14.4001 8.77002C14.4001 12.2988 11.5289 15.17 8.0001 15.17ZM9.8345 11.4044C9.6297 11.4044 9.4249 11.326 9.2689 11.17L7.4345 9.33562C7.2841 9.18602 7.2001 8.98202 7.2001 8.77002V5.57002C7.2001 5.12842 7.5577 4.77002 8.0001 4.77002C8.4425 4.77002 8.8001 5.12842 8.8001 5.57002V8.43882L10.4001 10.0388C10.7129 10.3516 10.7129 10.8572 10.4001 11.17C10.2441 11.326 10.0393 11.4044 9.8345 11.4044Z"
-                                                    fill="#8C9196"
+                                                    d="M11.9998 16.1299C11.7438 16.1299 11.4878 16.0319 11.2928 15.8369L6.29276 10.8369C5.90176 10.4459 5.90176 9.81389 6.29276 9.42289L11.2928 4.42289C11.6838 4.03189 12.3158 4.03189 12.7068 4.42289C13.0978 4.81389 13.0978 5.44589 12.7068 5.83689L8.41376 10.1299L12.7068 14.4229C13.0978 14.8139 13.0978 15.4459 12.7068 15.8369C12.5118 16.0319 12.2558 16.1299 11.9998 16.1299Z"
+                                                    fill="#5C5F62"
                                             />
                                         </svg>
                                     </div>
-                                    <p>Время чтения: {{ article.read_time }}</p>
-                                </div>
-                                <div class="articles__slider-item-date">
-                                    <div class="articles__slider-item-time-date">
+                                    <div class="popular__goods-arrow-next slider__arrow">
                                         <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                width="16"
-                                                height="17"
-                                                viewBox="0 0 16 17"
+                                                width="20"
+                                                height="21"
+                                                viewBox="0 0 20 21"
                                                 fill="none"
                                         >
                                             <path
                                                     fill-rule="evenodd"
                                                     clip-rule="evenodd"
-                                                    d="M13.2001 3.97002C13.8628 3.97002 14.4001 4.50728 14.4001 5.17002V13.97C14.4001 14.6328 13.8628 15.17 13.2001 15.17H2.8001C2.13736 15.17 1.6001 14.6328 1.6001 13.97V5.17002C1.6001 4.50728 2.13736 3.97002 2.8001 3.97002H4.0001V3.17002C4.0001 2.72842 4.3577 2.37002 4.8001 2.37002C5.2425 2.37002 5.6001 2.72842 5.6001 3.17002V3.97002H10.4001V3.17002C10.4001 2.72842 10.7577 2.37002 11.2001 2.37002C11.6425 2.37002 12.0001 2.72842 12.0001 3.17002V3.97002H13.2001ZM12.8001 7.17002H3.2001V13.57H12.8001V7.17002Z"
-                                                    fill="#8C9196"
+                                                    d="M7.99976 16.1299C7.74376 16.1299 7.48776 16.0319 7.29276 15.8369C6.90176 15.4459 6.90176 14.8139 7.29276 14.4229L11.5858 10.1299L7.29276 5.83689C6.90176 5.44589 6.90176 4.81389 7.29276 4.42289C7.68376 4.03189 8.31576 4.03189 8.70676 4.42289L13.7068 9.42289C14.0978 9.81389 14.0978 10.4459 13.7068 10.8369L8.70676 15.8369C8.51176 16.0319 8.25576 16.1299 7.99976 16.1299Z"
+                                                    fill="#5C5F62"
                                             />
                                         </svg>
                                     </div>
-                                    <p>{{ article.date_create|date:"d F Y" }}</p>
                                 </div>
                             </div>
-                        </article>
-                        {% endfor %}
+                            <div class="popular__goods-slider slider">
+                                {% for card in popular_products %}
+                                    <article class="slider__item" data-id="{{ card.id }}">
+                                        <div class="slider__item-img">
+                                            <img data-lazy="{{ card.image_prev.url }}" alt="item"/>
+                                        </div>
+                                        <a href="{% url 'details' card.id %}"
+                                           class="slider__item-title"> {{ card.title }} </a>
+                                        <ul class="slider__item-weight-list">
+                                            {% for count in card.countitemproduct.all %}
+                                                <li class="slider__item-weight-list-item"
+                                                    data-weight-id="{{ count.id }}">
+                                                    {{ count.value }} <span>{{ count.unit }}.</span>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <div class="slider__item-price-basket">
+                                            <div class="slider__item-price-basket-wrap">
+                                                {% if card.sale.percent != 0 %}
+                                                    <div class="slider__item-price-wrap">
+                                                        <p class="slider___item-price-promotion">{{ card.price }}
+                                                            BYN</p>
+                                                        <div class="slider__item-price-currency-wrap">
+                                                            <p class="slider___item-price">{{ card.action_price|floatformat:2 }}</p>
+                                                            <p class="slider__item-currency">BYN</p>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="slider__item-price-wrap">
+                                                        <p class="slider__item-price">{{ card.price }}</p>
+                                                        <p class="slider__item-currency">BYN</p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="slider__item-basket">
+                                                <div class="slider__item-basket-text">+</div>
+                                                <div class="slider__item-basket-img">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                         viewBox="0 0 20 20" fill="none">
+                                                        <path
+                                                                fill-rule="evenodd"
+                                                                clip-rule="evenodd"
+                                                                d="M1 1C1 0.447715 1.44932 0 2.00358 0H3.50894C4.34034 0 5.01431 0.671572 5.01431 1.5V2.06055L17.5883 2.96818C18.4651 3.02278 19.1089 3.81081 18.9846 4.67739L18.1194 10.7121C18.0135 11.4511 17.3783 12 16.6292 12H5.01431V14H15.0572C16.72 14 18.068 15.3431 18.068 17C18.068 18.6569 16.72 20 15.0572 20C13.3945 20 12.0465 18.6569 12.0465 17C12.0465 16.6494 12.1069 16.3128 12.2178 16H6.85015C6.9611 16.3128 7.02147 16.6494 7.02147 17C7.02147 18.6569 5.67352 20 4.01073 20C2.34795 20 1 18.6569 1 17C1 15.6938 1.83779 14.5825 3.00716 14.1707V3.00923C3.00711 3.00372 3.00711 2.99821 3.00716 2.99268V2H2.00358C1.44932 2 1 1.55228 1 1ZM5.01431 4.06445V10H16.194L16.9208 4.93051L5.01431 4.06445ZM14.0537 17C14.0537 16.4477 14.503 16 15.0572 16C15.6115 16 16.0608 16.4477 16.0608 17C16.0608 17.5523 15.6115 18 15.0572 18C14.503 18 14.0537 17.5523 14.0537 17ZM3.00716 17C3.00716 16.4477 3.45647 16 4.01073 16C4.56499 16 5.01431 16.4477 5.01431 17C5.01431 17.5523 4.56499 18 4.01073 18C3.45647 18 3.00716 17.5523 3.00716 17Z"
+                                                                fill="#5C5F62"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if card.sale.percent != 0 %}
+                                            <div class="slider__item-promotion">Акция</div>
+                                        {% endif %}
+                                        <button type="button" class="slider__item-btn">Купить в 1 клик</button>
+                                        <div class="slider__item-hearts">
+                                            <div class="slider__item-hearts-wrap">
+                                                <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="20"
+                                                        height="20"
+                                                        fill="none"
+                                                        data-testid="icon"
+                                                        class=""
+                                                >
+                                                    <path
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M5.30845 6.64165C6.00566 5.805 7.02478 5.19995 8.23072 5.19995C10.0058 5.19995 11.0834 5.94938 11.923 6.72841C12.7626 5.94938 13.8403 5.19995 15.6153 5.19995C16.8213 5.19995 17.8404 5.805 18.5376 6.64165C19.2314 7.47416 19.6461 8.57744 19.6461 9.69226C19.6461 10.4698 19.3137 11.2349 18.8738 11.9333C18.4267 12.643 17.8152 13.3666 17.1428 14.0773C16.3226 14.9444 15.3422 15.8607 14.4 16.7413C13.8267 17.2772 13.2675 17.7999 12.7671 18.2902C12.2983 18.7496 11.5478 18.7496 11.0789 18.2902C10.5786 17.7999 10.0194 17.2772 9.44602 16.7413C8.50383 15.8607 7.52343 14.9444 6.70323 14.0773C6.03085 13.3666 5.41934 12.643 4.97226 11.9333C4.5323 11.2349 4.19995 10.4698 4.19995 9.69226C4.19995 8.57744 4.61469 7.47416 5.30845 6.64165Z"
+                                                            fill="#e6e8eb"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </article>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'catalog' %}">
+                                <button class="popular__goods-btn button slider__button">
+                                    Смотреть больше товаров
+                                </button>
+                            </a>
+                        </div>
                     </div>
-                    <a href="{% url 'articles' %}">
-                        <button type="button" class="articles__button button">Читать больше статей</button>
-                    </a>
                 </div>
-            </div>
-        </section>
-    </div>
-</main>
+            </section>
+            <section class="new__product slider__section">
+                <div class="container">
+                    <div class="new__product-wrap slider__section-wrap">
+                        <div class="slider__wrap">
+                            <div class="new__product-title-wrap slider__title-wrap">
+                                <h2 class="new__product-title slider__title">Вместе с этим товаром покупают</h2>
+                                <div class="new__product-actions slider__actions">
+                                    <div class="new__product-arrow-prev slider__arrow">
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="21"
+                                                viewBox="0 0 20 21"
+                                                fill="none"
+                                        >
+                                            <path
+                                                    fill-rule="evenodd"
+                                                    clip-rule="evenodd"
+                                                    d="M11.9998 16.1299C11.7438 16.1299 11.4878 16.0319 11.2928 15.8369L6.29276 10.8369C5.90176 10.4459 5.90176 9.81389 6.29276 9.42289L11.2928 4.42289C11.6838 4.03189 12.3158 4.03189 12.7068 4.42289C13.0978 4.81389 13.0978 5.44589 12.7068 5.83689L8.41376 10.1299L12.7068 14.4229C13.0978 14.8139 13.0978 15.4459 12.7068 15.8369C12.5118 16.0319 12.2558 16.1299 11.9998 16.1299Z"
+                                                    fill="#5C5F62"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <div class="new__product-arrow-next slider__arrow">
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="21"
+                                                viewBox="0 0 20 21"
+                                                fill="none"
+                                        >
+                                            <path
+                                                    fill-rule="evenodd"
+                                                    clip-rule="evenodd"
+                                                    d="M7.99976 16.1299C7.74376 16.1299 7.48776 16.0319 7.29276 15.8369C6.90176 15.4459 6.90176 14.8139 7.29276 14.4229L11.5858 10.1299L7.29276 5.83689C6.90176 5.44589 6.90176 4.81389 7.29276 4.42289C7.68376 4.03189 8.31576 4.03189 8.70676 4.42289L13.7068 9.42289C14.0978 9.81389 14.0978 10.4459 13.7068 10.8369L8.70676 15.8369C8.51176 16.0319 8.25576 16.1299 7.99976 16.1299Z"
+                                                    fill="#5C5F62"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="new__product-slider slider">
+                                {% for card_new in joint_products %}
+                                    <article class="slider__item" data-id="{{ card_new.id }}">
+                                        <div class="slider__item-img">
+                                            <img data-lazy="{{ card_new.image_prev.url }}" alt="item"/>
+                                        </div>
+                                        <a href="{% url 'details' card_new.id %}"
+                                           class="slider__item-title"> {{ card_new.title }} </a>
+                                        <ul class="slider__item-weight-list">
+                                            {% for count in card_new.countitemproduct.all %}
+                                                <li class="slider__item-weight-list-item"
+                                                    data-weight-id="{{ count.id }}">
+                                                    {{ count.value }} <span>{{ count.unit }}.</span>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <div class="slider__item-price-basket">
+                                            <div class="slider__item-price-basket-wrap">
+                                                {% if card_new.sale.percent != 0 %}
+                                                    <div class="slider__item-price-wrap">
+                                                        <p class="slider___item-price-promotion">{{ card_new.price }}
+                                                            BYN</p>
+                                                        <div class="slider__item-price-currency-wrap">
+                                                            <p class="slider___item-price">{{ card_new.action_price|floatformat:2 }}</p>
+                                                            <p class="slider__item-currency">BYN</p>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="slider__item-price-wrap">
+                                                        <p class="slider__item-price">{{ card_new.price }}</p>
+                                                        <p class="slider__item-currency">BYN</p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="slider__item-basket">
+                                                <div class="slider__item-basket-text">+</div>
+                                                <div class="slider__item-basket-img">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                         viewBox="0 0 20 20" fill="none">
+                                                        <path
+                                                                fill-rule="evenodd"
+                                                                clip-rule="evenodd"
+                                                                d="M1 1C1 0.447715 1.44932 0 2.00358 0H3.50894C4.34034 0 5.01431 0.671572 5.01431 1.5V2.06055L17.5883 2.96818C18.4651 3.02278 19.1089 3.81081 18.9846 4.67739L18.1194 10.7121C18.0135 11.4511 17.3783 12 16.6292 12H5.01431V14H15.0572C16.72 14 18.068 15.3431 18.068 17C18.068 18.6569 16.72 20 15.0572 20C13.3945 20 12.0465 18.6569 12.0465 17C12.0465 16.6494 12.1069 16.3128 12.2178 16H6.85015C6.9611 16.3128 7.02147 16.6494 7.02147 17C7.02147 18.6569 5.67352 20 4.01073 20C2.34795 20 1 18.6569 1 17C1 15.6938 1.83779 14.5825 3.00716 14.1707V3.00923C3.00711 3.00372 3.00711 2.99821 3.00716 2.99268V2H2.00358C1.44932 2 1 1.55228 1 1ZM5.01431 4.06445V10H16.194L16.9208 4.93051L5.01431 4.06445ZM14.0537 17C14.0537 16.4477 14.503 16 15.0572 16C15.6115 16 16.0608 16.4477 16.0608 17C16.0608 17.5523 15.6115 18 15.0572 18C14.503 18 14.0537 17.5523 14.0537 17ZM3.00716 17C3.00716 16.4477 3.45647 16 4.01073 16C4.56499 16 5.01431 16.4477 5.01431 17C5.01431 17.5523 4.56499 18 4.01073 18C3.45647 18 3.00716 17.5523 3.00716 17Z"
+                                                                fill="#5C5F62"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if card_new.sale.percent != 0 %}
+                                            <div class="slider__item-promotion">Акция</div>
+                                        {% endif %}
+                                        <button type="button" class="slider__item-btn">Купить в 1 клик</button>
+                                        <div class="slider__item-hearts">
+                                            <div class="slider__item-hearts-wrap">
+                                                <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="20"
+                                                        height="20"
+                                                        fill="none"
+                                                        data-testid="icon"
+                                                        class=""
+                                                >
+                                                    <path
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M5.30845 6.64165C6.00566 5.805 7.02478 5.19995 8.23072 5.19995C10.0058 5.19995 11.0834 5.94938 11.923 6.72841C12.7626 5.94938 13.8403 5.19995 15.6153 5.19995C16.8213 5.19995 17.8404 5.805 18.5376 6.64165C19.2314 7.47416 19.6461 8.57744 19.6461 9.69226C19.6461 10.4698 19.3137 11.2349 18.8738 11.9333C18.4267 12.643 17.8152 13.3666 17.1428 14.0773C16.3226 14.9444 15.3422 15.8607 14.4 16.7413C13.8267 17.2772 13.2675 17.7999 12.7671 18.2902C12.2983 18.7496 11.5478 18.7496 11.0789 18.2902C10.5786 17.7999 10.0194 17.2772 9.44602 16.7413C8.50383 15.8607 7.52343 14.9444 6.70323 14.0773C6.03085 13.3666 5.41934 12.643 4.97226 11.9333C4.5323 11.2349 4.19995 10.4698 4.19995 9.69226C4.19995 8.57744 4.61469 7.47416 5.30845 6.64165Z"
+                                                            fill="#e6e8eb"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </article>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'catalog' %}">
+                                <button class="popular__goods-btn button slider__button">
+                                    Смотреть больше товаров
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="articles">
+                <div class="container">
+                    <div class="articles__wrap">
+                        <div class="articles__title-wrap">
+                            <h2 class="articles__title">Полезные статьи</h2>
+                            <div class="articles__action">
+                                <div class="articles__arrow articles__arrow-prev">
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="21"
+                                            viewBox="0 0 20 21"
+                                            fill="none"
+                                    >
+                                        <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M11.9998 16.77C11.7438 16.77 11.4878 16.672 11.2928 16.477L6.29276 11.477C5.90176 11.086 5.90176 10.454 6.29276 10.063L11.2928 5.06303C11.6838 4.67203 12.3158 4.67203 12.7068 5.06303C13.0978 5.45403 13.0978 6.08603 12.7068 6.47703L8.41376 10.77L12.7068 15.063C13.0978 15.454 13.0978 16.086 12.7068 16.477C12.5118 16.672 12.2558 16.77 11.9998 16.77Z"
+                                                fill="#5C5F62"
+                                        />
+                                    </svg>
+                                </div>
+                                <div class="articles__arrow articles__arrow-next">
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="21"
+                                            viewBox="0 0 20 21"
+                                            fill="none"
+                                    >
+                                        <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M7.99976 16.77C7.74376 16.77 7.48776 16.672 7.29276 16.477C6.90176 16.086 6.90176 15.454 7.29276 15.063L11.5858 10.77L7.29276 6.47703C6.90176 6.08603 6.90176 5.45403 7.29276 5.06303C7.68376 4.67203 8.31576 4.67203 8.70676 5.06303L13.7068 10.063C14.0978 10.454 14.0978 11.086 13.7068 11.477L8.70676 16.477C8.51176 16.672 8.25576 16.77 7.99976 16.77Z"
+                                                fill="#5C5F62"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="articles__slider">
+                            {% for article in articals %}
+                                <article class="articles__slider-item">
+                                    <div class="articles__slider-item-img">
+                                        <img src="{{ article.image.url }}" alt="articlesImg"/>
+                                    </div>
+                                    <div class="articles__slider-item-text-wrap">
+                                        <a href="{% url 'article_by_id' article.id %}">
+                                            <h3 class="articles__slider-item-title">{{ article.title }}</h3>
+                                        </a>
+                                        <p class="articles__slider-item-text">{{ article.text|striptags }}</p>
+                                    </div>
+                                    <div class="articles__slider-item-time-wrap">
+                                        <div class="articles__slider-item-time">
+                                            <div class="articles__slider-item-time-img">
+                                                <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="16"
+                                                        height="17"
+                                                        viewBox="0 0 16 17"
+                                                        fill="none"
+                                                >
+                                                    <path
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M8.0001 15.17C4.4713 15.17 1.6001 12.2988 1.6001 8.77002C1.6001 5.24122 4.4713 2.37002 8.0001 2.37002C11.5289 2.37002 14.4001 5.24122 14.4001 8.77002C14.4001 12.2988 11.5289 15.17 8.0001 15.17ZM9.8345 11.4044C9.6297 11.4044 9.4249 11.326 9.2689 11.17L7.4345 9.33562C7.2841 9.18602 7.2001 8.98202 7.2001 8.77002V5.57002C7.2001 5.12842 7.5577 4.77002 8.0001 4.77002C8.4425 4.77002 8.8001 5.12842 8.8001 5.57002V8.43882L10.4001 10.0388C10.7129 10.3516 10.7129 10.8572 10.4001 11.17C10.2441 11.326 10.0393 11.4044 9.8345 11.4044Z"
+                                                            fill="#8C9196"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <p>Время чтения: {{ article.read_time }}</p>
+                                        </div>
+                                        <div class="articles__slider-item-date">
+                                            <div class="articles__slider-item-time-date">
+                                                <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="16"
+                                                        height="17"
+                                                        viewBox="0 0 16 17"
+                                                        fill="none"
+                                                >
+                                                    <path
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M13.2001 3.97002C13.8628 3.97002 14.4001 4.50728 14.4001 5.17002V13.97C14.4001 14.6328 13.8628 15.17 13.2001 15.17H2.8001C2.13736 15.17 1.6001 14.6328 1.6001 13.97V5.17002C1.6001 4.50728 2.13736 3.97002 2.8001 3.97002H4.0001V3.17002C4.0001 2.72842 4.3577 2.37002 4.8001 2.37002C5.2425 2.37002 5.6001 2.72842 5.6001 3.17002V3.97002H10.4001V3.17002C10.4001 2.72842 10.7577 2.37002 11.2001 2.37002C11.6425 2.37002 12.0001 2.72842 12.0001 3.17002V3.97002H13.2001ZM12.8001 7.17002H3.2001V13.57H12.8001V7.17002Z"
+                                                            fill="#8C9196"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <p>{{ article.date_create|date:"d F Y" }}</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                        <a href="{% url 'articles' %}">
+                            <button type="button" class="articles__button button">Читать больше статей</button>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/details_page/aboutImg.js' %}"></script>
-<script src="{% static 'js/details_page/description.js' %}"></script>
-<script src="{% static 'js/details_page/weight.js' %}"></script>
+    <script src="{% static 'js/details_page/aboutImg.js' %}"></script>
+    <script src="{% static 'js/details_page/description.js' %}"></script>
+    <script src="{% static 'js/details_page/weight.js' %}"></script>
 {% endblock %}
 {% block profile_navigation %}
 {% endblock %}
