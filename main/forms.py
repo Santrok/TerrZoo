@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 
 from main.models import Profile
@@ -76,8 +77,7 @@ class ProfileForm(forms.ModelForm):
 
 
 class ProfileUserNameForm(forms.ModelForm):
-    username = forms.CharField(required=False,
-                               label='Логин',
+    username = forms.CharField(label='Логин',
                                widget=forms.TextInput(
                                    attrs={'class': 'auth_input',
                                           'placeholder': 'Введите Ваше имя',
@@ -89,27 +89,25 @@ class ProfileUserNameForm(forms.ModelForm):
 
 
 class ProfileUserPasswordForm(forms.ModelForm):
-    password = forms.CharField(required=False,
-                               error_messages={'required': 'Введите пароль'},
+    password = forms.CharField(error_messages={'required': 'Введите пароль'},
                                label='Введите пароль',
                                widget=forms.PasswordInput(
                                    attrs={'class': 'password_person_reset_field',
                                           'placeholder': 'Введите старый пароль',
                                           'disabled': 'disabled'}))
-    new_password = forms.CharField(required=False,
-                                   label='Введите новый пароль',
+    new_password = forms.CharField(label='Введите новый пароль',
                                    widget=forms.PasswordInput(
                                        attrs={'class': 'password_register_field',
                                               'placeholder': 'Введите новый пароль',
-                                              'disabled': 'disabled'}),
-                                   validators=[validate_password])
-    repeat_new_pass = forms.CharField(required=False,
-                                      label='Повторите новый пароль',
+                                              'disabled': 'disabled'}))
+    # validators=[validate_password])
+    repeat_new_pass = forms.CharField(label='Повторите новый пароль',
                                       widget=forms.PasswordInput(
                                           attrs={'class': 'repeat_password_register_field',
                                                  'placeholder': 'Повторите новый пароль',
-                                                 'disabled': 'disabled'}),
-                                      validators=[validate_password])
+                                                 'disabled': 'disabled'}))
+
+    # validators=[validate_password])
 
     def clean(self):
         cleaned_data = super().clean()
@@ -117,6 +115,14 @@ class ProfileUserPasswordForm(forms.ModelForm):
         repeat_new_pass = cleaned_data.get('repeat_new_pass')
         if new_password and repeat_new_pass and new_password != repeat_new_pass:
             self.add_error('repeat_new_pass', 'Пароли не совпадают')
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password:
+            user = self.instance
+            if not check_password(password, user.password):
+                raise forms.ValidationError('Неправильный пароль!')
+        return password
 
     class Meta:
         model = User
