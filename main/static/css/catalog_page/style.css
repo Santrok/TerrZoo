@@ -400,6 +400,11 @@
   display: block;
 }
 
+.filter__inner:checked ~ .brand__list-item-label div {
+  background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
+  border: none; 
+}
+
 .filter__brand {
   margin-top: 12.5px;
   padding-top: 12.5px;
