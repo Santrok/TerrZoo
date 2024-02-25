@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
@@ -92,10 +93,12 @@ class Product(models.Model):
     title = models.CharField("Название продукта",
                              max_length=500,
                              unique=True)
-    image_prev = models.ImageField("Обязательное изображение",
-                                   blank=True,
-                                   null=True,
-                                   upload_to="products_images")
+    image_prev = models.FileField("Обязательное изображение",
+                                   upload_to="products_images",
+                                   help_text='Изображение должно быть в формате avif,'
+                                             'преобразовать можно здесь:'
+                                             'https://imagetostl.com/ru/convert/file/jpg/to/avif',
+                                   validators=[FileExtensionValidator(['avif'])])
     price = models.DecimalField("Цена товара за единицу",
                                 max_digits=20,
                                 decimal_places=2)
@@ -163,8 +166,9 @@ class AdminProduct(admin.ModelAdmin):
 
     inlines = [ImageProductInlines, ]
     list_display = ['title',
-                    'category',
-                    'get_html_photo',
+                    # 'category',
+                    'image_prev',
+                    # 'get_html_photo',
                     'sale', ]
 
 
@@ -232,7 +236,11 @@ class Article(models.Model):
                              unique=True)
     text = CKEditor5Field('Текст статьи', config_name='extends')
     image = models.FileField("Изображение",
-                              upload_to="articles_images")
+                              upload_to="articles_images",
+                             help_text='Изображение должно быть в формате avif,'
+                                       'преобразовать можно здесь:'
+                                       'https://imagetostl.com/ru/convert/file/jpg/to/avif',
+                             validators=[FileExtensionValidator(['avif'])])
     date_create = models.DateTimeField(auto_now_add=True)
     read_time = models.CharField("Время чтения",
                                  max_length=255)
