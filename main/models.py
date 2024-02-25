@@ -137,9 +137,6 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.title}  id:{self.id}"
 
-    def get_html_photo(self, object):
-        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
-
     def action_price(self):
         """Метод для расчета цены в период
          акции в процентном соотношении"""
@@ -160,6 +157,9 @@ class ImageProductInlines(admin.StackedInline):
 class AdminProduct(admin.ModelAdmin):
     """Класс управления отображения
         в админ панели сущности: Product"""
+
+    def get_html_photo(self, object):
+        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
 
     inlines = [ImageProductInlines, ]
     list_display = ['title',
