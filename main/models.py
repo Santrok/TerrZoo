@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib import admin
@@ -157,9 +158,13 @@ class AdminProduct(admin.ModelAdmin):
     """Класс управления отображения
         в админ панели сущности: Product"""
 
+    def get_html_photo(self, object):
+        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
+
     inlines = [ImageProductInlines, ]
     list_display = ['title',
                     'category',
+                    'get_html_photo',
                     'sale', ]
 
 
