@@ -59,7 +59,9 @@ class ProfileForm(forms.ModelForm):
     last_name = forms.CharField(label='Фамилия',
                                 required=False)
     email = forms.CharField(label='Почта',
-                            required=False)
+                            required=False,
+                            widget=forms.TextInput(
+                                attrs={'disabled': 'disabled'}))
 
     class Meta:
         model = Profile
@@ -99,15 +101,14 @@ class ProfileUserPasswordForm(forms.ModelForm):
                                    widget=forms.PasswordInput(
                                        attrs={'class': 'password_register_field',
                                               'placeholder': 'Введите новый пароль',
-                                              'disabled': 'disabled'}))
-    # validators=[validate_password])
+                                              'disabled': 'disabled'}),
+                                   validators=[validate_password])
     repeat_new_pass = forms.CharField(label='Повторите новый пароль',
                                       widget=forms.PasswordInput(
                                           attrs={'class': 'repeat_password_register_field',
                                                  'placeholder': 'Повторите новый пароль',
-                                                 'disabled': 'disabled'}))
-
-    # validators=[validate_password])
+                                                 'disabled': 'disabled'}),
+                                      validators=[validate_password])
 
     def clean(self):
         cleaned_data = super().clean()

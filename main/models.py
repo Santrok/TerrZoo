@@ -430,6 +430,19 @@ class Profile(models.Model):
                                    blank=True,
                                    null=True)
 
+    def clean(self):
+        """Проверка некоторых полей модели."""
+        errors = {}
+
+        if not self.apartment_number.isdigit():
+            errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
+
+        if len(self.postal_code) < 6 or not self.postal_code.isdigit():
+            errors.update({'postal_code': 'Не верный формат'})
+
+        if errors:
+            raise ValidationError(errors)
+
     class Meta:
         verbose_name_plural = 'Профили пользователей'
         verbose_name = 'Профиль пользователя'
@@ -437,18 +450,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-    # def clean(self):
-    #     """Проверка некоторых полей модели."""
-    #     errors = {}
-    #
-    #     # Проверка поля УНП
-    #     if not self.apartment_number.isdigit():
-    #         errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
-    #
-    #     # Проверка поля индекс
-    #     if len(self.postal_code) < 6 or not self.postal_code.isdigit():
-    #         errors.update({'postcode': 'Не верный формат'})
-    #
-    #     if errors:
-    #         raise ValidationError(errors)
