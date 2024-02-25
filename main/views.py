@@ -94,7 +94,8 @@ def get_page_catalog(request):
 
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
-    products = Product.objects.filter(animal=animal_id).select_related('sale', 'category').prefetch_related('countitemproduct')
+    products = Product.objects.filter(animal=animal_id).select_related('sale', 'category').prefetch_related(
+        'countitemproduct')
 
     popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
@@ -419,7 +420,8 @@ def get_placing_an_order_page(request):
 @login_required
 def get_profile_order_page(request):
     """Личный кабинет"""
-    orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
+    orders = (Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
+              .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
     context = {"orders": orders,
