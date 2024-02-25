@@ -137,9 +137,6 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.title}  id:{self.id}"
 
-    def get_html_photo(self, object):
-        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
-
     def action_price(self):
         """Метод для расчета цены в период
          акции в процентном соотношении"""
@@ -160,6 +157,9 @@ class ImageProductInlines(admin.StackedInline):
 class AdminProduct(admin.ModelAdmin):
     """Класс управления отображения
         в админ панели сущности: Product"""
+
+    def get_html_photo(self, object):
+        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
 
     inlines = [ImageProductInlines, ]
     list_display = ['title',
@@ -430,6 +430,19 @@ class Profile(models.Model):
                                    blank=True,
                                    null=True)
 
+    def clean(self):
+        """Проверка некоторых полей модели."""
+        errors = {}
+
+        if not self.apartment_number.isdigit():
+            errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
+
+        if len(self.postal_code) < 6 or not self.postal_code.isdigit():
+            errors.update({'postal_code': 'Не верный формат'})
+
+        if errors:
+            raise ValidationError(errors)
+
     class Meta:
         verbose_name_plural = 'Профили пользователей'
         verbose_name = 'Профиль пользователя'
@@ -437,18 +450,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-    # def clean(self):
-    #     """Проверка некоторых полей модели."""
-    #     errors = {}
-    #
-    #     # Проверка поля УНП
-    #     if not self.apartment_number.isdigit():
-    #         errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
-    #
-    #     # Проверка поля индекс
-    #     if len(self.postal_code) < 6 or not self.postal_code.isdigit():
-    #         errors.update({'postcode': 'Не верный формат'})
-    #
-    #     if errors:
-    #         raise ValidationError(errors)
