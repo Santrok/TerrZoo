@@ -61,7 +61,8 @@ class ProfileForm(forms.ModelForm):
     email = forms.CharField(label='Почта',
                             required=False,
                             widget=forms.TextInput(
-                                attrs={'disabled': 'disabled'}))
+                                attrs={'class': 'profile_form_email',
+                                       'readonly': 'readonly'}))
 
     class Meta:
         model = Profile
