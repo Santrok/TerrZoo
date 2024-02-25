@@ -2,15 +2,15 @@ import json
 from random import random, randint
 
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
-from django.http import JsonResponse
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 from django.shortcuts import render, redirect
 
 from config import settings
@@ -448,8 +448,7 @@ def get_profile_comparisonlist_page(request):
     context = {
         'products': products
     }
-    return render(request=request,
-                  template_name='profile_comparisonlist.html', context=context)
+    return render(request=request, template_name='profile_comparisonlist.html', context=context)
 
 
 @login_required
@@ -458,39 +457,9 @@ def get_profile_page_data_user(request):
     user = request.user
     profile = Profile.objects.get(user=user)
 
-    if request.method == 'POST':
-        if request.POST.get('action') == 'profile':
-            form_data_profile = ProfileForm(request.POST, instance=profile)
-            form_data_user = ProfileForm(request.POST, instance=user)
-            if form_data_profile.is_valid() and form_data_user.is_valid():
-                form_data_profile.save()
-                form_data_user.save()
-
-        elif request.POST.get('action') == 'profile_user_password':
-            form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
-            if form_data_pass.is_valid():
-                password = make_password(form_data_pass.cleaned_data.get('password'))
-                new_password = form_data_pass.cleaned_data.get('new_password')
-                repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
-                if check_password(user.password, password, ) and password and new_password and repeat_password:
-                    user.set_password(new_password)
-                    user.save()
-                    update_session_auth_hash(request, user)
-                    messages.success(request, 'Пароль успешно изменен')
-            else:
-                messages.error(request, 'Ошибка пароля')
-
-        elif request.POST.get('action') == 'profile_user_username':
-            form_data_user = ProfileUserNameForm(request.POST)
-            if form_data_user.is_valid():
-                if form_data_user.cleaned_data.get('username'):
-                    user.username = form_data_user.cleaned_data.get('username')
-                    user.save()
-                    messages.success(request, 'Данные успешно изменены!')
-            else:
-                messages.error(request, 'Ошибка пароля')
-
-    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
+    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name,
+                                                          'last_name': user.last_name,
+                                                          'email': user.email})
     form_profile_user = ProfileUserNameForm(instance=user)
     form_profile_password = ProfileUserPasswordForm(instance=user)
 
@@ -498,6 +467,44 @@ def get_profile_page_data_user(request):
                "form_profile_user": form_profile_user,
                "form_profile_password": form_profile_password}
 
-    return render(request=request,
-                  template_name='profile_data_user.html',
-                  context=context)
+    if request.method == 'POST':
+        if request.POST.get('action') == 'profile':
+            form_data_profile = ProfileForm(request.POST, instance=profile)
+            form_data_user = ProfileForm(request.POST, instance=user)
+            if form_data_profile.is_valid() and form_data_user.is_valid():
+                form_data_profile.save()
+                form_data_user.save()
+                context['form_profile_modified'] = 'Данные успешно изменены.'
+            form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name,
+                                                                  'last_name': user.last_name,
+                                                                  'email': user.email})
+            form_profile.errors.update(form_data_profile.errors)
+            form_profile.errors.update(form_data_user.errors)
+            context['form_profile'] = form_profile
+            return render(request, template_name='profile_data_user.html', context=context)
+
+        elif request.POST.get('action') == 'profile_user_username':
+            form_data_user = ProfileUserNameForm(request.POST)
+            if form_data_user.is_valid():
+                if form_data_user.cleaned_data.get('username'):
+                    user.username = form_data_user.cleaned_data.get('username')
+                    user.save()
+                    context['form_profile_user_modified'] = 'Логин успешно изменен.'
+            context['form_profile_user'] = form_data_user
+            return render(request, template_name='profile_data_user.html', context=context)
+
+        elif request.POST.get('action') == 'profile_user_password':
+            form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
+            if form_data_pass.is_valid():
+                password = make_password(form_data_pass.cleaned_data.get('password'))
+                new_password = form_data_pass.cleaned_data.get('new_password')
+                repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
+                if check_password(user.password, password) and password and new_password and repeat_password:
+                    user.set_password(new_password)
+                    user.save()
+                    context['form_profile_password_modified'] = 'Пароль успешно изменен.'
+                    update_session_auth_hash(request, user)
+            context['form_profile_password'] = form_data_pass
+            return render(request, template_name='profile_data_user.html', context=context)
+
+    return render(request=request, template_name='profile_data_user.html', context=context)

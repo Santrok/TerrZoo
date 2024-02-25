@@ -424,3 +424,7 @@ main h3 {
 .save__password-button {
     display: none;
 }
+
+.errorlist li {
+    color: red;
+}

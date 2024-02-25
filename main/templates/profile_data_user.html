@@ -18,6 +18,9 @@
             <div class="user__data-from-wrap">
                 <form class="user__data-form-item" method="post">
                     {% csrf_token %}
+                    {% if form_profile_modified %}
+                         <p>{{ form_profile_modified }}</p>   
+                    {% endif %}
                     {{ form_profile.as_p }}
                     <div class="user__data-button-wrap">
                         <button class="user__data-button" type="submit" name="action" value="profile">Сохранить</button>
@@ -26,6 +29,9 @@
                 <form class="user__data-form" method="post">
                     <div class="user__data-form-item login__form">
                         {% csrf_token %}
+                        {% if form_profile_user_modified %}
+                             <p>{{ form_profile_user_modified }}</p>   
+                        {% endif %}
                         {{ form_profile_user.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button save__login-button" type="submit" name="action" value="profile_user_username">
@@ -38,6 +44,9 @@
                     </div>
                     <div class="user__data-form-item">
                         {% csrf_token %}
+                        {% if form_profile_password_modified %}
+                            <p>{{ form_profile_password_modified }}</p>   
+                        {% endif %}
                         {{ form_profile_password.as_p }}
                         <div class="user__data-button-wrap">
                             <button class="user__data-button save__password-button" type="submit" name="action" value="profile_user_password">
