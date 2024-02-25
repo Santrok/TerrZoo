@@ -16,7 +16,6 @@ filterItem.forEach(item => {
 
 
 const checkedList = document.querySelectorAll(".checkbox__category")
-
      for(let item of checkedList){
         item.addEventListener('click',(e)=>{
             e.currentTarget.children[0].classList.toggle('filter__item-active-aside')
