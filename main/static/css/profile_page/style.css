@@ -428,3 +428,8 @@ main h3 {
 .errorlist li {
     color: red;
 }
+
+.profile_form_email {
+    background: lightblue;
+    opacity: 0.5;
+}
