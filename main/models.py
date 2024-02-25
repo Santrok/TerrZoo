@@ -442,10 +442,12 @@ class Profile(models.Model):
         """Проверка некоторых полей модели."""
         errors = {}
 
-        if not self.apartment_number.isdigit():
+        print(self.apartment_number)
+
+        if self.apartment_number and not self.apartment_number.isdigit():
             errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
 
-        if len(self.postal_code) < 6 or not self.postal_code.isdigit():
+        if self.postal_code and (len(self.postal_code) < 6 or not self.postal_code.isdigit()):
             errors.update({'postal_code': 'Не верный формат'})
 
         if errors:

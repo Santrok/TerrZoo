@@ -62,7 +62,7 @@
                                     <h2>Номер заказа: {{ order.order_number }} </h2>
                                     <h3>Продукты:</h3>
                                     {% for prod in order.products.all %}
-                                        <li>{{ forloop.counter }}. {{ prod.title }}</li>
+                                        <li class="article__order-item">{{ forloop.counter }}. {{ prod.title }}</li>
                                     {% endfor %}
                                     <p class="order-item-time">Время заказа: {{ order.data_create }}</p>
                                     <p class="order-item-time">Сумма заказа: {{ order.total_price }}</p>
