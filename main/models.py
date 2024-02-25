@@ -231,7 +231,7 @@ class Article(models.Model):
                              max_length=1500,
                              unique=True)
     text = CKEditor5Field('Текст статьи', config_name='extends')
-    image = models.ImageField("Изображение",
+    image = models.FileField("Изображение",
                               upload_to="articles_images")
     date_create = models.DateTimeField(auto_now_add=True)
     read_time = models.CharField("Время чтения",
