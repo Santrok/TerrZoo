@@ -15,11 +15,12 @@ from django.shortcuts import render, redirect
 
 from config import settings
 from django.db.models import Count
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserPasswordForm, \
-    ProfileUserNameForm
+from main.models import (Animal, Product, Brand, Review, Article, Sale,
+                         CategoryProduct, Order, PayCard, Profile, StatusesOrder)
+from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
+                        ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
-from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
+from main.functions import (get_check_file, send_check_for_mail, get_article_for_orders)
 
 
 def get_page(request):
@@ -366,7 +367,8 @@ def get_placing_an_order_page(request):
                                           user=user,
                                           check_order=file_url,
                                           total_price=request.POST.get('order_price'),
-                                          pay_card=card_zapros[0])
+                                          pay_card=card_zapros[0],
+                                          status_order=StatusesOrder.objects.get(status='Оплачен'))
                             if card_zapros[0].balance > float(request.POST.get('order_price')):
                                 card_zapros[0].balance = float(card_zapros[0].balance) - float(
                                     request.POST.get('order_price'))
@@ -398,7 +400,8 @@ def get_placing_an_order_page(request):
                                                              request.POST.get('order_price'),
                                                              user,
                                                              article_for_orders),
-                                  total_price=request.POST.get('order_price'))
+                                  total_price=request.POST.get('order_price'),
+                                  status_order=StatusesOrder.objects.get(status='Оформлен'))
                     order.save()
                     for i in product_list:
                         i.sales_counter += 1

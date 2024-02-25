@@ -76,12 +76,10 @@ main p, h2, h3 {
 }
 
 main h2 {
-    margin: 0 0 10px 0;
     font-size: 20px;
 }
 
 main h3 {
-    margin: 0 0 10px 0;
     font-size: 18px;
 }
 
@@ -96,10 +94,11 @@ main h3 {
     flex: 0 1 600px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
-.order-item-time {
-    margin: 10px 0 0 0;
+.article__title-wrap-order-item-button {
+    margin: 7px 0 0 0;
 }
 
 .article__title-wrap-order-card {
