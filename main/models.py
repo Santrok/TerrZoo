@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib import admin
@@ -136,6 +137,9 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.title}  id:{self.id}"
 
+    def get_html_photo(self, object):
+        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
+
     def action_price(self):
         """Метод для расчета цены в период
          акции в процентном соотношении"""
@@ -160,6 +164,7 @@ class AdminProduct(admin.ModelAdmin):
     inlines = [ImageProductInlines, ]
     list_display = ['title',
                     'category',
+                    'get_html_photo',
                     'sale', ]
 
 
