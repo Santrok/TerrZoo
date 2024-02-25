@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
              count += 1;
              queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
            }
+           console.log(queryStr);
          }
        }
      }
@@ -150,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   </div>
                 </div>
                        </article>
-                       `;
+            `;
              productList.append(li);
            }
          }
