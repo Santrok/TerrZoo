@@ -214,7 +214,7 @@
               <li class="products__list-item">
                 <article class="products___item" data-id="{{product.id}}">
                   <div class="products___item-img">
-                    <img src="{{product.image_prev.url}}" alt="item" />
+                    <img loading="lazy" src="{{product.image_prev.url}}" alt="item" />
                   </div>
                   <a href="{% url 'details' product.id %}" class="products___item-title"> {{ product.title }} </a>
                   <ul class="slider__item-weight-list">
@@ -521,7 +521,7 @@
           </a>
         </div>
       </div>
-    </section>
+    </section> 
   </div>
 </main>
 {% endblock %} {% block js %}

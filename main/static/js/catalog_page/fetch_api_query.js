@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
  const eventItem = document.querySelectorAll(".catalog__filter-mob li");
  const filterTypeList = document.querySelector(".filter__type-list");
@@ -35,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
      let order_str = document.querySelector(".catalog__sort-select-active").dataset.order;
+     console.log(111);
      fetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`)
        .then((resp) => resp.json())
        .then((data) => {
