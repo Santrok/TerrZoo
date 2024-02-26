@@ -110,7 +110,7 @@ class CategoryProductsListView(ListAPIView):
         return Response(serializer.data)
 
 class ProductsListView(ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
 
@@ -339,9 +339,26 @@ class ProductListFilterView(ListAPIView):
         data = self.request.query_params
         d = dict(data.copy())
         order = d.pop("order")
+        if d.get("page"):
+            d.pop("page")
         if data.get('sale__percent__gt'):
             d['sale__percent__gt'] = d.get('sale__percent__gt')[0]
-        queryset = Product.objects.filter(**d).order_by(order[0])
+        if order[0] == 'price':
+            print('price')
+            queryset = sorted(Product.objects.filter(**d).select_related('sale',
+                              'category').prefetch_related('countitemproduct_set'),
+                              key=lambda x: x.action_price(),
+                              reverse=False)
+        elif order[0] == '-price':
+            print('-price')
+            queryset = sorted(Product.objects.filter(**d).select_related('sale',
+                              'category').prefetch_related('countitemproduct_set'),
+                              key=lambda x: x.action_price(),
+                              reverse=True)
+        else:
+            queryset = Product.objects.filter(**d).order_by(order[0]).select_related('sale',
+                       'category').prefetch_related('countitemproduct_set')
+
         return queryset
 
     def list(self, request, *args, **kwargs):

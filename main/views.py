@@ -134,11 +134,11 @@ def get_details(request, id):
                              key=lambda x: x.sales_counter,
                              reverse=True)
     # изменить сортировку на продукты с этим покупают
-    joint_products = sorted(products_set.order_by('?')[:randint(5, 13)],
+    joint_products = sorted(products_set.order_by('?')[:random.randint(5, 13)],
                             key=lambda x: x.id,
                             reverse=False)
     product_unit = ''
-    for i in product.countitemproduct.all():
+    for i in product.countitemproduct_set.all():
         product_unit = i.unit
     context = {
         "product": product,
