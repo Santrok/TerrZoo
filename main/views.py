@@ -16,7 +16,7 @@ from django.shortcuts import render, redirect
 from config import settings
 from django.db.models import Count
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
-                         CategoryProduct, Order, PayCard, Profile, StatusesOrder, CountItemProduct)
+                         CategoryProduct, Order, PayCard, Profile)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
                         ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
@@ -134,11 +134,11 @@ def get_details(request, id):
                              key=lambda x: x.sales_counter,
                              reverse=True)
     # изменить сортировку на продукты с этим покупают
-    joint_products = sorted(products_set.order_by('?')[:randint(5, 13)],
+    joint_products = sorted(products_set.order_by('?')[:random.randint(5, 13)],
                             key=lambda x: x.id,
                             reverse=False)
     product_unit = ''
-    for i in product.countitemproduct.all():
+    for i in product.countitemproduct_set.all():
         product_unit = i.unit
     context = {
         "product": product,
@@ -372,7 +372,8 @@ def get_placing_an_order_page(request):
                                           check_order=file_url,
                                           total_price=request.POST.get('order_price'),
                                           pay_card=card_zapros[0],
-                                          status_order=StatusesOrder.objects.get(status='Оплачен'))
+                                          order_status='Оплачен',
+                                          order_item=json_obj)
                             if card_zapros[0].balance > float(request.POST.get('order_price')):
                                 card_zapros[0].balance = float(card_zapros[0].balance) - float(
                                     request.POST.get('order_price'))
@@ -406,7 +407,8 @@ def get_placing_an_order_page(request):
                                                              user,
                                                              article_for_orders),
                                   total_price=request.POST.get('order_price'),
-                                  status_order=StatusesOrder.objects.get(status='Оформлен'))
+                                  order_status='Оформлен',
+                                  order_item=json_obj)
                     order.save()
                     for i in product_list:
                         i.sales_counter += 1
@@ -428,7 +430,7 @@ def get_placing_an_order_page(request):
 @login_required
 def get_profile_order_page(request):
     """Личный кабинет"""
-    orders = (Order.objects.prefetch_related('products', 'user', 'pay_card', 'status_order')
+    orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
               .filter(user=request.user.id)
               .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)

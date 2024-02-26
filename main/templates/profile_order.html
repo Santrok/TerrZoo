@@ -60,7 +60,7 @@
                             <div class="article__title-wrap-order">
                                 <div class="article__title-wrap-order-item">
                                     <h2>Номер заказа: {{ order.order_number }}</h2>
-                                    <h3>Статус: <b><i>{{ order.status_order }}</i></b></h3>
+                                    <h3>Статус: <b><i>{{ order.order_status }}</i></b></h3>
                                     <h3>Продукты:</h3>
                                     <div>
                                     {% for prod in order.products.all %}
