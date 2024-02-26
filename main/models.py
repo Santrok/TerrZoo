@@ -187,7 +187,6 @@ class CountItemProduct(models.Model):
     percent = models.PositiveIntegerField("Процент от "
                                           "стоимости единицы товара")
 
-
     def __str__(self):
         return f"{self.value} {self.unit}."
 
@@ -324,30 +323,36 @@ class Order(models.Model):
         с пользователем(FK),
            продуктом(М2М) карты(FK) статус(FK)"""
 
+    STATUS_ORDER = [
+        ("Оформлен", "Оформлен"),
+        ("Ожидает оплату", "Ожидает оплату"),
+        ("Оплачен", "Оплачен"),
+        ("Подтвержден", "Подтвержден"),
+        ("Выполнен", "Выполнен"),
+        ("Аннулирован", "Аннулирован"),
+        ("Ошибка оплаты", "Ошибка оплаты"),
+    ]
+
     order_number = models.PositiveIntegerField(verbose_name='Номер заказа',
                                                unique=True)
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
     products = models.ManyToManyField("Product",
                                       verbose_name="Продукты",
-                                      blank=True,
-                                      null=True)
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE,
+                                      blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
                              verbose_name="Пользователь")
     check_order = models.FileField("Чек",
                                    upload_to="checks")
     total_price = models.DecimalField("Сумма заказа",
-                                      max_digits=8,
-                                      decimal_places=2)
+                                      max_digits=8, decimal_places=2)
     pay_card = models.ForeignKey("PayCard",
                                  on_delete=models.CASCADE,
                                  verbose_name="Карта",
-                                 blank=True,
-                                 null=True)
-    status_order = models.ForeignKey("StatusesOrder",
-                                     on_delete=models.PROTECT,
-                                     verbose_name="Статус заказа")
+                                 blank=True, null=True)
+    order_status = models.CharField(verbose_name='Статус', max_length=15,
+                                    choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
+    order_item = models.JSONField(verbose_name='Детали заказа')
 
     def __str__(self):
         return f"{self.user.username} {self.order_number}"
@@ -365,19 +370,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
-
-
-class StatusesOrder(models.Model):
-    """Статус заказа"""
-    status = models.CharField("Статус")
-
-    def __str__(self):
-        return self.status
-
-    class Meta:
-        verbose_name = "Статус"
-        verbose_name_plural = "Статусы"
-        ordering = ['id']
 
 
 class AdminOrder(admin.ModelAdmin):
