@@ -35,10 +35,9 @@ $(document).ready(function() {
     $('.feedback__slider').slick({
         slidesToShow: 1,
         slidesToScroll:1,
-        Infinity: true,
         lazyload: 'progressive',
         nextArrow: $('.feedback__arrow-next'),
-        prevArrow: $('.feedback__arrow-prev')
+        prevArrow: $('.feedback__arrow-prev'),
     })
     $('.articles__slider').slick({
         slidesToShow:3,

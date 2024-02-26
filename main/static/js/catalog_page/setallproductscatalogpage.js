@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
           e.currentTarget.classList.add("products__pagination-list-item-active");
           product_list.innerHTML = "";
-          fetchProduct(`http://127.0.0.1:8000/api/get_products_list/?page=${e.currentTarget.textContent.trim()}`);
+          fetchProduct(`http://127.0.0.1:8000/api/get_products_filter/?page=${e.currentTarget.textContent.trim()}`);
           window.scrollBy({
             top: product_list.getBoundingClientRect().top - 120,
             behavior: 'smooth'

@@ -324,7 +324,7 @@
                 />
               </svg>
             </div>
-            <div class="feedback__progress">1 из {{ reviews.count }}</div>
+            <div class="feedback__progress"><span class="feedback__progress-current">1</span> из <span class="feedback__progress-total">{{ reviews.count }}</span></div>
             <div class="feedback__arrow feedback__arrow-next">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path
@@ -610,6 +610,10 @@
     </section>
   </div>
 </main>
+{% endblock %}
+
+{% block js %}
+<script defer src="{% static 'js/main_page/feedback.js' %}"></script>
 {% endblock %}
 {% block profile_navigation %}
 {% endblock %}
