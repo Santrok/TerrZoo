@@ -92,7 +92,7 @@
                             </ul>
                         </div>
                         <div class="about__product-second">
-                            {% if product.countitemproduct_set.all|length != 1 %}
+                            {% if product_unit != 'шт' %}
                                 <div class="about__product-options">
                                     <div class="about__product-weight">
                                         <h3 class="about__product-weight-title">
