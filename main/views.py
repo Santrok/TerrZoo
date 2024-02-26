@@ -29,7 +29,7 @@ def get_page(request):
     reviews = Review.objects.select_related('user').all()
     brands = Brand.objects.all()[0:12]
     animals = Animal.objects.all()
-    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct'))
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set'))
     popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
@@ -49,7 +49,7 @@ def get_page(request):
 
 def search_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
@@ -72,7 +72,7 @@ def search_catalog(request):
 
 def get_page_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
@@ -95,8 +95,8 @@ def get_page_catalog(request):
 
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
-    products = Product.objects.filter(animal=animal_id).select_related('sale', 'category').prefetch_related(
-        'countitemproduct')
+    products = Product.objects.filter(animal=animal_id).select_related('sale',
+                                      'category').prefetch_related('countitemproduct_set')
 
     popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
@@ -126,7 +126,7 @@ def get_page_catalog_by_animal(request, animal_id):
 def get_details(request, id):
     '''Отдаем детальное описание товара по id'''
     articles = Article.objects.all()
-    products_set = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct')
+    products_set = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     products = list(products_set)
     product = products_set.get(id=id)
     popular_product = sorted(products[:20],
@@ -154,7 +154,7 @@ def get_details(request, id):
 def get_basket_page(request):
     """Функция обработки данных страницы basket"""
     articals = Article.objects.all()
-    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct'))
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set'))
     popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
@@ -258,7 +258,7 @@ def logout_view(request):
 def get_articles_page(request):
     """Отдаем каталог по id животного"""
     animals = Animal.objects.all()
-    products = Product.objects.all()
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
@@ -285,7 +285,7 @@ def get_article_by_article_id(request, article_id):
     """Отдаем выбранную статью"""
     articles = Article.objects.all()
     article = articles.get(id=article_id)
-    popular_products = sorted(Product.objects.all(),
+    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
 
@@ -302,7 +302,7 @@ def get_article_by_animals_id(request, animal_id):
     """Отдаем статьи по id животного"""
     animals = Animal.objects.all()
     articles = Article.objects.filter(animal=animal_id)
-    popular_products = sorted(Product.objects.all(),
+    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
 
@@ -319,7 +319,7 @@ def get_promotions_page(request):
     """Отдаем все акции"""
     animals = Animal.objects.all()
     promotions = Sale.objects.exclude(percent=0)
-    popular_products = sorted(Product.objects.all(),
+    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
 
@@ -450,7 +450,7 @@ def get_profile_wishlist_page(request):
 @login_required
 def get_profile_comparisonlist_page(request):
     '''Отдаем страничку со списком сравнения из личного кабинета'''
-    products = Product.objects.all()
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     context = {
         'products': products
     }
