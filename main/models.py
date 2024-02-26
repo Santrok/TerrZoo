@@ -315,7 +315,7 @@ class AdminReview(admin.ModelAdmin):
 class Order(models.Model):
     """Модель заказа связи:
         с пользователем(FK),
-           продуктом(М2М) карты(FK)"""
+           продуктом(М2М) карты(FK) статус(FK)"""
 
     order_number = models.PositiveIntegerField(verbose_name='Номер заказа',
                                                unique=True)
@@ -338,6 +338,9 @@ class Order(models.Model):
                                  verbose_name="Карта",
                                  blank=True,
                                  null=True)
+    status_order = models.ForeignKey("StatusesOrder",
+                                 on_delete=models.PROTECT,
+                                 verbose_name="Статус заказа")
 
     def __str__(self):
         return f"{self.user.username} {self.order_number}"
@@ -355,6 +358,18 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+
+class StatusesOrder(models.Model):
+    """Статус заказа"""
+    status = models.CharField("Статус")
+
+    def __str__(self):
+        return self.status
+
+    class Meta:
+        verbose_name = "Статус"
+        verbose_name_plural = "Статусы"
+        ordering = ['id']
 
 
 class AdminOrder(admin.ModelAdmin):
@@ -442,10 +457,12 @@ class Profile(models.Model):
         """Проверка некоторых полей модели."""
         errors = {}
 
-        if not self.apartment_number.isdigit():
+        print(self.apartment_number)
+
+        if self.apartment_number and not self.apartment_number.isdigit():
             errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
 
-        if len(self.postal_code) < 6 or not self.postal_code.isdigit():
+        if self.postal_code and (len(self.postal_code) < 6 or not self.postal_code.isdigit()):
             errors.update({'postal_code': 'Не верный формат'})
 
         if errors:

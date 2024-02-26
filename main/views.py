@@ -15,11 +15,12 @@ from django.shortcuts import render, redirect
 
 from config import settings
 from django.db.models import Count
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserPasswordForm, \
-    ProfileUserNameForm
+from main.models import (Animal, Product, Brand, Review, Article, Sale,
+                         CategoryProduct, Order, PayCard, Profile, StatusesOrder)
+from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
+                        ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
-from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
+from main.functions import (get_check_file, send_check_for_mail, get_article_for_orders)
 
 
 def get_page(request):
@@ -94,7 +95,8 @@ def get_page_catalog(request):
 
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
-    products = Product.objects.filter(animal=animal_id).select_related('sale', 'category').prefetch_related('countitemproduct')
+    products = Product.objects.filter(animal=animal_id).select_related('sale', 'category').prefetch_related(
+        'countitemproduct')
 
     popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
@@ -365,7 +367,8 @@ def get_placing_an_order_page(request):
                                           user=user,
                                           check_order=file_url,
                                           total_price=request.POST.get('order_price'),
-                                          pay_card=card_zapros[0])
+                                          pay_card=card_zapros[0],
+                                          status_order=StatusesOrder.objects.get(status='Оплачен'))
                             if card_zapros[0].balance > float(request.POST.get('order_price')):
                                 card_zapros[0].balance = float(card_zapros[0].balance) - float(
                                     request.POST.get('order_price'))
@@ -397,7 +400,8 @@ def get_placing_an_order_page(request):
                                                              request.POST.get('order_price'),
                                                              user,
                                                              article_for_orders),
-                                  total_price=request.POST.get('order_price'))
+                                  total_price=request.POST.get('order_price'),
+                                  status_order=StatusesOrder.objects.get(status='Оформлен'))
                     order.save()
                     for i in product_list:
                         i.sales_counter += 1
@@ -419,7 +423,8 @@ def get_placing_an_order_page(request):
 @login_required
 def get_profile_order_page(request):
     """Личный кабинет"""
-    orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
+    orders = (Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
+              .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
     context = {"orders": orders,
