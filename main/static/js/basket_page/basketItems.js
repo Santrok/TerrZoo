@@ -156,45 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   basketItem.forEach((item) => {
     item.addEventListener('click', (e) => TestFunc(e))
-    // item.addEventListener("click", (e) => {
-    //   if (e.target.classList.contains("minus")) {
-    //     basketArrayObj = JSON.parse(localStorage.getItem("basket"));
-    //     for (let i of basketArrayObj) {
-    //       if (
-    //         i.id === e.currentTarget.dataset.id &&
-    //         e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
-    //       ) {
-    //         if (i.count <= 1) {
-    //           e.currentTarget.remove();
-    //           basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
-    //         }
-    //         i.count -= 1;
-    //         i.initPrice === 0 ? (i.initPrice = i.price) : 0;
-    //         i.price = Number(i.price - i.initPrice);
-    //         e.target.parentElement.parentElement.children[1].textContent =
-    //           (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
-    //         e.target.parentElement.children[1].textContent = i.count;
-    //         localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-    //       }
-    //     }
-    //   } else if (e.target.classList.contains("plus")) {
-    //     basketArrayObj = JSON.parse(localStorage.getItem("basket"));
-    //     for (let i of basketArrayObj) {
-    //       if (
-    //         i.id === e.currentTarget.dataset.id &&
-    //         e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
-    //       ) {
-    //         i.count += 1;
-    //         i.price = Number(i.count * i.initPrice);
-    //         e.target.parentElement.parentElement.children[1].textContent =
-    //           (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
-    //         e.target.parentElement.children[1].textContent = i.count;
-    //         localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-    //         setCountInBasket();
-    //       }
-    //     }
-    //   }
-    // });
   });
 
   // --- basket
