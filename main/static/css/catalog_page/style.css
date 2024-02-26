@@ -494,10 +494,10 @@
   border-radius: 4px;
 }
 
-.brand__type-list-item-hdie {
+.brand__type-list-item-hide {
   display: none;
 }
-.brand__type-list-item-hdie:checked ~ .brand__list-item-label div {
+.brand__type-list-item-hide:checked ~ .brand__list-item-label div {
   background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
   border: none;
 }

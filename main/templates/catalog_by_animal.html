@@ -135,7 +135,7 @@
       <div class="container">
         <div class="products__wrap">
           <aside class="catalog__filter-mob">
-            <li for="promotional" class="promotional__item">
+            <div class="promotional__item">
               <input
                 type="checkbox"
                 name="promotional"
@@ -147,7 +147,7 @@
                 <div></div>
                 <p>Только акционные товары</p>
               </label>
-            </li>
+            </div>
             <div class="filter__type">
               <h3 class="filter__type-title">Тип товара</h3>
               <ul class="filter__type-list">
@@ -195,7 +195,7 @@
                     type="checkbox"
                     id="brand{{brand.id}}"
                     name="type"
-                    class="brand__type-list-item-hdie"
+                    class="brand__type-list-item-hide"
                     data-brand="{{brand.id}}"
                   />
                   <label for="brand{{brand.id}}" class="brand__list-item-label">
@@ -228,7 +228,7 @@
                     <div class="products___item-price-basket-wrap">
                       {% if product.sale.percent != 0 %}
                       <div class="products___item-price-wrap">
-                        <p class="products___item-price-promotion">{{ product.price }}</p>
+                        <p class="products___item-price-promotion">{{ product.price }} BYN</p>
                         <div class="products___item-price-currency-wrap">
                           <p class="products___item-price">{{ product.action_price|floatformat:2 }}</p>
                           <p class="products___item-currency">BYN</p>
