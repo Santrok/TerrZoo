@@ -96,7 +96,8 @@ def get_page_catalog(request):
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
     products = Product.objects.filter(animal=animal_id).select_related('sale',
-                                      'category').prefetch_related('countitemproduct_set')
+                                                                       'category').prefetch_related(
+        'countitemproduct_set')
 
     popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
@@ -285,9 +286,10 @@ def get_article_by_article_id(request, article_id):
     """Отдаем выбранную статью"""
     articles = Article.objects.all()
     article = articles.get(id=article_id)
-    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
-                              key=lambda x: x.sales_counter,
-                              reverse=True)
+    popular_products = sorted(
+        Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
+        key=lambda x: x.sales_counter,
+        reverse=True)
 
     context = {"article": article,
                "articles": articles,
@@ -302,9 +304,10 @@ def get_article_by_animals_id(request, animal_id):
     """Отдаем статьи по id животного"""
     animals = Animal.objects.all()
     articles = Article.objects.filter(animal=animal_id)
-    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
-                              key=lambda x: x.sales_counter,
-                              reverse=True)
+    popular_products = sorted(
+        Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
+        key=lambda x: x.sales_counter,
+        reverse=True)
 
     context = {"animals": animals,
                "articles": articles,
@@ -319,9 +322,10 @@ def get_promotions_page(request):
     """Отдаем все акции"""
     animals = Animal.objects.all()
     promotions = Sale.objects.exclude(percent=0)
-    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
-                              key=lambda x: x.sales_counter,
-                              reverse=True)
+    popular_products = sorted(
+        Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
+        key=lambda x: x.sales_counter,
+        reverse=True)
 
     context = {"animals": animals,
                "promotions": promotions,
@@ -389,6 +393,7 @@ def get_placing_an_order_page(request):
                         return JsonResponse({"error": "Введенные данные не верны"})
                 elif request.POST.get('check') == 'cash':
                     json_obj = json.loads(request.POST.get('basket'))
+                    print(json_obj)
                     product_list_id = []
                     for i in json_obj:
                         product_list_id.append(i.get('id'))
@@ -514,3 +519,14 @@ def get_profile_page_data_user(request):
             return render(request, template_name='profile_data_user.html', context=context)
 
     return render(request=request, template_name='profile_data_user.html', context=context)
+
+
+def get_order_details_page(request):
+    '''Отдаем страничку с деталями заказа из личного кабинета'''
+    data = []
+    context = {
+        'data': data
+    }
+    return render(request=request,
+                  template_name='order_details.html',
+                  context=context)
