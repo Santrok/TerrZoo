@@ -171,6 +171,11 @@ class AdminProduct(admin.ModelAdmin):
 class CountItemProduct(models.Model):
     """Модель количества, объема, массы
     Product (FR)"""
+    CHOICES = [
+        ('л', 'л'),
+        ('кг', 'кг'),
+        ('шт', 'шт'),
+    ]
 
     product = models.ForeignKey('Product',
                                 verbose_name='Продукт',
@@ -178,8 +183,7 @@ class CountItemProduct(models.Model):
     count = models.PositiveIntegerField('Количество продукта',
                                         default=0)
     value = models.FloatField("Количество массы")
-    unit = models.CharField("Единица измерения",
-                            max_length=255)
+    unit = models.CharField("Единица измерения", max_length=50, choices=CHOICES)
     percent = models.PositiveIntegerField("Процент от "
                                           "стоимости единицы товара")
 
