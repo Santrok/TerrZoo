@@ -81,6 +81,8 @@
     font-weight: 700;
     line-height: 28px;
     min-width: 267px;
+    position: relative;
+    z-index: 1;
 }
 
 .about__first-block {
