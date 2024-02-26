@@ -195,7 +195,7 @@ class CountItemProduct(models.Model):
     class Meta:
         verbose_name = "Количество товара"
         verbose_name_plural = "Количество товара"
-        ordering = ['value', ]
+        ordering = ['product', ]
 
 
 class AdminCountItemProduct(admin.ModelAdmin):

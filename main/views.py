@@ -1,5 +1,5 @@
 import json
-from random import random, randint
+import random
 
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
@@ -16,7 +16,7 @@ from django.shortcuts import render, redirect
 from config import settings
 from django.db.models import Count
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
-                         CategoryProduct, Order, PayCard, Profile, StatusesOrder)
+                         CategoryProduct, Order, PayCard, Profile, StatusesOrder, CountItemProduct)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
                         ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
