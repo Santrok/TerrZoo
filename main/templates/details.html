@@ -92,14 +92,14 @@
                             </ul>
                         </div>
                         <div class="about__product-second">
-                            {% if product.countitemproduct.all|length != 1 %}
+                            {% if product.countitemproduct_set.all|length != 1 %}
                                 <div class="about__product-options">
                                     <div class="about__product-weight">
                                         <h3 class="about__product-weight-title">
                                             Варианты фасовки. Выберите удобный вес
                                         </h3>
                                         <ul class="about__product-weight-list">
-                                            {% for p in product.countitemproduct.all %}
+                                            {% for p in product.countitemproduct_set.all %}
                                                 <li class="about__product-weight-list-item">
                                                     <p class="about__product-item-weight">
                                                         {{ p.value }} <span>{{ p.unit }}</span>
@@ -444,7 +444,7 @@
                                         <a href="{% url 'details' card.id %}"
                                            class="slider__item-title"> {{ card.title }} </a>
                                         <ul class="slider__item-weight-list">
-                                            {% for count in card.countitemproduct.all %}
+                                            {% for count in card.countitemproduct_set.all %}
                                                 <li class="slider__item-weight-list-item"
                                                     data-weight-id="{{ count.id }}">
                                                     {{ count.value }} <span>{{ count.unit }}.</span>
@@ -571,7 +571,7 @@
                                         <a href="{% url 'details' card_new.id %}"
                                            class="slider__item-title"> {{ card_new.title }} </a>
                                         <ul class="slider__item-weight-list">
-                                            {% for count in card_new.countitemproduct.all %}
+                                            {% for count in card_new.countitemproduct_set.all %}
                                                 <li class="slider__item-weight-list-item"
                                                     data-weight-id="{{ count.id }}">
                                                     {{ count.value }} <span>{{ count.unit }}.</span>
