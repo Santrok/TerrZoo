@@ -1,19 +1,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
    getLocalStorageSetPage()
-
-
-
-
 })
 
 
 function getLocalStorageSetPage(){
     let productsSearchList = JSON.parse(localStorage.getItem("result_search_objects"))
-
     for (let i of productsSearchList) {
                                      const product_list = document.querySelector(".products__list");
-
                                      product_list.innerHTML += `
                                                      <article class="products___item" data-id="${i.id}">
                                                      <div class="products___item-img">
@@ -23,7 +17,7 @@ function getLocalStorageSetPage(){
                                                          ${i.title}
                                                      </a>
                                                      <ul class="slider__item-weight-list">
-                                                             ${i.countitemproduct
+                                                             ${i.countitemproduct_set
                                                                ?.map(
                                                                  (item) =>
                                                                    `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
@@ -90,7 +84,5 @@ function getLocalStorageSetPage(){
                                                      <button type="button" class="products___item-btn">Купить в 1 клик</button>
                                                  </article>
                                                  `;
-
                                    }
-
 }

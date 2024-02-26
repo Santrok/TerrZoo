@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="about__second-block">
-            <img src="{% static 'img/aboutImg.png' %}" alt="animals" />
+            <img src="{% static 'img/testImgAbout.avif' %}" alt="animals" />
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@
                 </div>
                 <a href="{% url 'details' card.id %}" class="slider__item-title"> {{card.title}} </a>
                 <ul class="slider__item-weight-list">
-                  {% for count in card.countitemproduct.all %}
+                  {% for count in card.countitemproduct_set.all %}
                   <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
                     {{count.value }} <span>{{count.unit}}.</span>
                   </li>
@@ -192,12 +192,9 @@
                 <div class="slider__item-img">
                   <img data-lazy="{{card_new.image_prev.url}}" alt="item" />
                 </div>
-                {% if card_new.sale.percent != 0 %}
-                <div class="slider__item-promotion">Акция</div>
-                {% endif %}
                 <a href="{% url 'details' card_new.id %}" class="slider__item-title"> {{card_new.title}} </a>
                 <ul class="slider__item-weight-list">
-                  {% for count in card_new.countitemproduct.all %}
+                  {% for count in card_new.countitemproduct_set.all %}
                   <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
                     {{count.value }} <span>{{count.unit}}.</span>
                   </li>
@@ -234,6 +231,9 @@
                     </div>
                   </div>
                 </div>
+                {% if card_new.sale.percent != 0 %}
+                <div class="slider__item-promotion">Акция</div>
+                {% endif %}
                 <button type="button" class="slider__item-btn">Купить в 1 клик</button>
                 <div class="slider__item-hearts">
                   <div class="slider__item-hearts-wrap">
@@ -324,7 +324,7 @@
                 />
               </svg>
             </div>
-            <div class="feedback__progress">1 из {{ reviews.count }}</div>
+            <div class="feedback__progress"><span class="feedback__progress-current">1</span> из <span class="feedback__progress-total">{{ reviews.count }}</span></div>
             <div class="feedback__arrow feedback__arrow-next">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path
@@ -610,6 +610,10 @@
     </section>
   </div>
 </main>
+{% endblock %}
+
+{% block js %}
+<script defer src="{% static 'js/main_page/feedback.js' %}"></script>
 {% endblock %}
 {% block profile_navigation %}
 {% endblock %}

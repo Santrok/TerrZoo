@@ -1,24 +1,26 @@
 import json
+import random
 
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
-from django.http import JsonResponse
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 from django.shortcuts import render, redirect
 
 from config import settings
 from django.db.models import Count
-from main.models import Animal, Product, Brand, Review, Article, Sale, CategoryProduct, Order, PayCard, Profile
-from main.forms import LoginForm, RegisterationForm, ForgetPasswordForm, ProfileForm, ProfileUserPasswordForm, \
-    ProfileUserNameForm
+from main.models import (Animal, Product, Brand, Review, Article, Sale,
+                         CategoryProduct, Order, PayCard, Profile, StatusesOrder, CountItemProduct)
+from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
+                        ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
-from main.functions import get_check_file, send_check_for_mail, get_article_for_orders
+from main.functions import (get_check_file, send_check_for_mail, get_article_for_orders)
 
 
 def get_page(request):
@@ -27,11 +29,11 @@ def get_page(request):
     reviews = Review.objects.select_related('user').all()
     brands = Brand.objects.all()[0:12]
     animals = Animal.objects.all()
-    products = list(Product.objects.all())
-    popular_product = sorted(products,
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set'))
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
-    new_products = sorted(products,
+    new_products = sorted(products[:30],
                           key=lambda x: x.id,
                           reverse=True)
     context = {"animals": animals,
@@ -47,8 +49,8 @@ def get_page(request):
 
 def search_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all()
-    popular_products = sorted(products,
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     articals = Article.objects.all()
@@ -70,8 +72,8 @@ def search_catalog(request):
 
 def get_page_catalog(request):
     animals = Animal.objects.all()
-    products = Product.objects.all()
-    popular_products = sorted(products,
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     articals = Article.objects.all()
@@ -93,27 +95,22 @@ def get_page_catalog(request):
 
 def get_page_catalog_by_animal(request, animal_id):
     """Отдаем каталог по id животного"""
-    products = Product.objects.filter(animal=animal_id)
+    products = Product.objects.filter(animal=animal_id).select_related('sale',
+                                      'category').prefetch_related('countitemproduct_set')
 
-    popular_products = sorted(products,
+    popular_products = sorted(products[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
     animals = Animal.objects.all()
     articles_on_animals = Article.objects.filter(animal=animal_id)
     category_by_animals = CategoryProduct.objects.filter(product__id__in=products)
-
     c = set(list(category_by_animals))
-
     j = []
     for i in list(c):
-        print(i.get_family())
         for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
-    print(list(st), "+++++++++++++++++++++++++++++++")
-    print(category_by_animals)
-    brands_by_animals = Brand.objects.filter()
-
+    brands_by_animals = set(list(Brand.objects.filter(product__id__in=products)))
     context = {"animals": animals,
                "products": products,
                "popular_products": popular_products,
@@ -128,21 +125,26 @@ def get_page_catalog_by_animal(request, animal_id):
 
 def get_details(request, id):
     '''Отдаем детальное описание товара по id'''
-    product = Product.objects.get(id=id)
-    articals = Article.objects.all()
-    products = list(Product.objects.all())
-    popular_product = sorted(products,
+    articles = Article.objects.all()
+    products_set = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
+    products = list(products_set)
+    product = products_set.get(id=id)
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
     # изменить сортировку на продукты с этим покупают
-    joint_products = sorted(products,
+    joint_products = sorted(products_set.order_by('?')[:randint(5, 13)],
                             key=lambda x: x.id,
-                            reverse=True)
+                            reverse=False)
+    product_unit = ''
+    for i in product.countitemproduct.all():
+        product_unit = i.unit
     context = {
         "product": product,
-        "articals": articals,
+        "articals": articles,
         "popular_products": popular_product,
         "joint_products": joint_products,
+        "product_unit": product_unit,
     }
     return render(request=request,
                   template_name='details.html',
@@ -152,11 +154,11 @@ def get_details(request, id):
 def get_basket_page(request):
     """Функция обработки данных страницы basket"""
     articals = Article.objects.all()
-    products = list(Product.objects.all())
-    popular_product = sorted(products,
+    products = list(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set'))
+    popular_product = sorted(products[:20],
                              key=lambda x: x.sales_counter,
                              reverse=True)
-    new_products = sorted(products,
+    new_products = sorted(products[:30],
                           key=lambda x: x.id,
                           reverse=True)
     context = {
@@ -256,7 +258,7 @@ def logout_view(request):
 def get_articles_page(request):
     """Отдаем каталог по id животного"""
     animals = Animal.objects.all()
-    products = Product.objects.all()
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     popular_products = sorted(products,
                               key=lambda x: x.sales_counter,
                               reverse=True)
@@ -283,7 +285,7 @@ def get_article_by_article_id(request, article_id):
     """Отдаем выбранную статью"""
     articles = Article.objects.all()
     article = articles.get(id=article_id)
-    popular_products = sorted(Product.objects.all(),
+    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
 
@@ -300,7 +302,7 @@ def get_article_by_animals_id(request, animal_id):
     """Отдаем статьи по id животного"""
     animals = Animal.objects.all()
     articles = Article.objects.filter(animal=animal_id)
-    popular_products = sorted(Product.objects.all(),
+    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
 
@@ -317,7 +319,7 @@ def get_promotions_page(request):
     """Отдаем все акции"""
     animals = Animal.objects.all()
     promotions = Sale.objects.exclude(percent=0)
-    popular_products = sorted(Product.objects.all(),
+    popular_products = sorted(Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
                               key=lambda x: x.sales_counter,
                               reverse=True)
 
@@ -365,7 +367,8 @@ def get_placing_an_order_page(request):
                                           user=user,
                                           check_order=file_url,
                                           total_price=request.POST.get('order_price'),
-                                          pay_card=card_zapros[0])
+                                          pay_card=card_zapros[0],
+                                          status_order=StatusesOrder.objects.get(status='Оплачен'))
                             if card_zapros[0].balance > float(request.POST.get('order_price')):
                                 card_zapros[0].balance = float(card_zapros[0].balance) - float(
                                     request.POST.get('order_price'))
@@ -397,7 +400,8 @@ def get_placing_an_order_page(request):
                                                              request.POST.get('order_price'),
                                                              user,
                                                              article_for_orders),
-                                  total_price=request.POST.get('order_price'))
+                                  total_price=request.POST.get('order_price'),
+                                  status_order=StatusesOrder.objects.get(status='Оформлен'))
                     order.save()
                     for i in product_list:
                         i.sales_counter += 1
@@ -419,7 +423,9 @@ def get_placing_an_order_page(request):
 @login_required
 def get_profile_order_page(request):
     """Личный кабинет"""
-    orders = Order.objects.prefetch_related('products', 'user', 'pay_card').filter(user=request.user.id)
+    orders = (Order.objects.prefetch_related('products', 'user', 'pay_card', 'status_order')
+              .filter(user=request.user.id)
+              .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
     context = {"orders": orders,
@@ -433,9 +439,8 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    products = Product.objects.all()
     context = {
-        'products': products
+
     }
     return render(request=request,
                   template_name='profile_wishlist.html',
@@ -445,12 +450,11 @@ def get_profile_wishlist_page(request):
 @login_required
 def get_profile_comparisonlist_page(request):
     '''Отдаем страничку со списком сравнения из личного кабинета'''
-    products = Product.objects.all()
+    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     context = {
         'products': products
     }
-    return render(request=request,
-                  template_name='profile_comparisonlist.html', context=context)
+    return render(request=request, template_name='profile_comparisonlist.html', context=context)
 
 
 @login_required
@@ -459,39 +463,9 @@ def get_profile_page_data_user(request):
     user = request.user
     profile = Profile.objects.get(user=user)
 
-    if request.method == 'POST':
-        if request.POST.get('action') == 'profile':
-            form_data_profile = ProfileForm(request.POST, instance=profile)
-            form_data_user = ProfileForm(request.POST, instance=user)
-            if form_data_profile.is_valid() and form_data_user.is_valid():
-                form_data_profile.save()
-                form_data_user.save()
-
-        elif request.POST.get('action') == 'profile_user_password':
-            form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
-            if form_data_pass.is_valid():
-                password = make_password(form_data_pass.cleaned_data.get('password'))
-                new_password = form_data_pass.cleaned_data.get('new_password')
-                repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
-                if check_password(user.password, password, ) and password and new_password and repeat_password:
-                    user.set_password(new_password)
-                    user.save()
-                    update_session_auth_hash(request, user)
-                    messages.success(request, 'Пароль успешно изменен')
-            else:
-                messages.error(request, 'Ошибка пароля')
-
-        elif request.POST.get('action') == 'profile_user_username':
-            form_data_user = ProfileUserNameForm(request.POST)
-            if form_data_user.is_valid():
-                if form_data_user.cleaned_data.get('username'):
-                    user.username = form_data_user.cleaned_data.get('username')
-                    user.save()
-                    messages.success(request, 'Данные успешно изменены!')
-            else:
-                messages.error(request, 'Ошибка пароля')
-
-    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name, 'last_name': user.last_name})
+    form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name,
+                                                          'last_name': user.last_name,
+                                                          'email': user.email})
     form_profile_user = ProfileUserNameForm(instance=user)
     form_profile_password = ProfileUserPasswordForm(instance=user)
 
@@ -499,6 +473,44 @@ def get_profile_page_data_user(request):
                "form_profile_user": form_profile_user,
                "form_profile_password": form_profile_password}
 
-    return render(request=request,
-                  template_name='profile_data_user.html',
-                  context=context)
+    if request.method == 'POST':
+        if request.POST.get('action') == 'profile':
+            form_data_profile = ProfileForm(request.POST, instance=profile)
+            form_data_user = ProfileForm(request.POST, instance=user)
+            if form_data_profile.is_valid() and form_data_user.is_valid():
+                form_data_profile.save()
+                form_data_user.save()
+                context['form_profile_modified'] = 'Данные успешно изменены.'
+            form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name,
+                                                                  'last_name': user.last_name,
+                                                                  'email': user.email})
+            form_profile.errors.update(form_data_profile.errors)
+            form_profile.errors.update(form_data_user.errors)
+            context['form_profile'] = form_profile
+            return render(request, template_name='profile_data_user.html', context=context)
+
+        elif request.POST.get('action') == 'profile_user_username':
+            form_data_user = ProfileUserNameForm(request.POST)
+            if form_data_user.is_valid():
+                if form_data_user.cleaned_data.get('username'):
+                    user.username = form_data_user.cleaned_data.get('username')
+                    user.save()
+                    context['form_profile_user_modified'] = 'Логин успешно изменен.'
+            context['form_profile_user'] = form_data_user
+            return render(request, template_name='profile_data_user.html', context=context)
+
+        elif request.POST.get('action') == 'profile_user_password':
+            form_data_pass = ProfileUserPasswordForm(request.POST, instance=user)
+            if form_data_pass.is_valid():
+                password = make_password(form_data_pass.cleaned_data.get('password'))
+                new_password = form_data_pass.cleaned_data.get('new_password')
+                repeat_password = form_data_pass.cleaned_data.get('repeat_new_pass')
+                if check_password(user.password, password) and password and new_password and repeat_password:
+                    user.set_password(new_password)
+                    user.save()
+                    context['form_profile_password_modified'] = 'Пароль успешно изменен.'
+                    update_session_auth_hash(request, user)
+            context['form_profile_password'] = form_data_pass
+            return render(request, template_name='profile_data_user.html', context=context)
+
+    return render(request=request, template_name='profile_data_user.html', context=context)

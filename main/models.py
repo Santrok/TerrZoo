@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib import admin
@@ -91,10 +93,12 @@ class Product(models.Model):
     title = models.CharField("Название продукта",
                              max_length=500,
                              unique=True)
-    image_prev = models.ImageField("Обязательное изображение",
-                                   blank=True,
-                                   null=True,
-                                   upload_to="products_images")
+    image_prev = models.FileField("Обязательное изображение",
+                                  upload_to="products_images",
+                                  help_text='Изображение должно быть в формате avif,'
+                                            'преобразовать можно здесь:'
+                                            'https://imagetostl.com/ru/convert/file/jpg/to/avif',
+                                  validators=[FileExtensionValidator(['avif'])])
     price = models.DecimalField("Цена товара за единицу",
                                 max_digits=20,
                                 decimal_places=2)
@@ -126,10 +130,6 @@ class Product(models.Model):
                              verbose_name="Товар на акции",
                              blank=True,
                              null=True)
-    countitemproduct = models.ManyToManyField("CountItemProduct",
-                                              verbose_name="Количество товара",
-                                              blank=True,
-                                              null=True)
     date_create = models.DateTimeField(auto_now_add=True)
     sales_counter = models.PositiveIntegerField("Сколько раз продан", default=0)
 
@@ -157,20 +157,36 @@ class AdminProduct(admin.ModelAdmin):
     """Класс управления отображения
         в админ панели сущности: Product"""
 
+    def get_html_photo(self, object):
+        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
+
     inlines = [ImageProductInlines, ]
     list_display = ['title',
-                    'category',
+                    # 'category',
+                    'image_prev',
+                    # 'get_html_photo',
                     'sale', ]
 
 
 class CountItemProduct(models.Model):
-    """Модель количества, объема, массы"""
+    """Модель количества, объема, массы
+    Product (FR)"""
+    CHOICES = [
+        ('л', 'л'),
+        ('кг', 'кг'),
+        ('шт', 'шт'),
+    ]
 
+    product = models.ForeignKey('Product',
+                                verbose_name='Продукт',
+                                on_delete=models.CASCADE)
+    count = models.PositiveIntegerField('Количество продукта',
+                                        default=0)
+    value = models.FloatField("Количество массы")
+    unit = models.CharField("Единица измерения", max_length=50, choices=CHOICES)
     percent = models.PositiveIntegerField("Процент от "
                                           "стоимости единицы товара")
-    value = models.FloatField("Количество массы")
-    unit = models.CharField("Единица измерения",
-                            max_length=255)
+
 
     def __str__(self):
         return f"{self.value} {self.unit}."
@@ -183,7 +199,7 @@ class CountItemProduct(models.Model):
     class Meta:
         verbose_name = "Количество товара"
         verbose_name_plural = "Количество товара"
-        ordering = ['value', ]
+        ordering = ['product', ]
 
 
 class AdminCountItemProduct(admin.ModelAdmin):
@@ -226,8 +242,12 @@ class Article(models.Model):
                              max_length=1500,
                              unique=True)
     text = CKEditor5Field('Текст статьи', config_name='extends')
-    image = models.ImageField("Изображение",
-                              upload_to="articles_images")
+    image = models.FileField("Изображение",
+                             upload_to="articles_images",
+                             help_text='Изображение должно быть в формате avif,'
+                                       'преобразовать можно здесь:'
+                                       'https://imagetostl.com/ru/convert/file/jpg/to/avif',
+                             validators=[FileExtensionValidator(['avif'])])
     date_create = models.DateTimeField(auto_now_add=True)
     read_time = models.CharField("Время чтения",
                                  max_length=255)
@@ -302,7 +322,7 @@ class AdminReview(admin.ModelAdmin):
 class Order(models.Model):
     """Модель заказа связи:
         с пользователем(FK),
-           продуктом(М2М) карты(FK)"""
+           продуктом(М2М) карты(FK) статус(FK)"""
 
     order_number = models.PositiveIntegerField(verbose_name='Номер заказа',
                                                unique=True)
@@ -325,6 +345,9 @@ class Order(models.Model):
                                  verbose_name="Карта",
                                  blank=True,
                                  null=True)
+    status_order = models.ForeignKey("StatusesOrder",
+                                     on_delete=models.PROTECT,
+                                     verbose_name="Статус заказа")
 
     def __str__(self):
         return f"{self.user.username} {self.order_number}"
@@ -342,6 +365,19 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+
+
+class StatusesOrder(models.Model):
+    """Статус заказа"""
+    status = models.CharField("Статус")
+
+    def __str__(self):
+        return self.status
+
+    class Meta:
+        verbose_name = "Статус"
+        verbose_name_plural = "Статусы"
+        ordering = ['id']
 
 
 class AdminOrder(admin.ModelAdmin):
@@ -425,6 +461,21 @@ class Profile(models.Model):
                                    blank=True,
                                    null=True)
 
+    def clean(self):
+        """Проверка некоторых полей модели."""
+        errors = {}
+
+        print(self.apartment_number)
+
+        if self.apartment_number and not self.apartment_number.isdigit():
+            errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
+
+        if self.postal_code and (len(self.postal_code) < 6 or not self.postal_code.isdigit()):
+            errors.update({'postal_code': 'Не верный формат'})
+
+        if errors:
+            raise ValidationError(errors)
+
     class Meta:
         verbose_name_plural = 'Профили пользователей'
         verbose_name = 'Профиль пользователя'
@@ -432,18 +483,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-    # def clean(self):
-    #     """Проверка некоторых полей модели."""
-    #     errors = {}
-    #
-    #     # Проверка поля УНП
-    #     if not self.apartment_number.isdigit():
-    #         errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})
-    #
-    #     # Проверка поля индекс
-    #     if len(self.postal_code) < 6 or not self.postal_code.isdigit():
-    #         errors.update({'postcode': 'Не верный формат'})
-    #
-    #     if errors:
-    #         raise ValidationError(errors)

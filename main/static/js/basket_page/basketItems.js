@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
   });
 
-  basketTotalText[1].textContent = basket.length + ' товаров';
+  basketTotalText[1].textContent = basket?.length ? basket?.length : 0 + ' товаров';
   function initBasketItem() {
     if (localStorage.getItem("basket") === null) {
       return;
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${i.src}" alt="${i.title}" />
             </div>
             <div class="basket__list-item-wrap">
-            <a href="#" class="basket__list-item-title">
+            <a href="${i.href}" class="basket__list-item-title">
                 ${i.title}
             </a>
             <ul class="basket__list-item-weight-list">
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     </div>
         `;
-      if (basketList.children[0].classList.contains("basket__list-item-empty")) {
+      if (basketList?.children[0]?.classList.contains("basket__list-item-empty")) {
         basketList.innerHTML = "";
       }
       basketList.append(li);
@@ -114,46 +114,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const basketItem = document.querySelectorAll(".basket__list-item");
   let basketArrayObj = [];
 
-  basketItem.forEach((item) => {
-    item.addEventListener("click", (e) => {
-      if (e.target.classList.contains("minus")) {
-        basketArrayObj = JSON.parse(localStorage.getItem("basket"));
-        for (let i of basketArrayObj) {
-          if (
-            i.id === e.currentTarget.dataset.id &&
-            e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
-          ) {
-            if (i.count <= 1) {
-              e.currentTarget.remove();
-              basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
-            }
-            i.count -= 1;
-            i.initPrice === 0 ? (i.initPrice = i.price) : 0;
-            i.price = Number(i.price - i.initPrice);
-            e.target.parentElement.parentElement.children[1].textContent =
-              (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
-            e.target.parentElement.children[1].textContent = i.count;
-            localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+  function TestFunc(e) {
+    if (e.target.classList.contains("minus")) {
+      basketArrayObj = JSON.parse(localStorage.getItem("basket"));
+      for (let i of basketArrayObj) {
+        if (
+          i.id === e.currentTarget.dataset.id &&
+          e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
+        ) {
+          if (i.count <= 1) {
+            e.currentTarget.remove();
+            basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
           }
-        }
-      } else if (e.target.classList.contains("plus")) {
-        basketArrayObj = JSON.parse(localStorage.getItem("basket"));
-        for (let i of basketArrayObj) {
-          if (
-            i.id === e.currentTarget.dataset.id &&
-            e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
-          ) {
-            i.count += 1;
-            i.price = Number(i.count * i.initPrice);
-            e.target.parentElement.parentElement.children[1].textContent =
-              (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
-            e.target.parentElement.children[1].textContent = i.count;
-            localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-            setCountInBasket();
-          }
+          i.count -= 1;
+          i.initPrice === 0 ? (i.initPrice = i.price) : 0;
+          i.price = Number(i.price - i.initPrice);
+          e.target.parentElement.parentElement.children[1].textContent =
+            (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
+          e.target.parentElement.children[1].textContent = i.count;
+          localStorage.setItem("basket", JSON.stringify(basketArrayObj));
         }
       }
-    });
+    } else if (e.target.classList.contains("plus")) {
+      basketArrayObj = JSON.parse(localStorage.getItem("basket"));
+      for (let i of basketArrayObj) {
+        if (
+          i.id === e.currentTarget.dataset.id &&
+          e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
+        ) {
+          i.count += 1;
+          i.price = Number(i.count * i.initPrice);
+          e.target.parentElement.parentElement.children[1].textContent =
+            (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
+          e.target.parentElement.children[1].textContent = i.count;
+          localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+          setCountInBasket();
+        }
+      }
+    }
+  }
+
+  basketItem.forEach((item) => {
+    item.addEventListener('click', (e) => TestFunc(e))
   });
 
   // --- basket
@@ -198,38 +200,43 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- basketHover
   new MutationObserver((mutation) => {
     const list = document.querySelectorAll(".basket__list-item");
+    const basketCount = document.querySelector('.header__bottom-basket-wrap p')
     const basket = JSON.parse(localStorage.getItem("basket"));
+    if(Number(basketCount.innerText) > list.length) {
+      basketList.innerHTML = ''
+      initBasketItem()
+    }
     priceInit = 0;
-    // if(basket.length > 0){
-    //   basketList. = ''
-    //   initBasketItem()
-    // }
     basketTotalText[1].textContent = basket.length + ' товаров';
     basket?.forEach((item) => {
-      if (event.target.classList.contains("plus")) {
-        priceInit += Number((item.price).toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
-      } else if (event.target.classList.contains("minus")) {
-        priceInit += Number((item.price).toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
+      if(event.target.classList) {
+        if (event?.target?.classList.contains("plus")) {
+          priceInit += Number((item.price).toFixed(2));
+          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
+        } else if (event?.target?.classList.contains("minus")) {
+          priceInit += Number((item.price).toFixed(2));
+          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
+      }
       }
     });
     list.forEach((item) => {
-      if (
-        event?.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-          "header__bottom-basket-hover-list-item"
-        ) &&
-        event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id &&
-        event?.target.parentElement.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim() ===
-          item.children[1].children[1].children[1].children[0].textContent.trim()
-      ) {
-        item.children[2].children[0].children[0].children[1].textContent =
-          event?.target.parentElement.children[1].textContent.trim();
-        item.children[2].children[0].children[1].textContent =
-          event?.target.parentElement.parentElement.children[1].textContent.trim();
-        if (Number(item.children[2].children[0].children[0].children[1].textContent) <= 0) {
-          item.remove();
-          basketTotalText[0].textContent = '0 BYN'
+      if(event?.target?.parentElement?.parentElement?.parentElement?.parentElement?.classList) {
+        if (
+          event?.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
+            "header__bottom-basket-hover-list-item"
+          ) &&
+          event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id &&
+          event?.target.parentElement.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim() ===
+            item.children[1].children[1].children[1].children[0].textContent.trim()
+        ) {
+          item.children[2].children[0].children[0].children[1].textContent =
+            event?.target.parentElement.children[1].textContent.trim();
+          item.children[2].children[0].children[1].textContent =
+            event?.target.parentElement.parentElement.children[1].textContent.trim();
+          if (Number(item.children[2].children[0].children[0].children[1].textContent) <= 0) {
+            item.remove();
+            basketTotalText[0].textContent = '0 BYN'
+          }
         }
       }
       setCountInBasket()

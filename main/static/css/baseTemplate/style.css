@@ -669,7 +669,7 @@ main {
 
 @media (min-width: 992px) {
   main {
-    padding-top: 135px;
+    padding-top: 106px;
   }
 }
 
@@ -1374,6 +1374,7 @@ footer {
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 1;
   cursor: pointer;
   transition: 0.3s ease;
 }
