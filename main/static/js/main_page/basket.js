@@ -81,7 +81,6 @@ function setCountItem(e) {
 headerBottomHover.addEventListener("click", setCountItem);
 
 function addBasketItemToLocalStorage(e) {
-  console.log(e.target);
   let array = [];
   for (let i of Array.from(e.currentTarget.parentElement.parentElement.children[2].children)) {
     if (i.classList.contains("slider__item-weight-list-item-active")) {
@@ -121,7 +120,8 @@ function addBasketItemToLocalStorage(e) {
       weight: array,
       initPrice: parseFloat(price.join("")),
       price: parseFloat(price.join("")),
-      promotion: e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ? true : false
+      promotion: e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ? true : false,
+      href: e.currentTarget.parentElement.parentElement.children[1].href,
     });
     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
     setCountInBasket();
