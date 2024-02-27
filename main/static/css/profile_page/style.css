@@ -449,6 +449,25 @@ main h3 {
     opacity: 0.5;
 }
 
+/*Стили для страниц подписки и просмотренное, после разработки удалить!*/
+.cat__developer{
+    margin-left: 200px;
+
+}
+
+.not_auth{
+max-width:600px;
+max-height:500px;
+}
+.not_auth img{
+width:100%;
+height:100%;
+}
+.not_auth_link{
+  display:flex;
+  justify-content:center;
+}
+
 .details {
     display: flex;
     flex-wrap: wrap;

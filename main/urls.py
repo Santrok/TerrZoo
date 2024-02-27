@@ -9,7 +9,7 @@ from main.views import (get_page, login_view, registration_view, logout_view, re
                         search_catalog,
                         get_placing_an_order_page, get_profile_page_data_user, get_profile_order_page,
                         get_profile_wishlist_page, get_profile_comparisonlist_page, get_profile_page_data_user,
-                        get_order_details_page)
+                        get_order_details_page, get_profile_viewed_products_page, get_profile_subscriptions_page)
 
 urlpatterns = [
     path('', get_page, name='main'),
@@ -53,4 +53,6 @@ urlpatterns = [
     path('profile_data_user/', get_profile_page_data_user, name='profile_data_user'),
     path('profile/', get_profile_order_page, name='profile'),
     path('order_details/<int:order_id>/', get_order_details_page, name='order_details'),
+    path('viewed_products/', get_profile_viewed_products_page, name='viewed_products'),
+    path('subscriptions/', get_profile_subscriptions_page, name='subscriptions'),
 ]
