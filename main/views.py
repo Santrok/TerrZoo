@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render, redirect
 
 from config import settings
-from django.db.models import Count
+from django.db.models import Count, Sum
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
                          CategoryProduct, Order, PayCard, Profile)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
@@ -537,12 +537,14 @@ def get_order_details_page(request, order_id):
     json_obj = order_details.order_item
     product_list_id = []
     weight_list = []
-    product_amount = json_obj[0].get('count')
+    product_amount = []
 
     for i in json_obj:
         product_list_id.append(i.get('id'))
         weight_list.append(i.get('weight')[0])
+        product_amount.append(i.get('count'))
     product_list = Product.objects.filter(id__in=product_list_id)
+    product_amount = sum(product_amount)
 
     context = {
         'order_details': order_details,
