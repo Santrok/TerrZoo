@@ -7,12 +7,120 @@ document.addEventListener("DOMContentLoaded", () => {
   let basket = JSON.parse(localStorage.getItem("basket"));
   let priceInit = 0;
 
+  // --- basket events
+  new MutationObserver((mutation) => {
+    list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
+    basket = JSON.parse(localStorage.getItem("basket"));
+    priceInit = 0;
+    basketTotalText[1].textContent = basket.length + " товаров";
+    basket?.forEach((item) => {
+      if (event?.target?.classList?.contains("plus")) {
+        priceInit += Number(item.price.toFixed(2));
+        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
+      } else if (event?.target?.classList?.contains("minus")) {
+        priceInit += Number(item.price.toFixed(2));
+        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
+      }
+    });
+    list.forEach((item) => {
+      basketTotalText[1].textContent = list.length + " товаров";
+      if (
+        event?.currentTarget?.classList?.contains("basket__list-item") &&
+        event?.currentTarget?.dataset?.id === item.dataset.id &&
+        event?.currentTarget?.children[1]?.children[1].children[1].children[0].textContent.trim() ===
+          item.children[0].children[1].children[1].children[0].textContent.trim()
+      ) {
+        item.children[0].children[2].children[0].children[1].textContent =
+          event?.currentTarget?.children[2].children[0].children[0].children[1].textContent.trim();
+        item.children[0].children[2].children[1].textContent =
+          event?.currentTarget?.children[2].children[0].children[1].textContent.trim();
+        if (Number(item.children[0].children[2].children[0].children[1].textContent) <= 0) {
+          item.remove();
+          basketTotalText[0].textContent = "0 BYN";
+        }
+      }
+      setCountInBasket();
+    });
+  }).observe(basketList, {
+    childList: true,
+    subtree: true,
+  });
+  // ----
+  // --- basketHover events
+  new MutationObserver((mutation) => {
+    const list = document.querySelectorAll(".basket__list-item");
+    const basketCount = document.querySelector(".header__bottom-basket-wrap p");
+    const basket = JSON.parse(localStorage.getItem("basket"));
+    const basketListCount = document.querySelectorAll(".basket__list-action div");
+    for (let i of basketListCount) {
+      for (let j of basket) {
+        if (
+          j.id === i.parentElement.parentElement.parentElement.parentElement.dataset.id &&
+          i.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[1].children[0].textContent.trim() ===
+            j.weight.join("")
+        ) {
+          i.parentElement.parentElement.children[1].textContent = (j.count * j.initPrice).toFixed(2) + " BYN";
+          i.innerHTML = j.count;
+        }
+      }
+    }
+    if (Number(basketCount.innerText) > list.length) {
+      basketList.innerHTML = "";
+      initBasketItem();
+      basketItem = document.querySelectorAll(".basket__list-item");
+      basketItem.forEach((item) => {
+        item.addEventListener("click", (e) => {
+          basketItems(e);
+        });
+      });
+    }
+    priceInit = 0;
+    basketTotalText[1].textContent = basket.length + " товаров";
+    basket?.forEach((item) => {
+      if (event.target.classList) {
+        if (event?.target?.classList.contains("plus")) {
+          priceInit += Number(item.price.toFixed(2));
+          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
+        } else if (event?.target?.classList.contains("minus")) {
+          priceInit += Number(item.price.toFixed(2));
+          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
+        }
+      }
+    });
+    list.forEach((item) => {
+      if (event?.target?.parentElement?.parentElement?.parentElement?.parentElement?.classList) {
+        if (
+          event?.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
+            "header__bottom-basket-hover-list-item"
+          ) &&
+          event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id &&
+          event?.target.parentElement.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim() ===
+            item.children[1].children[1].children[1].children[0].textContent.trim()
+        ) {
+          item.children[2].children[0].children[0].children[1].textContent =
+            event?.target.parentElement.children[1].textContent.trim();
+          item.children[2].children[0].children[1].textContent =
+            event?.target.parentElement.parentElement.children[1].textContent.trim();
+          if (Number(item.children[2].children[0].children[0].children[1].textContent) <= 0) {
+            item.remove();
+            basketTotalText[0].textContent = "0 BYN";
+          }
+        }
+      }
+      setCountInBasket();
+    });
+  }).observe(hoverList, {
+    childList: true,
+    subtree: true,
+  });
+  // ----
+
   basket?.forEach((item) => {
     priceInit += +item.price.toFixed(2);
-    basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
+    basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
   });
 
-  basketTotalText[1].textContent = basket?.length ? basket?.length : 0 + ' товаров';
+  basketTotalText[1].textContent = basket?.length ? basket?.length : 0 + " товаров";
   function initBasketItem() {
     if (localStorage.getItem("basket") === null) {
       return;
@@ -22,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       li.classList.add("basket__list-item");
       li.dataset.id = i.id;
       li.innerHTML = `
-      <div style="display: ${i.promotion ? 'block' : 'none'}" class="basket__list-item-promotion">Акция</div>
+      <div style="display: ${i.promotion ? "block" : "none"}" class="basket__list-item-promotion">Акция</div>
         <div class="basket__list-item-img-wrap">
             <div class="basket__list-item-img">
                 <img src="${i.src}" alt="${i.title}" />
@@ -111,10 +219,10 @@ document.addEventListener("DOMContentLoaded", () => {
     headerBottomBasketCount.textContent = count;
   }
 
-  const basketItem = document.querySelectorAll(".basket__list-item");
+  let basketItem = document.querySelectorAll(".basket__list-item");
   let basketArrayObj = [];
 
-  function TestFunc(e) {
+  function basketItems(e) {
     if (e.target.classList.contains("minus")) {
       basketArrayObj = JSON.parse(localStorage.getItem("basket"));
       for (let i of basketArrayObj) {
@@ -152,98 +260,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
+    if (e.target.tagName === "path" || e.target.tagName === "svg") {
+      basket = JSON.parse(localStorage.getItem("basket"));
+      for (let i of basket) {
+        if (
+          i.id === e.currentTarget.dataset.id &&
+          i.weight.join("") === e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim()
+        ) {
+          console.log(i);
+          basket.splice(basket.indexOf(i), 1);
+          localStorage.setItem("basket", JSON.stringify(basket));
+          basketList.innerHTML = "";
+          initBasketItem();
+          basketItem = document.querySelectorAll(".basket__list-item");
+          basketItem.forEach((item) => {
+            item.addEventListener("click", (e) => {
+              basketItems(e);
+            });
+          });
+        }
+      }
+    }
   }
 
   basketItem.forEach((item) => {
-    item.addEventListener('click', (e) => TestFunc(e))
+    item.addEventListener("click", (e) => basketItems(e));
   });
-
-  // --- basket
-  new MutationObserver((mutation) => {
-    list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
-    basket = JSON.parse(localStorage.getItem("basket"));
-    priceInit = 0;
-    basketTotalText[1].textContent = basket.length + ' товаров';
-    basket?.forEach((item) => {
-      if (event.target.classList.contains("plus")) {
-        priceInit += Number((item.price).toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
-      } else if (event.target.classList.contains("minus")) {
-        priceInit += Number((item.price).toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
-      }
-    });
-    list.forEach((item) => {
-      basketTotalText[1].textContent = list.length + ' товаров';
-      if (
-        event.currentTarget.classList.contains("basket__list-item") &&
-        event.currentTarget.dataset.id === item.dataset.id &&
-        event?.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() ===
-          item.children[0].children[1].children[1].children[0].textContent.trim()
-      ) {
-        item.children[0].children[2].children[0].children[1].textContent =
-          event?.currentTarget.children[2].children[0].children[0].children[1].textContent.trim();
-        item.children[0].children[2].children[1].textContent =
-          event?.currentTarget.children[2].children[0].children[1].textContent.trim();
-        if (Number(item.children[0].children[2].children[0].children[1].textContent) <= 0) {
-          item.remove();
-          basketTotalText[0].textContent = '0 BYN'
-        }
-      }
-      setCountInBasket()
-    });
-  }).observe(basketList, {
-    childList: true,
-    subtree: true,
-  });
-  // ----
-  // --- basketHover
-  new MutationObserver((mutation) => {
-    const list = document.querySelectorAll(".basket__list-item");
-    const basketCount = document.querySelector('.header__bottom-basket-wrap p')
-    const basket = JSON.parse(localStorage.getItem("basket"));
-    if(Number(basketCount.innerText) > list.length) {
-      basketList.innerHTML = ''
-      initBasketItem()
-    }
-    priceInit = 0;
-    basketTotalText[1].textContent = basket.length + ' товаров';
-    basket?.forEach((item) => {
-      if(event.target.classList) {
-        if (event?.target?.classList.contains("plus")) {
-          priceInit += Number((item.price).toFixed(2));
-          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
-        } else if (event?.target?.classList.contains("minus")) {
-          priceInit += Number((item.price).toFixed(2));
-          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + ' BYN' : 0;
-      }
-      }
-    });
-    list.forEach((item) => {
-      if(event?.target?.parentElement?.parentElement?.parentElement?.parentElement?.classList) {
-        if (
-          event?.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-            "header__bottom-basket-hover-list-item"
-          ) &&
-          event?.target.parentElement.parentElement.parentElement.parentElement.dataset.id === item.dataset.id &&
-          event?.target.parentElement.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim() ===
-            item.children[1].children[1].children[1].children[0].textContent.trim()
-        ) {
-          item.children[2].children[0].children[0].children[1].textContent =
-            event?.target.parentElement.children[1].textContent.trim();
-          item.children[2].children[0].children[1].textContent =
-            event?.target.parentElement.parentElement.children[1].textContent.trim();
-          if (Number(item.children[2].children[0].children[0].children[1].textContent) <= 0) {
-            item.remove();
-            basketTotalText[0].textContent = '0 BYN'
-          }
-        }
-      }
-      setCountInBasket()
-    });
-  }).observe(hoverList, {
-    childList: true,
-    subtree: true,
-  });
-  // ----
 });
