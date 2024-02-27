@@ -85,89 +85,6 @@ class AdminImageProduct(admin.ModelAdmin):
         в админ панели сущности: ImageProduct"""
 
 
-class Product(models.Model):
-    """ Модель продуктов, связи с категориями(FK),
-         брендами(FK), скидкамии (акция) (M2M),
-           количество(FK), изображениями(FK) заказы(М2М)"""
-
-    title = models.CharField("Название продукта",
-                             max_length=500,
-                             unique=True)
-    image_prev = models.FileField("Обязательное изображение",
-                                  upload_to="products_images",
-                                  help_text='Изображение должно быть в формате avif,'
-                                            'преобразовать можно здесь:'
-                                            'https://imagetostl.com/ru/convert/file/jpg/to/avif',
-                                  validators=[FileExtensionValidator(['avif'])])
-    price = models.DecimalField("Цена товара за единицу",
-                                max_digits=20,
-                                decimal_places=2)
-    description = models.TextField("Описание товара",
-                                   blank=True,
-                                   null=True)
-    key_features = models.TextField("Ключевые особенности",
-                                    blank=True,
-                                    null=True)
-    animal = models.ManyToManyField("Animal",
-                                    verbose_name="Животное")
-    compound = models.TextField("Состав",
-                                blank=True,
-                                null=True)
-    guaranteed_analysis = models.TextField("Гарантированный анализ",
-                                           blank=True,
-                                           null=True)
-    nutritional_supplements = models.TextField("Пищевые добавки",
-                                               blank=True,
-                                               null=True)
-    quantity = models.PositiveIntegerField("Количество товара")
-    category = models.ForeignKey("CategoryProduct",
-                                 verbose_name="Категория продукта",
-                                 on_delete=models.CASCADE)
-    brand = models.ForeignKey("Brand",
-                              verbose_name="Бренд товара",
-                              on_delete=models.CASCADE)
-    sale = models.ForeignKey("Sale", on_delete=models.SET_NULL,
-                             verbose_name="Товар на акции",
-                             blank=True,
-                             null=True)
-    date_create = models.DateTimeField(auto_now_add=True)
-    sales_counter = models.PositiveIntegerField("Сколько раз продан", default=0)
-
-    def __str__(self):
-        return f"{self.title}  id:{self.id}"
-
-    def action_price(self):
-        """Метод для расчета цены в период
-         акции в процентном соотношении"""
-        res = (100 - self.sale.percent) / 100 * float(self.price)
-        return res
-
-    class Meta:
-        verbose_name = "Продукт"
-        verbose_name_plural = "Продукты"
-
-
-class ImageProductInlines(admin.StackedInline):
-    model = ImageProduct
-    max_num = 10
-    extra = 0
-
-
-class AdminProduct(admin.ModelAdmin):
-    """Класс управления отображения
-        в админ панели сущности: Product"""
-
-    def get_html_photo(self, object):
-        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
-
-    inlines = [ImageProductInlines, ]
-    list_display = ['title',
-                    # 'category',
-                    'image_prev',
-                    # 'get_html_photo',
-                    'sale', ]
-
-
 class CountItemProduct(models.Model):
     """Модель количества, объема, массы
     Product (FR)"""
@@ -204,6 +121,96 @@ class CountItemProduct(models.Model):
 class AdminCountItemProduct(admin.ModelAdmin):
     """Класс управления отображения
         в админ панели сущности: CountItemProduct"""
+
+
+class Product(models.Model):
+    """ Модель продуктов, связи с категориями(FK),
+         брендами(FK), скидкамии (акция) (M2M),
+           количество(FK), изображениями(FK) заказы(М2М)"""
+
+    title = models.CharField("Название продукта",
+                             max_length=500,
+                             unique=True)
+    image_prev = models.FileField("Обязательное изображение",
+                                  upload_to="products_images",
+                                  help_text='Изображение должно быть в формате avif, '
+                                            'преобразовать можно '
+                                            '<a href="https://imagetostl.com/ru/convert/file/jpg/to/avif">тут</a>',
+                                  validators=[FileExtensionValidator(['avif'])])
+    price = models.DecimalField("Цена товара за единицу",
+                                max_digits=20,
+                                decimal_places=2)
+    description = models.TextField("Описание товара",
+                                   blank=True,
+                                   null=True)
+    key_features = models.TextField("Ключевые особенности",
+                                    blank=True,
+                                    null=True)
+    animal = models.ManyToManyField("Animal",
+                                    verbose_name="Животное")
+    compound = models.TextField("Состав",
+                                blank=True,
+                                null=True)
+    guaranteed_analysis = models.TextField("Гарантированный анализ",
+                                           blank=True,
+                                           null=True)
+    nutritional_supplements = models.TextField("Пищевые добавки",
+                                               blank=True,
+                                               null=True)
+    quantity = models.PositiveIntegerField("Количество товара")
+    category = models.ForeignKey("CategoryProduct",
+                                 verbose_name="Категория продукта",
+                                 on_delete=models.CASCADE)
+    brand = models.ForeignKey("Brand",
+                              verbose_name="Бренд товара",
+                              on_delete=models.CASCADE)
+    sale = models.ForeignKey("Sale", on_delete=models.SET_NULL,
+                             verbose_name="Товар на акции",
+                             blank=True,
+                             null=True,
+                             help_text='Если товар не на акции, необходимо задать акцию с 0% скидки')
+    date_create = models.DateTimeField(auto_now_add=True)
+    sales_counter = models.PositiveIntegerField("Сколько раз продан", default=0)
+
+    def __str__(self):
+        return f"{self.title}  id:{self.id}"
+
+    def action_price(self):
+        """Метод для расчета цены в период
+         акции в процентном соотношении"""
+        res = (100 - self.sale.percent) / 100 * float(self.price)
+        return res
+
+    class Meta:
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукты"
+
+
+class ImageProductInlines(admin.StackedInline):
+    model = ImageProduct
+    max_num = 10
+    extra = 0
+
+
+class CountItemProductInlines(admin.TabularInline):
+    model = CountItemProduct
+    max_num = 10
+    extra = 0
+
+
+class AdminProduct(admin.ModelAdmin):
+    """Класс управления отображения
+        в админ панели сущности: Product"""
+
+    def get_html_photo(self, object):
+        return mark_safe(f"<img src='{object.image_prev.url}' width=50>")
+
+    inlines = [ImageProductInlines, CountItemProductInlines]
+    list_display = ['title',
+                    # 'category',
+                    'image_prev',
+                    # 'get_html_photo',
+                    'sale', ]
 
 
 class Sale(models.Model):
@@ -244,8 +251,8 @@ class Article(models.Model):
     image = models.FileField("Изображение",
                              upload_to="articles_images",
                              help_text='Изображение должно быть в формате avif,'
-                                       'преобразовать можно здесь:'
-                                       'https://imagetostl.com/ru/convert/file/jpg/to/avif',
+                                       'преобразовать можно '
+                                       '<a href="https://imagetostl.com/ru/convert/file/jpg/to/avif">тут</a>',
                              validators=[FileExtensionValidator(['avif'])])
     date_create = models.DateTimeField(auto_now_add=True)
     read_time = models.CharField("Время чтения",

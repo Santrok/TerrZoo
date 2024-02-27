@@ -520,3 +520,13 @@ def get_profile_page_data_user(request):
             return render(request, template_name='profile_data_user.html', context=context)
 
     return render(request=request, template_name='profile_data_user.html', context=context)
+
+
+@login_required
+def get_profile_viewed_products_page(request):
+    return render(request, "profile_viewed_products.html")
+
+
+@login_required
+def get_profile_subscriptions_page(request):
+    return render(request, "profile_subscriptions.html")

@@ -1,0 +1,16 @@
+{% extends 'base_profile_template.html' %}
+{% load static %}
+
+
+{% block profile_content %}
+    <div class="cat__developer" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div class="not_auth">
+            <img src="{% static 'img/cat_404.avif' %}" alt="Кот:)"/>
+        </div>
+        <div class="not_auth_link">
+            <h2 style="color: black; font-family: SF Pro Text; font-size: 20px; font-weight: 500; padding: 15px">
+                Страница находится в разработке
+            </h2>
+        </div>
+    </div>
+{% endblock %}
