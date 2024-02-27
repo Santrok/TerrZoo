@@ -394,7 +394,6 @@ def get_placing_an_order_page(request):
                         return JsonResponse({"error": "Введенные данные не верны"})
                 elif request.POST.get('check') == 'cash':
                     json_obj = json.loads(request.POST.get('basket'))
-                    print(json_obj)
                     product_list_id = []
                     for i in json_obj:
                         product_list_id.append(i.get('id'))
@@ -523,11 +522,24 @@ def get_profile_page_data_user(request):
     return render(request=request, template_name='profile_data_user.html', context=context)
 
 
-def get_order_details_page(request):
+def get_order_details_page(request, order_id):
     '''Отдаем страничку с деталями заказа из личного кабинета'''
-    data = []
+    order_details = Order.objects.get(id=order_id)
+    json_obj = order_details.order_item
+    product_list_id = []
+    weight_list = []
+    product_amount = json_obj[0].get('count')
+
+    for i in json_obj:
+        product_list_id.append(i.get('id'))
+        weight_list.append(i.get('weight')[0])
+    product_list = Product.objects.filter(id__in=product_list_id)
+
     context = {
-        'data': data
+        'order_details': order_details,
+        'product_list': product_list,
+        'weight_list': weight_list,
+        'product_amount': product_amount,
     }
     return render(request=request,
                   template_name='order_details.html',

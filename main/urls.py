@@ -52,5 +52,5 @@ urlpatterns = [
     path('comparisonlist/', get_profile_comparisonlist_page, name='comparisonlist'),
     path('profile_data_user/', get_profile_page_data_user, name='profile_data_user'),
     path('profile/', get_profile_order_page, name='profile'),
-    path('order_details/', get_order_details_page, name='order_details'),
+    path('order_details/<int:order_id>/', get_order_details_page, name='order_details'),
 ]
