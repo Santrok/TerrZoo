@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ${i.title}
                             </a>
                             <ul class="slider__item-weight-list">
-                                    ${i.countitemproduct
+                                    ${i.countitemproduct_set
                                       ?.map(
                                         (item) =>
                                           `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                ${i.title}
                            </a>
                            <ul class="slider__item-weight-list">
-                                   ${i.countitemproduct
+                                   ${i.countitemproduct_set
                                      ?.map(
                                        (item) =>
                                          `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`

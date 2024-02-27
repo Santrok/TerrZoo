@@ -58,7 +58,7 @@
         {#                                {{ product.title }}#}
         {#                            </a>#}
         {#                            <ul class="slider__item-weight-list">#}
-        {#                                {% for count in product.countitemproduct.all %}#}
+        {#                                {% for count in product.countitemproduct_set.all %}#}
         {#                                    <li class="slider__item-weight-list-item" data-weight-id="{{ count.id }}">#}
         {#                                        {{ count.value }} <span>{{ count.unit }}.</span>#}
         {#                                    </li>#}

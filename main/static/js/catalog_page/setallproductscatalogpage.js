@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                      ${i.title}
                                                  </a>
                                                  <ul class="slider__item-weight-list">
-                                                         ${i.countitemproduct
+                                                         ${i.countitemproduct_set
                                                            ?.map(
                                                              (item) =>
                                                                `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
@@ -154,7 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
             })
           e.currentTarget.classList.add("products__pagination-list-item-active");
           product_list.innerHTML = "";
-          fetchProduct(`http://127.0.0.1:8000/api/get_products_filter/?page=${e.currentTarget.textContent.trim()}`);
+          let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+          fetchProduct(`http://127.0.0.1:8000/api/get_products_filter/?page=${e.currentTarget.textContent.trim()}&order=${orderStr}`);
           window.scrollBy({
             top: product_list.getBoundingClientRect().top - 120,
             behavior: 'smooth'

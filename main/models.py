@@ -94,11 +94,11 @@ class Product(models.Model):
                              max_length=500,
                              unique=True)
     image_prev = models.FileField("Обязательное изображение",
-                                   upload_to="products_images",
-                                   help_text='Изображение должно быть в формате avif,'
-                                             'преобразовать можно здесь:'
-                                             'https://imagetostl.com/ru/convert/file/jpg/to/avif',
-                                   validators=[FileExtensionValidator(['avif'])])
+                                  upload_to="products_images",
+                                  help_text='Изображение должно быть в формате avif,'
+                                            'преобразовать можно здесь:'
+                                            'https://imagetostl.com/ru/convert/file/jpg/to/avif',
+                                  validators=[FileExtensionValidator(['avif'])])
     price = models.DecimalField("Цена товара за единицу",
                                 max_digits=20,
                                 decimal_places=2)
@@ -130,10 +130,6 @@ class Product(models.Model):
                              verbose_name="Товар на акции",
                              blank=True,
                              null=True)
-    countitemproduct = models.ManyToManyField("CountItemProduct",
-                                              verbose_name="Количество товара",
-                                              blank=True,
-                                              null=True)
     date_create = models.DateTimeField(auto_now_add=True)
     sales_counter = models.PositiveIntegerField("Сколько раз продан", default=0)
 
@@ -173,13 +169,23 @@ class AdminProduct(admin.ModelAdmin):
 
 
 class CountItemProduct(models.Model):
-    """Модель количества, объема, массы"""
+    """Модель количества, объема, массы
+    Product (FR)"""
+    CHOICES = [
+        ('л', 'л'),
+        ('кг', 'кг'),
+        ('шт', 'шт'),
+    ]
 
+    product = models.ForeignKey('Product',
+                                verbose_name='Продукт',
+                                on_delete=models.CASCADE)
+    count = models.PositiveIntegerField('Количество продукта',
+                                        default=0)
+    value = models.FloatField("Количество массы")
+    unit = models.CharField("Единица измерения", max_length=50, choices=CHOICES)
     percent = models.PositiveIntegerField("Процент от "
                                           "стоимости единицы товара")
-    value = models.FloatField("Количество массы")
-    unit = models.CharField("Единица измерения",
-                            max_length=255)
 
     def __str__(self):
         return f"{self.value} {self.unit}."
@@ -192,7 +198,7 @@ class CountItemProduct(models.Model):
     class Meta:
         verbose_name = "Количество товара"
         verbose_name_plural = "Количество товара"
-        ordering = ['value', ]
+        ordering = ['product', ]
 
 
 class AdminCountItemProduct(admin.ModelAdmin):
@@ -236,7 +242,7 @@ class Article(models.Model):
                              unique=True)
     text = CKEditor5Field('Текст статьи', config_name='extends')
     image = models.FileField("Изображение",
-                              upload_to="articles_images",
+                             upload_to="articles_images",
                              help_text='Изображение должно быть в формате avif,'
                                        'преобразовать можно здесь:'
                                        'https://imagetostl.com/ru/convert/file/jpg/to/avif',
@@ -317,30 +323,36 @@ class Order(models.Model):
         с пользователем(FK),
            продуктом(М2М) карты(FK) статус(FK)"""
 
+    STATUS_ORDER = [
+        ("Оформлен", "Оформлен"),
+        ("Ожидает оплату", "Ожидает оплату"),
+        ("Оплачен", "Оплачен"),
+        ("Подтвержден", "Подтвержден"),
+        ("Выполнен", "Выполнен"),
+        ("Аннулирован", "Аннулирован"),
+        ("Ошибка оплаты", "Ошибка оплаты"),
+    ]
+
     order_number = models.PositiveIntegerField(verbose_name='Номер заказа',
                                                unique=True)
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
     products = models.ManyToManyField("Product",
                                       verbose_name="Продукты",
-                                      blank=True,
-                                      null=True)
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE,
+                                      blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
                              verbose_name="Пользователь")
     check_order = models.FileField("Чек",
                                    upload_to="checks")
     total_price = models.DecimalField("Сумма заказа",
-                                      max_digits=8,
-                                      decimal_places=2)
+                                      max_digits=8, decimal_places=2)
     pay_card = models.ForeignKey("PayCard",
                                  on_delete=models.CASCADE,
                                  verbose_name="Карта",
-                                 blank=True,
-                                 null=True)
-    status_order = models.ForeignKey("StatusesOrder",
-                                 on_delete=models.PROTECT,
-                                 verbose_name="Статус заказа")
+                                 blank=True, null=True)
+    order_status = models.CharField(verbose_name='Статус', max_length=15,
+                                    choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
+    order_item = models.JSONField(verbose_name='Детали заказа')
 
     def __str__(self):
         return f"{self.user.username} {self.order_number}"
@@ -358,18 +370,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
-
-class StatusesOrder(models.Model):
-    """Статус заказа"""
-    status = models.CharField("Статус")
-
-    def __str__(self):
-        return self.status
-
-    class Meta:
-        verbose_name = "Статус"
-        verbose_name_plural = "Статусы"
-        ordering = ['id']
 
 
 class AdminOrder(admin.ModelAdmin):

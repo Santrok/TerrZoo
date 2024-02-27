@@ -98,7 +98,8 @@ main h3 {
 }
 
 .article__title-wrap-order-item-button {
-    margin: 7px 0 0 0;
+    display: flex;
+    gap: 10px;
 }
 
 .article__title-wrap-order-card {
