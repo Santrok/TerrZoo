@@ -5,30 +5,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const paginationList = document.querySelector(".products__pagination-list");
   let countPagination = 0;
 
+  function productPaginationListFunc(e) {
+    if(e.currentTarget.children[0].textContent.trim() === 'Следующая') {
+      if(localStorage.getItem('nextPageCatalog') !== null) {
+          for(let i of paginationList.children) {
+              i.classList.remove('products__pagination-list-item-active')
+          }
+          paginationList.children[++countPagination - 1].classList.add('products__pagination-list-item-active')
+          fetchProduct(localStorage.getItem('nextPageCatalog'));
+      }
+  }else {
+      if(localStorage.getItem('previousPageCatalog') !== null) {
+          for(let i of paginationList.children) {
+              i.classList.remove('products__pagination-list-item-active')
+          }
+          paginationList.children[--countPagination - 1].classList.add('products__pagination-list-item-active')
+          fetchProduct(localStorage.getItem('previousPageCatalog'));
+      }
+  }
+  window.scrollBy({
+      top: product_list.getBoundingClientRect().top - 120,
+      behavior: 'smooth'
+  })
+  }
+
   productPaginationList.forEach((item) => {
     item.addEventListener("click", (e) => {
-        if(e.currentTarget.children[0].textContent.trim() === 'Следующая') {
-            if(localStorage.getItem('nextPageCatalog') !== null) {
-                for(let i of paginationList.children) {
-                    i.classList.remove('products__pagination-list-item-active')
-                }
-                paginationList.children[++countPagination - 1].classList.add('products__pagination-list-item-active')
-                fetchProduct(localStorage.getItem('nextPageCatalog'));
-            }
-        }else {
-            if(localStorage.getItem('previousPageCatalog') !== null) {
-                for(let i of paginationList.children) {
-                    i.classList.remove('products__pagination-list-item-active')
-                }
-                paginationList.children[--countPagination - 1].classList.add('products__pagination-list-item-active')
-                fetchProduct(localStorage.getItem('previousPageCatalog'));
-            }
-        }
-        console.log(product_list.getBoundingClientRect().top - 120);
-        window.scrollBy({
-            top: product_list.getBoundingClientRect().top - 120,
-            behavior: 'smooth'
-        })
+      productPaginationListFunc(e)
     });
   });
 
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                          ${i.countitemproduct_set
                                                            ?.map(
                                                              (item) =>
-                                                               `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
+                                                               `<li class="slider__item-weight-list-item" data-weight-id="${item.id}" data-weight-price="${(item.percent / 100) * parseFloat((100 - i.sale.percent) / 100 * parseFloat(i.price))}">${item.value} <span>${item.unit}</span></li>`
                                                            )
                                                            .join("")}
                                                  </ul>
@@ -170,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
+        console.log(data);
         localStorage.setItem('nextPageCatalog', data.next)
         localStorage.setItem('previousPageCatalog', data.previous)
         renderProduct(data);

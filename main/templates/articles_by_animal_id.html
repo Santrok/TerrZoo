@@ -179,7 +179,7 @@
                 <a href="{% url 'details' card.id %}" class="slider__item-title"> {{card.title}} </a>
                 <ul class="slider__item-weight-list">
                   {% for count in card.countitemproduct_set.all %}
-                  <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}">
+                  <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}" data-weight-price="{{count.total_price}}">
                     {{count.value }} <span>{{count.unit}}.</span>
                   </li>
                   {% endfor %}
