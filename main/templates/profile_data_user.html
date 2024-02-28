@@ -11,59 +11,55 @@
 
 {% block profile_content %}
     <section class="user__data">
-        <div class="user__data__wrap">
-            <div class="user__data__title-wrap">
-                <h2 class="user__data__title">Личные данные</h2>
-            </div>
-            <div class="user__data-from-wrap">
-                <form class="user__data-form-item" method="post">
+        <div class="user__data-from-wrap">
+            <form class="user__data-form-item" method="post">
+                <h2>Данные пользователя</h2>
+                {% csrf_token %}
+                {% if form_profile_modified %}
+                    
+                     <p>{{ form_profile_modified }}</p>   
+                {% endif %}
+                {{ form_profile.as_p }}
+                <div class="user__data-button-wrap">
+                    <button class="user__data-button" type="submit" name="action" value="profile">Сохранить</button>
+                </div>
+            </form>
+            <form class="user__data-form" method="post">
+                <h2>Данные входа</h2>
+                <div class="user__data-form-item login__form">
                     {% csrf_token %}
-                    {% if form_profile_modified %}
-                         <p>{{ form_profile_modified }}</p>   
+                    {% if form_profile_user_modified %}
+                         <p>{{ form_profile_user_modified }}</p>   
                     {% endif %}
-                    {{ form_profile.as_p }}
+                    {{ form_profile_user.as_p }}
                     <div class="user__data-button-wrap">
-                        <button class="user__data-button" type="submit" name="action" value="profile">Сохранить</button>
+                        <button class="user__data-button save__login-button" type="submit" name="action" value="profile_user_username">
+                            Сохранить
+                        </button>
+                        <button class="user__data-button change__login-button" type="button" name="action" value="profile_user_username">
+                            Редактировать
+                        </button>
                     </div>
-                </form>
-                <form class="user__data-form" method="post">
-                    <div class="user__data-form-item login__form">
-                        {% csrf_token %}
-                        {% if form_profile_user_modified %}
-                             <p>{{ form_profile_user_modified }}</p>   
-                        {% endif %}
-                        {{ form_profile_user.as_p }}
-                        <div class="user__data-button-wrap">
-                            <button class="user__data-button save__login-button" type="submit" name="action" value="profile_user_username">
-                                Сохранить
-                            </button>
-                            <button class="user__data-button change__login-button" type="button" name="action" value="profile_user_username">
-                                Редактировать
-                            </button>
-                        </div>
+                </div>
+                <div class="user__data-form-item">
+                    {% csrf_token %}
+                    {% if form_profile_password_modified %}
+                        <p>{{ form_profile_password_modified }}</p>   
+                    {% endif %}
+                    {{ form_profile_password.as_p }}
+                    <div class="user__data-button-wrap">
+                        <button class="user__data-button save__password-button" type="submit" name="action" value="profile_user_password">
+                            Сохранить
+                        </button>
+                        <button class="user__data-button change__password-button" type="button" name="action" value="profile_user_username">
+                            Редактировать
+                        </button>
                     </div>
-                    <div class="user__data-form-item">
-                        {% csrf_token %}
-                        {% if form_profile_password_modified %}
-                            <p>{{ form_profile_password_modified }}</p>   
-                        {% endif %}
-                        {{ form_profile_password.as_p }}
-                        <div class="user__data-button-wrap">
-                            <button class="user__data-button save__password-button" type="submit" name="action" value="profile_user_password">
-                                Сохранить
-                            </button>
-                            <button class="user__data-button change__password-button" type="button" name="action" value="profile_user_username">
-                                Редактировать
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </section>
 {% endblock %}
 {% block js %}
     <script defer src="{% static 'js/profile_data_user/disabled_input.js' %}"></script>
-
-
 {% endblock %}

@@ -10,6 +10,7 @@
     padding: 0 15px;
   }
 }
+
 .header__bottom {
   padding: 8px 0;
   background: #ffffff;
@@ -667,9 +668,15 @@ main {
   padding-top: 40px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1127px) {
   main {
     padding-top: 106px;
+  }
+}
+
+@media (min-width: 992px)  and (max-width: 1127.5px){
+  main {
+    padding-top: 135px;
   }
 }
 

@@ -1,9 +1,10 @@
 from django import forms
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
+from datetime import date
 
 from main.models import Profile
-from main.validators import validate_email, validate_password, validate_username
+from main.validators import validate_email, validate_password, validate_username, validate_phone
 
 
 class LoginForm(forms.Form):
@@ -55,28 +56,67 @@ class ForgetPasswordForm(forms.Form):
 
 class ProfileForm(forms.ModelForm):
     first_name = forms.CharField(label='Имя',
-                                 required=False)
+                                 required=True,
+                                 widget=forms.TextInput(
+                                     attrs={'placeholder': 'Иван'}))
     last_name = forms.CharField(label='Фамилия',
-                                required=False)
+                                required=True,
+                                widget=forms.TextInput(
+                                    attrs={'placeholder': 'Иванов'}))
     email = forms.CharField(label='Почта',
-                            required=False,
+                            required=True,
                             widget=forms.TextInput(
                                 attrs={'class': 'profile_form_email',
                                        'readonly': 'readonly'}))
+    phone_number = forms.CharField(label='Номер телефона',
+                                   required=True,
+                                   widget=forms.TextInput(
+                                       attrs={'placeholder': '+375(29) 111-22-33'}),
+                                   validators=[validate_phone])
+    date_of_birth = forms.DateField(label='Дата рождения',
+                                    required=True,
+                                    initial=date.today,
+                                    widget=forms.DateInput(
+                                        attrs={'type': 'date'}))
+    city = forms.CharField(label='Город',
+                           max_length=120,
+                           required=True,
+                           widget=forms.TextInput(
+                               attrs={'placeholder': 'Минск'}))
+    street = forms.CharField(label='Улица / Переулок',
+                             max_length=40,
+                             required=True,
+                             widget=forms.TextInput(
+                                 attrs={'placeholder': 'ул. Беды'}))
+    house_number = forms.CharField(label='Номер дома',
+                                   max_length=4,
+                                   required=True,
+                                   widget=forms.TextInput(
+                                       attrs={'placeholder': '1'}))
+    entrance_number = forms.CharField(label='Номер подъезда',
+                                      max_length=2,
+                                      required=False,
+                                      widget=forms.TextInput(
+                                          attrs={'placeholder': '1'}))
+    apartment_number = forms.CharField(label='Номер квартиры',
+                                       max_length=4,
+                                       required=False,
+                                       widget=forms.TextInput(
+                                           attrs={'placeholder': '1'}))
+    postal_code = forms.CharField(label='Почтовый индекс',
+                                  max_length=6,
+                                  required=True,
+                                  widget=forms.TextInput(
+                                      attrs={'placeholder': '220000'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date_of_birth'].widget.format = '%Y-%m-%d'
 
     class Meta:
         model = Profile
-        fields = ('first_name',
-                  'last_name',
-                  'email',
-                  'phone_number',
-                  'date_of_birth',
-                  'city',
-                  'street',
-                  'house_number',
-                  'entrance_number',
-                  'apartment_number',
-                  'postal_code')
+        fields = ('first_name', 'last_name', 'email', 'phone_number', 'date_of_birth', 'city',
+                  'street', 'house_number', 'entrance_number', 'apartment_number', 'postal_code')
 
 
 class ProfileUserNameForm(forms.ModelForm):
