@@ -71,7 +71,7 @@
                                     <p class="order-item-time">Сумма заказа: {{ order.total_price }}</p>
                                     <div class="article__title-wrap-order-item-button">
                                         <a href="/basket/" class="button">Повторить заказ</a>
-                                        <a href="#" class="button">Детали заказа</a>
+                                        <a href="{% url 'order_details' order.id %}" class="button">Детали заказа</a>
                                     </div>
                                 </div>
                                 <div class="article__title-wrap-order-card">

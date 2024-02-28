@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render, redirect
 
 from config import settings
-from django.db.models import Count
+from django.db.models import Count, Sum
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
                          CategoryProduct, Order, PayCard, Profile)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
@@ -520,3 +520,38 @@ def get_profile_page_data_user(request):
             return render(request, template_name='profile_data_user.html', context=context)
 
     return render(request=request, template_name='profile_data_user.html', context=context)
+
+
+@login_required
+def get_profile_viewed_products_page(request):
+    return render(request, "profile_viewed_products.html")
+
+
+@login_required
+def get_profile_subscriptions_page(request):
+    return render(request, "profile_subscriptions.html")
+
+def get_order_details_page(request, order_id):
+    '''Отдаем страничку с деталями заказа из личного кабинета'''
+    order_details = Order.objects.get(id=order_id)
+    json_obj = order_details.order_item
+    product_list_id = []
+    weight_list = []
+    product_amount = []
+
+    for i in json_obj:
+        product_list_id.append(i.get('id'))
+        weight_list.append(i.get('weight')[0])
+        product_amount.append(i.get('count'))
+    product_list = Product.objects.filter(id__in=product_list_id)
+    product_amount = sum(product_amount)
+
+    context = {
+        'order_details': order_details,
+        'product_list': product_list,
+        'weight_list': weight_list,
+        'product_amount': product_amount,
+    }
+    return render(request=request,
+                  template_name='order_details.html',
+                  context=context)

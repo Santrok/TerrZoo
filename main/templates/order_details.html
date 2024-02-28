@@ -1,0 +1,58 @@
+{% extends 'base_profile_template.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/profile_page/style.css' %}">
+{% endblock %}
+
+{% block title %}
+    Личный кабинет
+{% endblock %}
+
+{% block profile_content %}
+    <div class="details">
+        <ul class="details__list__about__order">
+            <li>
+                <p>Номер заказа: {{ order_details.order_number }}</p>
+            </li>
+            <li>
+                <p>Дата: {{ order_details.data_create }}</p>
+            </li>
+            <li>
+                <p>Статус: {{ order_details.order_status }}</p>
+            </li>
+            <li>
+                <p>Метод доставки:</p>
+                <p></p>
+            </li>
+            <li>
+                <p>Общая сумма заказа: {{ order_details.total_price }}</p>
+            </li>
+            <li>
+                <p>Количество товаров: {{ product_amount }}</p>
+            </li>
+        </ul>
+        <ul class="details__list__about__products">
+            <li class="details__list__about__products-title">
+                {% for product in product_list %}
+                    <p>{{ product.title }}</p>
+                    <div class="details__list__about__products-img">
+                        <img src="{{ product.image_prev.url }}" alt="#">
+                    </div>
+                {% endfor %}
+            </li>
+            <li class="details__list__about__products-weight">
+                {% for weight in weight_list %}
+                    <p>Вес: {{ weight }}</p>
+                {% endfor %}
+            </li>
+        </ul>
+        <div class="details__buttons">
+            <a href="#">Повторить заказ</a>
+            <a href="#">Удалить заказ</a>
+            <a href="#">Распечатать детали заказа</a>
+        </div>
+    </div>
+
+
+{% endblock %}
