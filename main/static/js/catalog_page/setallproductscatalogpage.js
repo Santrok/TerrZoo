@@ -5,30 +5,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const paginationList = document.querySelector(".products__pagination-list");
   let countPagination = 0;
 
+  function productPaginationListFunc(e) {
+    if(e.currentTarget.children[0].textContent.trim() === 'Следующая') {
+      if(localStorage.getItem('nextPageCatalog') !== null) {
+          for(let i of paginationList.children) {
+              i.classList.remove('products__pagination-list-item-active')
+          }
+          paginationList.children[++countPagination - 1].classList.add('products__pagination-list-item-active')
+          fetchProduct(localStorage.getItem('nextPageCatalog'));
+      }
+  }else {
+      if(localStorage.getItem('previousPageCatalog') !== null) {
+          for(let i of paginationList.children) {
+              i.classList.remove('products__pagination-list-item-active')
+          }
+          paginationList.children[--countPagination - 1].classList.add('products__pagination-list-item-active')
+          fetchProduct(localStorage.getItem('previousPageCatalog'));
+      }
+  }
+  window.scrollBy({
+      top: product_list.getBoundingClientRect().top - 120,
+      behavior: 'smooth'
+  })
+  }
+
   productPaginationList.forEach((item) => {
     item.addEventListener("click", (e) => {
-        if(e.currentTarget.children[0].textContent.trim() === 'Следующая') {
-            if(localStorage.getItem('nextPageCatalog') !== null) {
-                for(let i of paginationList.children) {
-                    i.classList.remove('products__pagination-list-item-active')
-                }
-                paginationList.children[++countPagination - 1].classList.add('products__pagination-list-item-active')
-                fetchProduct(localStorage.getItem('nextPageCatalog'));
-            }
-        }else {
-            if(localStorage.getItem('previousPageCatalog') !== null) {
-                for(let i of paginationList.children) {
-                    i.classList.remove('products__pagination-list-item-active')
-                }
-                paginationList.children[--countPagination - 1].classList.add('products__pagination-list-item-active')
-                fetchProduct(localStorage.getItem('previousPageCatalog'));
-            }
-        }
-        console.log(product_list.getBoundingClientRect().top - 120);
-        window.scrollBy({
-            top: product_list.getBoundingClientRect().top - 120,
-            behavior: 'smooth'
-        })
+      productPaginationListFunc(e)
     });
   });
 

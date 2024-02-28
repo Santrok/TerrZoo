@@ -197,20 +197,20 @@
                             <ul class="brand__list">
                                 {% for brand in brands %}
                                 <li class="brand__list-item">
-                                    <input
-                                        type="checkbox"
-                                        id="brand{{brand.id}}"
-                                        name="type"
-                                        class="brand__type-list-item-hdie"
-                                        data-brand="{{brand.id}}"
-                                    />
-                                    <label for="brand{{brand.id}}" class="brand__list-item-label">
-                                        <div></div>
-                                        <p>{{ brand.name }}</p>
-                                    </label>
+                                  <input
+                                    type="checkbox"
+                                    id="brand{{brand.id}}"
+                                    name="type"
+                                    class="brand__type-list-item-hide"
+                                    data-brand="{{brand.id}}"
+                                  />
+                                  <label for="brand{{brand.id}}" class="brand__list-item-label">
+                                    <div></div>
+                                    <p>{{ brand.name }}</p>
+                                  </label>
                                 </li>
                                 {% endfor %}
-                            </ul>
+                              </ul>
                         </div>
                         <button type="button" class="filter__button">
                             Применить фильтры

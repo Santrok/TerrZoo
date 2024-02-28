@@ -1,5 +1,7 @@
 addEventListener('DOMContentLoaded', () => {
-  const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
+  ;
+})
+const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
 const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
 const headerBottomBasketValueMob = document.querySelector(".header__bottom-basket-value");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
@@ -128,7 +130,7 @@ function addBasketItemToLocalStorage(e) {
   }
 }
 
-function addBasketItemToHover() {
+ export function addBasketItemToHover() {
   const basketArray = JSON.parse(localStorage.getItem("basket"));
   const basketHoverListItem = document.querySelectorAll(".header__bottom-basket-hover-list-item-title");
   let basketCount = 0;
@@ -178,6 +180,8 @@ function addBasketItemToHover() {
   }
 }
 
+
+
 addBasketItemToHover();
 
 sliderItemBasketBtn.forEach((item) => {
@@ -219,5 +223,4 @@ productItemBtn.forEach((item) => {
     addBasketItemToLocalStorage(event);
     addBasketItemToHover();
   });
-});
 })

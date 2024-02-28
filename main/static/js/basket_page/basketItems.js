@@ -287,3 +287,5 @@ document.addEventListener("DOMContentLoaded", () => {
     item.addEventListener("click", (e) => basketItems(e));
   });
 });
+
+

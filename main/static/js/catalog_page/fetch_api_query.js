@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(queryStr);
           }
         }
-        console.log(11);
         let order_str = document.querySelector(".catalog__sort-select-active").dataset.order;
         fetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`)
           .then((resp) => resp.json())
@@ -270,4 +269,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/////==new_version=============================================================================
