@@ -110,7 +110,7 @@ class CountItemProduct(models.Model):
     def total_price(self):
         """Метод расчета цены в зависимости
          от веса в процентном соотношении"""
-        return self.percent / 100 * float(self.product.price)
+        return round((self.percent / 100 * float((100 - self.product.sale.percent) / 100 * float(self.product.price))),2)
 
     class Meta:
         verbose_name = "Количество товара"
