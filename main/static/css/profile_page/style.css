@@ -530,19 +530,5 @@ height:100%;
 
 .details__buttons {
     display: flex;
-    justify-content: space-between;
-    gap: 100px;
-    & a {
-        display: flex;
-        justify-content: center;
-        /*background: rgb(0, 160, 172);*/
-        height: 30px;
-        border: 2px solid rgb(0, 160, 172);
-        border-radius: 4px;
-        width: 200px;
-        align-items: center;
-        font-family: SF Pro Text;
-        color: black;
-        font-size: small;
-    }
+    gap: 10px;
 }
