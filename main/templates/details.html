@@ -446,7 +446,7 @@
                                         <ul class="slider__item-weight-list">
                                             {% for count in card.countitemproduct_set.all %}
                                                 <li class="slider__item-weight-list-item"
-                                                    data-weight-id="{{ count.id }}">
+                                                    data-weight-id="{{ count.id }}" data-weight-price="{{count.total_price}}">
                                                     {{ count.value }} <span>{{ count.unit }}.</span>
                                                 </li>
                                             {% endfor %}
@@ -573,7 +573,7 @@
                                         <ul class="slider__item-weight-list">
                                             {% for count in card_new.countitemproduct_set.all %}
                                                 <li class="slider__item-weight-list-item"
-                                                    data-weight-id="{{ count.id }}">
+                                                    data-weight-id="{{ count.id }}" data-weight-price="{{count.total_price}}">
                                                     {{ count.value }} <span>{{ count.unit }}.</span>
                                                 </li>
                                             {% endfor %}
