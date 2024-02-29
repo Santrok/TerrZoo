@@ -100,7 +100,7 @@ main h3 {
 .article__title-wrap-order-item-button {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
     gap: 10px;
 
     & a {
