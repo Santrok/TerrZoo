@@ -67,14 +67,14 @@ function send_form() {
         } else {
           if (document.querySelector("#cash").checked) {
             let happy = document.querySelector(".block_placing_an_order");
-            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №AN000${data.order_number}100 оформлен, оплата на пункте выдачи</h1>`;
+            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата на пункте выдачи</h1>`;
             localStorage.setItem("basket", JSON.stringify([]));
             countPayCard=0
             setCountInBasket()
             addBasketItemToHover()
           } else {
             let happy = document.querySelector(".block_placing_an_order");
-            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №AN000${data.order_number}100 оформлен, чек отправлен на email:${data.user_email}</h1>`;
+            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, чек отправлен на email:${data.user_email}</h1>`;
             localStorage.setItem("basket", JSON.stringify([]));
             countPayCard =0
             addBasketItemToHover()
