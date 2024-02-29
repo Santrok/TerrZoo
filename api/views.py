@@ -389,7 +389,7 @@ class ProductListFilterView(ListAPIView):
 
 
 class SearchProductView(ListAPIView):
-    serializer_class = SearchProduct
+    serializer_class = ProductSerializer
 
     def get_queryset(self):
         data = self.request.query_params
