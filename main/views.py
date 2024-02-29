@@ -548,5 +548,5 @@ def get_order_details_page(request, order_id):
         'product_amount': product_amount,
     }
     return render(request=request,
-                  template_name='order_details.html',
+                  template_name='profile_order_details.html',
                   context=context)
