@@ -175,6 +175,7 @@ def login_view(request):
     """Страница с формой авторизации"""
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
+        print(request.POST)
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
@@ -202,6 +203,7 @@ def registration_view(request):
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
+            login(request, user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_url = f"http://127.0.0.1:8000/activate/{uid}/{token}/"
@@ -213,6 +215,8 @@ def registration_view(request):
 
             return redirect('confirm_email')
         else:
+            print(register_form.errors)
+            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
