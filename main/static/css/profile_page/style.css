@@ -482,33 +482,33 @@ height:100%;
 
 .details__list__about__order {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /*flex-direction: column;*/
+    justify-content: space-between;
     border-radius: 8px;
     background: rgb(0, 160, 172);
     padding: 10px 10px;
-    height: 300px;
+    /*height: 300px;*/
 
-    & li p {
-        display: flex;
-        font-family: "SF Pro Text";
-        font-size: large;
-        color: white;
-    }
+    /*& li p {*/
+    /*    display: flex;*/
+    /*    font-family: "SF Pro Text";*/
+    /*    font-size: large;*/
+    /*    color: white;*/
+    /*}*/
 }
 
 .details__list__about__products {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-
-    & li {
-        gap: 20px;
-    }
+    gap: 20px;
+    width: 100%;
 }
 
 .details__list__about__products-title {
     display: flex;
-    flex-direction: column;
+    gap: 10px;
+    /*flex-direction    : column;*/
 }
 
 .details__list__about__products-img {
