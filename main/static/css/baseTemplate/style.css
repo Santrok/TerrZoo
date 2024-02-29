@@ -1736,18 +1736,6 @@ footer {
   display: flex;
 }
 
-/*# sourceMappingURL=style.css.map */
-.header__up-login-button a {
-  color: #2c6ecb;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: "SF Pro Text";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-  background: #fff;
-}
-
 .profile a {
   color: var(--Interactive-Default, #2c6ecb);
   font-feature-settings: "clig" off, "liga" off;
@@ -1761,10 +1749,22 @@ footer {
 
 .header__up-login-button {
   order: 6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+  /*display: block;*/
+  /*border-radius: 20px;*/
+  /*border: 1px solid black ;*/
+  /*padding: 5px;*/
+}
+
+/*# sourceMappingURL=style.css.map */
+.header__up-login-button a {
+  color: #2c6ecb;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "SF Pro Text";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  background: #fff;
 }
 
 .filter__item-active {
