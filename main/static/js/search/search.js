@@ -17,13 +17,13 @@ function getLocalStorageSetPage(){
                                                          ${i.title}
                                                      </a>
                                                      <ul class="slider__item-weight-list">
-                                                             ${i.countitemproduct_set
-                                                               ?.map(
-                                                                 (item) =>
-                                                                   `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
-                                                               )
-                                                               .join("")}
-                                                     </ul>
+                                                         ${i.countitemproduct_set
+                                                           ?.map(
+                                                             (item) =>
+                                                               `<li class="slider__item-weight-list-item" data-weight-id="${item.id}" data-weight-price="${(item.percent / 100) * parseFloat((100 - i.sale.percent) / 100 * parseFloat(i.price))}">${item.value} <span>${item.unit}</span></li>`
+                                                           )
+                                                           .join("")}
+                                                 </ul>
                                                      <div class="products___item-price-basket">
                                                          <div class="products___item-price-basket-wrap">
                                                              ${
