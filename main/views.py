@@ -108,7 +108,8 @@ def get_page_catalog_by_animal(request, animal_id):
     c = set(list(category_by_animals))
     j = []
     for i in list(c):
-        for p in i.get_family().annotate(asd=Count("product__id")):
+        for p in CategoryProduct.objects.add_related_count(i.get_family(), Product, 'category', 'asd',
+                                                           cumulative=True, extra_filters={'animal': animal_id}):
             j.append(p)
     st = list(set(j))
     brands_by_animals = set(list(Brand.objects.filter(product__id__in=products)))
