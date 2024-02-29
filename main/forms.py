@@ -64,11 +64,12 @@ class ProfileForm(forms.ModelForm):
                                 widget=forms.TextInput(
                                     attrs={'placeholder': 'Иванов'}))
     email = forms.CharField(label='Почта',
-                            required=True,
+                            required=False,
                             widget=forms.TextInput(
                                 attrs={'class': 'profile_form_email',
                                        'readonly': 'readonly'}))
     phone_number = forms.CharField(label='Номер телефона',
+                                   max_length=18,
                                    required=True,
                                    widget=forms.TextInput(
                                        attrs={'placeholder': '+375(29) 111-22-33'}),
