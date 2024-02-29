@@ -483,10 +483,9 @@ height:100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
     border-radius: 8px;
     background: rgb(0, 160, 172);
-    padding: 16px 24px;
+    padding: 10px 10px;
     height: 300px;
 
     & li p {
@@ -525,10 +524,9 @@ height:100%;
 .details__list__about__products-weight {
     display: flex;
     flex-direction: column;
-    padding-top: initial;
 
     & p {
-        padding: 0 0 120px 100px;
+        padding: 0 0 120px 50px;
     }
 }
 

@@ -526,6 +526,7 @@ def get_profile_viewed_products_page(request):
 def get_profile_subscriptions_page(request):
     return render(request, "profile_subscriptions.html")
 
+
 def get_order_details_page(request, order_id):
     '''Отдаем страничку с деталями заказа из личного кабинета'''
     order_details = Order.objects.get(id=order_id)
@@ -539,13 +540,15 @@ def get_order_details_page(request, order_id):
         weight_list.append(i.get('weight')[0])
         product_amount.append(i.get('count'))
     product_list = Product.objects.filter(id__in=product_list_id)
-    product_amount = sum(product_amount)
+    all_products_amount = sum(product_amount)
+    print(product_amount)
 
     context = {
         'order_details': order_details,
         'product_list': product_list,
         'weight_list': weight_list,
         'product_amount': product_amount,
+        'all_products_amount': all_products_amount,
     }
     return render(request=request,
                   template_name='profile_order_details.html',
