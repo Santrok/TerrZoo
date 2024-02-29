@@ -173,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem('nextPageCatalog', data.next)
         localStorage.setItem('previousPageCatalog', data.previous)
         renderProduct(data);
