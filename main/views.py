@@ -541,7 +541,6 @@ def get_order_details_page(request, order_id):
         product_amount.append(i.get('count'))
     product_list = Product.objects.filter(id__in=product_list_id)
     all_products_amount = sum(product_amount)
-    print(product_amount)
 
     context = {
         'order_details': order_details,
