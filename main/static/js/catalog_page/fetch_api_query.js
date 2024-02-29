@@ -31,12 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(queryStr);
           }
         }
-        console.log(11);
         let order_str = document.querySelector(".catalog__sort-select-active").dataset.order;
         fetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${order_str}&${activAnimalId}`)
           .then((resp) => resp.json())
           .then((data) => {
             if (data) {
+              console.log(data);
               const productList = document.querySelector(".products__list");
               productList.innerHTML = "";
               for (let i of data.results) {
@@ -53,8 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             <ul class="slider__item-weight-list">
                                     ${i.countitemproduct_set
                                       ?.map(
-                                        (item) =>
-                                          `<li class="slider__item-weight-list-item" data-weight-id="${item.id}">${item.value} <span>${item.unit}</span></li>`
+                                        (item) =>{
+                                          return `<li class="slider__item-weight-list-item" data-weight-id="${item.id}" data-weight-price="${(item.percent / 100) * parseFloat((100 - i.sale.percent) / 100 * parseFloat(i.price))}">${item.value} <span>${item.unit}</span></li>`
+                                        }
                                       )
                                       .join("")}
                             </ul>
@@ -270,4 +271,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/////==new_version=============================================================================

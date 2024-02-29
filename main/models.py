@@ -110,7 +110,7 @@ class CountItemProduct(models.Model):
     def total_price(self):
         """Метод расчета цены в зависимости
          от веса в процентном соотношении"""
-        return self.percent / 100 * float(self.product.price)
+        return round((self.percent / 100 * float((100 - self.product.sale.percent) / 100 * float(self.product.price))),2)
 
     class Meta:
         verbose_name = "Количество товара"
@@ -430,7 +430,7 @@ class Profile(models.Model):
                                 verbose_name="Пользователь",
                                 blank=True)
     phone_number = models.CharField(verbose_name="Номер телефона",
-                                    max_length=17,
+                                    max_length=18,
                                     blank=True)
     date_of_birth = models.DateField(verbose_name="Дата рождения",
                                      blank=True,
@@ -439,7 +439,7 @@ class Profile(models.Model):
                             max_length=120,
                             blank=True,
                             null=True)
-    street = models.CharField(verbose_name="Улица",
+    street = models.CharField(verbose_name="Улица / Переулок",
                               max_length=40,
                               blank=True,
                               null=True)
@@ -463,8 +463,6 @@ class Profile(models.Model):
     def clean(self):
         """Проверка некоторых полей модели."""
         errors = {}
-
-        print(self.apartment_number)
 
         if self.apartment_number and not self.apartment_number.isdigit():
             errors.update({'apartment_number': 'Номер квартиры должен быть из цифр.'})

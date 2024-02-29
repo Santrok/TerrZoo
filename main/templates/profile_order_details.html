@@ -1,0 +1,50 @@
+{% extends 'base_profile_template.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/profile_page/style.css' %}">
+{% endblock %}
+
+{% block title %}
+    Личный кабинет
+{% endblock %}
+
+{% block profile_content %}
+    <div class="details">
+        <div class="details__list__about__products">
+            <div class="details__list__about__order">
+                <div style="text-align: center">
+                    <p>Номер заказа: {{ order_details.order_number }}</p>
+                    <p>Дата: {{ order_details.data_create }}</p>
+                </div>
+                <div style="text-align: center">
+                    <p>Статус: {{ order_details.order_status }}</p>
+                    <p>Метод доставки:</p>
+                </div>
+                <div style="text-align: center">
+                    <p>Общая сумма заказа: {{ order_details.total_price }}</p>
+                    <p>Количество товаров: {{ order_details.count }}</p>
+                </div>
+            </div>
+            {% for product in product_list %}
+                <div class="details__list__about__products-title">
+                    <div class="details__list__about__products-img">
+                        <img src="{{ product.image_prev.url }}" alt="#">
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: space-around">
+                        <p>{{ product.title }}</p>
+                        <p>Вес/Объем: {{ product.weight }}</p>
+                        <p> Количество единиц: {{ product.count }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="details__buttons">
+            <a class='button' href="#">Повторить заказ</a>
+            <a class='button' href="#">Удалить заказ</a>
+            <a class='button' href="#">Распечатать детали заказа</a>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -99,7 +99,13 @@ main h3 {
 
 .article__title-wrap-order-item-button {
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     gap: 10px;
+
+    & a {
+        width: 130px;
+    }
 }
 
 .article__title-wrap-order-card {
@@ -272,8 +278,8 @@ main h3 {
 
 .comparison__title, .wishlist__title {
     display: flex;
-    justify-content: start;
-    padding-left: 350px;
+    justify-content: center;
+    /*padding-left: 350px;*/
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(34, 60, 80, 0.2);
 
@@ -290,7 +296,7 @@ main h3 {
 .product__list {
     height: 1200px;
     display: flex;
-    gap: 16px 2px;
+    gap: 16px 0;
 }
 
 .product__list-item {
@@ -346,30 +352,26 @@ main h3 {
     padding-left: 5px;
 }
 
-.user__data__wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    margin: 0 0 24px 0;
-    width: 1030px;
-
-}
-
-.user__data__title-wrap {
-    text-align: center;
-    border-bottom: 1px solid rgba(34, 60, 80, 0.2);
-    padding-bottom: 10px;
+.user__data {
+    width: 100%;
 }
 
 .user__data-from-wrap {
     display: flex;
+    flex-wrap:wrap;
     justify-content: space-around;
+    gap: 20px;
 }
 
 .user__data-form {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    gap: 10px;
+
+    & h2 {
+        text-align: center;
+    }
 }
 
 .user__data-form-item {
@@ -378,12 +380,17 @@ main h3 {
     gap: 10px;
     width: 400px;
 
+    & h2 {
+        text-align: center;
+    }
+
     & p {
         display: flex;
         align-items: center;
         padding-left: 5px;
         background: white;
         gap: 10px;
+
         & label {
             width: 220px;
             height: 30px;
@@ -392,6 +399,7 @@ main h3 {
             display: flex;
             text-align: end;
         }
+
         & input {
             border: 1px solid rgb(0, 160, 172);
             border-radius: 4px;
@@ -399,11 +407,13 @@ main h3 {
             width: 400px;
             padding-left: 10px;
         }
-        & input:disabled{
+
+        & input:disabled {
             background: lightblue;
             opacity: 0.5;
         }
-        & input:focus{
+
+        & input:focus {
             border: 2px solid rgb(0, 160, 172);
             border-radius: 4px;
         }
@@ -462,4 +472,66 @@ height:100%;
 .not_auth_link{
   display:flex;
   justify-content:center;
+}
+
+.details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.details__list__about__order {
+    display: flex;
+    /*flex-direction: column;*/
+    justify-content: space-between;
+    border-radius: 8px;
+    background: rgb(0, 160, 172);
+    padding: 10px 10px;
+    /*height: 300px;*/
+
+    /*& li p {*/
+    /*    display: flex;*/
+    /*    font-family: "SF Pro Text";*/
+    /*    font-size: large;*/
+    /*    color: white;*/
+    /*}*/
+}
+
+.details__list__about__products {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+.details__list__about__products-title {
+    display: flex;
+    gap: 10px;
+    /*flex-direction    : column;*/
+}
+
+.details__list__about__products-img {
+    display: flex;
+    max-height: 100%;
+    max-width: 100%;
+
+    & img {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+.details__list__about__products-weight {
+    display: flex;
+    flex-direction: column;
+
+    & p {
+        padding: 0 0 120px 50px;
+    }
+}
+
+.details__buttons {
+    display: flex;
+    gap: 10px;
 }

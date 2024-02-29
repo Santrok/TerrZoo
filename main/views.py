@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render, redirect
 
 from config import settings
-from django.db.models import Count, Q
+from django.db.models import Count, Sum
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
                          CategoryProduct, Order, PayCard, Profile)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
@@ -104,12 +104,11 @@ def get_page_catalog_by_animal(request, animal_id):
                               reverse=True)
     animals = Animal.objects.all()
     articles_on_animals = Article.objects.filter(animal=animal_id)
-    category_by_animals = CategoryProduct.objects.filter(product__animal=animal_id)
+    category_by_animals = CategoryProduct.objects.filter(product__id__in=products)
     c = set(list(category_by_animals))
     j = []
     for i in list(c):
-        for p in CategoryProduct.objects.add_related_count(i.get_family(), Product, 'category',
-                                              'asd', cumulative=True, extra_filters={'animal':animal_id}):
+        for p in i.get_family().annotate(asd=Count("product__id")):
             j.append(p)
     st = list(set(j))
     brands_by_animals = set(list(Brand.objects.filter(product__id__in=products)))
@@ -488,9 +487,8 @@ def get_profile_page_data_user(request):
                 form_data_profile.save()
                 form_data_user.save()
                 context['form_profile_modified'] = 'Данные успешно изменены.'
-            form_profile = ProfileForm(instance=profile, initial={'first_name': user.first_name,
-                                                                  'last_name': user.last_name,
-                                                                  'email': user.email})
+
+            form_profile = ProfileForm(request.POST)
             form_profile.errors.update(form_data_profile.errors)
             form_profile.errors.update(form_data_user.errors)
             context['form_profile'] = form_profile
@@ -531,3 +529,26 @@ def get_profile_viewed_products_page(request):
 @login_required
 def get_profile_subscriptions_page(request):
     return render(request, "profile_subscriptions.html")
+
+
+def get_order_details_page(request, order_id):
+    '''Отдаем страничку с деталями заказа из личного кабинета'''
+    order_details = Order.objects.get(id=order_id)
+    order_details.count = 0
+    json_obj = order_details.order_item
+    product_list = []
+    for i in json_obj:
+        product = Product.objects.filter(id=i.get('id'))
+        add_in_product = product[0]
+        add_in_product.weight = i.get('weight')[0]
+        add_in_product.count = i.get('count')
+        order_details.count += i.get('count')
+        product_list.append(add_in_product)
+
+    context = {
+        'order_details': order_details,
+        'product_list': product_list,
+    }
+    return render(request=request,
+                  template_name='profile_order_details.html',
+                  context=context)
