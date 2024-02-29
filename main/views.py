@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render, redirect
 
 from config import settings
-from django.db.models import Count
+from django.db.models import Count, Q
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
                          CategoryProduct, Order, PayCard, Profile)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
@@ -104,11 +104,12 @@ def get_page_catalog_by_animal(request, animal_id):
                               reverse=True)
     animals = Animal.objects.all()
     articles_on_animals = Article.objects.filter(animal=animal_id)
-    category_by_animals = CategoryProduct.objects.filter(product__id__in=products)
+    category_by_animals = CategoryProduct.objects.filter(product__animal=animal_id)
     c = set(list(category_by_animals))
     j = []
     for i in list(c):
-        for p in i.get_family().annotate(asd=Count("product__id")):
+        for p in CategoryProduct.objects.add_related_count(i.get_family(), Product, 'category',
+                                              'asd', cumulative=True, extra_filters={'animal':animal_id}):
             j.append(p)
     st = list(set(j))
     brands_by_animals = set(list(Brand.objects.filter(product__id__in=products)))
