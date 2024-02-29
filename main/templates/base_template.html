@@ -336,7 +336,13 @@
                                 {% elif request.path == '/wishlist/' %}
                                     <a href="{% url 'logout' %}">Выйти</a>
                                 {% else %}
-                                    <a href="{% url 'profile_data_user' %}">ЛК</a>
+                                    <a href="{% url 'profile_data_user' %}">
+                                    {% if user.first_name.0 or user.last_name.0 %}
+                                        {{ user.first_name.0 }}{{ user.last_name.0 }}
+                                    {% else %}
+                                        {{ user.username.0 }}
+                                    {% endif %}
+                                    </a>
                                 {% endif %}
                             {% else %}
                                 <a href="{% url 'login' %}">Войти</a>
