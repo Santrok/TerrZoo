@@ -431,7 +431,7 @@ def get_placing_an_order_page(request):
 def get_profile_order_page(request):
     """Личный кабинет"""
     orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
-              .filter(user=request.user.id)
+              .filter(user=request.user.id).filter(order_show=True)
               .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
@@ -552,4 +552,23 @@ def get_order_details_page(request, order_id):
     }
     return render(request=request,
                   template_name='profile_order_details.html',
+                  context=context)
+
+
+def delete_profile_order(request, order_id):
+    """Скраыаем (удаляем) заказ из списка"""
+    order = Order.objects.get(id=order_id)
+    order.order_show = False
+    order.save()
+
+    orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
+              .filter(user=request.user.id).filter(order_show=True)
+              .order_by('-data_create'))
+    pay_cards = PayCard.objects.filter(user=request.user.id)
+
+    context = {"orders": orders,
+               "pay_cards": pay_cards}
+
+    return render(request=request,
+                  template_name='profile_order.html',
                   context=context)
