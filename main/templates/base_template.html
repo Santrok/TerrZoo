@@ -327,13 +327,17 @@
                         <button class="header__up-button" type="button">Обратный звонок</button>
                         <div class="header__up-login-button">
                             {% if user.is_authenticated %}
-                                {% if request.path == '/profile/' %}
+                                {% if request.path == '/profile_data_user/' %}
                                     <a href="{% url 'logout' %}">Выйти</a>
-                                {% elif request.path == '/profile_data_user/' %}
+                                {% elif request.path == '/profile_orders/' %}
+                                    <a href="{% url 'logout' %}">Выйти</a>
+                                {% elif request.path == '/wishlist/' %}
+                                    <a href="{% url 'logout' %}">Выйти</a>
+                                {% elif request.path == '/viewed_products/' %}
                                     <a href="{% url 'logout' %}">Выйти</a>
                                 {% elif request.path == '/comparisonlist/' %}
                                     <a href="{% url 'logout' %}">Выйти</a>
-                                {% elif request.path == '/wishlist/' %}
+                                {% elif request.path == '/subscriptions/' %}
                                     <a href="{% url 'logout' %}">Выйти</a>
                                 {% else %}
                                     <a href="{% url 'profile_data_user' %}">

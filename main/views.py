@@ -446,12 +446,7 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    context = {
-
-    }
-    return render(request=request,
-                  template_name='profile_wishlist.html',
-                  context=context)
+    return render(request=request, template_name='profile_wishlist.html')
 
 
 @login_required
@@ -556,19 +551,9 @@ def get_order_details_page(request, order_id):
 
 
 def delete_profile_order(request, order_id):
-    """Скраыаем (удаляем) заказ из списка"""
+    """Скрываем (удаляем) заказ из списка"""
     order = Order.objects.get(id=order_id)
     order.order_show = False
     order.save()
 
-    orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
-              .filter(user=request.user.id).filter(order_show=True)
-              .order_by('-data_create'))
-    pay_cards = PayCard.objects.filter(user=request.user.id)
-
-    context = {"orders": orders,
-               "pay_cards": pay_cards}
-
-    return render(request=request,
-                  template_name='profile_order.html',
-                  context=context)
+    return redirect('profile')
