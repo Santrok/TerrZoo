@@ -540,7 +540,10 @@ def get_order_details_page(request, order_id):
         weight_list.append(i.get('weight')[0])
         product_amount.append(i.get('count'))
     product_list = Product.objects.filter(id__in=product_list_id)
+    for p in product_list:
+        print(p.title, p.price)
     all_products_amount = sum(product_amount)
+
 
     context = {
         'order_details': order_details,
