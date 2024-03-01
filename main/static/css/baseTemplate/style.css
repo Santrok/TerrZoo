@@ -1749,10 +1749,9 @@ footer {
 
 .header__up-login-button {
   order: 6;
-  /*display: block;*/
-  /*border-radius: 20px;*/
-  /*border: 1px solid black ;*/
-  /*padding: 5px;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*# sourceMappingURL=style.css.map */
