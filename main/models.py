@@ -363,7 +363,7 @@ class Order(models.Model):
     order_show = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.user.username} {self.order_number}"
+        return f"{self.id}: {self.user.username} {self.order_number}"
 
     def create_check(self, data_request):
         """Создать чек формат file_name.json"""
