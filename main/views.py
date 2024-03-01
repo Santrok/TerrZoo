@@ -398,7 +398,7 @@ def get_placing_an_order_page(request):
                     for i in json_obj:
                         product_list_id.append(i.get('id'))
                     product_list = Product.objects.filter(id__in=product_list_id)
-                    article_for_orders = get_article_for_orders()
+                    article_for_orders = get_article_for_orders(user.id)
                     order = Order(order_number=article_for_orders,
                                   user=user,
                                   check_order=get_check_file(request.POST.get('basket'),
