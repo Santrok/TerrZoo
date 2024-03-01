@@ -340,8 +340,8 @@ class Order(models.Model):
         ("Ошибка оплаты", "Ошибка оплаты"),
     ]
 
-    order_number = models.PositiveIntegerField(verbose_name='Номер заказа',
-                                               unique=True)
+    order_number = models.CharField(verbose_name='Номер заказа',
+                                    max_length=15)
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
     products = models.ManyToManyField("Product",
@@ -360,9 +360,10 @@ class Order(models.Model):
     order_status = models.CharField(verbose_name='Статус', max_length=15,
                                     choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
     order_item = models.JSONField(verbose_name='Детали заказа')
+    order_show = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.user.username} {self.order_number}"
+        return f"{self.id}: {self.user.username} {self.order_number}"
 
     def create_check(self, data_request):
         """Создать чек формат file_name.json"""

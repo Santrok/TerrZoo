@@ -6,15 +6,14 @@ from rest_framework.pagination import PageNumberPagination
 
 from rest_framework.response import Response
 from django.forms.models import model_to_dict
-from api.serializers import StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer, ProductSerializer, \
-    CountItemProductSerializer, SaleSerializer, ArticleSerializer, BrandSerializer, ReviewSerializer, OrderSerializer, \
-    LinkComponentsSerializer, SearchProduct
+from api.serializers import (StyledComponentsSerializer, AnimalSerializer, CategoryProductSerializer,
+                             ProductSerializer, CountItemProductSerializer, SaleSerializer, ArticleSerializer,
+                             BrandSerializer, ReviewSerializer, OrderSerializer, LinkComponentsSerializer,
+                             OldOrderForBasketSerializer, SearchProduct)
 from error_management.models import StyledComponents, SetErrorLink, SetErrorDataApiV1
 from main.models import Animal, CategoryProduct, Product, CountItemProduct, Sale, Article, Brand, Review, Order
 from rest_framework.pagination import LimitOffsetPagination
 
-
-# Create your views here.
 
 class StyledComponentsListView(ListAPIView):
     queryset = StyledComponents.objects.filter(is_active=True)
@@ -108,6 +107,7 @@ class CategoryProductsListView(ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class ProductsListView(ListAPIView):
     queryset = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
@@ -346,18 +346,21 @@ class ProductListFilterView(ListAPIView):
         if order[0] == 'price':
             print('price')
             queryset = sorted(Product.objects.filter(**d).select_related('sale',
-                              'category').prefetch_related('countitemproduct_set'),
+                                                                         'category').prefetch_related(
+                'countitemproduct_set'),
                               key=lambda x: x.action_price(),
                               reverse=False)
         elif order[0] == '-price':
             print('-price')
             queryset = sorted(Product.objects.filter(**d).select_related('sale',
-                              'category').prefetch_related('countitemproduct_set'),
+                                                                         'category').prefetch_related(
+                'countitemproduct_set'),
                               key=lambda x: x.action_price(),
                               reverse=True)
         else:
             queryset = Product.objects.filter(**d).order_by(order[0]).select_related('sale',
-                       'category').prefetch_related('countitemproduct_set')
+                                                                                     'category').prefetch_related(
+                'countitemproduct_set')
 
         return queryset
 
@@ -389,10 +392,25 @@ class ProductListFilterView(ListAPIView):
 
 
 class SearchProductView(ListAPIView):
-    serializer_class = SearchProduct
+    serializer_class = ProductSerializer
 
     def get_queryset(self):
         data = self.request.query_params
         queryset = Product.objects.filter(title__icontains=data.get('title'))
 
+        return queryset
+
+
+class NoPagination(PageNumberPagination):
+    def get_paginated_response(self, data):
+        return Response(data)
+
+
+class OldOrderForBasketView(ListAPIView):
+    serializer_class = OldOrderForBasketSerializer
+    pagination_class = NoPagination
+
+    def get_queryset(self):
+        order_id = self.kwargs['order_id']
+        queryset = Order.objects.filter(id=order_id)
         return queryset

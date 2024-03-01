@@ -38,22 +38,26 @@ def send_check_for_mail(order_number, file_url, user):
     email.send()
 
 
-def get_article_for_orders():
+def get_article_for_orders(user_id):
     """Счетчик для артикля заказа"""
-    if Order.objects.last():
-        order = Order.objects.last()
-        number = order.order_number + 1
-    else:
-        number = 1
-
     if ArticleForOrders.objects.last():
         article = ArticleForOrders.objects.last()
         article.article += 1
         article.save()
-        return article.article
     else:
-        article_new = ArticleForOrders(article=number)
-        article_new.save()
-        return article_new.article
+        article = ArticleForOrders(article=1)
+        article.save()
+
+    if Order.objects.last():
+        order_counter = article.article
+        number = f'AN{user_id:03}AA{order_counter:03}'
+        return number
+    else:
+        order_counter = article.article
+        number = f'AN{user_id:03}AA{order_counter:03}'
+        return number
+
+
+
 
 

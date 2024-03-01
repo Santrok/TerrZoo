@@ -6,6 +6,8 @@ filterItem.forEach(item => {
         for(let i of item.children) {
             // i.classList.replace('filter__type-list-item','filter__item-inner')   
             i?.children[1].classList.replace('filter__type-list-item-label','brand__list-item-label')
+            i.classList.replace('filter__type-list-item', 'filter__type-inner-list-item')
+            i.parentElement.classList.add('filter__type-inner-list')
             i?.children[1].classList.add('checkbox__category')
             i?.children[0].classList.add('filter__inner')
             i?.children[0].setAttribute('type', 'checkbox')

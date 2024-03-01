@@ -108,7 +108,8 @@ def get_page_catalog_by_animal(request, animal_id):
     c = set(list(category_by_animals))
     j = []
     for i in list(c):
-        for p in i.get_family().annotate(asd=Count("product__id")):
+        for p in CategoryProduct.objects.add_related_count(i.get_family(), Product, 'category', 'asd',
+                                                           cumulative=True, extra_filters={'animal': animal_id}):
             j.append(p)
     st = list(set(j))
     brands_by_animals = set(list(Brand.objects.filter(product__id__in=products)))
@@ -175,6 +176,7 @@ def login_view(request):
     """Страница с формой авторизации"""
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
+        print(request.POST)
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
@@ -202,6 +204,7 @@ def registration_view(request):
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
+            login(request, user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_url = f"http://127.0.0.1:8000/activate/{uid}/{token}/"
@@ -213,6 +216,8 @@ def registration_view(request):
 
             return redirect('confirm_email')
         else:
+            print(register_form.errors)
+            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
@@ -358,7 +363,7 @@ def get_placing_an_order_page(request):
                             for i in json_obj:
                                 product_list_id.append(i.get('id'))
                             product_list = Product.objects.filter(id__in=product_list_id)
-                            article_for_orders = get_article_for_orders()
+                            article_for_orders = get_article_for_orders(user.id)
                             file_url = get_check_file(request.POST.get('basket'),
                                                       request.POST.get('order_price'),
                                                       user,
@@ -394,7 +399,7 @@ def get_placing_an_order_page(request):
                     for i in json_obj:
                         product_list_id.append(i.get('id'))
                     product_list = Product.objects.filter(id__in=product_list_id)
-                    article_for_orders = get_article_for_orders()
+                    article_for_orders = get_article_for_orders(user.id)
                     order = Order(order_number=article_for_orders,
                                   user=user,
                                   check_order=get_check_file(request.POST.get('basket'),
@@ -426,7 +431,7 @@ def get_placing_an_order_page(request):
 def get_profile_order_page(request):
     """Личный кабинет"""
     orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
-              .filter(user=request.user.id)
+              .filter(user=request.user.id).filter(order_show=True)
               .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
@@ -441,12 +446,7 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    context = {
-
-    }
-    return render(request=request,
-                  template_name='profile_wishlist.html',
-                  context=context)
+    return render(request=request, template_name='profile_wishlist.html')
 
 
 @login_required
@@ -530,28 +530,30 @@ def get_profile_subscriptions_page(request):
 def get_order_details_page(request, order_id):
     '''Отдаем страничку с деталями заказа из личного кабинета'''
     order_details = Order.objects.get(id=order_id)
+    order_details.count = 0
     json_obj = order_details.order_item
-    product_list_id = []
-    weight_list = []
-    product_amount = []
-
+    product_list = []
     for i in json_obj:
-        product_list_id.append(i.get('id'))
-        weight_list.append(i.get('weight')[0])
-        product_amount.append(i.get('count'))
-    product_list = Product.objects.filter(id__in=product_list_id)
-    for p in product_list:
-        print(p.title, p.price)
-    all_products_amount = sum(product_amount)
-
+        product = Product.objects.filter(id=i.get('id'))
+        add_in_product = product[0]
+        add_in_product.weight = i.get('weight')[0]
+        add_in_product.count = i.get('count')
+        order_details.count += i.get('count')
+        product_list.append(add_in_product)
 
     context = {
         'order_details': order_details,
         'product_list': product_list,
-        'weight_list': weight_list,
-        'product_amount': product_amount,
-        'all_products_amount': all_products_amount,
     }
     return render(request=request,
                   template_name='profile_order_details.html',
                   context=context)
+
+
+def delete_profile_order(request, order_id):
+    """Скрываем (удаляем) заказ из списка"""
+    order = Order.objects.get(id=order_id)
+    order.order_show = False
+    order.save()
+
+    return redirect('profile')

@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch(`http://127.0.0.1:8000/api/get_search_product/?title=${searchInput.value}`)
                 .then(resp => resp.json())
                 .then(data => {
-                    
+                    console.log(data.results);
                     localStorage.setItem("result_search_objects", JSON.stringify(data.results))
                     let insertResultData = document.querySelector('.search__drop-down')
                     insertResultData.style.display = 'block'
