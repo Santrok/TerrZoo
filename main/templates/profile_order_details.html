@@ -17,13 +17,15 @@
                     <p>Номер заказа: {{ order_details.order_number }}</p>
                     <p>Дата: {{ order_details.data_create }}</p>
                 </div>
-                <div style="text-align: center">
-                    <p>Статус: {{ order_details.order_status }}</p>
-                    <p>Метод доставки:</p>
-                </div>
-                <div style="text-align: center">
-                    <p>Общая сумма заказа: {{ order_details.total_price }}</p>
-                    <p>Количество товаров: {{ order_details.count }}</p>
+                <div style="display: flex; justify-content: space-around;">
+                    <div style="text-align: center">
+                        <p>Статус: {{ order_details.order_status }}</p>
+                        <p>Метод доставки:</p>
+                    </div>
+                    <div style="text-align: center">
+                        <p>Общая сумма заказа: {{ order_details.total_price }}</p>
+                        <p>Количество товаров: {{ order_details.count }}</p>
+                    </div>
                 </div>
             </div>
             {% for product in product_list %}
@@ -40,8 +42,8 @@
             {% endfor %}
         </div>
         <div class="details__buttons">
-            <a class='button' href="#">Повторить заказ</a>
-            <a class='button' href="#">Удалить заказ</a>
+            <a class='button' href="{% url 'basket' %}" data-json="{{ order_details.id }}">Повторить заказ</a>
+            <a class='button' href="{% url 'profile_delete_order' order_details.id %}">Удалить заказ</a>
             <a class='button' href="#">Распечатать детали заказа</a>
         </div>
     </div>

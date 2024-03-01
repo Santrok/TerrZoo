@@ -362,7 +362,7 @@ def get_placing_an_order_page(request):
                             for i in json_obj:
                                 product_list_id.append(i.get('id'))
                             product_list = Product.objects.filter(id__in=product_list_id)
-                            article_for_orders = get_article_for_orders()
+                            article_for_orders = get_article_for_orders(user.id)
                             file_url = get_check_file(request.POST.get('basket'),
                                                       request.POST.get('order_price'),
                                                       user,
@@ -445,12 +445,7 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    context = {
-
-    }
-    return render(request=request,
-                  template_name='profile_wishlist.html',
-                  context=context)
+    return render(request=request, template_name='profile_wishlist.html')
 
 
 @login_required
@@ -552,3 +547,12 @@ def get_order_details_page(request, order_id):
     return render(request=request,
                   template_name='profile_order_details.html',
                   context=context)
+
+
+def delete_profile_order(request, order_id):
+    """Скрываем (удаляем) заказ из списка"""
+    order = Order.objects.get(id=order_id)
+    order.order_show = False
+    order.save()
+
+    return redirect('profile')

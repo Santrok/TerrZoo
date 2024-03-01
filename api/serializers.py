@@ -78,3 +78,9 @@ class SearchProduct(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'title', 'image_prev']
+
+
+class OldOrderForBasketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['order_item']
