@@ -76,6 +76,10 @@
     font-weight: 400;
     line-height: 20px;
     margin-bottom: 10px;
+    &:focus {
+        border: 2px solid rgb(0, 160, 172);
+        border-radius: 4px;
+    }
 }
 
 #id_new_password1 {
@@ -118,6 +122,7 @@ li {
     font-feature-settings: "clig" off, "liga" off;
     font-family: "SF Pro Text";
     font-size: 14px;
+    padding-bottom: 5px;
 }
 
 .callback__field-item input::-moz-placeholder {

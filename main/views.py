@@ -185,7 +185,7 @@ def login_view(request):
                 login(request, user)
                 return redirect('main')
             else:
-                error_login = 'Неверное имя или пароль!'
+                error_login = 'Неверные логин или пароль! Попробуйте еще раз!'
                 login_form = LoginForm(request.POST)
                 return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
     error_login = ''

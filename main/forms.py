@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
     """Форма авторизации """
     username = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'auth_input', 'placeholder': 'Введите Ваше имя'}),
-        label='Имя')
+        label='Логин')
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'auth_input', 'placeholder': 'Введите пароль'}), label='Пароль')
 
@@ -22,7 +22,7 @@ class RegisterationForm(forms.Form):
     name = forms.CharField(error_messages={'required': 'Не указано контактное лицо'},
                            max_length=50,
                            widget=forms.TextInput(attrs={'class': 'auth_input', 'placeholder': 'Ваше имя'}),
-                           label='Имя',
+                           label='Логин',
                            validators=[validate_username])
     email = forms.CharField(error_messages={'required': 'Не указан адрес электронной почты'},
                             widget=forms.EmailInput(
