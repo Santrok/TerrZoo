@@ -204,7 +204,6 @@ def registration_view(request):
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
-            login(request, user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_url = f"http://127.0.0.1:8000/activate/{uid}/{token}/"
@@ -216,8 +215,6 @@ def registration_view(request):
 
             return redirect('confirm_email')
         else:
-            print(register_form.errors)
-            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
@@ -238,13 +235,15 @@ def activate_user(request, uidb64, token):
         if default_token_generator.check_token(user, token):
             user.is_active = True
             user.save()
-            login(request, user)
-            return redirect('main')
+            return redirect('successful_email')
         else:
             return redirect('register')
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         return redirect('activation_failure')
 
+def successful_email(request):
+    """Страница успешного подтверждения email"""
+    return render(request, 'successful_email_confirmation.html')
 
 def reset_password(request):
     """Страница с формой сброса пароля"""
