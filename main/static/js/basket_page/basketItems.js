@@ -231,6 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
           e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
         ) {
           if (i.count <= 1) {
+            console.log(e.currentTarget);
             e.currentTarget.remove();
             basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
           }
@@ -272,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("basket", JSON.stringify(basket));
           basketList.innerHTML = "";
           initBasketItem();
+          addBasketItemToHover()
           basketItem = document.querySelectorAll(".basket__list-item");
           basketItem.forEach((item) => {
             item.addEventListener("click", (e) => {
@@ -286,6 +288,57 @@ document.addEventListener("DOMContentLoaded", () => {
   basketItem.forEach((item) => {
     item.addEventListener("click", (e) => basketItems(e));
   });
+
+  function addBasketItemToHover() {
+    const basketArray = JSON.parse(localStorage.getItem("basket"));
+    console.log(basketArray);
+    let basketCount = 0;
+    const headerBottomHoverList = document.querySelector('.header__bottom-basket-hover-list')
+    headerBottomHoverList.innerHTML = "";
+    if (basketArray) {
+      for (let i of basketArray) {
+        const li = document.createElement("li");
+        li.classList.add("header__bottom-basket-hover-list-item");
+        li.dataset.id = i.id;
+        basketCount++;
+        li.innerHTML = `
+        <div class="header__bottom-basket-hover-list-item-wrap">
+        <div class="header__bottom-basket-hover-list-item-img">
+            <img src="${i.src}" alt="">
+        </div>
+        <div class="header__bottom-basket-hover-list-item-action">
+            <a href="#" class="header__bottom-basket-hover-list-item-title">
+                ${i.title}
+            </a>
+            <ul class="header__bottom-basket-hover-list-item-weight-list">
+                ${i.weight.map(
+                  (item) =>
+                    `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
+                )}
+            </ul>
+        </div>
+        <div class="header__bottom-basket-hover-list-item-quantity">
+            <div class="header__bottom-basket-hover-list-item-quantity-wrap">
+                <button type="button" class="minus">
+                    -
+                </button>
+                <div>
+                    ${i.count}
+                </div>
+                <button type="button" class="plus">
+                    +
+                </button>
+            </div>
+            <p>
+                ${(Math.floor(i.price * 100) / 100).toFixed(2)} BYN
+            </p>
+        </div>
+    </div>
+    `;
+        headerBottomHoverList.append(li);
+      }
+    }
+  }
 });
 
 
