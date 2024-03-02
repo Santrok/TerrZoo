@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             let insertResultData = document.querySelector('.search__drop-down')
             insertResultData.style.display = 'none'
-            insertResultData.innerHTML = ''
+            insertResultData.innerHTML = 'Ничего не найдено'
         }
     }
 })
