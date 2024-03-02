@@ -6,39 +6,41 @@ document.addEventListener("DOMContentLoaded", () => {
   let countPagination = 0;
 
   function productPaginationListFunc(e) {
-    if(e.currentTarget.children[0].textContent.trim() === 'Следующая') {
-      if(localStorage.getItem('nextPageCatalog') !== null) {
-          for(let i of paginationList.children) {
-              i.classList.remove('products__pagination-list-item-active')
-          }
-          paginationList.children[++countPagination - 1].classList.add('products__pagination-list-item-active')
-          fetchProduct(localStorage.getItem('nextPageCatalog'));
+    if (e.currentTarget.children[0].textContent.trim() === "Следующая") {
+      if (localStorage.getItem("nextPageCatalog") !== null) {
+        for (let i of paginationList.children) {
+          i.classList.remove("products__pagination-list-item-active");
+        }
+        paginationList.children[++countPagination - 1].classList.add("products__pagination-list-item-active");
+        fetchProduct(localStorage.getItem("nextPageCatalog"));
       }
-  }else {
-      if(localStorage.getItem('previousPageCatalog') !== null) {
-          for(let i of paginationList.children) {
-              i.classList.remove('products__pagination-list-item-active')
-          }
-          paginationList.children[--countPagination - 1].classList.add('products__pagination-list-item-active')
-          fetchProduct(localStorage.getItem('previousPageCatalog'));
+    } else {
+      if (localStorage.getItem("previousPageCatalog") !== null) {
+        for (let i of paginationList.children) {
+          i.classList.remove("products__pagination-list-item-active");
+        }
+        paginationList.children[--countPagination - 1].classList.add("products__pagination-list-item-active");
+        fetchProduct(localStorage.getItem("previousPageCatalog"));
       }
-  }
-  window.scrollBy({
+    }
+    window.scrollBy({
       top: product_list.getBoundingClientRect().top - 120,
-      behavior: 'smooth'
-  })
+      behavior: "smooth",
+    });
   }
 
   productPaginationList.forEach((item) => {
     item.addEventListener("click", (e) => {
-      productPaginationListFunc(e)
+      productPaginationListFunc(e);
     });
   });
 
   function renderProduct(data) {
     product_list.innerHTML = "";
     for (let i of data.results) {
-      product_list.innerHTML += `
+      const li = document.createElement("li");
+      li.classList.add("products__list-item");
+      li.innerHTML += `
                                     <article class="products___item" data-id="${i.id}">
                                                  <div class="products___item-img">
                                                      <img src="${i.image_prev}" alt="item" />
@@ -52,7 +54,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                                          ${i.countitemproduct_set
                                                            ?.map(
                                                              (item) =>
-                                                               `<li class="slider__item-weight-list-item" data-weight-id="${item.id}" data-weight-price="${(item.percent / 100) * parseFloat((100 - i.sale.percent) / 100 * parseFloat(i.price))}">${item.value} <span>${item.unit}</span></li>`
+                                                               `<li class="slider__item-weight-list-item" data-weight-id="${
+                                                                 item.id
+                                                               }" data-weight-price="${
+                                                                 (item.percent / 100) *
+                                                                 parseFloat(
+                                                                   ((100 - i.sale.percent) / 100) * parseFloat(i.price)
+                                                                 )
+                                                               }">${item.value} <span>${item.unit}</span></li>`
                                                            )
                                                            .join("")}
                                                  </ul>
@@ -137,6 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 </div>
                                              </article>
                                  `;
+      product_list.append(li);
     }
   }
 
@@ -152,18 +162,20 @@ document.addEventListener("DOMContentLoaded", () => {
       paginationListItem[0].classList.add("products__pagination-list-item-active");
       paginationListItem.forEach((item) => {
         item.addEventListener("click", (e) => {
-            paginationListItem.forEach((removeClassEl) => {
-                removeClassEl.classList.remove("products__pagination-list-item-active");
-            })
+          paginationListItem.forEach((removeClassEl) => {
+            removeClassEl.classList.remove("products__pagination-list-item-active");
+          });
           e.currentTarget.classList.add("products__pagination-list-item-active");
           product_list.innerHTML = "";
           let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
-          fetchProduct(`http://127.0.0.1:8000/api/get_products_filter/?page=${e.currentTarget.textContent.trim()}&order=${orderStr}`);
+          fetchProduct(
+            `http://127.0.0.1:8000/api/get_products_filter/?page=${e.currentTarget.textContent.trim()}&order=${orderStr}`
+          );
           window.scrollBy({
             top: product_list.getBoundingClientRect().top - 120,
-            behavior: 'smooth'
-        })
-          countPagination = +e.currentTarget.textContent.trim()
+            behavior: "smooth",
+          });
+          countPagination = +e.currentTarget.textContent.trim();
         });
       });
     }
@@ -173,8 +185,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
-        localStorage.setItem('nextPageCatalog', data.next)
-        localStorage.setItem('previousPageCatalog', data.previous)
+        localStorage.setItem("nextPageCatalog", data.next);
+        localStorage.setItem("previousPageCatalog", data.previous);
         renderProduct(data);
         if (paginationList.children.length === 0) {
           paginationProduct(data);
@@ -182,5 +194,5 @@ document.addEventListener("DOMContentLoaded", () => {
         return data;
       });
   }
-  fetchProduct(`http://127.0.0.1:8000/api/get_products_list/`)
+  fetchProduct(`http://127.0.0.1:8000/api/get_products_list/`);
 });

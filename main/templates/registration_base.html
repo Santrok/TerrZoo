@@ -52,7 +52,7 @@
                                     Указать свой вес
                                 </h4>
                                 <div class="buy__one-click-list-item-wrap-weight">
-                                    <input type="text" name="weight" id="" placeholder="Укажите вес">
+                                    <input type="text" name="weight" placeholder="Укажите вес">
                                     <button type="button">
                                         Применить
                                     </button>
@@ -85,13 +85,13 @@
                             <h3 class="buy__one-click-list-item-field-title">
                                 Имя
                             </h3>
-                            <input type="text" name="name" id="" placeholder="Иванов Иван Иванович">
+                            <input type="text" name="name" placeholder="Иванов Иван Иванович">
                         </div>
                         <div class="buy__one-click-list-item-field">
                             <h3 class="buy__one-click-list-item-field-title">
                                 Номер телефона
                             </h3>
-                            <input type="text" name="name" id="" placeholder="+375 ___-__-__">
+                            <input type="text" name="name" placeholder="+375 ___-__-__">
                         </div>
                     </div>
                     <button class="button">
@@ -153,7 +153,7 @@
                                             />
                                         </svg>
                                     </div>
-                                    <input type="text" name="search" id="" placeholder="Search" />
+                                    <input type="text" name="search" placeholder="Search" />
                                 </search>
                                 <ul class="header__up-link-list">
                                     <li class="header__up-list-item">
@@ -324,9 +324,13 @@
                             <button class="header__up-button" type="button">Обратный звонок</button>
                             <div class="header__up-login-button">
                                 {% if user.is_authenticated %}
-                                <a href="{% url 'logout' %}">Выйти</a>
+                                <a href="{% url 'logout' %}">
+                                    <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                </a>
                                 {% else %}
-                                <a href="{% url 'login' %}">Войти</a>
+                                <a href="{% url 'login' %}">
+                                    <img src="{% static 'icons/singIn.svg' %}" alt="">
+                                </a>
                                 {% endif %}
                             </div>
                         </div>
@@ -644,10 +648,10 @@
     <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script defer src="{% static 'js/main_page/slick.min.js' %}"></script>
     <script defer src="{% static 'js/main_page/slider.js' %}"></script>
-    <script async src="{% static 'js/main_page/set_bugs.js' %}"></script>
-    <script async src="{% static 'js/main_page/modals.js' %}"></script>
-    <script async src="{% static 'js/main_page/basket.js' %}"></script>
-    <script async src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
+    <script defer src="{% static 'js/main_page/set_bugs.js' %}"></script>
+    <script defer src="{% static 'js/main_page/modals.js' %}"></script>
+    <script defer src="{% static 'js/main_page/basket.js' %}"></script>
+    <script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
     {% block js %}
     {% endblock %}
 </body>

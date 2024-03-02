@@ -185,7 +185,7 @@ def login_view(request):
                 login(request, user)
                 return redirect('main')
             else:
-                error_login = 'Неверное имя или пароль!'
+                error_login = 'Неверные логин или пароль! Попробуйте еще раз!'
                 login_form = LoginForm(request.POST)
                 return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
     error_login = ''
@@ -398,7 +398,7 @@ def get_placing_an_order_page(request):
                     for i in json_obj:
                         product_list_id.append(i.get('id'))
                     product_list = Product.objects.filter(id__in=product_list_id)
-                    article_for_orders = get_article_for_orders()
+                    article_for_orders = get_article_for_orders(user.id)
                     order = Order(order_number=article_for_orders,
                                   user=user,
                                   check_order=get_check_file(request.POST.get('basket'),
@@ -431,6 +431,7 @@ def get_profile_order_page(request):
     """Личный кабинет"""
     orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
               .filter(user=request.user.id)
+              .filter(order_show=True)
               .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
@@ -555,5 +556,4 @@ def delete_profile_order(request, order_id):
     order = Order.objects.get(id=order_id)
     order.order_show = False
     order.save()
-
-    return redirect('profile')
+    return redirect('profile_orders')

@@ -307,7 +307,8 @@
   gap: 5px;
   cursor: pointer;
 }
-.promotional__item-label div {
+
+.promotional__indicator {
   width: 18px;
   height: 18px;
   box-sizing: border-box;
@@ -347,23 +348,16 @@
   gap: 8px;
   cursor: pointer;
 }
-.filter__type-list-item-label p {
-  color: rgb(32, 34, 35);
-  font-family: SF Pro Text;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0px;
-}
 
-.filter__type-list-item-label div {
+.filter__type-indicator{
   width: 20px;
   height: 20px;
   border-radius: 50%;
   border: 2px solid rgb(140, 145, 150);
   position: relative;
 }
-.filter__type-list-item-label div::before {
+
+.filter__type-indicator::before{
   content: "";
   display: none;
   position: absolute;
@@ -375,30 +369,55 @@
   left: 3px;
 }
 
+.filter__type-list-item-label p {
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Text;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+}
+
 .filter__type-list-item-hide {
   display: none;
 }
-
 .filter__type-list-item ul {
   padding-left: 20px;
   margin-top: 5px;
-  display: none;
+  /* display: none; */
+}
+
+.filter__type-list-item ul li div div {
+  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(140, 145, 150);
+  position: relative;
+}
+
+.filter__indicator {
+  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(140, 145, 150);
+  position: relative;
 }
 
 .filter__type-list-item-hide:checked ~ .filter__type-list {
   display: flex;
 }
 
-.filter__type-list-item-hide:checked ~ .filter__type-list-item-label div {
+.filter__type-list-item-active {
   border: 2px solid rgb(0, 128, 96);
 }
-.filter__type-list-item-hide:checked ~ .filter__type-list-item-label div::before {
+
+.filter__type-list-item-active::before {
   display: block;
 }
 
 .filter__inner:checked ~ .brand__list-item-label div {
   background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
-  border: none; 
+  border: none;
 }
 
 .filter__brand {
@@ -464,16 +483,13 @@
   gap: 13px;
 }
 
-.brand__list-item input {
-  display: none;
-}
-
 .brand__list-item-label {
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
 }
+
 .brand__list-item-label p {
   color: rgb(32, 34, 35);
   font-family: SF Pro Text;
@@ -482,7 +498,8 @@
   line-height: 20px;
   letter-spacing: 0px;
 }
-.brand__list-item-label div {
+
+.brand__list-item-indicator {
   width: 20px;
   height: 20px;
   border: 2px solid rgb(140, 145, 150);
@@ -493,7 +510,8 @@
 .brand__type-list-item-hide {
   display: none;
 }
-.brand__type-list-item-hide:checked ~ .brand__list-item-label div {
+
+.brand__list-item-label-active{
   background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
   border: none;
 }
@@ -1097,4 +1115,9 @@
 .filter__item-active-aside {
   background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
   border: none !important;
+}
+
+.promotional__item-active {
+  background: url(../../img/icons/arrow.svg) no-repeat center, rgb(0, 128, 96);
+  border: none ;
 }
