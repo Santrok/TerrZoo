@@ -190,3 +190,15 @@ p {
     font-size: 1rem;
     line-height: 1.5;
 }
+
+.remember_class {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#remember_id {
+    width: auto;
+    margin-bottom: 0;
+}

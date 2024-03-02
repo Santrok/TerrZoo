@@ -180,6 +180,13 @@ def login_view(request):
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
+
+            remember_me = request.POST.get('remember_me', False)
+            if remember_me:
+                request.session.set_expiry(None)
+            else:
+                request.session.set_expiry(1800)
+
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
