@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target?.classList?.value[0] === e.target?.previousElementSibling?.classList?.value[0] ||
       e.target?.classList?.value[0] === e.target?.nextElementSibling?.classList?.value[0]
     ) {
+      console.log(e.target.parentElement);
       toggleOuter(e);
       toggleInner(e);
       toggleBrand(e);
