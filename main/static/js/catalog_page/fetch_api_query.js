@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   let count = 0;
-  function paginationFunc(data, url) {
+  function paginationFunc(data) {
     if (data) {
       const paginationList = document.querySelector(".products__pagination-list");
       paginationList.innerHTML = "";
@@ -100,14 +100,14 @@ document.addEventListener("DOMContentLoaded", () => {
         paginationList.append(li);
       }
       const paginationListItem = document.querySelectorAll(".products__pagination-list-item");
-      if(data.previous !== null) {
-        if(localStorage.getItem('nextPageCatalog') === 'null') {
-          count = data?.previous[data.previous.length - 1]
-        }else {
-          count = data.next[data?.next?.length-1] - 2
+      if (data.previous !== null) {
+        if (localStorage.getItem("nextPageCatalog") === "null") {
+          count = data?.previous[data.previous.length - 1];
+        } else {
+          count = data.next[data?.next?.length - 1] - 2;
         }
-      }else {
-        count = 0
+      } else {
+        count = 0;
       }
       paginationListItem[count].classList.add("products__pagination-list-item-active");
       if (paginationListItem.length > 1) {
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("previousPageCatalog") === "null") return;
     filterFetch(localStorage.getItem("previousPageCatalog"));
   }
-  
+
   function nextPageAction() {
     if (localStorage.getItem("nextPageCatalog") === "null") return;
     filterFetch(localStorage.getItem("nextPageCatalog"));
@@ -262,4 +262,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
   filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
+  const catalogSortSelect = document.querySelectorAll(".catalog__sort-select-list-item");
+  
+  catalogSortSelect.forEach((item) => {
+    item.addEventListener("click", () => {
+      let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+      filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
+    });
+  });
 });
+

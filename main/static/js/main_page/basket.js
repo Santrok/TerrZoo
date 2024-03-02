@@ -234,10 +234,13 @@ addEventListener("DOMContentLoaded", () => {
         if (
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].classList.contains(
             "slider___item-price-promotion"
+          ) ||
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].classList.contains(
+            "products___item-price-promotion"
           )
         ) {
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent =
-            e.currentTarget.dataset.weightPrice;
+            parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2);
         } else {
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].textContent =
             parseFloat(e.currentTarget.dataset.weightPrice).toFixed(2);
