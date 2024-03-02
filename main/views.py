@@ -431,6 +431,7 @@ def get_profile_order_page(request):
     """Личный кабинет"""
     orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
               .filter(user=request.user.id)
+              .filter(order_show=True)
               .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
@@ -554,5 +555,4 @@ def delete_profile_order(request, order_id):
     order = Order.objects.get(id=order_id)
     order.order_show = False
     order.save()
-
-    return redirect('profile')
+    return redirect('profile_orders')
