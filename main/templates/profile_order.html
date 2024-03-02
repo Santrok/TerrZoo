@@ -12,102 +12,101 @@
 
 {% block profile_content %}
     <section class="user__data">
-            <div class="promotions__wrap">
-                <div class="pay__card__title-wrap">
-                    <h2 class="pay__card__title">Пластиковые карты</h2>
-                </div>
-                <ul class="pay__card__list">
-                    {% for pay_card in pay_cards %}
-                        <fieldset class="pay__card-item">
-                            <div class="numder_paycard">
-                                <div class="input_item_active_num_paycard">
-                                    <p>{{ pay_card.card_number|slice:"0:4" }}</p>
-                                </div>
-                                <div class="input_item_active_num_paycard">
-                                    <p>{{ pay_card.card_number|slice:"4:8" }}</p>
-                                </div>
-                                <div class="input_item_active_num_paycard">
-                                    <p>{{ pay_card.card_number|slice:"8:12" }}</p>
-                                </div>
-                                <div class="input_item_active_num_paycard">
-                                    <p>{{ pay_card.card_number|slice:"12:16" }}</p>
-                                </div>
-                            </div>
-                            <div>
-                                <p>Баланс: {{ pay_card.balance }}</p>
-                            </div>
-                            <div class="date_CVV_paycard">
-                                <div class="input_item_active_date_paycard">
-                                    <p>{{ pay_card.expiration_date }}</p>
-                                </div>
-                                <div class="input_item_active_CVV_paycard">
-                                    <p>{{ pay_card.cvc }}</p>
-                                </div>
-                            </div>
-                        </fieldset>
-                    {% endfor %}
-                </ul>
+        <div class="promotions__wrap">
+            <div class="pay__card__title-wrap">
+                <h2 class="pay__card__title">Пластиковые карты</h2>
             </div>
+            <ul class="pay__card__list">
+                {% for pay_card in pay_cards %}
+                    <fieldset class="pay__card-item">
+                        <div class="numder_paycard">
+                            <div class="input_item_active_num_paycard">
+                                <p>{{ pay_card.card_number|slice:"0:4" }}</p>
+                            </div>
+                            <div class="input_item_active_num_paycard">
+                                <p>{{ pay_card.card_number|slice:"4:8" }}</p>
+                            </div>
+                            <div class="input_item_active_num_paycard">
+                                <p>{{ pay_card.card_number|slice:"8:12" }}</p>
+                            </div>
+                            <div class="input_item_active_num_paycard">
+                                <p>{{ pay_card.card_number|slice:"12:16" }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Баланс: {{ pay_card.balance }}</p>
+                        </div>
+                        <div class="date_CVV_paycard">
+                            <div class="input_item_active_date_paycard">
+                                <p>{{ pay_card.expiration_date }}</p>
+                            </div>
+                            <div class="input_item_active_CVV_paycard">
+                                <p>{{ pay_card.cvc }}</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                {% endfor %}
+            </ul>
+        </div>
         </div>
     </section>
     <section class="article">
         <div class="article__wrap">
             <div class="article__title">
-                <div class="container">
-                    <div class="article__title-wrap">
-                        <h2 class="pay__card__title">История заказов</h2>
-                        {% for order in orders %}
-                            <div class="article__title-wrap-order">
-                                <div class="article__title-wrap-order-item-button">
-                                    <a href="{% url 'basket' %}" class="button" data-json="{{ order.id }}">Повторить заказ</a>
-                                    <a href="{% url 'order_details' order.id %}" class="button">Детали заказа</a>
-                                </div>
-                                <div class="article__title-wrap-order-item">
-                                    <h2>Номер заказа: {{ order.order_number }}</h2>
-                                    <h3>Статус: <b><i>{{ order.order_status }}</i></b></h3>
-                                    <h3>Продукты:</h3>
-                                    <div>
+                <div class="article__title-wrap">
+                    <h2 class="pay__card__title">История заказов</h2>
+                    {% for order in orders %}
+                        <div class="article__title-wrap-order">
+                            <div class="article__title-wrap-order-item-button">
+                                <a href="{% url 'basket' %}" class="button" data-json="{{ order.id }}">Повторить
+                                    заказ</a>
+                                <a href="{% url 'order_details' order.id %}" class="button">Детали заказа</a>
+                            </div>
+                            <div class="article__title-wrap-order-item">
+                                <h2>Номер заказа: {{ order.order_number }}</h2>
+                                <h3>Статус: <b><i>{{ order.order_status }}</i></b></h3>
+                                <h3>Продукты:</h3>
+                                <div>
                                     {% for prod in order.products.all %}
                                         <li class="article__order-item">{{ forloop.counter }}. {{ prod.title }}</li>
                                     {% endfor %}
-                                    </div>
-                                    <p class="order-item-time">Время заказа: {{ order.data_create }}</p>
-                                    <p class="order-item-time">Сумма заказа: {{ order.total_price }}</p>
                                 </div>
-                                <div class="article__title-wrap-order-card">
-                                    {% if order.pay_card %}
-                                        <div class="article__title-wrap-order-card-item">
-                                            <div>
-                                                <p>Номер карты:</p>
-                                                <div class="numder_paycard">
-                                                    <div class="input_item_active_num_paycard">
-                                                        <p>{{ order.pay_card.card_number|slice:"0:4" }}</p>
-                                                    </div>
-                                                    <div class="input_item_active_num_paycard">
-                                                        <p>{{ order.pay_card.card_number|slice:"4:8" }}</p>
-                                                    </div>
-                                                    <div class="input_item_active_num_paycard">
-                                                        <p>{{ order.pay_card.card_number|slice:"8:12" }}</p>
-                                                    </div>
-                                                    <div class="input_item_active_num_paycard">
-                                                        <p>{{ order.pay_card.card_number|slice:"12:16" }}</p>
-                                                    </div>
+                                <p class="order-item-time">Время заказа: {{ order.data_create }}</p>
+                                <p class="order-item-time">Сумма заказа: {{ order.total_price }}</p>
+                            </div>
+                            <div class="article__title-wrap-order-card">
+                                {% if order.pay_card %}
+                                    <div class="article__title-wrap-order-card-item">
+                                        <div>
+                                            <p>Номер карты:</p>
+                                            <div class="numder_paycard">
+                                                <div class="input_item_active_num_paycard">
+                                                    <p>{{ order.pay_card.card_number|slice:"0:4" }}</p>
+                                                </div>
+                                                <div class="input_item_active_num_paycard">
+                                                    <p>{{ order.pay_card.card_number|slice:"4:8" }}</p>
+                                                </div>
+                                                <div class="input_item_active_num_paycard">
+                                                    <p>{{ order.pay_card.card_number|slice:"8:12" }}</p>
+                                                </div>
+                                                <div class="input_item_active_num_paycard">
+                                                    <p>{{ order.pay_card.card_number|slice:"12:16" }}</p>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <p>Владелец:</p>
-                                                <p>{{ order.user.first_name }} {{ order.user.last_name }}</p>
-                                            </div>
                                         </div>
-                                    {% else %}
-                                        <div class="article__title-wrap-order-card-item">
-                                            <p>Оплата наличными в пункте самовывоза</p>
+                                        <div>
+                                            <p>Владелец:</p>
+                                            <p>{{ order.user.first_name }} {{ order.user.last_name }}</p>
                                         </div>
-                                    {% endif %}
-                                </div>
+                                    </div>
+                                {% else %}
+                                    <div class="article__title-wrap-order-card-item">
+                                        <p>Оплата наличными в пункте самовывоза</p>
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% endfor %}
-                    </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

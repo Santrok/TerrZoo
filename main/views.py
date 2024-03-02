@@ -537,6 +537,7 @@ def get_order_details_page(request, order_id):
         add_in_product = product[0]
         add_in_product.weight = i.get('weight')[0]
         add_in_product.count = i.get('count')
+        add_in_product.sumPrice = i.get('price')
         order_details.count += i.get('count')
         product_list.append(add_in_product)
 

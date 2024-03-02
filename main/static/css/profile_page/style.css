@@ -137,7 +137,7 @@ main h3 {
 
 .body__content {
     display: flex;
-    /*justify-content: space-between;*/
+    justify-content: space-between;
     gap: 20px;
     border-top: 1px solid #d2d5d8;
     padding: 20px 0;
@@ -274,10 +274,11 @@ main h3 {
     gap: 20px;
 }
 
-.comparison__title, .wishlist__title {
+.comparison__title, .wishlist__title, .pay__card__title, .details__list__about__order__title {
     display: flex;
     justify-content: center;
-    /*padding-left: 350px;*/
+    flex-direction: column;
+    text-align: center;
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(34, 60, 80, 0.2);
 
@@ -292,9 +293,8 @@ main h3 {
 }
 
 .product__list {
-    height: 1200px;
     display: flex;
-    gap: 16px 0;
+    gap: 16px 20px;
 }
 
 .product__list-item {
@@ -304,7 +304,6 @@ main h3 {
     background: #fff;
     gap: 10px;
     transition: 0.2s;
-    height: 1200px;
     width: 250px;
 }
 
@@ -322,7 +321,7 @@ main h3 {
 
 .product__item-title {
     display: flex;
-    flex: 0 1 100px;
+    flex: 0 1 110px;
     padding-bottom: 20px;
     font-family: "SF Pro Text";
     font-size: 15px;
@@ -345,7 +344,8 @@ main h3 {
 }
 
 .product__item-compound, .product__item-supplements {
-    height: 300px;
+    display: flex;
+    flex: 0 1 250px;
     margin-right: 10px;
     padding-left: 5px;
 }
@@ -356,7 +356,7 @@ main h3 {
 
 .user__data-from-wrap {
     display: flex;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     justify-content: space-around;
     gap: 20px;
 }
@@ -433,7 +433,6 @@ main h3 {
     align-items: center;
     font-family: SF Pro Text;
     color: white;
-    /*font-size: smaller;*/
 }
 
 .save__login-button {
@@ -454,69 +453,93 @@ main h3 {
 }
 
 /*Стили для страниц подписки и просмотренное, после разработки удалить!*/
-.cat__developer{
+.cat__developer {
     margin-left: 200px;
 }
 
-.not_auth{
-    max-width:600px;
-    max-height:500px;
+.not_auth {
+    max-width: 600px;
+    max-height: 500px;
 }
-.not_auth img{
-    width:100%;
-    height:100%;
+
+.not_auth img {
+    width: 100%;
+    height: 100%;
 }
-.not_auth_link{
-  display:flex;
-  justify-content:center;
+
+.not_auth_link {
+    display: flex;
+    justify-content: center;
 }
 
 .details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    width: 100%;
 }
 
 .details__list__about__order {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
-    gap: 15px;
-    border-radius: 8px;
+    gap: 10px;
+}
+
+.details__list__about__order__common {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: start;
     background: rgb(0, 160, 172);
     padding: 10px 10px;
+
+    & div p {
+        font-family: SF Pro Text;
+        font-size: 16px;
+        color: white;
+        line-height: 20px;
+        padding: 4px;
+    }
 }
 
 .details__list__about__products {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 20px;
-    width: 100%;
 }
 
-.details__list__about__products-title {
-    display: flex;
-    gap: 10px;
-    /*flex-direction    : column;*/
+table {
+    border-collapse: collapse;
+}
+
+th {
+    font-family: SF Pro Text;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgb(0, 160, 172);
+    border-bottom: 2px solid rgb(0, 160, 172);
+    padding: 20px 10px;
+}
+
+td {
+    text-align: center;
+    font-family: SF Pro Text;
+    color: #669;
+    padding: 10px 10px;
+    transition: .3s linear;
+}
+
+tr:hover td {
+    color: #6699ff;
 }
 
 .details__list__about__products-img {
     display: flex;
     max-height: 100%;
     max-width: 100%;
+    padding: 5px;
 
     & img {
         height: 100px;
         width: 100px;
-    }
-}
-
-.details__list__about__products-weight {
-    display: flex;
-    flex-direction: column;
-
-    & p {
-        padding: 0 0 120px 50px;
     }
 }
 
