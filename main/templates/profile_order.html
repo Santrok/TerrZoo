@@ -59,7 +59,7 @@
                         {% for order in orders %}
                             <div class="article__title-wrap-order">
                                 <div class="article__title-wrap-order-item-button">
-                                    <a href="{% url 'basket' %}" class="button" id="add_old_order_for_basket" data-json="{{ order.id }}">Повторить заказ</a>
+                                    <a href="{% url 'basket' %}" class="button add_old_order_for_basket" data-json="{{ order.id }}">Повторить заказ</a>
                                     <a href="{% url 'order_details' order.id %}" class="button">Детали заказа</a>
                                 </div>
                                 <div class="article__title-wrap-order-item">
