@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (paginationListItem.length > 1) {
         for (let i of paginationListItem) {
           i.addEventListener("click", (e) => {
-            console.log(e.target);
+            filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?animal__in=2&order=price&page=${e.target.textContent.trim()}`);
           });
         }
       }
