@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         count = 0;
       }
-      paginationListItem[count].classList.add("products__pagination-list-item-active");
+      paginationListItem[count]?.classList?.add("products__pagination-list-item-active");
       if (paginationListItem.length > 1) {
         for (let i of paginationListItem) {
           i.addEventListener("click", (e) => {
