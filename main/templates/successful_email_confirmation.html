@@ -1,0 +1,12 @@
+{% extends 'registration_base.html'%} {% load static %} {% block content %}
+<div class="page_wrapper">
+    <div class="reset_done_message">
+        <h4 class="alert-heading">Электронная почта подтверждена</h4>
+        <p>Ваш адрес электронной почты успешно подтвержден. Спасибо за регистрацию!</p>
+        <p>Можете <a href="{% url 'login' %}">войти</a> в свой аккаунт!</p>
+    </div>
+    <div class="img_wrap">
+        <img src="{% static '/img/collcat.png' %}" alt="" />
+    </div>
+</div>
+{% endblock %}

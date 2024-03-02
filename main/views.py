@@ -185,7 +185,7 @@ def login_view(request):
                 login(request, user)
                 return redirect('main')
             else:
-                error_login = 'Неверное имя или пароль!'
+                error_login = 'Неверные логин или пароль! Попробуйте еще раз!'
                 login_form = LoginForm(request.POST)
                 return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
     error_login = ''
@@ -204,7 +204,6 @@ def registration_view(request):
             user.set_password(register_form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
-            login(request, user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_url = f"http://127.0.0.1:8000/activate/{uid}/{token}/"
@@ -216,8 +215,6 @@ def registration_view(request):
 
             return redirect('confirm_email')
         else:
-            print(register_form.errors)
-            print(register_form.cleaned_data)
             register_form = RegisterationForm(request.POST)
             return render(request, 'registration.html', {"register_form": register_form})
     else:
@@ -238,13 +235,15 @@ def activate_user(request, uidb64, token):
         if default_token_generator.check_token(user, token):
             user.is_active = True
             user.save()
-            login(request, user)
-            return redirect('main')
+            return redirect('successful_email')
         else:
             return redirect('register')
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         return redirect('activation_failure')
 
+def successful_email(request):
+    """Страница успешного подтверждения email"""
+    return render(request, 'successful_email_confirmation.html')
 
 def reset_password(request):
     """Страница с формой сброса пароля"""
@@ -363,7 +362,7 @@ def get_placing_an_order_page(request):
                             for i in json_obj:
                                 product_list_id.append(i.get('id'))
                             product_list = Product.objects.filter(id__in=product_list_id)
-                            article_for_orders = get_article_for_orders()
+                            article_for_orders = get_article_for_orders(user.id)
                             file_url = get_check_file(request.POST.get('basket'),
                                                       request.POST.get('order_price'),
                                                       user,
@@ -399,7 +398,7 @@ def get_placing_an_order_page(request):
                     for i in json_obj:
                         product_list_id.append(i.get('id'))
                     product_list = Product.objects.filter(id__in=product_list_id)
-                    article_for_orders = get_article_for_orders()
+                    article_for_orders = get_article_for_orders(user.id)
                     order = Order(order_number=article_for_orders,
                                   user=user,
                                   check_order=get_check_file(request.POST.get('basket'),
@@ -446,12 +445,7 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    context = {
-
-    }
-    return render(request=request,
-                  template_name='profile_wishlist.html',
-                  context=context)
+    return render(request=request, template_name='profile_wishlist.html')
 
 
 @login_required
@@ -553,3 +547,12 @@ def get_order_details_page(request, order_id):
     return render(request=request,
                   template_name='profile_order_details.html',
                   context=context)
+
+
+def delete_profile_order(request, order_id):
+    """Скрываем (удаляем) заказ из списка"""
+    order = Order.objects.get(id=order_id)
+    order.order_show = False
+    order.save()
+
+    return redirect('profile')

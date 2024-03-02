@@ -4,12 +4,12 @@ from django.urls import path, reverse_lazy
 
 from main.views import (get_page, login_view, registration_view, logout_view, reset_password, get_basket_page,
                         get_page_catalog, get_details, get_page_catalog_by_animal, get_articles_page, activate_user,
-                        confirm_email,
-                        get_brands_page, get_article_by_article_id, get_article_by_animals_id, get_promotions_page,
-                        search_catalog,
-                        get_placing_an_order_page, get_profile_page_data_user, get_profile_order_page,
+                        confirm_email, get_brands_page, get_article_by_article_id, get_article_by_animals_id,
+                        get_promotions_page, search_catalog, get_placing_an_order_page, get_profile_order_page,
                         get_profile_wishlist_page, get_profile_comparisonlist_page, get_profile_page_data_user,
-                        get_order_details_page, get_profile_viewed_products_page, get_profile_subscriptions_page)
+                        get_order_details_page, get_profile_viewed_products_page, get_profile_subscriptions_page,
+                        delete_profile_order, get_order_details_page, get_profile_viewed_products_page, get_profile_subscriptions_page,
+                        successful_email)
 
 urlpatterns = [
     path('', get_page, name='main'),
@@ -42,6 +42,7 @@ urlpatterns = [
         template_name='password_reset_complete.html'), name='password_reset_complete'),
     path('articles/', get_articles_page, name='articles'),
     path('activate/<str:uidb64>/<str:token>/', activate_user, name='activate'),
+    path('successful_email/', successful_email, name='successful_email'),
     path('confirm_email/', confirm_email, name='confirm_email'),
     path('brands/', get_brands_page, name='brands'),
     path('article/<int:article_id>', get_article_by_article_id, name='article_by_id'),
@@ -51,8 +52,9 @@ urlpatterns = [
     path('wishlist/', get_profile_wishlist_page, name='wishlist'),
     path('comparisonlist/', get_profile_comparisonlist_page, name='comparisonlist'),
     path('profile_data_user/', get_profile_page_data_user, name='profile_data_user'),
-    path('profile/', get_profile_order_page, name='profile'),
+    path('profile_orders/', get_profile_order_page, name='profile_orders'),
     path('order_details/<int:order_id>/', get_order_details_page, name='order_details'),
     path('viewed_products/', get_profile_viewed_products_page, name='viewed_products'),
     path('subscriptions/', get_profile_subscriptions_page, name='subscriptions'),
+    path('profile_delete_order/<int:order_id>/', delete_profile_order, name='profile_delete_order'),
 ]

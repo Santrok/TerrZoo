@@ -177,6 +177,9 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
+# Password reset link lifetime=====================
+PASSWORD_RESET_TIMEOUT = 3600
+
 # CKEditor==============
 
 customColorPalette = [
