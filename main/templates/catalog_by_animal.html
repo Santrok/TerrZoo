@@ -180,8 +180,8 @@
                 {% for brand in brands %}
                 <li class="brand__list-item">
                   <div class="brand__list-item-label">
-                    <div class="brand__list-item-indicator" data-brand="{{ brand.id }}"></div>
-                    <p>{{ brand.name }}</p>
+                    <div class="{{brand.id}} brand__list-item-indicator" data-brand="{{ brand.id }}"></div>
+                    <p class="{{ brand.id }}" data-brand="{{ brand.id }}">{{ brand.name }}</p>
                   </div>
                 </li>
                 {% endfor %}
