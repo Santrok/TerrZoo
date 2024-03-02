@@ -6,49 +6,144 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   let queryStr = ``;
   catalogFilter.addEventListener("click", (e) => {
-    if (e?.target?.classList?.contains("checked__div") || e?.target.tagName === "P") {
-      if (e.target.parentElement.parentElement.classList.contains("filter__type-list-item")) {
-        if (e.target.parentElement.parentElement.children[2]) {
-          const filterInner = document.querySelectorAll(".filter__inner");
-          for (let i of filterInner) {
-            i.checked = false;
-          }
-          for (let i of e.target.parentElement.parentElement.children[2].children) {
-            i.children[0].checked = true;
-          }
-        } else {
-          const filterInner = document.querySelectorAll(".filter__inner");
-          for (let i of filterInner) {
-            i.checked = false;
-          }
+    if (
+      e.target?.classList?.value[0] === e.target?.previousElementSibling?.classList?.value[0] ||
+      e.target?.classList?.value[0] === e.target?.nextElementSibling?.classList?.value[0]
+    ) {
+      toggleOuter(e);
+      toggleInner(e);
+      toggleBrand(e);
+      togglePromotion(e);
+      const eventItem = document.querySelectorAll(".catalog__filter-mob li");
+      let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+      queryStr = "";
+      for (let li of eventItem) {
+        if (
+          li?.children[0]?.children[0]?.classList?.contains("filter__item-active-aside") ||
+          li?.children[0]?.children[0]?.classList?.contains("filter__type-list-item-active")
+        ) {
+          queryStr += `category_id__in=${li.children[0].children[0].dataset.category}&`;
+        }
+        if (li?.children[0]?.children[0]?.classList?.contains("brand__list-item-label-active")) {
+          queryStr += `brand_id__in=${li.children[0].children[0].dataset.brand}&`;
+        }
+        if (li?.children[0].children[0].classList.contains("promotional__item-active")) {
+          queryStr += `sale__percent__gt=${li.children[0].children[0].dataset.sale}&`;
         }
       }
+      filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
     }
-    const eventItem = document.querySelectorAll(".catalog__filter-mob li");
-    let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
-    let count = 0;
-    queryStr = "";
-    for (let li of eventItem) {
-      if (li.children[0].checked) {
-        if (li.children[0].dataset.sale) {
-          queryStr += `sale__percent__gt=${li.children[0].dataset.sale}&`;
-        }
-        if (li.children[0].dataset.category) {
-          queryStr += `category_id__in=${li.children[0].dataset.category}&`;
-        }
-        if (li.children[0].dataset.brand) {
-          count += 1;
-          queryStr += `brand_id__in=${li.children[0].dataset.brand}&`;
-        }
-      }
-    }
-    filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
   });
+
+  function togglePromotion(e) {
+    if (e.target.parentElement.classList.contains("promotional__item-label")) {
+      e.target.parentElement.children[0].classList.toggle("promotional__item-active");
+    }
+  }
+  function toggleOuter(e) {
+    if (e.target?.previousElementSibling?.dataset?.lvl === "1" || e.target?.nextElementSibling?.dataset?.lvl === "1") {
+      if (e.target.parentElement.children[0].classList.contains("filter__item-active-aside")) {
+        e.target.parentElement.children[0].classList.remove("filter__item-active-aside");
+        return;
+      }
+      e.target.parentElement.children[0].classList.add("filter__item-active-aside");
+    }
+  }
+  function toggleBrand(e) {
+    if (e.target.parentElement.classList.contains("brand__list-item-label")) {
+      e.target.parentElement.children[0].classList.toggle("brand__list-item-label-active");
+    }
+  }
+  function toggleInner(e) {
+    if (e.target?.previousElementSibling?.dataset?.lvl === "0" || e.target?.nextElementSibling?.dataset?.lvl === "0") {
+      if (e.target.parentElement.children[0].classList.contains("filter__type-list-item-active")) {
+        e.target.parentElement.children[0].classList.remove("filter__type-list-item-active");
+        if (e.target?.parentElement?.parentElement?.children[1]?.classList?.contains("filter__type-list")) {
+          const activeCheckbox = document.querySelectorAll(".filter__item-active-aside");
+          for (let i of activeCheckbox) {
+            i.classList.remove("filter__item-active-aside");
+          }
+        }
+        return;
+      }
+      if (e.target?.parentElement?.parentElement?.children[1]?.classList?.contains("filter__type-list")) {
+        const activeCheckbox = document.querySelectorAll(".filter__item-active-aside");
+        for (let i of activeCheckbox) {
+          i.classList.remove("filter__item-active-aside");
+        }
+        const checkbox = e.target?.parentElement?.parentElement.children[1].children;
+        for (let i of checkbox) {
+          i.children[0].children[0].classList.add("filter__item-active-aside");
+        }
+      } else {
+        const checkbox = document.querySelectorAll(".filter__item-active-aside");
+        for (let i of checkbox) {
+          i.classList.remove("filter__item-active-aside");
+        }
+      }
+      const indicatorActive = document.querySelectorAll(".filter__type-list-item-active");
+      for (let i of indicatorActive) {
+        i.classList.remove("filter__type-list-item-active");
+      }
+      e.target.parentElement.children[0].classList.add("filter__type-list-item-active");
+    }
+  }
+  let count = 0;
+  function paginationFunc(data, url) {
+    if (data) {
+      const paginationList = document.querySelector(".products__pagination-list");
+      paginationList.innerHTML = "";
+      for (let i = 1; i <= Math.ceil(data.count / 15); i++) {
+        const li = document.createElement("li");
+        li.classList.add("products__pagination-list-item");
+        li.innerText = i;
+        paginationList.append(li);
+      }
+      const paginationListItem = document.querySelectorAll(".products__pagination-list-item");
+      if(data.previous !== null) {
+        if(localStorage.getItem('nextPageCatalog') === 'null') {
+          count = data?.previous[data.previous.length - 1]
+        }else {
+          count = data.next[data?.next?.length-1] - 2
+        }
+      }else {
+        count = 0
+      }
+      paginationListItem[count].classList.add("products__pagination-list-item-active");
+      if (paginationListItem.length > 1) {
+        for (let i of paginationListItem) {
+          i.addEventListener("click", (e) => {
+            console.log(e.target);
+          });
+        }
+      }
+    }
+  }
+
+  function prevPageAction() {
+    if (localStorage.getItem("previousPageCatalog") === "null") return;
+    filterFetch(localStorage.getItem("previousPageCatalog"));
+  }
+  
+  function nextPageAction() {
+    if (localStorage.getItem("nextPageCatalog") === "null") return;
+    filterFetch(localStorage.getItem("nextPageCatalog"));
+  }
+
+  const prevPage = document.querySelector(".products__prev");
+  prevPage.addEventListener("click", prevPageAction);
+
+  const nextPage = document.querySelector(".products__next");
+  nextPage.addEventListener("click", nextPageAction);
+
   function filterFetch(url) {
     fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
         console.log(data);
+        localStorage.setItem("nextPageCatalog", data.next);
+        localStorage.setItem("previousPageCatalog", data.previous);
+        paginationFunc(data);
         const productsList = document.querySelector(".products__list");
         productsList.innerHTML = ``;
         for (let i of data.results) {
@@ -166,7 +261,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
-  filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`)
+  filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
 });
-
-

@@ -239,9 +239,8 @@ addEventListener("DOMContentLoaded", () => {
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent =
             e.currentTarget.dataset.weightPrice;
         } else {
-          console.log(parseFloat(e.currentTarget.dataset.weightPrice).toFixed(2));
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].textContent =
-            e.currentTarget.dataset.weightPrice;
+            parseFloat(e.currentTarget.dataset.weightPrice).toFixed(2);
         }
       });
     });

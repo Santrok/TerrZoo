@@ -135,35 +135,23 @@
       <div class="container">
         <div class="products__wrap">
           <aside class="catalog__filter-mob">
-            <div class="promotional__item">
-              <input
-                type="checkbox"
-                name="promotional"
-                id="promotional"
-                class="promotional__item-input-hide"
-                data-sale="0"
-              />
-              <label for="promotional" class="promotional__item-label">
-                <div></div>
-                <p>Только акционные товары</p>
-              </label>
-            </div>
+            <ul>
+              <li class="promotional__item">
+                <label for="promotional" class="promotional__item-label">
+                  <div class="promotional__indicator" data-sale="0"></div>
+                  <p>Только акционные товары</p>
+                </label>
+              </li>
+            </ul>
             <div class="filter__type">
               <h3 class="filter__type-title">Тип товара</h3>
-              <ul class="filter__type-list" data->
+              <ul class="filter__type-list">
                 {% recursetree category_products %}
                 <li class="filter__type-list-item">
-                  <input
-                    type="radio"
-                    id="fodder{{node.id}}"
-                    name="type"
-                    class="filter__type-list-item-hide"
-                    data-category="{{node.id}}"
-                  />
-                  <label for="fodder{{node.id}}" class="filter__type-list-item-label">
-                    <div class="checked__div" data-category="{{node.id}}"></div>
-                    <p style="padding: 1px">{{ node.name }}({{node.asd}})</p>
-                  </label>
+                  <div for="fodder{{node.id}}" class="filter__type-list-item-label">
+                    <div class="{{node.id}} filter__type-indicator" data-category="{{node.id}}" data-lvl="{{node.level}}"></div>
+                    <p class="{{node.id}}" data-lvl="{{node.level}}" style="padding: 1px">{{ node.name }}({{node.asd}})</p>
+                  </div>
                   {% if not node.is_leaf_node %}
                   <ul class="filter__type-list">
                     {{ children }}
@@ -191,17 +179,10 @@
               <ul class="brand__list">
                 {% for brand in brands %}
                 <li class="brand__list-item">
-                  <input
-                    type="checkbox"
-                    id="brand{{brand.id}}"
-                    name="type"
-                    class="brand__type-list-item-hide"
-                    data-brand="{{brand.id}}"
-                  />
-                  <label for="brand{{brand.id}}" class="brand__list-item-label">
-                    <div></div>
+                  <div class="brand__list-item-label">
+                    <div class="brand__list-item-indicator" data-brand="{{ brand.id }}"></div>
                     <p>{{ brand.name }}</p>
-                  </label>
+                  </div>
                 </li>
                 {% endfor %}
               </ul>
@@ -455,6 +436,5 @@
 {% endblock %} {% block js %}
 <script defer src="{% static 'js/catalog_page/animal.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/select.js' %}"></script>
-<script defer src="{% static 'js/catalog_page/checkbox.js' %}"></script>
 <script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
 {% endblock %} {% block profile_navigation %} {% endblock %}
