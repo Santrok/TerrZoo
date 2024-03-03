@@ -3,8 +3,6 @@ const feedbackProgressTotal = document.querySelector('.feedback__progress-total'
 const arrowNext = document.querySelector('.feedback__arrow-next')
 const arrowPrev = document.querySelector('.feedback__arrow-prev')
 
-console.log(arrowNext);
-
 arrowNext.addEventListener('click', (e) => {
     for(let i of e.currentTarget.parentElement.parentElement.children[1].children[0].children[0].children) {
         if(i.classList.contains('slick-active')) {

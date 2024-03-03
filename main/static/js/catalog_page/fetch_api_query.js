@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target?.classList?.value[0] === e.target?.previousElementSibling?.classList?.value[0] ||
       e.target?.classList?.value[0] === e.target?.nextElementSibling?.classList?.value[0]
     ) {
+      console.log(e.target.parentElement);
       toggleOuter(e);
       toggleInner(e);
       toggleBrand(e);
@@ -109,11 +110,11 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         count = 0;
       }
-      paginationListItem[count].classList.add("products__pagination-list-item-active");
+      paginationListItem[count]?.classList?.add("products__pagination-list-item-active");
       if (paginationListItem.length > 1) {
         for (let i of paginationListItem) {
           i.addEventListener("click", (e) => {
-            console.log(e.target);
+            filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?animal__in=2&order=price&page=${e.target.textContent.trim()}`);
           });
         }
       }

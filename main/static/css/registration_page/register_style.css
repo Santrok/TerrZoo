@@ -191,6 +191,17 @@ p {
     line-height: 1.5;
 }
 
+.remember_class {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#remember_id {
+    width: auto;
+    margin-bottom: 0;
+}
 .button__sign__up__social {
     max-width: 40px;
     max-height: 40px;

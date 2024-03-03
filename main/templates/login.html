@@ -4,17 +4,21 @@
 {% block content %}
     <div class="page_wrapper">
         <div class="form_wrap">
-                <form class="callback_auth" method="POST">
-                    {% csrf_token %}
-                    <h2 class="callback__title">Авторизация</h2>
-                    <p class="login_error">{{ error }}</p>
-                    {{ login_form }}
-                    <div class="down_panel">
-                        <button class="button">Вход</button>
-                        <a class="link_next_page" href="{% url 'register' %}">Регистрация</a>
-                        <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
-                    </div>
-                </form>
+            <form class="callback_auth" method="POST">
+                {% csrf_token %}
+                <h2 class="callback__title">Авторизация</h2>
+                <p class="login_error">{{error}}</p>
+                {{login_form}}
+                <div class="remember_class">
+                    <input type="checkbox" id="remember_id" name="remember_me">
+                    <label for="remember_id">Запомнить меня</label>
+                </div>
+                <div class="down_panel">
+                    <button class="button">Вход</button>
+                    <a class="link_next_page" href="{% url 'register' %}">Регистрация</a>
+                    <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
+                </div>
+            </form>
                 <form action="{% provider_login_url 'google' %}" method="post" class="callback_auth auth_social">
                     {% csrf_token %}
                     <p class="link_next_page">Вход через</p>

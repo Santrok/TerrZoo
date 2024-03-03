@@ -180,6 +180,13 @@ def login_view(request):
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
+
+            remember_me = request.POST.get('remember_me', False)
+            if remember_me:
+                request.session.set_expiry(None)
+            else:
+                request.session.set_expiry(settings.SHORT_SESSION_SECONDS)
+
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -431,6 +438,7 @@ def get_profile_order_page(request):
     """Личный кабинет"""
     orders = (Order.objects.prefetch_related('products', 'user', 'pay_card')
               .filter(user=request.user.id)
+              .filter(order_show=True)
               .order_by('-data_create'))
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
@@ -537,6 +545,7 @@ def get_order_details_page(request, order_id):
         add_in_product = product[0]
         add_in_product.weight = i.get('weight')[0]
         add_in_product.count = i.get('count')
+        add_in_product.sumPrice = i.get('price')
         order_details.count += i.get('count')
         product_list.append(add_in_product)
 
@@ -554,5 +563,4 @@ def delete_profile_order(request, order_id):
     order = Order.objects.get(id=order_id)
     order.order_show = False
     order.save()
-
-    return redirect('profile')
+    return redirect('profile_orders')
