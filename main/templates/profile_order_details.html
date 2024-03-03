@@ -10,45 +10,55 @@
 {% endblock %}
 
 {% block profile_content %}
-    <div class="details">
+    <section class="details">
         <div class="details__list__about__products">
             <div class="details__list__about__order">
-                <div style="text-align: center">
+                <div class="details__list__about__order__title">
                     <p>Номер заказа: {{ order_details.order_number }}</p>
                     <p>Дата: {{ order_details.data_create }}</p>
                 </div>
-                <div style="display: flex; justify-content: space-around;">
-                    <div style="text-align: center">
+                <div class="details__list__about__order__common">
+                    <div>
                         <p>Статус: {{ order_details.order_status }}</p>
                         <p>Метод доставки:</p>
                     </div>
-                    <div style="text-align: center">
+                    <div>
                         <p>Общая сумма заказа: {{ order_details.total_price }}</p>
                         <p>Количество товаров: {{ order_details.count }}</p>
                     </div>
                 </div>
             </div>
-            {% for product in product_list %}
-                <div class="details__list__about__products-title">
-                    <div class="details__list__about__products-img">
-                        <img src="{{ product.image_prev.url }}" alt="#">
-                    </div>
-                    <div style="display: flex; flex-direction: column; justify-content: space-around">
-                        <p>{{ product.title }}</p>
-                        <p>Вес/Объем: {{ product.weight }}</p>
-                        <p> Количество единиц: {{ product.count }}</p>
-                    </div>
-                </div>
-            {% endfor %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Название</th>
+                    <th>Вес/Объем</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                    <th>Общая стоимость</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in product_list %}
+                    <tr>
+                        <td class="details__list__about__products-img">
+                            <img src="{{ product.image_prev.url }}" alt="{{ product.image_prev.url }}">
+                        </td>
+                        <td>{{ product.title }}</td>
+                        <td>{{ product.weight }}</td>
+                        <td>{{ product.count }} шт.</td>
+                        <td>{{ product.price }} BYN</td>
+                        <td>{{ product.sumPrice }} BYN</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="details__buttons">
+                <a class='button' href="{% url 'basket' %}" data-json="{{ order_details.id }}">Повторить заказ</a>
+                <a class='button' href="{% url 'profile_delete_order' order_details.id %}">Удалить заказ</a>
+                <a class='button' href="#">Распечатать детали заказа</a>
+            </div>
         </div>
-        <div class="details__buttons">
-            <a class='button' id="add_old_order_for_basket" href="{% url 'basket' %}" data-json="{{ order_details.id }}">Повторить заказ</a>
-            <a class='button' href="{% url 'profile_delete_order' order_details.id %}">Удалить заказ</a>
-            <a class='button' href="#">Распечатать детали заказа</a>
-        </div>
-    </div>
-{% endblock %}
-
-{% block js %}
-    <script defer src="{% static 'js/profile_order_details/add_old_order_for_basket.js' %}"></script>
+    </section>
 {% endblock %}

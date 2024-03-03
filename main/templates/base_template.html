@@ -328,28 +328,43 @@
                         <div class="header__up-login-button">
                             {% if user.is_authenticated %}
                                 {% if request.path == '/profile_data_user/' %}
-                                    <a href="{% url 'logout' %}">Выйти</a>
+                                    <a href="{% url 'logout' %}">
+                                        <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                    </a>
                                 {% elif request.path == '/profile_orders/' %}
-                                    <a href="{% url 'logout' %}">Выйти</a>
+                                    <a href="{% url 'logout' %}">
+                                        <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                    </a>
                                 {% elif request.path == '/wishlist/' %}
-                                    <a href="{% url 'logout' %}">Выйти</a>
+                                    <a href="{% url 'logout' %}">
+                                        <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                    </a>
                                 {% elif request.path == '/viewed_products/' %}
-                                    <a href="{% url 'logout' %}">Выйти</a>
+                                    <a href="{% url 'logout' %}">
+                                        <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                    </a>
                                 {% elif request.path == '/comparisonlist/' %}
-                                    <a href="{% url 'logout' %}">Выйти</a>
+                                    <a href="{% url 'logout' %}">
+                                        <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                    </a>
                                 {% elif request.path == '/subscriptions/' %}
-                                    <a href="{% url 'logout' %}">Выйти</a>
+                                    <a href="{% url 'logout' %}">
+                                        <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                    </a>
                                 {% else %}
                                     <a href="{% url 'profile_data_user' %}">
-                                    {% if user.first_name.0 or user.last_name.0 %}
-                                        {{ user.first_name.0 }}{{ user.last_name.0 }}
-                                    {% else %}
-                                        {{ user.username.0 }}
-                                    {% endif %}
+{#                                    {% if user.first_name.0 or user.last_name.0 %}#}
+{#                                        {{ user.first_name.0 }}{{ user.last_name.0 }}#}
+{#                                    {% else %}#}
+{#                                        {{ user.username.0 }}#}
+{#                                    {% endif %}#}
+                                    <img src="{% static 'icons/user.svg' %}" alt="">
                                     </a>
                                 {% endif %}
                             {% else %}
-                                <a href="{% url 'login' %}">Войти</a>
+                                <a href="{% url 'login' %}">
+                                    <img src="{% static 'icons/singIn.svg' %}" alt="">
+                                </a>
                             {% endif %}
                         </div>
                     </div>
