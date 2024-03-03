@@ -1,25 +1,29 @@
-{% extends 'registration_base.html'%} 
+{% extends 'registration_base.html' %}
 {% load static %}
 {% load socialaccount %}
-{% block content %} 
+{% block content %}
     <div class="page_wrapper">
         <div class="form_wrap">
-            <form class="callback_auth" method="POST">
-                {% csrf_token %}
-                <h2 class="callback__title">Авторизация</h2>
-                <p class="login_error">{{error}}</p>
-                {{login_form}}
-                <div class="down_panel">
-                    <button class="button">Вход</button>
-                    <a class="link_next_page" href="{% url 'register' %}">Регистрация</a>
-                    <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
-                </div>
-                <div class="social_auth_panel">
-                    <a class="link_next_page" href="{% provider_login_url 'google' %}">Вход через Google</a>
-                </div>
-            </form>
+                <form class="callback_auth" method="POST">
+                    {% csrf_token %}
+                    <h2 class="callback__title">Авторизация</h2>
+                    <p class="login_error">{{ error }}</p>
+                    {{ login_form }}
+                    <div class="down_panel">
+                        <button class="button">Вход</button>
+                        <a class="link_next_page" href="{% url 'register' %}">Регистрация</a>
+                        <a class="link_next_page" href="{% url 'reset_form' %}">Забыли пароль?</a>
+                    </div>
+                </form>
+                <form action="{% provider_login_url 'google' %}" method="post" class="callback_auth auth_social">
+                    {% csrf_token %}
+                    <p class="link_next_page">Вход через</p>
+                    <button type="submit" class="button__sign__up__social">
+                        <img class="button__sign__up__social__img" src="{% static 'img/icons/google-logo.svg' %}" alt="">
+                    </button>
+                </form>
         </div>
-</div>
+    </div>
 {% endblock %}
 {% block js %}
     <script defer src="{% static 'js/login/login.js' %}"></script>
