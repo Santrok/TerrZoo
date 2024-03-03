@@ -97,13 +97,13 @@
                     <div class="slider__item-price-wrap">
                       <p class="slider___item-price-promotion">{{ card.price }} BYN</p>
                       <div class="slider__item-price-currency-wrap">
-                        <p class="slider___item-price">{{ card.action_price|floatformat:2 }}</p>
+                        <p class="slider___item-price" data-pricePerOneKg="{{ card.action_price|floatformat:2 }}">{{ card.action_price|floatformat:2 }}</p>
                         <p class="slider__item-currency">BYN</p>
                       </div>
                     </div>
                     {% else %}
                     <div class="slider__item-price-wrap">
-                      <p class="slider__item-price">{{ card.price }}</p>
+                      <p class="slider__item-price" data-pricePerOneKg="{{ card.price }}">{{ card.price }}</p>
                       <p class="slider__item-currency">BYN</p>
                     </div>
                     {% endif %}
@@ -206,13 +206,13 @@
                     <div class="slider__item-price-wrap">
                       <p class="slider___item-price-promotion">{{ card_new.price }} BYN</p>
                       <div class="slider__item-price-currency-wrap">
-                        <p class="slider___item-price">{{ card_new.action_price|floatformat:2 }}</p>
+                        <p class="slider___item-price" data-pricePerOneKg="{{ card_new.action_price|floatformat:2 }}">{{ card_new.action_price|floatformat:2 }}</p>
                         <p class="slider__item-currency">BYN</p>
                       </div>
                     </div>
                     {% else %}
                     <div class="slider__item-price-wrap">
-                      <p class="slider__item-price">{{ card_new.price }}</p>
+                      <p class="slider__item-price" data-pricePerOneKg="{{ card_new.price }}">{{ card_new.price }}</p>
                       <p class="slider__item-currency">BYN</p>
                     </div>
                     {% endif %}
