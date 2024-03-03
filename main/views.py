@@ -185,7 +185,7 @@ def login_view(request):
             if remember_me:
                 request.session.set_expiry(None)
             else:
-                request.session.set_expiry(1800)
+                request.session.set_expiry(settings.SHORT_SESSION_SECONDS)
 
             user = authenticate(request, username=username, password=password)
             if user is not None:

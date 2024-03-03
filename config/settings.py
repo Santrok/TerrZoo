@@ -297,3 +297,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_URL = '/'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SHORT_SESSION_SECONDS = 1800  # срок действия сессии, если не стоит птичка 'Запомнить меня'
