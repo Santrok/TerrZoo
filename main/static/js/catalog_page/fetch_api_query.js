@@ -185,7 +185,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                                              ${i.price} BYN
                                                              </p>
                                                              <div class="products___item-price-currency-wrap">
-                                                                 <p class="products___item-price">${(
+                                                                 <p class="products___item-price" data-pricePerOneKg="${(
+                                                                  ((100 - i.sale.percent) / 100) *
+                                                                  parseFloat(i.price)
+                                                                ).toFixed(2)}">${(
                                                                    ((100 - i.sale.percent) / 100) *
                                                                    parseFloat(i.price)
                                                                  ).toFixed(2)}</p>
@@ -200,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                                i.sale?.percent
                                                                  ? ``
                                                                  : `<div class="products___item-price-wrap">
-                                                             <p class="products___item-price">${i.price}</p>
+                                                             <p class="products___item-price" data-pricePerOneKg="${i.price}">${i.price}</p>
                                                              <p class="products___item-currency">BYN</p>
                                                          </div>
                                                          `

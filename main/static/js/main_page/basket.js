@@ -24,11 +24,29 @@ addEventListener("DOMContentLoaded", () => {
           "products___item-price-promotion"
         )
       ) {
+        localStorage.setItem(
+          "pricePerOneKg",
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0]
+            .dataset.priceperonekg
+        );
         e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent =
           parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2);
+        localStorage.setItem(
+          "buyOneClickPrice",
+          parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2)
+        );
       } else {
+        localStorage.setItem(
+          "pricePerOneKg",
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].dataset
+            .priceperonekg
+        );
         e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].textContent =
           parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2);
+        localStorage.setItem(
+          "buyOneClickPrice",
+          parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2)
+        );
       }
     });
   });
@@ -239,11 +257,29 @@ addEventListener("DOMContentLoaded", () => {
             "products___item-price-promotion"
           )
         ) {
+          localStorage.setItem(
+            "pricePerOneKg",
+            e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0]
+              .dataset.priceperonekg
+          );
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent =
             parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2);
+          localStorage.setItem(
+            "buyOneClickPrice",
+            parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2)
+          );
         } else {
+          localStorage.setItem(
+            "pricePerOneKg",
+            e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].dataset
+              .priceperonekg
+          );
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].textContent =
-            parseFloat(e.currentTarget.dataset.weightPrice).toFixed(2);
+            parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2);
+          localStorage.setItem(
+            "buyOneClickPrice",
+            parseFloat(e.currentTarget.dataset.weightPrice.split(",").join(".")).toFixed(2)
+          );
         }
       });
     });
