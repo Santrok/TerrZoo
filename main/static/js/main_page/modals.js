@@ -19,15 +19,17 @@ const buyOneClickModalCountInit = document.querySelector('.buy__one-click-list-i
 const newWeightBtn = document.querySelector('.buy__one-click-list-item-wrap-weight button')
 const newWeightInput = document.querySelector('.buy__one-click-list-item-wrap-weight input')
 
-
-newWeightInput.oninput = (e) => {
-  newWeightInput.value = e.currentTarget.value.replace(/^[0-9]$/, '')
-  // newWeightBtn.value = newWeightInput.value.replace(/^[0-9]$/, '')
+newWeightInput.oninput = () => {
+  newWeightInput.value = newWeightInput.value.replace(/[^0-9/.]/, '')
 }
 
 newWeightBtn.addEventListener('click', (e) => {
-  console.log(e.currentTarget.parentElement.children[0].value);
-  console.log(e.currentTarget.parentElement.parentElement.parentElement);
+  if(newWeightInput.value !== '') {
+    console.log(newWeightInput.value);
+    localStorage.setItem('buyOneClickPrice', (parseFloat(localStorage.getItem('pricePerOneKg').split(',').join('.')) * newWeightInput.value).toFixed(2))
+    e.currentTarget.parentElement.parentElement.parentElement.children[1].children[0].textContent = newWeightInput.value + ' кг.'
+    e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[2].children[1].textContent = (parseFloat(localStorage.getItem('pricePerOneKg').split(',').join('.')) * newWeightInput.value).toFixed(2) + ' BYN'
+  }
 })
 let buyOneClickModalCount = 1
 
@@ -45,11 +47,11 @@ buyOneClickModal.addEventListener('click', (e) => {
   if(e.target.tagName === 'BUTTON'){
     if(e.target.textContent.trim() === '+'){
       e.target.parentElement.children[1].textContent = ++buyOneClickModalCount
-      e.currentTarget.parentElement.children[1].textContent = parseFloat((localStorage.getItem('initModalPrice') * buyOneClickModalCount)).toFixed(2) + ' BYN'
+      e.currentTarget.parentElement.children[1].textContent = (parseFloat(localStorage.getItem('buyOneClickPrice')) * buyOneClickModalCount).toFixed(2) + ' BYN'
     }else {
       if(buyOneClickModalCount > 1) {
         e.target.parentElement.children[1].textContent = --buyOneClickModalCount
-        e.currentTarget.parentElement.children[1].textContent = parseFloat((localStorage.getItem('initModalPrice') * buyOneClickModalCount)).toFixed(2) + ' BYN'
+        e.currentTarget.parentElement.children[1].textContent = (parseFloat(localStorage.getItem('buyOneClickPrice')) * buyOneClickModalCount).toFixed(2) + ' BYN'
       }
     }
   }
@@ -91,7 +93,9 @@ if (porductListInModals) {
                     buyOneClickImg.setAttribute("src", e.currentTarget.parentElement.children[0].children[0].getAttribute("src"));
                     buyOneClickTitle.textContent = e.currentTarget.parentElement.children[1].textContent.trim();
                     for (let i of e.currentTarget.parentElement.children[2].children) {
-                      buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item">${i.textContent}</li>`;
+                      if(i.classList.contains('slider__item-weight-list-item-active')) {
+                        buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.textContent}</li>`;
+                      } 
                     }
                     if (
                         e.currentTarget.parentElement.children[4].classList.contains("products___item-promotion") ||
@@ -154,9 +158,6 @@ sliderButton.forEach((item) => {
   });
 });
 
-buyOneClickWeightList.addEventListener('click', (e) => {
-
-})
 
 weightButton.addEventListener("click", () => {
   if (youWeight.style.display !== "flex") {
