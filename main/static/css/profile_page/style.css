@@ -491,12 +491,20 @@ main h3 {
     background: rgb(0, 160, 172);
     padding: 10px 10px;
 
-    & div p {
-        font-family: SF Pro Text;
-        font-size: 16px;
-        color: white;
-        line-height: 20px;
-        padding: 4px;
+    & div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        row-gap: 5px;
+        column-gap: 30px;
+
+        & span {
+            font-family: SF Pro Text;
+            font-size: 16px;
+            color: white;
+            line-height: 20px;
+            padding: 4px;
+        }
     }
 }
 
