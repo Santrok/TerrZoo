@@ -9,7 +9,13 @@
 {% block title %}
     Личный кабинет
 {% endblock %}
-<body>
+
+{% block breadcrumbs %}
+    <li class="main__nav-list-item-active">
+        <a href="{% url 'wishlist' %}">Избранное</a>
+    </li>
+{% endblock %}
+
 {% block profile_content %}
     <section class="wishlist">
         <div class="wishlist__title">
@@ -21,9 +27,8 @@
         </div>
     </section>
 {% endblock %}
-</body>
 
 
 {% block js %}
-<script src="{% static 'js/wishList/wishList.js' %}"></script>
+    <script src="{% static 'js/wishList/wishList.js' %}"></script>
 {% endblock %}

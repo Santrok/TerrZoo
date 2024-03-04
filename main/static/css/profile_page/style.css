@@ -520,6 +520,8 @@ th {
 }
 
 td {
+    border-bottom: 2px dashed rgba(0, 160, 172, 0.24);
+    margin: 15px 0;
     text-align: center;
     font-family: SF Pro Text;
     color: #669;
@@ -532,10 +534,8 @@ tr:hover td {
 }
 
 .details__list__about__products-img {
-    display: flex;
     max-height: 100%;
     max-width: 100%;
-    padding: 5px;
 
     & img {
         height: 100px;
@@ -546,4 +546,5 @@ tr:hover td {
 .details__buttons {
     display: flex;
     gap: 10px;
+    padding: 20px 0;
 }

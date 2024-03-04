@@ -10,6 +10,12 @@
     Личный кабинет
 {% endblock %}
 
+{% block breadcrumbs %}
+    <li class="main__nav-list-item-active">
+        <a href="{% url 'comparisonlist' %}">Списки сравнения</a>
+    </li>
+{% endblock %}
+
 {% block profile_content %}
     <section class="comparison">
             <div class="comparison__title">
