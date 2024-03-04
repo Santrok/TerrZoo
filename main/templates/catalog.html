@@ -283,11 +283,7 @@
                 <a href="{% url 'details' card.id %}" class="slider__item-title"> {{card.title}} </a>
                 <ul class="slider__item-weight-list">
                   {% for count in card.countitemproduct_set.all %}
-                  <li
-                    class="slider__item-weight-list-item"
-                    data-weight-id="{{count.id}}"
-                    data-weight-price="{{count.total_price}}"
-                  >
+                  <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}" data-weight-price="{{count.total_price}}">
                     {{count.value }} <span>{{count.unit}}.</span>
                   </li>
                   {% endfor %}
@@ -298,13 +294,13 @@
                     <div class="slider__item-price-wrap">
                       <p class="slider___item-price-promotion">{{ card.price }} BYN</p>
                       <div class="slider__item-price-currency-wrap">
-                        <p class="slider___item-price">{{ card.action_price|floatformat:2 }}</p>
+                        <p class="slider___item-price" data-pricePerOneKg="{{ card.action_price|floatformat:2 }}">{{ card.action_price|floatformat:2 }}</p>
                         <p class="slider__item-currency">BYN</p>
                       </div>
                     </div>
                     {% else %}
                     <div class="slider__item-price-wrap">
-                      <p class="slider__item-price">{{ card.price }}</p>
+                      <p class="slider__item-price" data-pricePerOneKg="{{ card.price }}">{{ card.price }}</p>
                       <p class="slider__item-currency">BYN</p>
                     </div>
                     {% endif %}

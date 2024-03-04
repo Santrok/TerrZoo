@@ -83,10 +83,14 @@
                 </tbody>
             </table>
             <div class="details__buttons">
-                <a class='button' href="{% url 'basket' %}" data-json="{{ order_details.id }}">Повторить заказ</a>
+                <a class='button add_old_order_for_basket' href="{% url 'basket' %}" data-json="{{ order_details.id }}">Повторить заказ</a>
                 <a class='button' href="{% url 'profile_delete_order' order_details.id %}">Удалить заказ</a>
                 <a class='button' href="#">Распечатать детали заказа</a>
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block js %}
+    <script defer src="{% static 'js/profile_order_details/add_old_order_for_basket.js' %}"></script>
 {% endblock %}
