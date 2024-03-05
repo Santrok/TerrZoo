@@ -1,13 +1,24 @@
 const productsList = document.querySelector(".products__list");
-const wishList = JSON.parse(localStorage.getItem("heartsProduct"));
+let wishList = JSON.parse(localStorage.getItem("heartsProduct"));
+const wishListCount = document.querySelector('.wishlist__title p span')
+
+new MutationObserver(() => {
+    wishList = JSON.parse(localStorage.getItem("heartsProduct"))
+    console.log(wishListCount);
+    wishListCount.textContent = wishList?.length
+}).observe(productsList,{
+    childList: true,
+    subtree: true
+})
 
 for (let i of wishList) {
   let li = document.createElement("li");
   li.classList.add("products__list-item");
+  console.log(i);
   li.innerHTML += `
   <article class="products___item" data-id="${i.id}">
                <div class="products___item-img">
-                   <img src="${i.image_prev}" alt="item" />
+                   <img src="${i.src}" alt="item" />
                </div>
                <a href="http://127.0.0.1:8000/details/${
                  i.id
@@ -15,37 +26,27 @@ for (let i of wishList) {
                    ${i.title}
                </a>
                <ul class="slider__item-weight-list">
-                       ${i.countitemproduct_set
+                       ${i.weight
                          ?.map(
                            (item) =>
                              `<li class="slider__item-weight-list-item" data-weight-id="${
-                               item.id
+                               i.id
                              }" data-weight-price="${
-                               (item.percent / 100) *
-                               parseFloat(
-                                 ((100 - i.sale.percent) / 100) *
-                                   parseFloat(i.price)
-                               )
-                             }">${item.value} <span>${item.unit}</span></li>`
+                               i.price?.new ? parseFloat((item?.split(' ').splice(0, 1).join('').split(',').join('.')) * i?.price?.new?.split(',').join('.')).toFixed(2) : i?.price?.old
+                             }">${item.split(" ").splice(0,1).join('')}<span> ${item.split(" ").splice(1).join("")}</span></li>`
                          )
                          .join("")}
                </ul>
                <div class="products___item-price-basket">
                    <div class="products___item-price-basket-wrap">
                        ${
-                         i.sale?.percent
+                         i.price?.new
                            ? `<div class="products___item-price-wrap">
                        <p class="products___item-price-promotion">
-                       ${i.price} BYN
+                       ${i.price.old}
                        </p>
                        <div class="products___item-price-currency-wrap">
-                           <p class="products___item-price" data-pricePerOneKg="${(
-                            ((100 - i.sale.percent) / 100) *
-                            parseFloat(i.price)
-                          ).toFixed(2)}">${(
-                             ((100 - i.sale.percent) / 100) *
-                             parseFloat(i.price)
-                           ).toFixed(2)}</p>
+                           <p class="products___item-price" data-pricePerOneKg="${i.price.new}">${i.price.new}</p>
                        <p class="products___item-currency">
                            BYN
                        </p>
@@ -54,10 +55,10 @@ for (let i of wishList) {
                            : ""
                        }
                        ${
-                         i.sale?.percent
+                         i.price?.new
                            ? ``
                            : `<div class="products___item-price-wrap">
-                       <p class="products___item-price" data-pricePerOneKg="${i.price}">${i.price}</p>
+                       <p class="products___item-price" data-pricePerOneKg="${i.price.old}">${i.price.old}</p>
                        <p class="products___item-currency">BYN</p>
                    </div>
                    `
@@ -84,7 +85,7 @@ for (let i of wishList) {
                    </div>
                </div>
                ${
-                 i.sale?.percent
+                 i.promotion
                    ? `<div class="products___item-promotion">
                    Акция
                </div>`

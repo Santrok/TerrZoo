@@ -92,11 +92,10 @@
                             </ul>
                         </div>
                         <div class="about__product-second">
-                            {% if product_unit != 'шт' %}
                                 <div class="about__product-options">
                                     <div class="about__product-weight">
                                         <h3 class="about__product-weight-title">
-                                            Варианты фасовки. Выберите удобный вес
+                                            Варианты фасовки. {% if product_unit != 'шт' %}Выберите удобный вес{% endif %}
                                         </h3>
                                         <ul class="about__product-weight-list">
                                             {% for p in product.countitemproduct_set.all %}
@@ -119,6 +118,7 @@
                                         </ul>
                                     </div>
                                 </div>
+                            {% if product_unit != 'шт' %}
                                 <div class="about__product-your-weight">
                                     <p class="about__product-your-weight-button">Задать свой вес</p>
                                     <div class="about__product-your-weight-wrap">
@@ -317,12 +317,12 @@
                                                 Цена за 1 {{ product_unit }}.
                                             </p>
                                         </div>
-                                        <p class="about__product-price">
+                                        <p class="about__product-price" data-pricePerOneKg="{{ product.action_price|floatformat:2 }}">
                                             {{ product.action_price|floatformat:2 }}
                                             <span>BYN</span>
                                         </p>
                                     {% else %}
-                                        <p class="about__product-price">{{ product.price }} <span>BYN</span></p>
+                                        <p class="about__product-price" data-pricePerOneKg="{{ product.price }}">{{ product.price }} <span>BYN</span></p>
                                     {% endif %}
                                 </div>
                                 {% if product_unit == 'шт' %}
@@ -337,7 +337,7 @@
                                     <input type="text" name="" value="1">
                                     <button class="about__product-plus about__product-btn">+</button>
                                 </div>
-                                <button class="about__product-basket-btn">Добавить в корзину</button>
+                                <button data-product-id="{{ product.id }}" data-product-link="" class="about__product-basket-btn">Добавить в корзину</button>
                                 <p class="about__product-buy">Купить в 1 клик</p>
                             </div>
                         </div>
