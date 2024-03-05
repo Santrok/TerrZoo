@@ -9,6 +9,11 @@
     Личный кабинет
 {% endblock %}
 
+{% block breadcrumbs %}
+    <li class="main__nav-list-item-active">
+        <a href="{% url 'profile_orders' %}">История заказов</a>
+    </li>
+{% endblock %}
 
 {% block profile_content %}
     <section class="user__data">
@@ -58,7 +63,7 @@
                     {% for order in orders %}
                         <div class="article__title-wrap-order">
                             <div class="article__title-wrap-order-item-button">
-                                <a href="{% url 'basket' %}" class="button" data-json="{{ order.id }}">Повторить
+                                <a href="{% url 'basket' %}" class="button add_old_order_for_basket" data-json="{{ order.id }}">Повторить
                                     заказ</a>
                                 <a href="{% url 'order_details' order.id %}" class="button">Детали заказа</a>
                             </div>

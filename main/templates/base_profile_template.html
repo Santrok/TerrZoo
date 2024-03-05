@@ -32,9 +32,8 @@
                                 />
                             </svg>
                         </li>
-                        <li class="main__nav-list-item-active">
-                            <a href="{% url 'profile_data_user' %}">Личный кабинет</a>
-                        </li>
+                        {% block breadcrumbs %}
+                        {% endblock %}
                     </ul>
                 </div>
             </nav>

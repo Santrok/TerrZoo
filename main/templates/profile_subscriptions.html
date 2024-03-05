@@ -1,9 +1,15 @@
 {% extends 'base_profile_template.html' %}
 {% load static %}
 
+{% block breadcrumbs %}
+    <li class="main__nav-list-item-active">
+        <a href="{% url 'subscriptions' %}">Подписки</a>
+    </li>
+{% endblock %}
 
 {% block profile_content %}
-    <div class="cat__developer" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div class="cat__developer"
+         style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <div class="not_auth">
             <img src="{% static 'img/cat_404.avif' %}" alt="Кот:)"/>
         </div>

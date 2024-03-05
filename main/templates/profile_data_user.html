@@ -9,6 +9,12 @@
     Личный кабинет
 {% endblock %}
 
+    {% block breadcrumbs %}
+        <li class="main__nav-list-item-active">
+            <a href="{% url 'profile_data_user' %}">Личные данные</a>
+        </li>
+    {% endblock %}
+
 {% block profile_content %}
     <section class="user__data">
         <div class="user__data-from-wrap">
@@ -16,8 +22,8 @@
                 <h2>Данные пользователя</h2>
                 {% csrf_token %}
                 {% if form_profile_modified %}
-                    
-                     <p>{{ form_profile_modified }}</p>   
+
+                    <p>{{ form_profile_modified }}</p>
                 {% endif %}
                 {{ form_profile.as_p }}
                 <div class="user__data-button-wrap">
@@ -29,14 +35,16 @@
                 <div class="user__data-form-item login__form">
                     {% csrf_token %}
                     {% if form_profile_user_modified %}
-                         <p>{{ form_profile_user_modified }}</p>   
+                        <p>{{ form_profile_user_modified }}</p>
                     {% endif %}
                     {{ form_profile_user.as_p }}
                     <div class="user__data-button-wrap">
-                        <button class="user__data-button save__login-button" type="submit" name="action" value="profile_user_username">
+                        <button class="user__data-button save__login-button" type="submit" name="action"
+                                value="profile_user_username">
                             Сохранить
                         </button>
-                        <button class="user__data-button change__login-button" type="button" name="action" value="profile_user_username">
+                        <button class="user__data-button change__login-button" type="button" name="action"
+                                value="profile_user_username">
                             Редактировать
                         </button>
                     </div>
@@ -44,14 +52,16 @@
                 <div class="user__data-form-item">
                     {% csrf_token %}
                     {% if form_profile_password_modified %}
-                        <p>{{ form_profile_password_modified }}</p>   
+                        <p>{{ form_profile_password_modified }}</p>
                     {% endif %}
                     {{ form_profile_password.as_p }}
                     <div class="user__data-button-wrap">
-                        <button class="user__data-button save__password-button" type="submit" name="action" value="profile_user_password">
+                        <button class="user__data-button save__password-button" type="submit" name="action"
+                                value="profile_user_password">
                             Сохранить
                         </button>
-                        <button class="user__data-button change__password-button" type="button" name="action" value="profile_user_username">
+                        <button class="user__data-button change__password-button" type="button" name="action"
+                                value="profile_user_username">
                             Редактировать
                         </button>
                     </div>
