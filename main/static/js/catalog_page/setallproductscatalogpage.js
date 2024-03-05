@@ -162,27 +162,27 @@ document.addEventListener("DOMContentLoaded", () => {
       li.classList.add("products__pagination-list-item");
       li.innerText = i;
       paginationList.append(li);
-      const paginationListItem = document.querySelectorAll(".products__pagination-list-item");
-      paginationListItem[0].classList.add("products__pagination-list-item-active");
-      paginationListItem.forEach((item) => {
-        item.addEventListener("click", (e) => {
-          paginationListItem.forEach((removeClassEl) => {
-            removeClassEl.classList.remove("products__pagination-list-item-active");
-          });
-          e.currentTarget.classList.add("products__pagination-list-item-active");
-          product_list.innerHTML = "";
-          let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
-          fetchProduct(
-            `http://127.0.0.1:8000/api/get_products_filter/?page=${e.currentTarget.textContent.trim()}&order=${orderStr}`
-          );
-          window.scrollBy({
-            top: product_list.getBoundingClientRect().top - 120,
-            behavior: "smooth",
-          });
-          countPagination = +e.currentTarget.textContent.trim();
-        });
-      });
     }
+    const paginationListItem = document.querySelectorAll(".products__pagination-list-item");
+    paginationListItem[0].classList.add("products__pagination-list-item-active");
+    paginationListItem.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        paginationListItem.forEach((removeClassEl) => {
+          removeClassEl.classList.remove("products__pagination-list-item-active");
+        });
+        e.currentTarget.classList.add("products__pagination-list-item-active");
+        product_list.innerHTML = "";
+        let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+        fetchProduct(
+          `http://127.0.0.1:8000/api/get_products_filter/?page=${e.currentTarget.textContent.trim()}&order=${orderStr}`
+        );
+        window.scrollBy({
+          top: product_list.getBoundingClientRect().top - 120,
+          behavior: "smooth",
+        });
+        countPagination = +e.currentTarget.textContent.trim();
+      });
+    });
   }
 
   function fetchProduct(url) {

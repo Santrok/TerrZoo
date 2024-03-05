@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target?.classList?.value[0] === e.target?.previousElementSibling?.classList?.value[0] ||
       e.target?.classList?.value[0] === e.target?.nextElementSibling?.classList?.value[0]
     ) {
-      console.log(e.target.parentElement);
       toggleOuter(e);
       toggleInner(e);
       toggleBrand(e);
@@ -114,7 +113,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (paginationListItem.length > 1) {
         for (let i of paginationListItem) {
           i.addEventListener("click", (e) => {
-            filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?animal__in=2&order=price&page=${e.target.textContent.trim()}`);
+            let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+            if(window.location.href === 'http://127.0.0.1:8000/catalog/') {
+              filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&page=${e.target.textContent.trim()}`);
+            }else {
+              filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}&page=${e.target.textContent.trim()}`);
+            }
           });
         }
       }
@@ -141,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem("nextPageCatalog", data.next);
         localStorage.setItem("previousPageCatalog", data.previous);
         paginationFunc(data);
@@ -264,10 +267,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
   }
-  let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
-  filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
+  if(window.location.href !== 'http://127.0.0.1:8000/catalog/') {
+    let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+    filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
+  }
   const catalogSortSelect = document.querySelectorAll(".catalog__sort-select-list-item");
-  
   catalogSortSelect.forEach((item) => {
     item.addEventListener("click", () => {
       let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;

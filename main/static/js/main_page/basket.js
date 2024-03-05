@@ -7,6 +7,8 @@ addEventListener("DOMContentLoaded", () => {
   const productsList = document.querySelector(".products__list");
   let productItemBtn = document.querySelectorAll(".products___item-basket");
   let sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
+  const aboutProductBtn = document.querySelector(".about__product-basket-btn");
+  const aboutProductAction = document.querySelector(".about__product-action");
 
   sliderItemWeightList.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -141,8 +143,7 @@ addEventListener("DOMContentLoaded", () => {
         e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
         ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
         : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
-    ).splice(0, 5);
-    price.splice(price.indexOf(","), 1, ".");
+    ).splice(0, 6);
     if (array.length !== 0) {
       basketArrayObj.push({
         count: 1,
@@ -150,8 +151,8 @@ addEventListener("DOMContentLoaded", () => {
         title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(),
         src: e.currentTarget.parentElement.parentElement.children[0].children[0].src,
         weight: array,
-        initPrice: parseFloat(price.join("")),
-        price: parseFloat(price.join("")),
+        initPrice: parseFloat(price.join("")).toFixed(2),
+        price: parseFloat(price.join("")).toFixed(2),
         promotion: e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion")
           ? true
           : false,
@@ -164,7 +165,6 @@ addEventListener("DOMContentLoaded", () => {
 
   function addBasketItemToHover() {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
-    const basketHoverListItem = document.querySelectorAll(".header__bottom-basket-hover-list-item-title");
     let basketCount = 0;
     headerBottomHoverList.innerHTML = "";
     if (basketArray) {
@@ -179,11 +179,11 @@ addEventListener("DOMContentLoaded", () => {
             <img src="${i.src}" alt="">
         </div>
         <div class="header__bottom-basket-hover-list-item-action">
-            <a href="#" class="header__bottom-basket-hover-list-item-title">
+            <a href="${i.href}" class="header__bottom-basket-hover-list-item-title">
                 ${i.title}
             </a>
             <ul class="header__bottom-basket-hover-list-item-weight-list">
-                ${i.weight.map(
+                ${i?.weight?.map(
                   (item) =>
                     `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
                 )}
@@ -296,5 +296,147 @@ addEventListener("DOMContentLoaded", () => {
       addBasketItemToLocalStorage(event);
       addBasketItemToHover();
     });
+  });
+
+  aboutProductBtn?.addEventListener("click", (e) => {
+    let basket = JSON.parse(localStorage.getItem("basket")) || [];
+    const inputValue = e.currentTarget.parentElement.children[0].children[1].value;
+    let weightItem
+    Array.from(e.currentTarget.parentElement.parentElement.parentElement.children[1].children[0].children[0].children[1].children).forEach(item => {
+      if(item.classList.contains("about__product-weight-list-item-active")) {
+        weightItem = item.children[0].textContent.trim() + "."
+      }
+    })
+    for(let i of basket) {
+      if(i.id === e.currentTarget.dataset.productId && i.weight.includes(weightItem)) {
+        i.count += +inputValue;
+        i.price = Number(i.count * i.initPrice);
+        localStorage.setItem("basket", JSON.stringify(basket));
+        addBasketItemToHover()
+        return
+      }
+    }
+    console.log(e.currentTarget.parentElement.parentElement);
+    if(!e.currentTarget.parentElement.parentElement.children[3].classList.contains('about__product-action-wrap')){
+      basket.push({
+        id: e.currentTarget.dataset.productId,
+        count: +inputValue,
+        initPrice:
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
+            "about__product-price-promotion-noaction-price"
+          )
+            ? parseFloat(
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("")
+              ).toFixed(2)
+            : parseFloat(
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("")
+              ).toFixed(2),
+        weight: [weightItem],
+        price:
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
+            "about__product-price-promotion-noaction-price"
+          )
+            ? parseFloat(
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("") * +inputValue
+              ).toFixed(2)
+            : parseFloat(
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("") * +inputValue
+              ).toFixed(2),
+        title:
+          e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
+        promotion:
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
+            "about__product-price-promotion-noaction-price"
+          )
+            ? true
+            : false,
+        src: e.currentTarget.parentElement.parentElement.parentElement.children[0].children[1].children[0]
+          .children[0].src,
+        href: window.location.href,
+      })
+    }else {
+      basket.push({
+        id: e.currentTarget.dataset.productId,
+        count: +inputValue,
+        initPrice:
+          e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
+            "about__product-price-promotion-noaction-price"
+          )
+            ? parseFloat(
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("")
+              ).toFixed(2)
+            : parseFloat(
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("")
+              ).toFixed(2),
+        weight: [weightItem],
+        price:
+          e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
+            "about__product-price-promotion-noaction-price"
+          )
+            ? parseFloat(
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("") * +inputValue
+              ).toFixed(2)
+            : parseFloat(
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].textContent
+                  .trim()
+                  .split(" ")
+                  .splice(0, 1)
+                  .join("") * +inputValue
+              ).toFixed(2),
+        title:
+          e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
+        promotion:
+          e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
+            "about__product-price-promotion-noaction-price"
+          )
+            ? true
+            : false,
+        src: e.currentTarget.parentElement.parentElement.parentElement.children[0].children[1].children[0]
+          .children[0].src,
+        href: window.location.href,
+      })
+    }
+    
+    localStorage.setItem("basket", JSON.stringify(basket));
+    addBasketItemToHover()
+    setCountInBasket()
+  });
+
+  aboutProductAction?.addEventListener("click", (e) => {
+    if (e.target.textContent.trim() === "+") {
+      e.currentTarget.children[1].value = +e.currentTarget.children[1].value + 1;
+    } else if (e.target.textContent.trim() === "-") {
+      if (e.currentTarget.children[1].value > 1) {
+        e.currentTarget.children[1].value = +e.currentTarget.children[1].value - 1;
+      }
+    }
   });
 });
