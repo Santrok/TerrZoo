@@ -4,7 +4,6 @@ const wishListCount = document.querySelector('.wishlist__title p span')
 
 new MutationObserver(() => {
     wishList = JSON.parse(localStorage.getItem("heartsProduct"))
-    console.log(wishListCount);
     wishListCount.textContent = wishList?.length
 }).observe(productsList,{
     childList: true,
