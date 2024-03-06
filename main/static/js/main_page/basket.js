@@ -9,6 +9,7 @@ addEventListener("DOMContentLoaded", () => {
   let sliderItemWeightList = document.querySelectorAll(".slider__item-weight-list-item");
   const aboutProductBtn = document.querySelector(".about__product-basket-btn");
   const aboutProductAction = document.querySelector(".about__product-action");
+  const yourWeightBtn = document.querySelector(".about__product-your-weight-hide button");
 
   sliderItemWeightList.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -52,6 +53,7 @@ addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
 
   let count = localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("basket")).length : 0;
   headerBottomBasketCount.textContent = count;
@@ -166,7 +168,15 @@ addEventListener("DOMContentLoaded", () => {
   function addBasketItemToHover() {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
     let basketCount = 0;
-    headerBottomHoverList.innerHTML = "";
+    if(headerBottomHoverList.children.length === 0) {
+      console.log(1111);
+      const li = document.createElement('li')
+      li.classList.add('header__bottom-hover-list-none')
+      li.innerHTML = `Ваша корзина пуста`
+      headerBottomHoverList.append(li)
+    } else {
+      headerBottomHoverList.innerHTML = "";
+    }
     if (basketArray) {
       for (let i of basketArray) {
         const li = document.createElement("li");
@@ -284,7 +294,6 @@ addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-
   productsList
     ? obsever.observe(productsList, {
         childList: true,
@@ -301,28 +310,37 @@ addEventListener("DOMContentLoaded", () => {
   aboutProductBtn?.addEventListener("click", (e) => {
     let basket = JSON.parse(localStorage.getItem("basket")) || [];
     const inputValue = e.currentTarget.parentElement.children[0].children[1].value;
-    let weightItem
-    Array.from(e.currentTarget.parentElement.parentElement.parentElement.children[1].children[0].children[0].children[1].children).forEach(item => {
-      if(item.classList.contains("about__product-weight-list-item-active")) {
-        weightItem = item.children[0].textContent.trim() + "."
+    const weightInput = document.querySelector(".about__product-your-weight-hide input");
+    let weightItem;
+    Array.from(
+      e.currentTarget.parentElement.parentElement.parentElement.children[1].children[0].children[0].children[1].children
+    ).forEach((item) => {
+      if (item.classList.contains("about__product-weight-list-item-active")) {
+        weightItem = item.children[0].textContent.trim() + ".";
       }
-    })
-    for(let i of basket) {
-      if(i.id === e.currentTarget.dataset.productId && i.weight.includes(weightItem)) {
+    });
+    for (let i of basket) {
+      if (
+        i.id === e.currentTarget.dataset.productId &&
+        (i.weight.includes(weightItem) || i.weight[0] === weightInput.value + " кг.")
+      ) {
         i.count += +inputValue;
         i.price = Number(i.count * i.initPrice);
         localStorage.setItem("basket", JSON.stringify(basket));
-        addBasketItemToHover()
-        return
+        addBasketItemToHover();
+        return;
       }
     }
-    console.log(e.currentTarget.parentElement.parentElement);
-    if(!e.currentTarget.parentElement.parentElement.children[3].classList.contains('about__product-action-wrap')){
-      basket.push({
-        id: e.currentTarget.dataset.productId,
-        count: +inputValue,
-        initPrice:
-          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
+    if (
+      weightItem ||
+      parseFloat(weightInput.value).toFixed(1) + " кг." ===
+        e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
+    ) {
+      if (!e.currentTarget.parentElement.parentElement.children[3].classList.contains("about__product-action-wrap")) {
+        basket.push({
+          id: e.currentTarget.dataset.productId,
+          count: +inputValue,
+          initPrice: e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
             ? parseFloat(
@@ -339,9 +357,13 @@ addEventListener("DOMContentLoaded", () => {
                   .splice(0, 1)
                   .join("")
               ).toFixed(2),
-        weight: [weightItem],
-        price:
-          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
+          weight: [
+            weightInput.value + " кг." !==
+            e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
+              ? weightItem
+              : weightInput.value + " кг.",
+          ],
+          price: e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
             ? parseFloat(
@@ -358,24 +380,22 @@ addEventListener("DOMContentLoaded", () => {
                   .splice(0, 1)
                   .join("") * +inputValue
               ).toFixed(2),
-        title:
-          e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
-        promotion:
-          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
+          title:
+            e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
+          promotion: e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
             ? true
             : false,
-        src: e.currentTarget.parentElement.parentElement.parentElement.children[0].children[1].children[0]
-          .children[0].src,
-        href: window.location.href,
-      })
-    }else {
-      basket.push({
-        id: e.currentTarget.dataset.productId,
-        count: +inputValue,
-        initPrice:
-          e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
+          src: e.currentTarget.parentElement.parentElement.parentElement.children[0].children[1].children[0].children[0]
+            .src,
+          href: window.location.href,
+        });
+      } else {
+        basket.push({
+          id: e.currentTarget.dataset.productId,
+          count: +inputValue,
+          initPrice: e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
             ? parseFloat(
@@ -392,9 +412,13 @@ addEventListener("DOMContentLoaded", () => {
                   .splice(0, 1)
                   .join("")
               ).toFixed(2),
-        weight: [weightItem],
-        price:
-          e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
+          weight: [
+            weightInput.value + " кг." !==
+            e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
+              ? weightItem
+              : weightInput.value + " кг.",
+          ],
+          price: e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
             ? parseFloat(
@@ -411,31 +435,116 @@ addEventListener("DOMContentLoaded", () => {
                   .splice(0, 1)
                   .join("") * +inputValue
               ).toFixed(2),
-        title:
-          e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
-        promotion:
-          e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
+          title:
+            e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
+          promotion: e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
             ? true
             : false,
-        src: e.currentTarget.parentElement.parentElement.parentElement.children[0].children[1].children[0]
-          .children[0].src,
-        href: window.location.href,
-      })
+          src: e.currentTarget.parentElement.parentElement.parentElement.children[0].children[1].children[0].children[0]
+            .src,
+          href: window.location.href,
+        });
+      }
     }
-    
+
     localStorage.setItem("basket", JSON.stringify(basket));
-    addBasketItemToHover()
-    setCountInBasket()
+    addBasketItemToHover();
+    setCountInBasket();
   });
+
+  yourWeightBtn?.addEventListener("click", (e) => {
+    e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[0].children[1].textContent =
+      parseFloat(
+        e.currentTarget.parentElement.children[0].value *
+          e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+            .split(",")
+            .join(".")
+      ).toFixed(2) + " BYN";
+      console.log();
+    e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent =
+      parseFloat(e.currentTarget.parentElement.children[0].value).toFixed(1) + " кг.";
+    localStorage.setItem("initWeight", e.currentTarget.parentElement.children[0].value);
+    const aboutProductList = document.querySelectorAll(".about__product-weight-list-item");
+    for (let i of aboutProductList) {
+      i.classList.remove("about__product-weight-list-item-active");
+    }
+  });
+
+  const aboutProductWeightSpan = document.querySelector('.about__product-price-weight span')
+  localStorage.setItem('initWeight',aboutProductWeightSpan?.textContent.split(" ").splice(0,1).join(''))
+
+  aboutProductAction?.children[1]?.addEventListener("input", (e) => {
+    if(localStorage.getItem('initWeight') === null){
+      localStorage.setItem('initWeight',e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join(''))
+    }
+
+    e.currentTarget.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent = 
+    parseFloat((e.currentTarget.value *
+      +localStorage.getItem('initWeight'))).toFixed(1) + ' кг.'
+      if(e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1]){
+        e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].textContent =
+          parseFloat(
+            e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+              .split(",")
+              .join(".") * e.currentTarget.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+          ).toFixed(2) + " BYN";
+      }else {
+        e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].textContent =
+          parseFloat(
+            e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
+              .split(",")
+              .join(".") * e.currentTarget.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+          ).toFixed(2) + " BYN";
+      }
+  })
 
   aboutProductAction?.addEventListener("click", (e) => {
     if (e.target.textContent.trim() === "+") {
       e.currentTarget.children[1].value = +e.currentTarget.children[1].value + 1;
+      if(localStorage.getItem('initWeight') === null){
+        localStorage.setItem('initWeight',e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join(''))
+      }
+      e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent = 
+      parseFloat((+e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') +
+        +localStorage.getItem('initWeight'))).toFixed(1) + ' кг.'
+        if(e.currentTarget.parentElement.parentElement.children[3].children[0].children[1]){
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent =
+            parseFloat(
+              e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+                .split(",")
+                .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+            ).toFixed(2) + " BYN";
+        }else {
+          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent =
+            parseFloat(
+              e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
+                .split(",")
+                .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+            ).toFixed(2) + " BYN";
+        }
     } else if (e.target.textContent.trim() === "-") {
       if (e.currentTarget.children[1].value > 1) {
         e.currentTarget.children[1].value = +e.currentTarget.children[1].value - 1;
+        e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent = 
+        parseFloat((+e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') -
+          +localStorage.getItem('initWeight'))).toFixed(1) + ' кг.'
+          if(e.currentTarget.parentElement.parentElement.children[3].children[0].children[1]){
+            e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent =
+              parseFloat(
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+              ).toFixed(2) + " BYN";
+          }else {
+            e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent =
+              parseFloat(
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+              ).toFixed(2) + " BYN";
+          }
       }
     }
   });

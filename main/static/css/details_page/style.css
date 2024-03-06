@@ -489,6 +489,8 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
+    flex-wrap: wrap;
+    row-gap: 5px;
 }
 
 .about__product-price {
