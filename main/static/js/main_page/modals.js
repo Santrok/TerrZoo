@@ -4,6 +4,8 @@ const callbackForm = document.querySelector(".callback");
 const callbackBtn = document.querySelector(".callback > button");
 const accessCallback = document.querySelector(".access__callback");
 const accessCallbackButton = document.querySelector(".access__callback > button");
+const errorCallback = document.querySelector(".error__callback");
+const errorCallbackButton = document.querySelector(".error__callback > button");
 const footerButtonCallcallback = document.querySelector(".footer__bottom-button");
 const cross = document.querySelectorAll(".cross");
 const buyOneClick = document.querySelector(".buy__one-click");
@@ -95,7 +97,7 @@ if (porductListInModals) {
                     for (let i of e.currentTarget.parentElement.children[2].children) {
                       if(i.classList.contains('slider__item-weight-list-item-active')) {
                         buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.textContent}</li>`;
-                      } 
+                      }
                     }
                     if (
                         e.currentTarget.parentElement.children[4].classList.contains("products___item-promotion") ||
@@ -168,12 +170,52 @@ weightButton.addEventListener("click", () => {
 });
 
 callbackBtn.addEventListener("click", () => {
-  callbackForm.classList.remove("modal__active");
-  accessCallback.classList.add("modal__active");
+    const form = document.querySelector(".callback");
+    const nameUser = form.querySelector("input[name='name']");
+    const phoneUser = form.querySelector("input[name='phone']");
+    const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    const data = {
+        name_user: nameUser.value,
+        phone_number_user: phoneUser.value
+    };
+    fetch(`http://127.0.0.1:8000/manager_tasks/callback/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.json().then((errorData) => {
+                    throw new Error(errorData.message);
+                });
+        }})
+        .then((data) => {
+            callbackForm.classList.remove("modal__active");
+            accessCallback.classList.add("modal__active");
+            nameUser.value='';
+            phoneUser.value='';
+            console.log(data.message)
+        })
+        .catch((error) => {
+            callbackForm.classList.remove("modal__active");
+            errorCallback.classList.add("modal__active");
+            console.log('Ошибка: ' + error.message)
+        });
 });
 
 accessCallbackButton.addEventListener("click", () => {
   document.body.style.overflow = "auto";
   modal.classList.remove("modal__active");
   accessCallback.classList.remove("modal__active");
+});
+
+errorCallbackButton.addEventListener("click", () => {
+  document.body.style.overflow = "auto";
+  modal.classList.remove("modal__active");
+  errorCallback.classList.remove("modal__active");
 });

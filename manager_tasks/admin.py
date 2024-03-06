@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from manager_tasks.models import Callback, AdminCallback
+
+admin.site.register(Callback, AdminCallback)

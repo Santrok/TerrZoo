@@ -1308,6 +1308,18 @@ footer {
   max-width: 414px;
 }
 
+.error__callback {
+  position: relative;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 19px;
+  border-radius: 8px;
+  background: rgb(255, 255, 255);
+  max-width: 414px;
+}
+
 .access__img {
   max-width: 40px;
   max-height: 40px;
