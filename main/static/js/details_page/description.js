@@ -13,5 +13,6 @@ descriptionItem.forEach(item => {
         const aboutProductWeight = document.querySelector('.about__product-price-weight > span')
         aboutProductPrice.innerHTML = e.currentTarget.children[1].textContent.trim()
         aboutProductWeight.innerHTML = e.currentTarget.children[0].textContent.trim()
+        localStorage.setItem('initWeight', e.currentTarget.children[0].textContent.trim().split(',').join('.').split(' ').splice(0,1).join(''))
     })
 })
