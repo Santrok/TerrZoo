@@ -91,6 +91,12 @@ addEventListener("DOMContentLoaded", () => {
             e.target.parentElement.children[1].textContent = i.count;
             localStorage.setItem("basket", JSON.stringify(basketArrayObj));
             setCountInBasket();
+            if(headerBottomHoverList.children.length === 0) {
+              const li = document.createElement('li')
+              li.classList.add('header__bottom-hover-list-none')
+              li.innerHTML = `Ваша корзина пуста`
+              headerBottomHoverList.append(li)
+            }
           }
         }
       } else {
@@ -169,7 +175,6 @@ addEventListener("DOMContentLoaded", () => {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
     let basketCount = 0;
     if(headerBottomHoverList.children.length === 0) {
-      console.log(1111);
       const li = document.createElement('li')
       li.classList.add('header__bottom-hover-list-none')
       li.innerHTML = `Ваша корзина пуста`
@@ -230,7 +235,7 @@ addEventListener("DOMContentLoaded", () => {
       addBasketItemToHover();
     });
   });
-
+// product list observer for catalog page
   let obsever = new MutationObserver(() => {
     productItemBtn = document.querySelectorAll(".products___item-basket");
     productItemBtn.forEach((item) => {
