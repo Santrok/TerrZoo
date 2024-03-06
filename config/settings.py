@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'main',
     "api",
     "error_management",
-
+    "manager_tasks",
 ]
 
 AUTHENTICATION_BACKENDS = [

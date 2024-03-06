@@ -325,11 +325,11 @@
                             <div class="header__up-login-button">
                                 {% if user.is_authenticated %}
                                 <a href="{% url 'logout' %}">
-                                    <img src="{% static 'icons/singOut.svg' %}" alt="">
+                                    <img src="{% static '/img/icons/singOut.svg' %}" alt="">
                                 </a>
                                 {% else %}
                                 <a href="{% url 'login' %}">
-                                    <img src="{% static 'icons/singIn.svg' %}" alt="">
+                                    <img src="{% static '/img/icons/singIn.svg' %}" alt="">
                                 </a>
                                 {% endif %}
                             </div>

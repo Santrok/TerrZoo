@@ -30,6 +30,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('', include('main.urls')),
     path('api/', include('api.urls')),
+    path('manager_tasks/', include('manager_tasks.urls')),
 
     path('accounts/', include('allauth.urls')),
 ]
