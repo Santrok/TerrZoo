@@ -1852,3 +1852,12 @@ footer {
   line-height: 20px;
   text-align: left;
 }
+
+.header__bottom-hover-list-none{
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Display;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 0px;
+}

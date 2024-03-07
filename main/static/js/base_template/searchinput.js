@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Получение элементов для событий
 
     const searchInput = document.querySelector("#search__input")
-    
+    const insertResultData = document.querySelector('.search__drop-down')
     searchInput.addEventListener('input', fetchQueryParams)
     searchInput.addEventListener('keyup', getPageCatalog)
 
@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = 'http://127.0.0.1:8000/search/'
         }
     }
+
+    searchInput.addEventListener('focusout', () => {
+        insertResultData.style.display = 'none'
+        insertResultData.innerHTML = ''
+    })
     function fetchQueryParams(event) {
         if (searchInput.value.length >= 3) {
             fetch(`http://127.0.0.1:8000/api/get_search_product/?title=${searchInput.value}`)
@@ -18,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(data => {
                     console.log(data.results);
                     localStorage.setItem("result_search_objects", JSON.stringify(data.results))
-                    let insertResultData = document.querySelector('.search__drop-down')
                     insertResultData.style.display = 'block'
                     insertResultData.innerHTML = ''
                     for (let item of data.results) {
@@ -28,6 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                             <p class="search__drop-down-item-title">${item.title}</p>
                         </a>`
+                    }
+                    if(data.results.length === 0) {
+                        insertResultData.innerHTML = `<div class="search__drop-down-item">
+                        <p class="search__drop-down-item-title">По вашему запросу ничего не найдено</p>
+                    </в>`
                     }
                 })
         } else {
