@@ -186,7 +186,7 @@ callbackBtn.addEventListener("click", () => {
         },
         body: JSON.stringify(data)
     })
-        .then((response) => {
+        .then(response => {
             if (response.ok) {
                 return response.json();
             } else {
