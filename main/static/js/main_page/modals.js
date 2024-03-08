@@ -186,7 +186,7 @@ callbackBtn.addEventListener("click", () => {
         },
         body: JSON.stringify(data)
     })
-        .then(response => {
+        .then(async response => {
             if (response.ok) {
                 return response.json();
             } else {
@@ -199,12 +199,10 @@ callbackBtn.addEventListener("click", () => {
             accessCallback.classList.add("modal__active");
             nameUser.value='';
             phoneUser.value='';
-            console.log(data.message)
         })
         .catch((error) => {
             callbackForm.classList.remove("modal__active");
             errorCallback.classList.add("modal__active");
-            console.log('Ошибка: ' + error.message)
         });
 });
 
