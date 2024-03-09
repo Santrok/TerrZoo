@@ -11,18 +11,29 @@ class Callback(models.Model):
     def __str__(self):
         return f'{self.user} {self.phone_number_user}'
 
+    class Meta:
+        verbose_name = "Обратные звонки"
+        verbose_name_plural = "Обратный звонок"
+
 
 class AdminCallback(admin.ModelAdmin):
     """Класс управления отображения в админ панели сущности: Callback"""
+
     list_editable = ["callback_completed"]
     list_display = ["user",
                     "phone_number_user",
                     "callback_completed", ]
-    list_filter = ["user",
-                   "phone_number_user", ]
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         if not request.user.is_superuser:
             queryset = queryset.exclude(callback_completed=True)
         return queryset
+
+    def get_list_filter(self, request):
+        if request.user.is_superuser:
+            return ["user", "phone_number_user", "callback_completed"]
+        else:
+            return ["user", "phone_number_user"]
+
+
