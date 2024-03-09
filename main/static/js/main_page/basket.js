@@ -479,12 +479,10 @@ addEventListener("DOMContentLoaded", () => {
 
   const aboutProductWeightSpan = document.querySelector('.about__product-price-weight span')
   localStorage.setItem('initWeight',aboutProductWeightSpan?.textContent.split(" ").splice(0,1).join(''))
-
   aboutProductAction?.children[1]?.addEventListener("input", (e) => {
     if(localStorage.getItem('initWeight') === null){
       localStorage.setItem('initWeight',e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join(''))
     }
-
     e.currentTarget.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent = 
     parseFloat((e.currentTarget.value *
       +localStorage.getItem('initWeight'))).toFixed(1) + ' кг.'
@@ -511,30 +509,17 @@ addEventListener("DOMContentLoaded", () => {
       if(localStorage.getItem('initWeight') === null){
         localStorage.setItem('initWeight',e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join(''))
       }
-      e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent = 
-      parseFloat((+e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') +
-        +localStorage.getItem('initWeight'))).toFixed(1) + ' кг.'
-        if(e.currentTarget.parentElement.parentElement.children[3].children[0].children[1]){
-          e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent =
-            parseFloat(
-              e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
-                .split(",")
-                .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
-            ).toFixed(2) + " BYN";
-        }else {
-          e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent =
-            parseFloat(
-              e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
-                .split(",")
-                .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
-            ).toFixed(2) + " BYN";
-        }
-    } else if (e.target.textContent.trim() === "-") {
-      if (e.currentTarget.children[1].value > 1) {
-        e.currentTarget.children[1].value = +e.currentTarget.children[1].value - 1;
+      // set option weight
+      if(e.currentTarget.parentElement.parentElement.children[3].classList.contains('about__product-price-wrap')) {
+        localStorage.setItem('optionWeight', e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim().split(' ').splice(1,1).join('') === 'шт.' ? ' шт.' : ' кг.')
+      }else {
+        localStorage.setItem('optionWeight', e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent.trim().split(' ').splice(1,1).join('') === 'шт.' ? ' шт.' : ' кг.')
+      }
+
+      if(e.currentTarget.parentElement.parentElement.children[3].classList.contains('about__product-price-wrap')) {
         e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent = 
-        parseFloat((+e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') -
-          +localStorage.getItem('initWeight'))).toFixed(1) + ' кг.'
+        parseFloat((+e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') +
+          +localStorage.getItem('initWeight'))).toFixed(1) + localStorage.getItem('optionWeight')
           if(e.currentTarget.parentElement.parentElement.children[3].children[0].children[1]){
             e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent =
               parseFloat(
@@ -550,6 +535,68 @@ addEventListener("DOMContentLoaded", () => {
                   .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
               ).toFixed(2) + " BYN";
           }
+      }else {
+        e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent = 
+        parseFloat((+e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') +
+          +localStorage.getItem('initWeight'))).toFixed(1) + localStorage.getItem('optionWeight')
+          if(e.currentTarget.parentElement.parentElement.children[2].children[0].children[1]){
+            e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].textContent =
+              parseFloat(
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+              ).toFixed(2) + " BYN";
+          }else {
+            e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].textContent =
+              parseFloat(
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+              ).toFixed(2) + " BYN";
+          }
+      }
+    } else if (e.target.textContent.trim() === "-") {
+      if (e.currentTarget.children[1].value > 1) {
+        e.currentTarget.children[1].value = +e.currentTarget.children[1].value - 1;
+        if(e.currentTarget.parentElement.parentElement.children[3].classList.contains('about__product-price-wrap')) {
+          e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent = 
+          parseFloat((+e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') -
+            +localStorage.getItem('initWeight'))).toFixed(1) + localStorage.getItem('optionWeight')
+            if(e.currentTarget.parentElement.parentElement.children[3].children[0].children[1]){
+              e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent =
+                parseFloat(
+                  e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+                    .split(",")
+                    .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+                ).toFixed(2) + " BYN";
+            }else {
+              e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent =
+                parseFloat(
+                  e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
+                    .split(",")
+                    .join(".") * e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+                ).toFixed(2) + " BYN";
+            }
+        }else{
+          e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent = 
+          parseFloat((+e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent.split(" ").splice(0,1).join('').split(',').join('.') -
+            +localStorage.getItem('initWeight'))).toFixed(1) + localStorage.getItem('optionWeight')
+            if(e.currentTarget.parentElement.parentElement.children[2].children[0].children[1]){
+              e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].textContent =
+                parseFloat(
+                  e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
+                    .split(",")
+                    .join(".") * e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+                ).toFixed(2) + " BYN";
+            }else {
+              e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].textContent =
+                parseFloat(
+                  e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+                    .split(",")
+                    .join(".") * e.currentTarget.parentElement.parentElement.children[2].children[1].children[0].textContent.split(' ').splice(0,1).join('')
+                ).toFixed(2) + " BYN";
+            }
+        }
       }
     }
   });

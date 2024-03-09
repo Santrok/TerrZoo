@@ -1276,6 +1276,7 @@ footer {
 
   .buy__one-click-list-item-wrap {
     flex-direction: initial;
+    width: 100%;
   }
 
   .buy__one-click-list-item-quantity {
