@@ -8,8 +8,9 @@ from main.views import (get_page, login_view, registration_view, logout_view, re
                         get_promotions_page, search_catalog, get_placing_an_order_page, get_profile_order_page,
                         get_profile_wishlist_page, get_profile_comparisonlist_page, get_profile_page_data_user,
                         get_order_details_page, get_profile_viewed_products_page, get_profile_subscriptions_page,
-                        delete_profile_order, get_order_details_page, get_profile_viewed_products_page, get_profile_subscriptions_page,
-                        successful_email)
+                        delete_profile_order, get_order_details_page, get_profile_viewed_products_page,
+                        get_profile_subscriptions_page,
+                        successful_email, get_status_subscription_page)
 
 urlpatterns = [
     path('', get_page, name='main'),
@@ -56,5 +57,6 @@ urlpatterns = [
     path('order_details/<int:order_id>/', get_order_details_page, name='order_details'),
     path('viewed_products/', get_profile_viewed_products_page, name='viewed_products'),
     path('subscriptions/', get_profile_subscriptions_page, name='subscriptions'),
+    path('subscription_status/', get_status_subscription_page, name='subscription_status'),
     path('profile_delete_order/<int:order_id>/', delete_profile_order, name='profile_delete_order'),
 ]

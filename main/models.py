@@ -471,6 +471,8 @@ class Profile(models.Model):
                                    max_length=6,
                                    blank=True,
                                    null=True)
+    subscribe = models.BooleanField(verbose_name="Подписка",
+                                    default=False)
 
     def clean(self):
         """Проверка некоторых полей модели."""

@@ -27,16 +27,17 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="subscription_by_email">
-                    <input type="checkbox" name="subscribe" {% if checked %}checked{% endif %}>
-                <p>По электронной почте</p>
+                    <input type="checkbox" name="subscribe" {% if status %} checked {% endif %}>
+                    <p>По электронной почте</p>
                 </div>
                 <div class="subscription__button">
                     <button class="button">Сохранить</button>
                 </div>
             </form>
+            <div class="subscription_status_button">
+                <a class="button" href="{% url 'subscription_status' %}">Статус подписки</a>
+            </div>
         </div>
-        
-
     </section>
 
 

@@ -534,20 +534,37 @@ def get_profile_viewed_products_page(request):
 @login_required
 def get_profile_subscriptions_page(request):
     '''Страничка с оформлением подписки на акции и новые статьи'''
-    checked = Profile.objects.get(user=request.user).subscribe
+    status = Profile.objects.get(user=request.user).subscribe
+    profile = Profile.objects.get(user=request.user)
     context = {
-        'checked': checked
+        'status': status
     }
     if request.method == 'POST':
         query_dict = request.POST
-        if query_dict.get('subscribe') == 'on':
-            checked = True
-            print('*****', checked, '*****')
-        if query_dict.get('subscribe') is None:
-            checked = False
-            print('*****', checked, '*****')
+        if status is False and query_dict.get('subscribe') == 'on':
+            profile.subscribe = True
+            profile.save()
+            return redirect('subscription_status')
+        if status is True and query_dict.get('subscribe') is None:
+            profile.subscribe = False
+            profile.save()
+            return redirect('subscription_status')
+        else:
+            return redirect('subscription_status')
     return render(request=request,
                   template_name="profile_subscriptions.html",
+                  context=context)
+
+
+@login_required
+def get_status_subscription_page(request):
+    status = Profile.objects.get(user=request.user).subscribe
+    print(status)
+    context = {
+        'status': status,
+    }
+    return render(request=request,
+                  template_name="subscription_status_page.html",
                   context=context)
 
 
