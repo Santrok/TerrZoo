@@ -145,7 +145,6 @@ addEventListener("DOMContentLoaded", () => {
         return;
       }
     }
-
     let price = Array.from(
       e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
         e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
@@ -174,7 +173,7 @@ addEventListener("DOMContentLoaded", () => {
   function addBasketItemToHover() {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
     let basketCount = 0;
-    if(headerBottomHoverList.children.length === 0) {
+    if(basketArray.length === 0) {
       const li = document.createElement('li')
       li.classList.add('header__bottom-hover-list-none')
       li.innerHTML = `Ваша корзина пуста`
@@ -225,6 +224,7 @@ addEventListener("DOMContentLoaded", () => {
         headerBottomHoverList.append(li);
       }
     }
+
   }
 
   addBasketItemToHover();

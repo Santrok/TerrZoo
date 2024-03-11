@@ -7,23 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let basket = JSON.parse(localStorage.getItem("basket"));
   let priceInit = 0;
 
+  basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
   // --- basket events
   new MutationObserver((mutation) => {
     list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
     basket = JSON.parse(localStorage.getItem("basket"));
-    priceInit = 0;
-    basketTotalText[1].textContent = basket.length + " товаров";
-    basket?.forEach((item) => {
-      if (event?.target?.classList?.contains("plus")) {
-        priceInit += Number(item.price.toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
-      } else if (event?.target?.classList?.contains("minus")) {
-        priceInit += Number(item.price.toFixed(2));
-        basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
-      }
-    });
+    basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
     list.forEach((item) => {
-      basketTotalText[1].textContent = list.length + " товаров";
       if (
         event?.currentTarget?.classList?.contains("basket__list-item") &&
         event?.currentTarget?.dataset?.id === item.dataset.id &&
@@ -36,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
           event?.currentTarget?.children[2].children[0].children[1].textContent.trim();
         if (Number(item.children[0].children[2].children[0].children[1].textContent) <= 0) {
           item.remove();
-          basketTotalText[0].textContent = "0 BYN";
+          basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
         }
       }
       setCountInBasket();
@@ -59,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
           i.parentElement.parentElement.parentElement.parentElement.children[1].children[1].children[1].children[0].textContent.trim() ===
             j.weight.join("")
         ) {
-          i.parentElement.parentElement.children[1].textContent = (j.count * j.initPrice).toFixed(2) + " BYN";
           i.innerHTML = j.count;
         }
       }
@@ -76,17 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     priceInit = 0;
     basketTotalText[1].textContent = basket.length + " товаров";
-    basket?.forEach((item) => {
-      if (event.target.classList) {
-        if (event?.target?.classList.contains("plus")) {
-          priceInit += Number(item.price.toFixed(2));
-          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
-        } else if (event?.target?.classList.contains("minus")) {
-          priceInit += Number(item.price.toFixed(2));
-          basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
-        }
-      }
-    });
+    basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
     list.forEach((item) => {
       if (event?.target?.parentElement?.parentElement?.parentElement?.parentElement?.classList) {
         if (
@@ -115,12 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   // ----
 
-  basket?.forEach((item) => {
-    priceInit += +item.price.toFixed(2);
-    basketTotalText[0].textContent = priceInit !== undefined ? priceInit.toFixed(2) + " BYN" : 0;
-  });
-
-  basketTotalText[1].textContent = basket?.length ? basket?.length : 0 + " товаров";
   function initBasketItem() {
     if (localStorage.getItem("basket") === null) {
       return;
@@ -231,15 +204,12 @@ document.addEventListener("DOMContentLoaded", () => {
           e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
         ) {
           if (i.count <= 1) {
-            console.log(e.currentTarget);
             e.currentTarget.remove();
             basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
           }
           i.count -= 1;
           i.initPrice === 0 ? (i.initPrice = i.price) : 0;
-          i.price = Number(i.price - i.initPrice);
-          e.target.parentElement.parentElement.children[1].textContent =
-            (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
+          i.price = parseFloat(i.price - i.initPrice).toFixed(2);
           e.target.parentElement.children[1].textContent = i.count;
           localStorage.setItem("basket", JSON.stringify(basketArrayObj));
         }
@@ -252,9 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
           e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim() === i.weight.join("")
         ) {
           i.count += 1;
-          i.price = Number(i.count * i.initPrice);
-          e.target.parentElement.parentElement.children[1].textContent =
-            (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
+          i.price = parseFloat(i.count * i.initPrice).toFixed(2);
           e.target.parentElement.children[1].textContent = i.count;
           localStorage.setItem("basket", JSON.stringify(basketArrayObj));
           setCountInBasket();
@@ -268,12 +236,12 @@ document.addEventListener("DOMContentLoaded", () => {
           i.id === e.currentTarget.dataset.id &&
           i.weight.join("") === e.currentTarget.children[1].children[1].children[1].children[0].textContent.trim()
         ) {
-          console.log(i);
           basket.splice(basket.indexOf(i), 1);
           localStorage.setItem("basket", JSON.stringify(basket));
           basketList.innerHTML = "";
           initBasketItem();
           addBasketItemToHover()
+          setCountInBasket()
           basketItem = document.querySelectorAll(".basket__list-item");
           basketItem.forEach((item) => {
             item.addEventListener("click", (e) => {
@@ -285,13 +253,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // add event to basket item
   basketItem.forEach((item) => {
     item.addEventListener("click", (e) => basketItems(e));
   });
+  //---
 
   function addBasketItemToHover() {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
-    console.log(basketArray);
     let basketCount = 0;
     const headerBottomHoverList = document.querySelector('.header__bottom-basket-hover-list')
     headerBottomHoverList.innerHTML = "";

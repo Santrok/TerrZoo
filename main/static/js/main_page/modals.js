@@ -233,7 +233,7 @@ errorCallbackButton.addEventListener("click", () => {
   errorCallback.classList.remove("modal__active");
 });
 
-aboutProductBuy.addEventListener("click", (e) => {
+aboutProductBuy?.addEventListener("click", (e) => {
   for (let i of e.currentTarget.parentElement.parentElement.children[0].children[0].children[1].children) {
     if (i.classList.contains("about__product-weight-list-item-active")) {
       document.body.style.overflow = "hidden";
