@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.db import models
 
+from main.models import Order
+
 
 class Callback(models.Model):
     """Модель обратного звонка"""
@@ -35,5 +37,10 @@ class AdminCallback(admin.ModelAdmin):
             return ["user", "phone_number_user", "callback_completed"]
         else:
             return ["user", "phone_number_user"]
+
+
+#
+
+
 
 
