@@ -360,10 +360,10 @@ class Order(models.Model):
     order_status = models.CharField(verbose_name='Статус', max_length=15,
                                     choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
     order_item = models.JSONField(verbose_name='Детали заказа')
-    order_show = models.BooleanField(default=True)
+    order_show = models.BooleanField(verbose_name='Показывать заказ пользователю ', default=True)
 
     def __str__(self):
-        return f"{self.id}: {self.user.username} {self.order_number}"
+        return f"ID{self.id}: {self.order_number} - {self.user.username}"
 
     def create_check(self, data_request):
         """Создать чек формат file_name.json"""
@@ -383,6 +383,17 @@ class Order(models.Model):
 class AdminOrder(admin.ModelAdmin):
     """Класс управления отображения
         в админ панели сущности: Order"""
+
+    list_editable = ["order_status"]
+    list_display = ('order_number',
+                    'user',
+                    'order_status',)
+    list_filter = ('order_status', 'user',)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj and not request.user.is_superuser:
+            return 'order_number', 'user', 'check_order', 'total_price', 'pay_card'
+        return self.readonly_fields
 
 
 class PayCard(models.Model):
