@@ -260,7 +260,7 @@ main h3 {
     background: rgb(255, 255, 255);
 }
 
-.wishlist {
+.wishlist, .subscription {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -274,7 +274,7 @@ main h3 {
     gap: 20px;
 }
 
-.comparison__title, .wishlist__title, .pay__card__title, .details__list__about__order__title {
+.comparison__title, .wishlist__title, .pay__card__title, .details__list__about__order__title, .subscription__title {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -556,3 +556,19 @@ tr:hover td {
     gap: 10px;
     padding: 20px 0;
 }
+
+.subscription__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+    padding: 0 0 20px 20px;
+}
+
+.subscription_by_email {
+    display: grid;
+    grid-template-columns: 0fr 1fr;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+

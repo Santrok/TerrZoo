@@ -248,9 +248,11 @@ def activate_user(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         return redirect('activation_failure')
 
+
 def successful_email(request):
     """Страница успешного подтверждения email"""
     return render(request, 'successful_email_confirmation.html')
+
 
 def reset_password(request):
     """Страница с формой сброса пароля"""
@@ -531,7 +533,39 @@ def get_profile_viewed_products_page(request):
 
 @login_required
 def get_profile_subscriptions_page(request):
-    return render(request, "profile_subscriptions.html")
+    '''Страничка с оформлением подписки на акции и новые статьи'''
+    status = Profile.objects.get(user=request.user).subscribe
+    profile = Profile.objects.get(user=request.user)
+    context = {
+        'status': status
+    }
+    if request.method == 'POST':
+        query_dict = request.POST
+        if status is False and query_dict.get('subscribe') == 'on':
+            profile.subscribe = True
+            profile.save()
+            return redirect('subscription_status')
+        if status is True and query_dict.get('subscribe') is None:
+            profile.subscribe = False
+            profile.save()
+            return redirect('subscription_status')
+        else:
+            return redirect('subscription_status')
+    return render(request=request,
+                  template_name="profile_subscriptions.html",
+                  context=context)
+
+
+@login_required
+def get_status_subscription_page(request):
+    status = Profile.objects.get(user=request.user).subscribe
+    print(status)
+    context = {
+        'status': status,
+    }
+    return render(request=request,
+                  template_name="subscription_status_page.html",
+                  context=context)
 
 
 def get_order_details_page(request, order_id):
