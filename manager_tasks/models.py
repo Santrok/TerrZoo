@@ -65,6 +65,10 @@ class OrderForAnonymousUser(models.Model):
     def __str__(self):
         return f"ID{self.id}: {self.order_number}"
 
+    class Meta:
+        verbose_name = "Заказ анонимного пользователя"
+        verbose_name_plural = "Заказы анонимных пользователей"
+
 
 class AdminOrderForAnonymousUser(admin.ModelAdmin):
     """Класс управления отображения в админ панели сущности: OrderForAnonymousUser"""
@@ -76,6 +80,5 @@ class AdminOrderForAnonymousUser(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj and not request.user.is_superuser:
-            return ('order_number', 'user', 'products', 'check_order',
-                    'total_price', 'pay_card', 'order_item', 'order_show')
+            return 'order_number', 'data_create', 'total_price', 'order_item', 'order_show'
         return self.readonly_fields
