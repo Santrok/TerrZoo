@@ -200,7 +200,7 @@ callbackBtn.addEventListener("click", () => {
     },
     body: JSON.stringify(data),
   })
-    .then(async (response) => {
+    .then(response => {
       if (response.ok) {
         return response.json();
       } else {
@@ -210,6 +210,7 @@ callbackBtn.addEventListener("click", () => {
       }
     })
     .then((data) => {
+      console.log(111);
       callbackForm.classList.remove("modal__active");
       accessCallback.classList.add("modal__active");
       nameUser.value = "";
