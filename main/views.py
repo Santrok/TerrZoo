@@ -408,12 +408,13 @@ def get_placing_an_order_page(request):
                         product_list_id.append(i.get('id'))
                     product_list = Product.objects.filter(id__in=product_list_id)
                     article_for_orders = get_article_for_orders(user.id)
+                    file_url = get_check_file(request.POST.get('basket'),
+                                              request.POST.get('order_price'),
+                                              user,
+                                              article_for_orders)
                     order = Order(order_number=article_for_orders,
                                   user=user,
-                                  check_order=get_check_file(request.POST.get('basket'),
-                                                             request.POST.get('order_price'),
-                                                             user,
-                                                             article_for_orders),
+                                  check_order=file_url,
                                   total_price=request.POST.get('order_price'),
                                   order_status='Оформлен',
                                   order_item=json_obj)
