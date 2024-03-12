@@ -338,6 +338,7 @@ addEventListener("DOMContentLoaded", () => {
         e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
     ) {
       if (!e.currentTarget.parentElement.parentElement.children[3].classList.contains("about__product-action-wrap")) {
+        console.log();
         basket.push({
           id: e.currentTarget.dataset.productId,
           count: +inputValue,
@@ -368,18 +369,10 @@ addEventListener("DOMContentLoaded", () => {
             "about__product-price-promotion-noaction-price"
           )
             ? parseFloat(
-                e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent
-                  .trim()
-                  .split(" ")
-                  .splice(0, 1)
-                  .join("") * +inputValue
+              e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2)
             : parseFloat(
-                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent
-                  .trim()
-                  .split(" ")
-                  .splice(0, 1)
-                  .join("") * +inputValue
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2),
           title:
             e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
@@ -393,6 +386,7 @@ addEventListener("DOMContentLoaded", () => {
           href: window.location.href,
         });
       } else {
+        console.log(e.currentTarget.parentElement.parentElement.children[2].children[0].children[1]);
         basket.push({
           id: e.currentTarget.dataset.productId,
           count: +inputValue,
@@ -423,18 +417,10 @@ addEventListener("DOMContentLoaded", () => {
             "about__product-price-promotion-noaction-price"
           )
             ? parseFloat(
-                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].textContent
-                  .trim()
-                  .split(" ")
-                  .splice(0, 1)
-                  .join("") * +inputValue
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg.splt(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2)
             : parseFloat(
-                e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].textContent
-                  .trim()
-                  .split(" ")
-                  .splice(0, 1)
-                  .join("") * +inputValue
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2),
           title:
             e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
