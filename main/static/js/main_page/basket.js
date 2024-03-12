@@ -10,7 +10,7 @@ addEventListener("DOMContentLoaded", () => {
   const aboutProductBtn = document.querySelector(".about__product-basket-btn");
   const aboutProductAction = document.querySelector(".about__product-action");
   const yourWeightBtn = document.querySelector(".about__product-your-weight-hide button");
-
+// slider item weight list click
   sliderItemWeightList.forEach((item) => {
     item.addEventListener("click", (e) => {
       sliderItemWeightList.forEach((el) => {
@@ -129,7 +129,7 @@ addEventListener("DOMContentLoaded", () => {
       }
     }
     localStorage.getItem("basket") === null ? "" : (basketArrayObj = JSON.parse(localStorage.getItem("basket")));
-    for (let i of basketArrayObj) {
+    for (let i of basketArrayObj) {;
       if (
         i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
         Array.from(e.currentTarget.parentElement.parentElement.children[2].children)
@@ -304,7 +304,7 @@ addEventListener("DOMContentLoaded", () => {
         childList: true,
       })
     : "";
-
+  // product item button buyOneClick
   productItemBtn.forEach((item) => {
     item.addEventListener("click", (event) => {
       addBasketItemToLocalStorage(event);
@@ -317,18 +317,14 @@ addEventListener("DOMContentLoaded", () => {
     const inputValue = e.currentTarget.parentElement.children[0].children[1].value;
     const weightInput = document.querySelector(".about__product-your-weight-hide input");
     let weightItem;
-    Array.from(
-      e.currentTarget.parentElement.parentElement.parentElement.children[1].children[0].children[0].children[1].children
-    ).forEach((item) => {
-      if (item.classList.contains("about__product-weight-list-item-active")) {
-        weightItem = item.children[0].textContent.trim() + ".";
-      }
-    });
+    // get total weight
+    weightItem = document.querySelector('.about__product-price-weight span').textContent.trim() + '.';
     for (let i of basket) {
       if (
         i.id === e.currentTarget.dataset.productId &&
         (i?.weight?.includes(weightItem) || i?.weight[0] === weightInput?.value + " кг.")
       ) {
+        console.log(11, 'if');
         i.count += +inputValue;
         i.price = Number(i.count * i.initPrice);
         localStorage.setItem("basket", JSON.stringify(basket));
@@ -458,7 +454,7 @@ addEventListener("DOMContentLoaded", () => {
     addBasketItemToHover();
     setCountInBasket();
   });
-
+// выбрать свой вес
   yourWeightBtn?.addEventListener("click", (e) => {
     e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[0].children[1].textContent =
       parseFloat(
@@ -467,7 +463,6 @@ addEventListener("DOMContentLoaded", () => {
             .split(",")
             .join(".")
       ).toFixed(2) + " BYN";
-    console.log();
     e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent =
       parseFloat(e.currentTarget.parentElement.children[0].value).toFixed(1) + " кг.";
     localStorage.setItem("initWeight", e.currentTarget.parentElement.children[0].value);
@@ -479,6 +474,7 @@ addEventListener("DOMContentLoaded", () => {
 
   const aboutProductWeightSpan = document.querySelector(".about__product-price-weight span");
   localStorage.setItem("initWeight", aboutProductWeightSpan?.textContent.split(" ").splice(0, 1).join(""));
+  // количество товара
   aboutProductAction?.children[1]?.addEventListener("input", (e) => {
     if (localStorage.getItem("initWeight") === null) {
       localStorage.setItem(
@@ -552,7 +548,6 @@ addEventListener("DOMContentLoaded", () => {
             : " кг."
         );
       }
-
       if (e.currentTarget.parentElement.parentElement.children[3].classList.contains("about__product-price-wrap")) {
         e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent =
           parseFloat(
