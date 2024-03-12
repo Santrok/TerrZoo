@@ -210,7 +210,10 @@ document.addEventListener("DOMContentLoaded", () => {
           i.count -= 1;
           i.initPrice === 0 ? (i.initPrice = i.price) : 0;
           i.price = parseFloat(i.price - i.initPrice).toFixed(2);
+          e.target.parentElement.parentElement.children[1].textContent =
+            (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
           e.target.parentElement.children[1].textContent = i.count;
+          
           localStorage.setItem("basket", JSON.stringify(basketArrayObj));
         }
       }
@@ -223,6 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
           i.count += 1;
           i.price = parseFloat(i.count * i.initPrice).toFixed(2);
+          e.target.parentElement.parentElement.children[1].textContent =
+            (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
           e.target.parentElement.children[1].textContent = i.count;
           localStorage.setItem("basket", JSON.stringify(basketArrayObj));
           setCountInBasket();
