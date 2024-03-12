@@ -171,7 +171,7 @@ addEventListener("DOMContentLoaded", () => {
   }
 
   function addBasketItemToHover() {
-    const basketArray = JSON.parse(localStorage.getItem("basket"));
+    const basketArray = JSON.parse(localStorage.getItem("basket")) || [];
     let basketCount = 0;
     if(basketArray.length === 0) {
       const li = document.createElement('li')

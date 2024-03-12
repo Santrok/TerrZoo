@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const hoverList = document.querySelector(".header__bottom-basket-hover-list");
   const basketTotalText = document.querySelectorAll(".basket__total-text span");
   let list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
-  let basket = JSON.parse(localStorage.getItem("basket"));
+  let basket = JSON.parse(localStorage.getItem("basket")) || [];
   let priceInit = 0;
 
   basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
