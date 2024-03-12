@@ -101,7 +101,11 @@
                                             {% for p in product.countitemproduct_set.all %}
                                                 <li class="about__product-weight-list-item">
                                                     <p class="about__product-item-weight">
-                                                        {{ p.value }} <span>{{ p.unit }}</span>
+                                                        {% if p.unit == 'шт' %}
+                                                            {{ p.value|floatformat:"0" }} <span>{{ p.unit }}</span>
+                                                        {% else %}
+                                                            {{ p.value }} <span>{{ p.unit }}</span>
+                                                        {% endif %}
                                                     </p>
                                                     {% if product.sale.percent != 0 %}
                                                         <p class="about__product-item-price">
