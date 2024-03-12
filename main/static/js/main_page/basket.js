@@ -327,7 +327,7 @@ addEventListener("DOMContentLoaded", () => {
     for (let i of basket) {
       if (
         i.id === e.currentTarget.dataset.productId &&
-        (i.weight.includes(weightItem) || i.weight[0] === weightInput.value + " кг.")
+        (i?.weight?.includes(weightItem) || i?.weight[0] === weightInput?.value + " кг.")
       ) {
         i.count += +inputValue;
         i.price = Number(i.count * i.initPrice);
@@ -418,10 +418,10 @@ addEventListener("DOMContentLoaded", () => {
                   .join("")
               ).toFixed(2),
           weight: [
-            weightInput.value + " кг." !==
-            e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
+            weightInput?.value + " кг." !==
+            e.currentTarget?.parentElement?.parentElement?.children[3]?.children[1]?.children[0]?.textContent.trim()
               ? weightItem
-              : weightInput.value + " кг.",
+              : weightInput?.value + " кг.",
           ],
           price: e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
