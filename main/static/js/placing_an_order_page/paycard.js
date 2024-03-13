@@ -22,8 +22,8 @@ const headerBottomBasketValueMob = document.querySelector('.header__bottom-baske
 let pricePayCard = 0;
 let countPayCard = 0;
 for (let i of data_storage) {
+  // price
   pricePayCard += +parseFloat(i.price)
-  
   countPayCard = countPayCard + i.count;
 }
 order_price.innerHTML = `${pricePayCard.toFixed(2)} BYN`;
@@ -39,7 +39,7 @@ function getCookie(name) {
 function send_form() {
   let data = new FormData(form_payment);
   data.append("basket", JSON.stringify(data_storage));
-  data.append("order_price", JSON.stringify(pricePayCard));
+  data.append("order_price", JSON.stringify(+pricePayCard.toFixed(2)));
   data.append("product_count", JSON.stringify(countPayCard));
   let check = "";
   if (document.querySelector("#cash").checked) {
