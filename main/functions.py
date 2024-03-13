@@ -3,7 +3,7 @@ import json
 from config import settings
 from django.core.mail import EmailMessage
 
-from main.models import Order, ArticleForOrders
+from main.models import Order, ArticleForOrders, Product
 
 
 def get_check_file(basket, order_price, user, article):
@@ -58,6 +58,28 @@ def get_article_for_orders(user_id):
         return number
 
 
-
-
-
+def save_order_for_user(request, user, status):
+    """Сохраняем заказ для пользователя"""
+    json_obj = json.loads(request.POST.get('basket'))
+    product_list_id = []
+    for i in json_obj:
+        product_list_id.append(i.get('id'))
+    product_list = Product.objects.filter(id__in=product_list_id)
+    article_for_orders = get_article_for_orders(user.id)
+    file_url = get_check_file(request.POST.get('basket'),
+                              request.POST.get('order_price'),
+                              user,
+                              article_for_orders)
+    order = Order(order_number=article_for_orders,
+                  user=user,
+                  check_order=file_url,
+                  total_price=request.POST.get('order_price'),
+                  order_status=status,
+                  order_item=json_obj)
+    order.save()
+    for i in product_list:
+        i.sales_counter += 1
+        # i.quantity -= 1
+        i.save()
+        order.products.add(i)
+    return order.order_number
