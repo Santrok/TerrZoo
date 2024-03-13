@@ -22,7 +22,6 @@ const headerBottomBasketValueMob = document.querySelector('.header__bottom-baske
 let pricePayCard = 0;
 let countPayCard = 0;
 for (let i of data_storage) {
-  // price
   pricePayCard += +parseFloat(i.price)
   countPayCard = countPayCard + i.count;
 }
