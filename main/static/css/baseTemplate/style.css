@@ -83,9 +83,6 @@
   z-index: 2;
 }
 
-.header__bottom-basket-popup {
-}
-
 .header__bottom-burger::before,
 .header__bottom-burger::after {
   content: "";
@@ -165,9 +162,6 @@
   display: flex;
   align-items: center;
   gap: 4px;
-}
-
-.header__bottom-basket-wrap {
 }
 
 .header__bottom-basket-hover {
@@ -658,6 +652,14 @@
   font-weight: 500;
   line-height: 24px;
   background: #fff;
+}
+
+.header__bottom-basket-hover-list-item-tototal-quantity {
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Text;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 130%;
 }
 
 @media (min-width: 992px) {
