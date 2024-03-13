@@ -366,7 +366,8 @@ def get_placing_an_order_page(request):
                                                              expiration_date=date_card,
                                                              user=user)
                         if card_zapros:
-                            if card_zapros[0].balance > float(request.POST.get('order_price')):
+                            print(request.POST.get('order_price'))
+                            if card_zapros[0].balance >= float(request.POST.get('order_price')):
                                 order_number = save_order_for_user(request, user, 'Оплачен')
                                 card_zapros[0].balance = float(card_zapros[0].balance) - float(
                                     request.POST.get('order_price'))
