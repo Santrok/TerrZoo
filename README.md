@@ -1,6 +1,6 @@
-# Create database
+# TerrZoo for testers project
 
-## Create user for DB
+## Create database
 ```bash
 CREATE USER terzoouser WITH PASSWORD 'admin';
 ```
