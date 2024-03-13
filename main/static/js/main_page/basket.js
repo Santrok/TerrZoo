@@ -157,8 +157,8 @@ addEventListener("DOMContentLoaded", () => {
         title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(),
         src: e.currentTarget.parentElement.parentElement.children[0].children[0].src,
         weight: array,
-        initPrice: parseFloat(price.join("")).toFixed(2),
-        price: parseFloat(price.join("")).toFixed(2),
+        initPrice: +parseFloat(price.join("")).toFixed(2),
+        price: +parseFloat(price.join("")).toFixed(2),
         promotion:
           e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
           e.currentTarget.parentElement.parentElement.children[4].classList.contains("products___item-promotion")
@@ -183,6 +183,7 @@ addEventListener("DOMContentLoaded", () => {
       headerBottomHoverList.innerHTML = "";
     }
     if (basketArray) {
+      let totalQuantity = 0;
       for (let i of basketArray) {
         const li = document.createElement("li");
         li.classList.add("header__bottom-basket-hover-list-item");
@@ -199,10 +200,14 @@ addEventListener("DOMContentLoaded", () => {
             </a>
             <ul class="header__bottom-basket-hover-list-item-weight-list">
                 ${i?.weight?.map(
-                  (item) =>
-                    `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
-                )}
+                  (item) => {
+                    totalQuantity = item.split(' ').splice(0,1).join('').split(',').join('.')
+                    return `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
+                  })}
             </ul>
+            <div class="header__bottom-basket-hover-list-item-tototal-quantity">
+              Общий вес: <span>${i.count * +totalQuantity}</span><span>${localStorage.getItem('optionWeight')}</span>
+            </div>
         </div>
         <div class="header__bottom-basket-hover-list-item-quantity">
             <div class="header__bottom-basket-hover-list-item-quantity-wrap">
@@ -317,14 +322,21 @@ addEventListener("DOMContentLoaded", () => {
     const inputValue = e.currentTarget.parentElement.children[0].children[1].value;
     const weightInput = document.querySelector(".about__product-your-weight-hide input");
     let weightItem;
+    let initPrice;
     // get total weight
-    weightItem = document.querySelector(".about__product-price-weight span").textContent.trim();
+    Array.from(
+      e.currentTarget.parentElement.parentElement.parentElement.children[1].children[0].children[0].children[1].children
+    ).forEach((item) => {
+      if (item.classList.contains("about__product-weight-list-item-active")) {
+        weightItem = item.children[0].textContent.trim() + ".";
+        initPrice = item.children[1].textContent.trim().split(' ').splice(0,1).join('').trim()
+      }
+    });
     for (let i of basket) {
       if (
         i.id === e.currentTarget.dataset.productId &&
         (i?.weight?.includes(weightItem) || i?.weight[0] === weightInput?.value + " кг.")
       ) {
-        console.log(11, "if");
         i.count += +inputValue;
         i.price = Number(i.count * i.initPrice);
         localStorage.setItem("basket", JSON.stringify(basket));
@@ -338,27 +350,10 @@ addEventListener("DOMContentLoaded", () => {
         e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
     ) {
       if (!e.currentTarget.parentElement.parentElement.children[3].classList.contains("about__product-action-wrap")) {
-        console.log();
         basket.push({
           id: e.currentTarget.dataset.productId,
           count: +inputValue,
-          initPrice: e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
-            "about__product-price-promotion-noaction-price"
-          )
-            ? parseFloat(
-                e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent
-                  .trim()
-                  .split(" ")
-                  .splice(0, 1)
-                  .join("")
-              ).toFixed(2)
-            : parseFloat(
-                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].textContent
-                  .trim()
-                  .split(" ")
-                  .splice(0, 1)
-                  .join("")
-              ).toFixed(2),
+          initPrice: +initPrice,
           weight: [
             weightInput.value + " кг." !==
             e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
@@ -368,10 +363,10 @@ addEventListener("DOMContentLoaded", () => {
           price: e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
-            ? parseFloat(
+            ? +parseFloat(
               e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2)
-            : parseFloat(
+            : +parseFloat(
                 e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2),
           title:
@@ -393,14 +388,14 @@ addEventListener("DOMContentLoaded", () => {
           initPrice: e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
-            ? parseFloat(
+            ? +parseFloat(
                 e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].textContent
                   .trim()
                   .split(" ")
                   .splice(0, 1)
                   .join("")
               ).toFixed(2)
-            : parseFloat(
+            : +parseFloat(
                 e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].textContent
                   .trim()
                   .split(" ")
@@ -416,10 +411,10 @@ addEventListener("DOMContentLoaded", () => {
           price: e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains(
             "about__product-price-promotion-noaction-price"
           )
-            ? parseFloat(
-                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg.splt(',').join('.') * localStorage.getItem('totalWeightDetail')
+            ? +parseFloat(
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2)
-            : parseFloat(
+            : +parseFloat(
                 e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
               ).toFixed(2),
           title:
@@ -444,14 +439,14 @@ addEventListener("DOMContentLoaded", () => {
   // choose your weight
   yourWeightBtn?.addEventListener("click", (e) => {
     e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[0].children[1].textContent =
-      parseFloat(
+      +parseFloat(
         e.currentTarget.parentElement.children[0].value *
           e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
             .split(",")
             .join(".")
       ).toFixed(2) + " BYN";
     e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent =
-      parseFloat(e.currentTarget.parentElement.children[0].value).toFixed(1) + " кг.";
+      +parseFloat(e.currentTarget.parentElement.children[0].value).toFixed(1) + " кг.";
     localStorage.setItem("initWeight", e.currentTarget.parentElement.children[0].value);
     const aboutProductList = document.querySelectorAll(".about__product-weight-list-item");
     for (let i of aboutProductList) {
@@ -570,9 +565,6 @@ addEventListener("DOMContentLoaded", () => {
             .join(",") + localStorage.getItem("optionWeight");
         // -----
         if (e.currentTarget.parentElement.parentElement.children[3].children[0].children[1]) {
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
-          );
           e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].textContent =
             parseFloat(
               e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
@@ -614,9 +606,6 @@ addEventListener("DOMContentLoaded", () => {
               .join(".") + +localStorage.getItem("initWeight")
           ).toFixed(1) + localStorage.getItem("optionWeight");
         if (e.currentTarget.parentElement.parentElement.children[2].children[0].children[1]) {
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
-          );
           e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].textContent =
             parseFloat(
               e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
