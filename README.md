@@ -1,4 +1,6 @@
 # Create database
+
+## Create user for DB
 ```bash
 CREATE USER terzoouser WITH PASSWORD 'admin';
 ```
