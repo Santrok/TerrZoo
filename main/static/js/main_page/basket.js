@@ -82,6 +82,10 @@ addEventListener("DOMContentLoaded", () => {
               e.target.parentElement.parentElement.parentElement.parentElement.remove();
               basketArrayObj.includes(i) ? basketArrayObj.splice(basketArrayObj.indexOf(i), 1) : "";
             }
+            e.target.parentElement.parentElement.parentElement.children[1].children[2].children[0].textContent = (
+              +e.target.parentElement.parentElement.parentElement.children[1].children[2].children[0].textContent.trim() -
+              +parseFloat(i.weight.join("").split(" ").splice(0, 1).join("").split(",").join("."))
+            ).toFixed(1);
             i.count -= 1;
             i.initPrice === 0 ? (i.initPrice = i.price) : 0;
             i.price = Number(i.price - i.initPrice);
@@ -106,6 +110,10 @@ addEventListener("DOMContentLoaded", () => {
             e.target.parentElement.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim() ===
               i.weight.join("")
           ) {
+            e.target.parentElement.parentElement.parentElement.children[1].children[2].children[0].textContent = (
+              +e.target.parentElement.parentElement.parentElement.children[1].children[2].children[0].textContent.trim() +
+              +parseFloat(i.weight.join("").split(" ").splice(0, 1).join("").split(",").join("."))
+            ).toFixed(1);
             i.count += 1;
             i.price = Number(i.count * i.initPrice);
             e.target.parentElement.parentElement.children[1].textContent =
@@ -199,14 +207,17 @@ addEventListener("DOMContentLoaded", () => {
                 ${i.title}
             </a>
             <ul class="header__bottom-basket-hover-list-item-weight-list">
-                ${i?.weight?.map(
-                  (item) => {
-                    totalQuantity = item.split(' ').splice(0,1).join('').split(',').join('.')
-                    return `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`
-                  })}
+                ${i?.weight?.map((item) => {
+                  totalQuantity = item.split(" ").splice(0, 1).join("").split(",").join(".");
+                  return `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`;
+                })}
             </ul>
             <div class="header__bottom-basket-hover-list-item-tototal-quantity">
-              Общий вес: <span>${i.count * +totalQuantity}</span><span>${localStorage.getItem('optionWeight')}</span>
+              Общий вес: <span>${i.count * +totalQuantity}</span><span> ${i.weight
+          .join("")
+          .split(" ")
+          .splice(1, 1)
+          .join("")}</span>
             </div>
         </div>
         <div class="header__bottom-basket-hover-list-item-quantity">
@@ -329,7 +340,7 @@ addEventListener("DOMContentLoaded", () => {
     ).forEach((item) => {
       if (item.classList.contains("about__product-weight-list-item-active")) {
         weightItem = item.children[0].textContent.trim() + ".";
-        initPrice = item.children[1].textContent.trim().split(' ').splice(0,1).join('').trim()
+        initPrice = item.children[1].textContent.trim().split(" ").splice(0, 1).join("").trim();
       }
     });
     for (let i of basket) {
@@ -364,10 +375,14 @@ addEventListener("DOMContentLoaded", () => {
             "about__product-price-promotion-noaction-price"
           )
             ? +parseFloat(
-              e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * localStorage.getItem("totalWeightDetail")
               ).toFixed(2)
             : +parseFloat(
-                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
+                e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * localStorage.getItem("totalWeightDetail")
               ).toFixed(2),
           title:
             e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
@@ -381,7 +396,6 @@ addEventListener("DOMContentLoaded", () => {
           href: window.location.href,
         });
       } else {
-        console.log(e.currentTarget.parentElement.parentElement.children[2].children[0].children[1]);
         basket.push({
           id: e.currentTarget.dataset.productId,
           count: +inputValue,
@@ -412,10 +426,14 @@ addEventListener("DOMContentLoaded", () => {
             "about__product-price-promotion-noaction-price"
           )
             ? +parseFloat(
-                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * localStorage.getItem("totalWeightDetail")
               ).toFixed(2)
             : +parseFloat(
-                e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')
+                e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+                  .split(",")
+                  .join(".") * localStorage.getItem("totalWeightDetail")
               ).toFixed(2),
           title:
             e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[0].children[0].textContent.trim(),
@@ -613,9 +631,6 @@ addEventListener("DOMContentLoaded", () => {
                 .join(".") * +localStorage.getItem("totalWeightDetail")
             ).toFixed(2) + " BYN";
         } else {
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
-          );
           e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].textContent =
             parseFloat(
               e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg

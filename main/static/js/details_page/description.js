@@ -16,5 +16,6 @@ descriptionItem.forEach(item => {
         aboutProductWeight.innerHTML = e.currentTarget.children[0].textContent.trim() + '.'
         aboutProductActionInput.value = 1;
         localStorage.setItem('initWeight', e.currentTarget.children[0].textContent.trim().split(',').join('.').split(' ').splice(0,1).join(''))
+        localStorage.setItem('totalWeightDetail', e.currentTarget.children[0].textContent.trim().split(',').join('.').split(' ').splice(0,1).join(''))
     })
 })
