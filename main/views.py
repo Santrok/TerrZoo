@@ -20,7 +20,7 @@ from main.models import (Animal, Product, Brand, Review, Article, Sale,
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
                         ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
-from main.functions import (get_check_file, send_check_for_mail, get_article_for_orders, save_order_for_user)
+from main.functions import (save_order_for_user, save_order_for_anonymous_user)
 
 
 def get_page(request):
@@ -176,7 +176,6 @@ def login_view(request):
     """Страница с формой авторизации"""
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
-        print(request.POST)
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
@@ -366,7 +365,6 @@ def get_placing_an_order_page(request):
                                                              expiration_date=date_card,
                                                              user=user)
                         if card_zapros:
-                            print(request.POST.get('order_price'))
                             if card_zapros[0].balance >= float(request.POST.get('order_price')):
                                 order_number = save_order_for_user(request, user, 'Оплачен')
                                 card_zapros[0].balance = float(card_zapros[0].balance) - float(
@@ -384,6 +382,9 @@ def get_placing_an_order_page(request):
                     return JsonResponse({"order_number": order_number})
                 else:
                     return JsonResponse({"error": "Не выбран ни один из способов заказа"})
+            else:
+                order_number = save_order_for_anonymous_user(request, 'Оформлен')
+                return JsonResponse({"order_number": order_number})
         else:
             return JsonResponse({"error": "Карзина пуста, необходимо добавить товар!"})
     context = {}
@@ -517,7 +518,6 @@ def get_profile_subscriptions_page(request):
 @login_required
 def get_status_subscription_page(request):
     status = Profile.objects.get(user=request.user).subscribe
-    print(status)
     context = {
         'status': status,
     }
