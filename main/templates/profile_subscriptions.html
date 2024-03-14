@@ -24,6 +24,9 @@
             <div class="subscription_introduction">
                 <p>Подпишитесь на получение обновлений о продуктах, услугах и мероприятиях.</p>
             </div>
+            <div class="subscription__main-img">
+                <img src="{% static '/img/profileSubscribe.jpg' %}" alt="{% static '/img/profileSubscribe.jpg' %}">
+            </div>
             <form method="post">
                 {% csrf_token %}
                 <div class="subscription_by_email">
@@ -32,25 +35,9 @@
                 </div>
                 <div class="subscription__button">
                     <button class="button">Сохранить</button>
+                    <a class="button" href="{% url 'subscription_status' %}">Статус подписки</a>
                 </div>
             </form>
-            <div class="subscription_status_button">
-                <a class="button" href="{% url 'subscription_status' %}">Статус подписки</a>
-            </div>
         </div>
     </section>
-
-
-
-    {#    <div class="cat__developer"#}
-    {#         style="display: flex; flex-direction: column; align-items: center; justify-content: center;">#}
-    {#        <div class="not_auth">#}
-    {#            <img src="{% static 'img/cat_404.avif' %}" alt="Кот:)"/>#}
-    {#        </div>#}
-    {#        <div class="not_auth_link">#}
-    {#            <h2 style="color: black; font-family: SF Pro Text; font-size: 20px; font-weight: 500; padding: 15px">#}
-    {#                Страница находится в разработке#}
-    {#            </h2>#}
-    {#        </div>#}
-    {#    </div>#}
 {% endblock %}
