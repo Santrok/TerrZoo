@@ -20,7 +20,7 @@ from main.models import (Animal, Product, Brand, Review, Article, Sale,
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
                         ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
-from main.functions import (get_check_file, send_check_for_mail, get_article_for_orders)
+from main.functions import (save_order_for_user, save_order_for_anonymous_user)
 
 
 def get_page(request):
@@ -176,7 +176,6 @@ def login_view(request):
     """Страница с формой авторизации"""
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
-        print(request.POST)
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
@@ -366,35 +365,12 @@ def get_placing_an_order_page(request):
                                                              expiration_date=date_card,
                                                              user=user)
                         if card_zapros:
-                            json_obj = json.loads(request.POST.get('basket'))
-                            product_list_id = []
-                            for i in json_obj:
-                                product_list_id.append(i.get('id'))
-                            product_list = Product.objects.filter(id__in=product_list_id)
-                            article_for_orders = get_article_for_orders(user.id)
-                            file_url = get_check_file(request.POST.get('basket'),
-                                                      request.POST.get('order_price'),
-                                                      user,
-                                                      article_for_orders)
-                            order = Order(order_number=article_for_orders,
-                                          user=user,
-                                          check_order=file_url,
-                                          total_price=request.POST.get('order_price'),
-                                          pay_card=card_zapros[0],
-                                          order_status='Оплачен',
-                                          order_item=json_obj)
-                            if card_zapros[0].balance > float(request.POST.get('order_price')):
+                            if card_zapros[0].balance >= float(request.POST.get('order_price')):
+                                order_number = save_order_for_user(request, user, 'Оплачен')
                                 card_zapros[0].balance = float(card_zapros[0].balance) - float(
                                     request.POST.get('order_price'))
                                 card_zapros[0].save()
-                                order.save()
-                                send_check_for_mail(order.order_number, file_url, user)
-                                for i in product_list:
-                                    i.sales_counter += 1
-                                    # i.quantity -= 1
-                                    i.save()
-                                    order.products.add(i)
-                                return JsonResponse({"order_number": order.order_number, "user_email": user.email})
+                                return JsonResponse({"order_number": order_number, "user_email": user.email})
                             else:
                                 return JsonResponse({"error": "Недостаточно средств"})
                         else:
@@ -402,30 +378,13 @@ def get_placing_an_order_page(request):
                     else:
                         return JsonResponse({"error": "Введенные данные не верны"})
                 elif request.POST.get('check') == 'cash':
-                    json_obj = json.loads(request.POST.get('basket'))
-                    product_list_id = []
-                    for i in json_obj:
-                        product_list_id.append(i.get('id'))
-                    product_list = Product.objects.filter(id__in=product_list_id)
-                    article_for_orders = get_article_for_orders(user.id)
-                    order = Order(order_number=article_for_orders,
-                                  user=user,
-                                  check_order=get_check_file(request.POST.get('basket'),
-                                                             request.POST.get('order_price'),
-                                                             user,
-                                                             article_for_orders),
-                                  total_price=request.POST.get('order_price'),
-                                  order_status='Оформлен',
-                                  order_item=json_obj)
-                    order.save()
-                    for i in product_list:
-                        i.sales_counter += 1
-                        # i.quantity -= 1
-                        i.save()
-                        order.products.add(i)
-                    return JsonResponse({"order_number": order.order_number})
+                    order_number = save_order_for_user(request, user, 'Оформлен')
+                    return JsonResponse({"order_number": order_number})
                 else:
                     return JsonResponse({"error": "Не выбран ни один из способов заказа"})
+            else:
+                order_number = save_order_for_anonymous_user(request, 'Оформлен')
+                return JsonResponse({"order_number": order_number})
         else:
             return JsonResponse({"error": "Карзина пуста, необходимо добавить товар!"})
     context = {}
@@ -559,7 +518,6 @@ def get_profile_subscriptions_page(request):
 @login_required
 def get_status_subscription_page(request):
     status = Profile.objects.get(user=request.user).subscribe
-    print(status)
     context = {
         'status': status,
     }

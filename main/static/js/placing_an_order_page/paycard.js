@@ -1,13 +1,17 @@
-document.querySelector("#pay_online").oninput = (ev) => {
-  if (ev.target.checked) {
-    document.querySelector("#num_paycard_1_4").disabled = false;
-    document.querySelector("#num_paycard_5_8").disabled = false;
-    document.querySelector("#num_paycard_9_12").disabled = false;
-    document.querySelector("#num_paycard_13_16").disabled = false;
-    document.querySelector("#date").disabled = false;
-    document.querySelector("#CVV").disabled = false;
-  }
-};
+const payOnlineCheckbox = document.querySelector("#pay_online");
+
+if (payOnlineCheckbox) {
+  payOnlineCheckbox.oninput = (ev) => {
+    if (ev.target.checked) {
+      document.querySelector("#num_paycard_1_4").disabled = false;
+      document.querySelector("#num_paycard_5_8").disabled = false;
+      document.querySelector("#num_paycard_9_12").disabled = false;
+      document.querySelector("#num_paycard_13_16").disabled = false;
+      document.querySelector("#date").disabled = false;
+      document.querySelector("#CVV").disabled = false;
+    }
+  };
+}
 
 //-----------------------------------------------------------------------
 const form_payment = document.querySelector(".info_about_client_form");
@@ -22,9 +26,7 @@ const headerBottomBasketValueMob = document.querySelector('.header__bottom-baske
 let pricePayCard = 0;
 let countPayCard = 0;
 for (let i of data_storage) {
-  pricePayCard = (pricePayCard + i.price);
-  
-  
+  pricePayCard += +parseFloat(i.price)
   countPayCard = countPayCard + i.count;
 }
 order_price.innerHTML = `${pricePayCard.toFixed(2)} BYN`;
@@ -40,7 +42,7 @@ function getCookie(name) {
 function send_form() {
   let data = new FormData(form_payment);
   data.append("basket", JSON.stringify(data_storage));
-  data.append("order_price", JSON.stringify(pricePayCard));
+  data.append("order_price", JSON.stringify(+pricePayCard.toFixed(2)));
   data.append("product_count", JSON.stringify(countPayCard));
   let check = "";
   if (document.querySelector("#cash").checked) {

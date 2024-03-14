@@ -1,4 +1,12 @@
-CREATE USER terzoouser WITH PASSWORD 'admin';
-ALTER ROLE terzoouser WITH CREATEDB;
-CREATE DATABASE terzoodb WITH OWNER terzoouser;
+# TerrZoo for testers project
 
+## Create database
+```bash
+CREATE USER terzoouser WITH PASSWORD 'admin';
+```
+```bash
+ALTER ROLE terzoouser WITH CREATEDB;
+```
+```bash
+CREATE DATABASE terzoodb WITH OWNER terzoouser;
+```

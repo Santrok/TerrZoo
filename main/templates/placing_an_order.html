@@ -59,7 +59,6 @@
     <section class="placing_an_order">
       <div class="container">
         <div class="placing_an_order_wrapper">
-          {% if request.user.is_authenticated %}
           <div class="block_placing_an_order">
             <h1 class="placing_an_order_title">Оформление заказа</h1>
             <div class="info_about_client_and_payment_method_button_order">
@@ -86,73 +85,75 @@
                     <input type="tel" name="phone" placeholder="+375_____-__-__" id="phone" class="input_item_active" value="{{ request.user.profile.phone_number }}"/>
                   </div>
                   <div class="info_about_payment_method">
-                    <label class="payment_method"
-                      ><input type="radio" name="payment_method" id="cash" />Оплата наличными при получении</label
-                    >
-                    <label class="payment_method"
-                      ><input type="radio" name="payment_method" id="pay_online" />Оплата картой онлайн</label
-                    >
-                    <div class="error"></div>
-                    <fieldset class="paycard">
-                      <div class="numder_paycard">
-                        <input
-                          type="text"
-                          name="num_paycard_1_4"
-                          id="num_paycard_1_4"
-                          placeholder="0000"
-                          class="input_item_active_num_paycard"
-                          maxlength="4"
-                          disabled
-                        />
-                        <input
-                          type="text"
-                          name="num_paycard_5_8"
-                          id="num_paycard_5_8"
-                          placeholder="0000"
-                          class="input_item_active_num_paycard"
-                          maxlength="4"
-                          disabled
-                        />
-                        <input
-                          type="text"
-                          name="num_paycard_9_12"
-                          id="num_paycard_9_12"
-                          placeholder="0000"
-                          class="input_item_active_num_paycard"
-                          maxlength="4"
-                          disabled
-                        />
-                        <input
-                          type="text"
-                          name="num_paycard_13_16"
-                          id="num_paycard_13_16"
-                          placeholder="0000"
-                          class="input_item_active_num_paycard"
-                          maxlength="4"
-                          disabled
-                        />
-                      </div>
-                      <div class="date_CVV_paycard">
-                        <input
-                          type="text"
-                          name="date"
-                          id="date"
-                          placeholder="02/24"
-                          class="input_item_active_date_paycard"
-                          maxlength="5"
-                          disabled
-                        />
-                        <input
-                          type="text"
-                          name="CVV"
-                          id="CVV"
-                          placeholder="XXX"
-                          class="input_item_active_CVV_paycard"
-                          maxlength="3"
-                          disabled
-                        />
-                      </div>
-                    </fieldset>
+                    <label class="payment_method">
+                        <input type="radio" name="payment_method" id="cash" />Оплата наличными при получении
+                    </label>
+                    {% if user.is_authenticated %}
+                        <label class="payment_method">
+                            <input type="radio" name="payment_method" id="pay_online" />Оплата картой онлайн
+                        </label>
+                        <div class="error"></div>
+                        <fieldset class="paycard">
+                          <div class="numder_paycard">
+                            <input
+                              type="text"
+                              name="num_paycard_1_4"
+                              id="num_paycard_1_4"
+                              placeholder="0000"
+                              class="input_item_active_num_paycard"
+                              maxlength="4"
+                              disabled
+                            />
+                            <input
+                              type="text"
+                              name="num_paycard_5_8"
+                              id="num_paycard_5_8"
+                              placeholder="0000"
+                              class="input_item_active_num_paycard"
+                              maxlength="4"
+                              disabled
+                            />
+                            <input
+                              type="text"
+                              name="num_paycard_9_12"
+                              id="num_paycard_9_12"
+                              placeholder="0000"
+                              class="input_item_active_num_paycard"
+                              maxlength="4"
+                              disabled
+                            />
+                            <input
+                              type="text"
+                              name="num_paycard_13_16"
+                              id="num_paycard_13_16"
+                              placeholder="0000"
+                              class="input_item_active_num_paycard"
+                              maxlength="4"
+                              disabled
+                            />
+                          </div>
+                          <div class="date_CVV_paycard">
+                            <input
+                              type="text"
+                              name="date"
+                              id="date"
+                              placeholder="02/24"
+                              class="input_item_active_date_paycard"
+                              maxlength="5"
+                              disabled
+                            />
+                            <input
+                              type="text"
+                              name="CVV"
+                              id="CVV"
+                              placeholder="XXX"
+                              class="input_item_active_CVV_paycard"
+                              maxlength="3"
+                              disabled
+                            />
+                          </div>
+                        </fieldset>
+                    {% endif %}
                     <div class="info_about_order">
                       <div class="info_about_order_price">
                         {% if ptoduct.sale.percent != 0 %}
@@ -185,19 +186,6 @@
                   <a href="{% static 'politika_v_otnochenii_personalnih_dannih.pdf' %}" target="_blank" class="personal_data_doc">персональных данных</a>
                 </div>
               </div>
-              {% else %}
-              <div>
-                <div class="not_auth">
-                  <img src="{% static 'img/cat_404.avif' %}" alt="Кот:)" />
-                </div>
-                <div class="not_auth_link">
-                  <h2 style="color: black; font-family: SF Pro Text; font-size: 20px; font-weight: 500; padding: 15px">
-                    Для оформления заказа необходимо<a href="{% url 'login' %}" style="color: #00a0ac"> войти</a> в
-                    аккаунт
-                  </h2>
-                </div>
-              </div>
-              {% endif %}
             </div>
           </div>
         </div>

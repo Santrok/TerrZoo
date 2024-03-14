@@ -316,7 +316,11 @@
                               <ul class="slider__item-weight-list">
                                 {% for count in card.countitemproduct_set.all %}
                                 <li class="slider__item-weight-list-item" data-weight-id="{{count.id}}" data-weight-price="{{count.total_price}}">
-                                  {{count.value }} <span>{{count.unit}}.</span>
+                                    {% if count.unit == 'шт' %}
+                                        {{ count.value|floatformat:"0" }} <span>{{ count.unit }}</span>
+                                    {% else %}
+                                        {{ count.value }} <span>{{ count.unit }}</span>
+                                    {% endif %}
                                 </li>
                                 {% endfor %}
                               </ul>

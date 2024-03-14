@@ -341,7 +341,7 @@ class Order(models.Model):
     ]
 
     order_number = models.CharField(verbose_name='Номер заказа',
-                                    max_length=15)
+                                    max_length=16)
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
     products = models.ManyToManyField("Product",
@@ -392,7 +392,8 @@ class AdminOrder(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj and not request.user.is_superuser:
-            return 'order_number', 'user', 'check_order', 'total_price', 'pay_card'
+            return ('order_number', 'user', 'products', 'check_order',
+                    'total_price', 'pay_card', 'order_item', 'order_show')
         return self.readonly_fields
 
 
@@ -433,6 +434,7 @@ class AdminPayCard(admin.ModelAdmin):
 class ArticleForOrders(models.Model):
     """Модель для хранения артикля для формирования номера заказа"""
     article = models.PositiveIntegerField()
+    letter_code = models.CharField(max_length=2)
 
 
 class Profile(models.Model):
