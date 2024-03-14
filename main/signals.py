@@ -25,6 +25,7 @@ def save_profile(sender, instance, **kwargs):
 
 
 # необходимо поменять localhost на https://mystormnet.by/
+# добавить reverse для акций, чтобы актуальные отображались в первую очередь?
 @receiver(post_save, sender=Sale)
 def sent_email(sender, instance, created, **kwargs):
     profiles = Profile.objects.filter(subscribe=True)
