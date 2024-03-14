@@ -45,6 +45,27 @@
             <p>Подписка не оформлена</p>
             {% endif %}
         </div>
+    <div class="subscription__main">
+            <div class="subscription_introduction">
+                {% if status %}
+                <p>Спасибо за подписку.</p>
+                {% else %}
+                <p>Не забудьте подписаться!</p>
+                {% endif %}
+            </div>
+            <div class="subscription__main-img">
+                {% if status %}
+                <img src="{% static '/img/profileSuccessfulSubscribe.jpg' %}" alt="{% static '/img/profileSuccessfulSubscribe.jpg' %}">
+                {% else %}
+                <img src="{% static '/img/profileUnsubscribed.jpg' %}" alt="{% static '/img/profileUnsubscribed.jpg' %}">
+                {% endif %}
+            </div>
+            <div class="subscription__main-return">
+                <a class ='button' href="{% url 'subscriptions' %}">
+                    Вернуться к подпискам
+                </a>
+            </div>
+        </div>
     </section>
 
 {% endblock %}

@@ -55,6 +55,8 @@ class OrderForAnonymousUser(models.Model):
     order_number = models.CharField(verbose_name='Номер заказа', max_length=16)
     order_status = models.CharField(verbose_name='Статус', max_length=15,
                                     choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
+    check_order = models.FileField("Чек",
+                                   upload_to="checks")
     order_item = models.JSONField(verbose_name='Детали заказа')
 
     data_create = models.DateTimeField("Время заказа",

@@ -434,6 +434,7 @@ class AdminPayCard(admin.ModelAdmin):
 class ArticleForOrders(models.Model):
     """Модель для хранения артикля для формирования номера заказа"""
     article = models.PositiveIntegerField()
+    letter_code = models.CharField(max_length=2)
 
 
 class Profile(models.Model):

@@ -3,7 +3,8 @@ import json
 from config import settings
 from django.core.mail import EmailMessage
 
-from main.models import Order, ArticleForOrders
+from main.models import Order, ArticleForOrders, Product
+from manager_tasks.models import OrderForAnonymousUser
 
 
 def get_check_file(basket, order_price, user, article):
@@ -40,24 +41,86 @@ def send_check_for_mail(order_number, file_url, user):
 
 def get_article_for_orders(user_id):
     """Счетчик для артикля заказа"""
+    alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     if ArticleForOrders.objects.last():
         article = ArticleForOrders.objects.last()
         article.article += 1
+        if article.article > 999:
+            article.article = 1
+            if article.letter_code[1] != 'Z':
+                index = alfabet.find(article.letter_code[1])
+                article.letter_code = article.letter_code[0] + alfabet[index + 1]
+            else:
+                if article.letter_code != 'ZZ':
+                    index = alfabet.find(article.letter_code[2])
+                    article.letter_code = alfabet[index + 1] + 'A'
+                else:
+                    article.letter_code = 'AA'
         article.save()
     else:
-        article = ArticleForOrders(article=1)
+        article = ArticleForOrders(article=1,
+                                   letter_code='AA')
         article.save()
 
     if Order.objects.last():
         order_counter = article.article
-        number = f'AN{user_id:03}AA{order_counter:03}'
+        symbols = article.letter_code
+        number = f'AN{user_id:03}{symbols}{order_counter:03}'
         return number
     else:
         order_counter = article.article
-        number = f'AN{user_id:03}AA{order_counter:03}'
+        symbols = article.letter_code
+        number = f'AN{user_id:03}{symbols}{order_counter:03}'
         return number
 
 
+def save_order_for_user(request, user, status):
+    """Сохраняем заказ для пользователя"""
+    json_obj = json.loads(request.POST.get('basket'))
+    product_list_id = []
+    for i in json_obj:
+        product_list_id.append(i.get('id'))
+    product_list = Product.objects.filter(id__in=product_list_id)
+    article_for_orders = get_article_for_orders(user.id)
+    file_url = get_check_file(request.POST.get('basket'),
+                              request.POST.get('order_price'),
+                              user,
+                              article_for_orders)
+    order = Order(order_number=article_for_orders,
+                  user=user,
+                  check_order=file_url,
+                  total_price=request.POST.get('order_price'),
+                  order_status=status,
+                  order_item=json_obj)
+    order.save()
+    for i in product_list:
+        i.sales_counter += 1
+        # i.quantity -= 1
+        i.save()
+        order.products.add(i)
+    return order.order_number
 
 
-
+def save_order_for_anonymous_user(request, status):
+    """Сохраняем заказ для анонимного пользователя"""
+    json_obj = json.loads(request.POST.get('basket'))
+    product_list_id = []
+    for i in json_obj:
+        product_list_id.append(i.get('id'))
+    product_list = Product.objects.filter(id__in=product_list_id)
+    article_for_orders = get_article_for_orders('XXX')
+    file_url = get_check_file(request.POST.get('basket'),
+                              request.POST.get('order_price'),
+                              'anonymous',
+                              article_for_orders)
+    order_anonymous = OrderForAnonymousUser(order_number=article_for_orders,
+                                            order_status=status,
+                                            check_order=file_url,
+                                            order_item=json_obj,
+                                            total_price=request.POST.get('order_price'))
+    order_anonymous.save()
+    for i in product_list:
+        i.sales_counter += 1
+        # i.quantity -= 1
+        i.save()
+    return order_anonymous.order_number
