@@ -24,6 +24,9 @@
             <div class="subscription_introduction">
                 <p>Подпишитесь на получение обновлений о продуктах, услугах и мероприятиях.</p>
             </div>
+            <div class="subscription__main-img">
+                <img src="{% static '/img/profileSubscribe.jpg' %}" alt="{% static '/img/profileSubscribe.jpg' %}">
+            </div>
             <form method="post">
                 {% csrf_token %}
                 <div class="subscription_by_email">
@@ -32,11 +35,9 @@
                 </div>
                 <div class="subscription__button">
                     <button class="button">Сохранить</button>
+                    <a class="button" href="{% url 'subscription_status' %}">Статус подписки</a>
                 </div>
             </form>
-            <div class="subscription_status_button">
-                <a class="button" href="{% url 'subscription_status' %}">Статус подписки</a>
-            </div>
         </div>
     </section>
 
