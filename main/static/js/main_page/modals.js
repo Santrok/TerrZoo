@@ -28,7 +28,6 @@ newWeightInput.oninput = () => {
 
 newWeightBtn.addEventListener("click", (e) => {
   if (newWeightInput.value !== "") {
-    console.log(newWeightInput.value);
     localStorage.setItem(
       "buyOneClickPrice",
       (parseFloat(localStorage.getItem("pricePerOneKg").split(",").join(".")) * newWeightInput.value).toFixed(2)
@@ -40,7 +39,8 @@ newWeightBtn.addEventListener("click", (e) => {
       " BYN";
   }
 });
-let buyOneClickModalCount = 1;
+let buyOneClickModalCount = localStorage.getItem('buyOneClickModalCount') || 1;
+localStorage.setItem('buyOneClickModalCount', buyOneClickModalCount)
 
 modal.addEventListener("click", (e) => {
   if (e.target !== e.currentTarget) return;
@@ -61,12 +61,14 @@ modal.addEventListener("click", (e) => {
 buyOneClickModal.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
     if (e.target.textContent.trim() === "+") {
-      e.target.parentElement.children[1].textContent = ++buyOneClickModalCount;
+      localStorage.setItem('buyOneClickModalCount', ++buyOneClickModalCount)
+      e.target.parentElement.children[1].textContent = localStorage.getItem('buyOneClickModalCount');
       e.currentTarget.parentElement.children[1].textContent =
         (parseFloat(localStorage.getItem("buyOneClickPrice")) * buyOneClickModalCount).toFixed(2) + " BYN";
     } else {
       if (buyOneClickModalCount > 1) {
-        e.target.parentElement.children[1].textContent = --buyOneClickModalCount;
+        localStorage.setItem('buyOneClickModalCount', --buyOneClickModalCount)
+        e.target.parentElement.children[1].textContent = localStorage.getItem('buyOneClickModalCount');
         e.currentTarget.parentElement.children[1].textContent =
           (parseFloat(localStorage.getItem("buyOneClickPrice")) * buyOneClickModalCount).toFixed(2) + " BYN";
       }
@@ -144,7 +146,6 @@ if (porductListInModals) {
 
 sliderButton.forEach((item) => {
   item.addEventListener("click", (e) => {
-    console.log(e.currentTarget.parentElement.children[2].children);
     for (let i of e.currentTarget.parentElement.children[2].children) {
       if (i.classList.contains("slider__item-weight-list-item-active")) {
         document.body.style.overflow = "hidden";
@@ -210,7 +211,6 @@ callbackBtn.addEventListener("click", () => {
       }
     })
     .then((data) => {
-      console.log(111);
       callbackForm.classList.remove("modal__active");
       accessCallback.classList.add("modal__active");
       nameUser.value = "";
@@ -246,13 +246,20 @@ aboutProductBuy?.addEventListener("click", (e) => {
       buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.children[0].textContent.trim()}</li>`;
       let pricePerOneKg
       if(e.currentTarget?.parentElement?.parentElement?.children[3].classList?.contains('about__product-price-wrap')) {
-        console.log(e?.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg)
         buyOneClickPrice.textContent = parseFloat(e?.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg.split(',').join('.')  * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
         pricePerOneKg = e.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg
       }else {
-        console.log(parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg));
-        buyOneClickPrice.textContent = parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
-        pricePerOneKg = e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+        if(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains('about__product-price-promotion-noaction-price')) {
+          buyOneClickPrice.textContent = parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
+          pricePerOneKg = e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
+          buyOneClickModalCountInit.textContent = localStorage.getItem('totalWeightDetail');
+          localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.split('.')[0])
+        }else {
+          buyOneClickPrice.textContent = parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
+          pricePerOneKg = e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+          buyOneClickModalCountInit.textContent = localStorage.getItem('totalWeightDetail');
+          localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.split('.')[0])
+        }
       }
       localStorage.setItem('pricePerOneKg', pricePerOneKg)
     }
