@@ -246,10 +246,12 @@ aboutProductBuy?.addEventListener("click", (e) => {
       buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.children[0].textContent.trim()}</li>`;
       let pricePerOneKg
       if(e.currentTarget?.parentElement?.parentElement?.children[3].classList?.contains('about__product-price-wrap')) {
-        buyOneClickPrice.textContent = e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg + ' BYN'
-        pricePerOneKg = e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+        console.log(e?.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg)
+        buyOneClickPrice.textContent = parseFloat(e?.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg.split(',').join('.')  * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
+        pricePerOneKg = e.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg
       }else {
-        buyOneClickPrice.textContent = e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg + ' BYN'
+        console.log(parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg));
+        buyOneClickPrice.textContent = parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
         pricePerOneKg = e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
       }
       localStorage.setItem('pricePerOneKg', pricePerOneKg)

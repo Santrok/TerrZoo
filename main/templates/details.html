@@ -128,7 +128,7 @@
                                     <div class="about__product-your-weight-wrap">
                                         <h3 class="about__product-your-weight-title">Задайте свой вес</h3>
                                         <div class="about__product-your-weight-hide">
-                                            <input type="text" name="yourWeight" placeholder="Например: 1.2" maxlength="3"/>
+                                            <input type="text" name="yourWeight" placeholder="Например: 1.2" maxlength="4"/>
                                             <button>Применить</button>
                                         </div>
                                     </div>
@@ -321,8 +321,8 @@
                                                 Цена за 1 {{ product_unit }}.
                                             </p>
                                         </div>
-                                        <p class="about__product-price" data-pricePerOneKg="{{ product.action_price|floatformat:2 }}">
-                                            {{ product.action_price|floatformat:2 }}
+                                        <p class="about__product-price" data-pricePerOneKg="{{ product.action_price }}">
+                                            {{ product.action_price }}
                                             <span>BYN</span>
                                         </p>
                                     {% else %}
