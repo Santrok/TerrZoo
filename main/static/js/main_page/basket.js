@@ -10,6 +10,7 @@ addEventListener("DOMContentLoaded", () => {
   const aboutProductBtn = document.querySelector(".about__product-basket-btn");
   const aboutProductAction = document.querySelector(".about__product-action");
   const yourWeightBtn = document.querySelector(".about__product-your-weight-hide button");
+  const aboutProductWeightSpan = document.querySelector(".about__product-price-weight span");
   // slider item weight list click
   sliderItemWeightList.forEach((item) => {
     item.addEventListener("click", (e) => {
@@ -53,6 +54,10 @@ addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+  console.log(aboutProductWeightSpan);
+  if (aboutProductWeightSpan) {
+    localStorage.setItem('optionWeight', ' ' +aboutProductWeightSpan.textContent.trim().split(' ').splice(1, 1).join(''));
+  }
 
   let count = localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("basket")).length : 0;
   headerBottomBasketCount.textContent = count;
@@ -358,11 +363,11 @@ addEventListener("DOMContentLoaded", () => {
     }
     if (
       weightItem ||
-      parseFloat(weightInput.value).toFixed(1) + " кг." ===
-        e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim() ||
-      (parseFloat(weightInput.value) * aboutProductAction.children[1].value).toFixed(1).split(".").join(",") +
+      parseFloat(weightInput?.value).toFixed(1) + " кг." ===
+        e.currentTarget.parentElement.parentElement.children[3]?.children[1]?.children[0]?.textContent.trim() ||
+      (parseFloat(weightInput?.value) * aboutProductAction.children[1].value).toFixed(1).split(".").join(",") +
         " кг." ===
-        e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent.trim()
+        e.currentTarget.parentElement.parentElement.children[3]?.children[1]?.children[0]?.textContent.trim()
     ) {
       if (!e.currentTarget.parentElement.parentElement.children[3].classList.contains("about__product-action-wrap")) {
         if (initPrice === undefined) {
@@ -512,7 +517,6 @@ addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const aboutProductWeightSpan = document.querySelector(".about__product-price-weight span");
   localStorage.setItem("initWeight", aboutProductWeightSpan?.textContent.split(" ").splice(0, 1).join(""));
   // quantity product input
   aboutProductAction?.children[1]?.addEventListener("input", (e) => {
@@ -527,26 +531,49 @@ addEventListener("DOMContentLoaded", () => {
     }
     localStorage.setItem("totalWeightDetail", e.currentTarget.value * localStorage.getItem("initWeight"));
     // set total weight in input details
-    e.currentTarget.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent =
-      parseFloat(e.currentTarget.value * +localStorage.getItem("initWeight")).toFixed(1).split(".").join(",") + " кг.";
-    // ----
-    if (e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1]) {
-      e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].textContent =
-        parseFloat(
-          e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
-            .split(",")
-            .join(".") *
-            localStorage.getItem('totalWeightDetail')
-        ).toFixed(2) + " BYN";
-    } else {
-      e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].textContent =
-        parseFloat(
-          e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
-            .split(",")
-            .join(".") *
-            localStorage.getItem('totalWeightDetail')
-        ).toFixed(2) + " BYN";
+    if(e.currentTarget.parentElement.parentElement.parentElement.children[3].classList.contains('about__product-price-wrap')) {
+      e.currentTarget.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent =
+      parseFloat(e.currentTarget.value * +localStorage.getItem("initWeight")).toFixed(1).split(".").join(",") + localStorage.getItem("optionWeight");
+      if (e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1]) {
+        e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].textContent =
+          parseFloat(
+            e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
+              .split(",")
+              .join(".") *
+              localStorage.getItem('totalWeightDetail')
+          ).toFixed(2) + " BYN";
+      } else {
+        e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].textContent =
+          parseFloat(
+            e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
+              .split(",")
+              .join(".") *
+              localStorage.getItem('totalWeightDetail')
+          ).toFixed(2) + " BYN";
+      }
+    }else{
+      console.log(e.currentTarget.parentElement.parentElement.parentElement);
+      e.currentTarget.parentElement.parentElement.parentElement.children[2].children[1].children[0].textContent =
+      parseFloat(e.currentTarget.value * +localStorage.getItem("initWeight")).toFixed(1).split(".").join(",") + localStorage.getItem("optionWeight");
+      if (e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[1]) {
+        e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[1].textContent =
+          parseFloat(
+            e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
+              .split(",")
+              .join(".") *
+              localStorage.getItem('totalWeightDetail')
+          ).toFixed(2) + " BYN";
+      } else {
+        e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[0].textContent =
+          parseFloat(
+            e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+              .split(",")
+              .join(".") *
+              localStorage.getItem('totalWeightDetail')
+          ).toFixed(2) + " BYN";
+      }
     }
+    // ----
   });
   //------
 

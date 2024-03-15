@@ -40,7 +40,8 @@ newWeightBtn.addEventListener("click", (e) => {
       " BYN";
   }
 });
-let buyOneClickModalCount = 1;
+let buyOneClickModalCount = localStorage.getItem('buyOneClickModalCount') || 1;
+localStorage.setItem('buyOneClickModalCount', buyOneClickModalCount)
 
 modal.addEventListener("click", (e) => {
   if (e.target !== e.currentTarget) return;
@@ -61,12 +62,15 @@ modal.addEventListener("click", (e) => {
 buyOneClickModal.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
     if (e.target.textContent.trim() === "+") {
-      e.target.parentElement.children[1].textContent = ++buyOneClickModalCount;
+      localStorage.setItem('buyOneClickModalCount', ++buyOneClickModalCount)
+      e.target.parentElement.children[1].textContent = localStorage.getItem('buyOneClickModalCount');
+      console.log(buyOneClickModalCount);
       e.currentTarget.parentElement.children[1].textContent =
         (parseFloat(localStorage.getItem("buyOneClickPrice")) * buyOneClickModalCount).toFixed(2) + " BYN";
     } else {
       if (buyOneClickModalCount > 1) {
-        e.target.parentElement.children[1].textContent = --buyOneClickModalCount;
+        localStorage.setItem('buyOneClickModalCount', --buyOneClickModalCount)
+        e.target.parentElement.children[1].textContent = localStorage.getItem('buyOneClickModalCount');
         e.currentTarget.parentElement.children[1].textContent =
           (parseFloat(localStorage.getItem("buyOneClickPrice")) * buyOneClickModalCount).toFixed(2) + " BYN";
       }
@@ -250,9 +254,19 @@ aboutProductBuy?.addEventListener("click", (e) => {
         buyOneClickPrice.textContent = parseFloat(e?.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg.split(',').join('.')  * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
         pricePerOneKg = e.currentTarget?.parentElement?.parentElement?.children[3]?.children[0]?.children[1]?.dataset.priceperonekg
       }else {
-        console.log(parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg));
-        buyOneClickPrice.textContent = parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
-        pricePerOneKg = e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+        console.log(e.currentTarget.parentElement.parentElement.children[2].children[0].children);
+        if(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].classList.contains('about__product-price-promotion-noaction-price')) {
+          buyOneClickPrice.textContent = parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
+          pricePerOneKg = e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
+          buyOneClickModalCountInit.textContent = localStorage.getItem('totalWeightDetail');
+          localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.split('.')[0])
+        }else {
+          console.log(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg);
+          buyOneClickPrice.textContent = parseFloat(e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg.split(',').join('.') * localStorage.getItem('totalWeightDetail')).toFixed(2) + ' BYN'
+          pricePerOneKg = e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
+          buyOneClickModalCountInit.textContent = localStorage.getItem('totalWeightDetail');
+          localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.split('.')[0])
+        }
       }
       localStorage.setItem('pricePerOneKg', pricePerOneKg)
     }
