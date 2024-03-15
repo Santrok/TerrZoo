@@ -18,11 +18,17 @@
         <div class="callback__field">
             <div class="callback__field-item">
                 <h3 class="callback__field-item-title">Имя</h3>
-                <input type="text" name="name" placeholder="Иванов Иван Иванович"/>
+                <input type="text" 
+                       name="name" 
+                       value="{% if user.is_authenticated %}{{ user.last_name }} {{ user.first_name }}{% endif %}" 
+                       placeholder="Иванов Иван Иванович"/>
             </div>
             <div class="callback__field-item">
                 <h3 class="callback__field-item-title">Номер телефона</h3>
-                <input type="tel" name="phone" placeholder="+375 ___-__-__"/>
+                <input type="tel"
+                       name="phone"
+                       value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
+                       placeholder="+375 ___-__-__"/>
             </div>
         </div>
         <button type="button" class="button">Отправить</button>
