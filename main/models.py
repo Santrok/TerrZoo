@@ -178,7 +178,9 @@ class Product(models.Model):
     def action_price(self):
         """Метод для расчета цены в период
          акции в процентном соотношении"""
+        
         res = (100 - self.sale.percent) / 100 * float(self.price)
+        res = format(res, '.2f')
         return res
 
     class Meta:
