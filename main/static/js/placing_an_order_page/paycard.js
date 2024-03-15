@@ -61,9 +61,7 @@ function send_form() {
     })
       .then((resp) => resp.json())
       .then((data) => {
-      console.log(data)
         if (data.error) {
-
           let er = document.querySelector(".error");
           er.innerHTML = `<p style="color:red">${data.error}</p>`;
         } else {

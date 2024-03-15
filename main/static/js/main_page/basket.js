@@ -54,7 +54,6 @@ addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-  console.log(aboutProductWeightSpan);
   if (aboutProductWeightSpan) {
     localStorage.setItem('optionWeight', ' ' +aboutProductWeightSpan.textContent.trim().split(' ').splice(1, 1).join(''));
   }
@@ -552,7 +551,6 @@ addEventListener("DOMContentLoaded", () => {
           ).toFixed(2) + " BYN";
       }
     }else{
-      console.log(e.currentTarget.parentElement.parentElement.parentElement);
       e.currentTarget.parentElement.parentElement.parentElement.children[2].children[1].children[0].textContent =
       parseFloat(e.currentTarget.value * +localStorage.getItem("initWeight")).toFixed(1).split(".").join(",") + localStorage.getItem("optionWeight");
       if (e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[1]) {
