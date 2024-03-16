@@ -331,7 +331,7 @@ addEventListener("DOMContentLoaded", () => {
       addBasketItemToHover();
     });
   });
-  // details page set basket btn event
+  // details page set basket btn event 
   aboutProductBtn?.addEventListener("click", (e) => {
     let basket = JSON.parse(localStorage.getItem("basket")) || [];
     const inputValue = e.currentTarget.parentElement.children[0].children[1].value;
