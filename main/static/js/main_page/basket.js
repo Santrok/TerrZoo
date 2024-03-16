@@ -62,16 +62,35 @@ addEventListener("DOMContentLoaded", () => {
   headerBottomBasketCount.textContent = count;
   let basketArrayObj = [];
 
+
+  /**
+   * Sets the count of items in the basket in the DOM and in localStorage.
+   * This function is called when the page loads and also when an item is
+   * added or removed from the basket.
+   */
   function setCountInBasket() {
+    // Check if there are any items in the basket
     if (localStorage.getItem("basket") === null) {
       return;
     }
+
+    // Get the length of the basket array from localStorage
     count = JSON.parse(localStorage.getItem("basket"))?.length;
+
+    // Update the text content of the basket count element in the DOM
     headerBottomBasketCount.textContent = count;
+
+    // Update the text content of the basket count element for mobile view in the DOM
     headerBottomBasketValueMob.textContent = count;
   }
   setCountInBasket();
 
+  /**
+   * A function that updates the count of an item in the basket based on the button clicked.
+   *
+   * @param {Event} e - The event object containing information about the click event.
+   * @return {void} This function does not return anything.
+   */
   function setCountItem(e) {
     if (e.target.tagName === "BUTTON") {
       if (e.target.classList.contains("minus")) {
@@ -133,119 +152,157 @@ addEventListener("DOMContentLoaded", () => {
 
   headerBottomHover.addEventListener("click", setCountItem);
 
-  function addBasketItemToLocalStorage(e) {
-    let array = [];
-    for (let i of Array.from(e.currentTarget.parentElement.parentElement.children[2].children)) {
-      if (i.classList.contains("slider__item-weight-list-item-active")) {
-        array.push(i.textContent.trim());
-      }
-    }
-    localStorage.getItem("basket") === null ? "" : (basketArrayObj = JSON.parse(localStorage.getItem("basket")));
-    for (let i of basketArrayObj) {
-      if (
-        i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
-        Array.from(e.currentTarget.parentElement.parentElement.children[2].children)
-          .map((item) =>
-            item.classList.contains("slider__item-weight-list-item-active") ? item.textContent.trim() : null
-          )
-          .includes(i.weight.join(""))
-      ) {
-        i.count += 1;
-        i.price = Number(i.count * i.initPrice);
-        localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-        return;
-      }
-    }
-    let price = Array.from(
-      e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
-        e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
-        ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
-        : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
-    ).splice(0, 6);
-    if (array.length !== 0) {
-      basketArrayObj.push({
-        count: 1,
-        id: e.currentTarget.parentElement.parentElement.dataset.id,
-        title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(),
-        src: e.currentTarget.parentElement.parentElement.children[0].children[0].src,
-        weight: array,
-        initPrice: +parseFloat(price.join("")).toFixed(2),
-        price: +parseFloat(price.join("")).toFixed(2),
-        promotion:
-          e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
-          e.currentTarget.parentElement.parentElement.children[4].classList.contains("products___item-promotion")
-            ? true
-            : false,
-        href: e.currentTarget.parentElement.parentElement.children[1].href,
-      });
-      localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-      setCountInBasket();
+/**
+ * Adds an item to the basket in local storage.
+ *
+ * @param {Event} e - The event object.
+ */
+function addBasketItemToLocalStorage(e) {
+  // Get the selected weight options for the item
+  let array = [];
+  for (let i of Array.from(e.currentTarget.parentElement.parentElement.children[2].children)) {
+    if (i.classList.contains("slider__item-weight-list-item-active")) {
+      array.push(i.textContent.trim());
     }
   }
 
-  function addBasketItemToHover() {
-    const basketArray = JSON.parse(localStorage.getItem("basket")) || [];
-    let basketCount = 0;
-    if (basketArray.length === 0) {
-      const li = document.createElement("li");
-      li.classList.add("header__bottom-hover-list-none");
-      li.innerHTML = `Ваша корзина пуста`;
-      headerBottomHoverList.append(li);
-    } else {
-      headerBottomHoverList.innerHTML = "";
-    }
-    if (basketArray) {
-      let totalQuantity = 0;
-      for (let i of basketArray) {
-        const li = document.createElement("li");
-        li.classList.add("header__bottom-basket-hover-list-item");
-        li.dataset.id = i.id;
-        basketCount++;
-        li.innerHTML = `
-        <div class="header__bottom-basket-hover-list-item-wrap">
-        <div class="header__bottom-basket-hover-list-item-img">
-            <img src="${i.src}" alt="">
-        </div>
-        <div class="header__bottom-basket-hover-list-item-action">
-            <a href="${i.href}" class="header__bottom-basket-hover-list-item-title">
-                ${i.title}
-            </a>
-            <ul class="header__bottom-basket-hover-list-item-weight-list">
-                ${i?.weight?.map((item) => {
-                  totalQuantity = item?.split(" ").splice(0, 1).join("").split(",").join(".");
-                  return `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`;
-                })}
-            </ul>
-            <div class="header__bottom-basket-hover-list-item-tototal-quantity">
-              Общий вес: <span>${(i.count * +totalQuantity).toFixed(2)}</span><span> ${i.weight
-          .join("")
-          .split(" ")
-          .splice(1, 1)
-          .join("")}</span>
-            </div>
-        </div>
-        <div class="header__bottom-basket-hover-list-item-quantity">
-            <div class="header__bottom-basket-hover-list-item-quantity-wrap">
-                <button type="button" class="minus">
-                    -
-                </button>
-                <div>
-                    ${i.count}
-                </div>
-                <button type="button" class="plus">
-                    +
-                </button>
-            </div>
-            <p>
-                ${(Math.floor(i.price * 100) / 100).toFixed(2)} BYN
-            </p>
-        </div>
-    </div>
-    `;
-        headerBottomHoverList.append(li);
-      }
+  // Get the basket array from local storage, or initialize an empty array
+  let basketArrayObj = JSON.parse(localStorage.getItem("basket")) || [];
+
+  // Check if the item already exists in the basket
+  for (let i of basketArrayObj) {
+    if (
+      i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
+      Array.from(e.currentTarget.parentElement.parentElement.children[2].children)
+        .map((item) =>
+          item.classList.contains("slider__item-weight-list-item-active") ? item.textContent.trim() : null
+        )
+        .includes(i.weight.join(""))
+    ) {
+      // If the item exists, increment its count and update its price
+      i.count += 1;
+      i.price = Number(i.count * i.initPrice);
+      localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+      return;
     }
   }
+
+  // Get the price of the item, considering promotion and weight options
+  let price = Array.from(
+    e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+    e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
+      ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
+      : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
+  ).splice(0, 6);
+
+  // If weight options are selected, add the item to the basket
+  if (array.length !== 0) {
+    basketArrayObj.push({
+      count: 1, // The initial count of the item
+      id: e.currentTarget.parentElement.parentElement.dataset.id, // The ID of the item
+      title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(), // The title of the item
+      src: e.currentTarget.parentElement.parentElement.children[0].children[0].src, // The src of the item's image
+      weight: array, // The selected weight options
+      initPrice: +parseFloat(price.join("")).toFixed(2), // The initial price of the item
+      price: +parseFloat(price.join("")).toFixed(2), // The current price of the item
+      promotion:
+        e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+        e.currentTarget.parentElement.parentElement.children[4].classList.contains("products___item-promotion")
+          ? true
+          : false, // Whether the item is on promotion
+      href: e.currentTarget.parentElement.parentElement.children[1].href, // The href of the item's link
+    });
+    localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+    setCountInBasket(); // Update the count in the basket
+  }
+}
+
+/**
+ * Function to add basket items to the hover list.
+ * It fetches the basket items from local storage,
+ * clears the hover list, and adds new items to it.
+ */
+function addBasketItemToHover() {
+  // Fetch basket items from local storage
+  const basketArray = JSON.parse(localStorage.getItem("basket")) || [];
+  let basketCount = 0; // Initialize basket count
+
+  // If basket is empty, add a message to the list
+  if (basketArray.length === 0) {
+    const li = document.createElement("li");
+    li.classList.add("header__bottom-hover-list-none");
+    li.innerHTML = `Ваша корзина пуста`;
+    headerBottomHoverList.append(li);
+  } 
+  // If basket is not empty, clear the list and add new items
+  else {
+    headerBottomHoverList.innerHTML = "";
+  }
+  
+  // Loop through basket items and add them to the list
+  if (basketArray) {
+    let totalQuantity = 0; // Initialize total quantity
+    for (let i of basketArray) {
+      const li = document.createElement("li");
+      li.classList.add("header__bottom-basket-hover-list-item");
+      li.dataset.id = i.id;
+      basketCount++;
+
+      // Generate HTML string for each basket item
+      li.innerHTML = `
+        <!-- Basket item wrapper -->
+        <div class="header__bottom-basket-hover-list-item-wrap">
+          <!-- Basket item image -->
+          <div class="header__bottom-basket-hover-list-item-img">
+            <img src="${i.src}" alt="">
+          </div>
+          <!-- Basket item action -->
+          <div class="header__bottom-basket-hover-list-item-action">
+            <!-- Basket item title -->
+            <a href="${i.href}" 
+               class="header__bottom-basket-hover-list-item-title">
+              ${i.title}
+            </a>
+            <!-- Basket item weight list -->
+            <ul class="header__bottom-basket-hover-list-item-weight-list">
+              <!-- Loop through weight list and generate HTML -->
+              ${i?.weight?.map((item) => {
+                totalQuantity = item?.split(" ").splice(0, 1).join("").split(",").join(".");
+                return `<li class='header__bottom-basket-hover-list-item-weight-list-item slider__item-weight-list-item-active'>${item}</li>`;
+              })}
+            </ul>
+            <!-- Basket item total weight -->
+            <div class="header__bottom-basket-hover-list-item-tototal-quantity">
+              Общий вес: 
+              <span>${(i.count * +totalQuantity).toFixed(2)}</span>
+              <span> ${i.weight.join("").split(" ").splice(1, 1).join("")}</span>
+            </div>
+          </div>
+          <!-- Basket item quantity -->
+          <div class="header__bottom-basket-hover-list-item-quantity">
+            <!-- Basket item quantity wrap -->
+            <div class="header__bottom-basket-hover-list-item-quantity-wrap">
+              <button type="button" class="minus">
+                -
+              </button>
+              <div>
+                ${i.count}
+              </div>
+              <button type="button" class="plus">
+                +
+              </button>
+            </div>
+            <!-- Basket item price -->
+            <p>
+              ${(Math.floor(i.price * 100) / 100).toFixed(2)} BYN
+            </p>
+          </div>
+        </div>
+      `;
+      headerBottomHoverList.append(li);
+    }
+  }
+}
 
   addBasketItemToHover();
 
@@ -518,60 +575,72 @@ addEventListener("DOMContentLoaded", () => {
 
   localStorage.setItem("initWeight", aboutProductWeightSpan?.textContent.split(" ").splice(0, 1).join(""));
   // quantity product input
+  // Add an event listener to the input field for choosing weight
   aboutProductAction?.children[1]?.addEventListener("input", (e) => {
+    // Check if initial weight is stored in local storage, if not, store it
     if (localStorage.getItem("initWeight") === null) {
       localStorage.setItem(
         "initWeight",
         e.currentTarget.parentElement.parentElement.children[3].children[1].children[0].textContent
-          .split(" ")
-          .splice(0, 1)
-          .join("")
+          .split(" ")[0] // Split the text content by space and get the first item
       );
     }
-    localStorage.setItem("totalWeightDetail", e.currentTarget.value * localStorage.getItem("initWeight"));
-    // set total weight in input details
+    // Calculate total weight based on the chosen weight and initial weight
+    let totalWeight = e.currentTarget.value * +localStorage.getItem("initWeight");
+    localStorage.setItem("totalWeightDetail", totalWeight.toFixed(1));
+
+    // Set total weight in input details
     if(e.currentTarget.parentElement.parentElement.parentElement.children[3].classList.contains('about__product-price-wrap')) {
+      // Set weight in details
       e.currentTarget.parentElement.parentElement.parentElement.children[3].children[1].children[0].textContent =
-      parseFloat(e.currentTarget.value * +localStorage.getItem("initWeight")).toFixed(1).split(".").join(",") + localStorage.getItem("optionWeight");
+        parseFloat(totalWeight).toFixed(1).split(".").join(",") + localStorage.getItem("optionWeight");
+      
+      // Set price in details
       if (e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1]) {
+        // Check if details container has second child
         e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].textContent =
           parseFloat(
             e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
               .split(",")
               .join(".") *
-              localStorage.getItem('totalWeightDetail')
+              totalWeight
           ).toFixed(2) + " BYN";
       } else {
+        // Check if details container has first child
         e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].textContent =
           parseFloat(
             e.currentTarget.parentElement.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
               .split(",")
               .join(".") *
-              localStorage.getItem('totalWeightDetail')
+              totalWeight
           ).toFixed(2) + " BYN";
       }
     }else{
+      // Set weight in details
       e.currentTarget.parentElement.parentElement.parentElement.children[2].children[1].children[0].textContent =
-      parseFloat(e.currentTarget.value * +localStorage.getItem("initWeight")).toFixed(1).split(".").join(",") + localStorage.getItem("optionWeight");
+        parseFloat(totalWeight).toFixed(1).split(".").join(",") + localStorage.getItem("optionWeight");
+      
+      // Set price in details
       if (e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[1]) {
+        // Check if details container has second child
         e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[1].textContent =
           parseFloat(
             e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
               .split(",")
               .join(".") *
-              localStorage.getItem('totalWeightDetail')
+              totalWeight
           ).toFixed(2) + " BYN";
       } else {
+        // Check if details container has first child
         e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[0].textContent =
           parseFloat(
             e.currentTarget.parentElement.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
               .split(",")
               .join(".") *
-              localStorage.getItem('totalWeightDetail')
+              totalWeight
           ).toFixed(2) + " BYN";
       }
     }
-    // ----
   });
   //------
 

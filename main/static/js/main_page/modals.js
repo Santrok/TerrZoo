@@ -161,6 +161,7 @@ sliderButton.forEach((item) => {
         buyOneClickTitle.textContent = e.currentTarget.parentElement.children[1].textContent.trim();
         buyOneClickModalCountInit.textContent = 1;
         buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.textContent}</li>`;
+        localStorage.setItem('initWeight', i.textContent.trim().split(' ').splice(0,1).join(''));
         if (
           e.currentTarget.parentElement.children[4].classList.contains("products___item-promotion") ||
           e.currentTarget.parentElement.children[4].classList.contains("slider__item-promotion")

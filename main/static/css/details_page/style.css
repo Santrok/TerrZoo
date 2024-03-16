@@ -167,6 +167,23 @@
     }
 }
 
+.aboout__product-wish-list-comprasion {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.aboout__product-wish-list-comprasion p {
+    color: rgb(92, 92, 92);
+    font-family: SF Pro Text;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 130%;
+    cursor: pointer;
+}
+
 .about__product-titlte-promotion {
     border-radius: 2px;
     background: rgb(253, 87, 73);

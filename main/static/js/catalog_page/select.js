@@ -13,7 +13,3 @@ selectListItem.forEach(item => {
         catalogSelectActive.setAttribute("data-order",item.dataset.order)
     })
 })
-
-// selectList.addEventListener('click', (e) => {
-//     catalogSelectActive.innerText = e.target.innerText
-// })
