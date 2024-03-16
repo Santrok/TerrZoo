@@ -1,7 +1,7 @@
 from django.contrib import admin
 from main.models import (Animal, CategoryProduct, Product, ImageProduct,
                          CountItemProduct, Sale, Article, Brand, Review,
-                         Order, PayCard, AdminProduct, Profile, AdminOrder)
+                         Order, PayCard, AdminProduct, Profile, AdminOrder, Store)
 
 admin.site.register(Animal)
 admin.site.register(CategoryProduct)
@@ -14,6 +14,7 @@ admin.site.register(Review)
 admin.site.register(Order, AdminOrder)
 admin.site.register(PayCard)
 admin.site.register(Profile)
+admin.site.register(Store)
 
 
 @admin.register(CountItemProduct)

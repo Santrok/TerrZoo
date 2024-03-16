@@ -63,9 +63,10 @@
             <h1 class="placing_an_order_title">Оформление заказа</h1>
             <div class="info_about_client_and_payment_method_button_order">
               <div class="info_about_client">
-                <form method="post" action="" class="info_about_client_form">
+                <form method="post" action="" class="info_about_client_form" id="info_order">
                   {% csrf_token %}
                   <div class="info_about_client_form_item">
+                    {% if user.is_authenticated %}
                     <label for="name" class="input_item_label">
                       <p>Имя</p>
                     </label>
@@ -74,25 +75,50 @@
                       name="name"
                       placeholder="Иванов Иван Иванович"
                       id="name"
-                      class="input_item_active"
+                      class="input_item_active_client"
                       value="{{ request.user.first_name }}"
                     />
+                    {% endif %}
                   </div>
                   <div class="info_about_client_form_item">
                     <label for="phone" class="input_item_label">
                       <p>Номер телефона</p>
                     </label>
-                    <input type="tel" name="phone" placeholder="+375_____-__-__" id="phone" class="input_item_active" value="{{ request.user.profile.phone_number }}"/>
+                    <input type="tel" name="phone" placeholder="+375_____-__-__" id="phone" class="input_item_active_client" value="{{ request.user.profile.phone_number }}"/>
+                  </div>
+                  <div class="info_about_receiving_an_order">
+                      <label class="method_receiving_an_order">
+                          <input type="radio" name="receiving_an_order" id="pickup" />Самовывоз</label>
+                      <select class="stores_for_pickup" id="stores_for_pickup" name="store_for_pickup">
+                          {% for store in stores %}
+                          <option class="option_item_store_for_pickup" name="store_for_pickup" id="store" />{{ store.city }}, ул. {{ store.street }},  {{ store.house_number }} </option>
+                          {% endfor %}
+                      </select>
+                      <label class="method_receiving_an_order">
+                          <input type="radio" name="receiving_an_order" id="courier_deliver" />Доставка курьером</label>
+                      <fieldset class="info_for_courier_deliver" id="info_for_courier_deliver" name="address_for_courier">
+                          <label for="city" class="input_item_label">Город</label>
+                          <input type="text" name="city" required placeholder="Город" id="city" class="input_item_active" value="{{ user.profile.city }}">
+                          <label for="street" class="input_item_label">Улица/переулок</label>
+                          <input type="text" name="street" placeholder="Улица/переулок" id="streer" class="input_item_active" value="{{ user.profile.street }}" >
+                          <label for="house_number" class="input_item_label">Дом</label>
+                          <input type="text" name="house_number_courier" placeholder="Дом" id="house_number" class="input_item_active" value="{{ user.profile.house_number }}" >
+                          <label for="entrance_number" class="input_item_label">Подъезд</label>
+                          <input type="text" name="entrance_number" placeholder="Подъезд" id="entrance_number" class="input_item_active" value="{{ user.profile.entrance_number }}">
+                          <label for="apartment_number" class="input_item_label">Квартира</label>
+                          <input type="text" name="apartment_number" placeholder="Квартира" id="entrance_number" class="input_item_active" value="{{ user.profile.apartment_number }}">
+                          <label for="postal_code" class="input_item_label">Почтовый индекс</label>
+                          <input type="text" name="postal_code" placeholder="Почтовый индекс" id="postal_code" class="input_item_active" value="{{ user.profile.postal_code }}">
+                      </fieldset>
                   </div>
                   <div class="info_about_payment_method">
-                    <label class="payment_method">
-                        <input type="radio" name="payment_method" id="cash" />Оплата наличными при получении
-                    </label>
+                    <label class="payment_method"
+                      ><input type="radio" name="payment_method" id="cash" />Оплата наличными при получении</label
+                    >
                     {% if user.is_authenticated %}
                         <label class="payment_method">
                             <input type="radio" name="payment_method" id="pay_online" />Оплата картой онлайн
                         </label>
-                        <div class="error"></div>
                         <fieldset class="paycard">
                           <div class="numder_paycard">
                             <input
@@ -154,20 +180,21 @@
                           </div>
                         </fieldset>
                     {% endif %}
+                    <div class="error"></div>
                     <div class="info_about_order">
                       <div class="info_about_order_price">
                         {% if ptoduct.sale.percent != 0 %}
                         <p class="order_price_promotion">
-                          {# {{ product.price }}#} {# 670 #}
+                          {{ product.price }}
                           {#  <span>BYN</span> #}
                         </p>
                         <p class="order_price">
-                          {# {{ product.action_price|floatformat:2 }} #} {# 543 #}
-                          {#  <span>BYN</span>  #}
+                          {{ product.action_price|floatformat:2 }}
+                          <span>BYN</span>
                         </p>
                         {% else %}
                         <p class="order_price">
-                          {# {{ product.price }} #} 543
+                          {{ product.price }}
                           <span>BYN</span>
                         </p>
                         {% endif %}
@@ -178,7 +205,7 @@
                         <span>товара</span>
                       </p>
                     </div>
-                    <input type="button" class="button_order" value="Заказать" />
+                    <input type="button" class="button_order" value="Заказать" id="button"/>
                   </div>
                 </form>
                 <div class="personal_data">
@@ -197,6 +224,7 @@
 
 {% block js %}
 <script src="{% static 'js/placing_an_order_page/paycard.js' %}"></script>
+<script src="{% static 'js/placing_an_order_page/form.js' %}"></script>
 {% endblock %}
 {% block profile_navigation %}
 {% endblock %}

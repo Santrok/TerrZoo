@@ -16,7 +16,7 @@ from django.shortcuts import render, redirect
 from config import settings
 from django.db.models import Count, Sum
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
-                         CategoryProduct, Order, PayCard, Profile)
+                         CategoryProduct, Order, PayCard, Profile, Store)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
                         ProfileForm, ProfileUserPasswordForm, ProfileUserNameForm)
 
@@ -347,10 +347,11 @@ def get_promotions_page(request):
 def get_placing_an_order_page(request):
     '''Отдает страничку оформления заказов'''
     user = request.user
+    stores = Store.objects.all()
     if request.method == "POST":
         if request.POST.get('basket') != '[]':
             if user.is_authenticated:
-                if request.POST.get('check') == 'pay_online':
+                if request.POST.get('payment_method') == 'pay_online':
                     pay_card = (f"{request.POST.get('num_paycard_1_4', '0')}"
                                 f"{request.POST.get('num_paycard_5_8', '0')}"
                                 f"{request.POST.get('num_paycard_9_12', '0')}"
@@ -365,30 +366,53 @@ def get_placing_an_order_page(request):
                                                              expiration_date=date_card,
                                                              user=user)
                         if card_zapros:
-                            if card_zapros[0].balance >= float(request.POST.get('order_price')):
+                            if card_zapros[0].balance >= float(request.POST.get('order_price').split(' ')[0]):
                                 order_number = save_order_for_user(request, user, 'Оплачен')
-                                card_zapros[0].balance = float(card_zapros[0].balance) - float(
-                                    request.POST.get('order_price'))
-                                card_zapros[0].save()
-                                return JsonResponse({"order_number": order_number, "user_email": user.email})
+                                if order_number in ['Не выбран способ получения заказа',
+                                "Введите город",
+                                "Введите улицу",
+                                "Введите номер дома",
+                                "Введите почтовый индекс"]:
+                                    return JsonResponse({"error": order_number})
+                                else:
+                                    card_zapros[0].balance = float(card_zapros[0].balance) - float(
+                                        request.POST.get('order_price').split(' ')[0])
+                                    card_zapros[0].save()
+                                    return JsonResponse({"order_number": order_number, "user_email": user.email})
                             else:
                                 return JsonResponse({"error": "Недостаточно средств"})
                         else:
                             return JsonResponse({"error": "Введенные данные не верны"})
                     else:
                         return JsonResponse({"error": "Введенные данные не верны"})
-                elif request.POST.get('check') == 'cash':
+                elif request.POST.get('payment_method') == 'cash':
                     order_number = save_order_for_user(request, user, 'Оформлен')
-                    return JsonResponse({"order_number": order_number})
+                    if order_number in ['Не выбран способ получения заказа',
+                                "Введите город",
+                                "Введите улицу",
+                                "Введите номер дома",
+                                "Введите почтовый индекс"]:
+                        return JsonResponse({"error":order_number})
+                    else:
+                        return JsonResponse({"order_number": order_number})
                 else:
-                    return JsonResponse({"error": "Не выбран ни один из способов заказа"})
+                    return JsonResponse({"error": "Не выбран ни один из способов оплаты"})
             else:
                 order_number = save_order_for_anonymous_user(request, 'Оформлен')
-                return JsonResponse({"order_number": order_number})
+                if order_number in ["Не выбран ни один из способов получения заказа",
+                "Введите номер телефона",
+                "Не выбран способ оплаты","Введите город",
+                "Введите улицу",
+                "Введите номер дома",
+                "Введите почтовый индекс"]:
+                    return JsonResponse({"error":order_number})
+                else:
+                    return JsonResponse({"order_number": order_number})
         else:
             return JsonResponse({"error": "Карзина пуста, необходимо добавить товар!"})
-    context = {}
-
+    context = {
+        'stores': stores,
+    }
     return render(request=request,
                   template_name='placing_an_order.html',
                   context=context)

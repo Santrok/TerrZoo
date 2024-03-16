@@ -342,6 +342,11 @@ class Order(models.Model):
         ("Ошибка оплаты", "Ошибка оплаты"),
     ]
 
+    METHOD_RECEIVING_ORDER = [
+        ("Самовывоз","Саммовывоз"),
+        ("Доставка курьером","Доставка курьером")
+    ]
+
     order_number = models.CharField(verbose_name='Номер заказа',
                                     max_length=16)
     data_create = models.DateTimeField("Время заказа",
@@ -363,6 +368,32 @@ class Order(models.Model):
                                     choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
     order_item = models.JSONField(verbose_name='Детали заказа')
     order_show = models.BooleanField(verbose_name='Показывать заказ пользователю ', default=True)
+    order_receving = models.CharField(verbose_name='Способ получения заказа',max_length=20,
+                                      choices=METHOD_RECEIVING_ORDER, default=METHOD_RECEIVING_ORDER[0][0])
+    city = models.CharField(verbose_name="Город",
+                            max_length=120,
+                            blank=True,
+                            null=True)
+    street = models.CharField(verbose_name="Улица / Переулок",
+                              max_length=40,
+                              blank=True,
+                              null=True)
+    house_number = models.CharField(verbose_name="Номер дома",
+                                    max_length=4,
+                                    blank=True,
+                                    null=True)
+    entrance_number = models.CharField(verbose_name="Номер подъезда",
+                                       max_length=2,
+                                       blank=True,
+                                       null=True)
+    apartment_number = models.CharField(verbose_name="Номер квартиры",
+                                        max_length=4,
+                                        blank=True,
+                                        null=True)
+    postal_code = models.CharField(verbose_name="Почтовый индекс",
+                                   max_length=6,
+                                   blank=True,
+                                   null=True)
 
     def __str__(self):
         return f"ID{self.id}: {self.order_number} - {self.user.username}"
@@ -498,3 +529,28 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Store(models.Model):
+    '''Модель магазинов для самовывоза заказа'''
+    city = models.CharField(verbose_name="Город",
+                            max_length=120,
+                            blank=True,
+                            null=True)
+    street = models.CharField(verbose_name="Улица / Переулок",
+                              max_length=40,
+                              blank=True,
+                              null=True)
+    house_number = models.CharField(verbose_name="Номер дома",
+                                    max_length=4,
+                                    blank=True,
+                                    null=True)
+    def __str__(self):
+        return f'{self.city}, ул. {self.street}, {self.house_number}'
+
+    class Meta:
+        verbose_name = "Магазин"
+        verbose_name_plural = "Магазины"
+
+class StoreAdmin(admin.ModelAdmin):
+    '''Класс управления отображения в
+        админ панели сущности: Store'''

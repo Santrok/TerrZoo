@@ -109,6 +109,87 @@
   background: rgb(255, 255, 255);
 }
 
+.input_item_active_client {
+  font-family: SF Pro Text;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+
+  padding: 8px 12px;
+  width: 347px;
+  height: 36px;
+  max-width: 100%;
+  max-height: 100%;
+
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 2px solid rgb(140, 145, 150);
+  background: rgb(255, 255, 255);
+}
+
+.method_receiving_an_order {
+  display: flex;
+  color: rgb(140, 145, 150);
+  font-family: SF Pro Text;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  vertical-align: top;
+  gap: 8px;
+  padding-bottom: 6px;
+}
+
+.info_about_receiving_an_order {
+  display: flex;
+  flex-direction: column;
+  padding-top: 16px;
+  padding-bottom: 9px;
+}
+
+.option_item_store_for_pickup {
+  font-family: SF Pro Text;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.stores_for_pickup {
+  /*display: flex;*/
+  display: none;
+
+  border: 2px solid rgb(140, 145, 150);
+  background: rgb(255, 255, 255);
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  font-family: SF Pro Text;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+
+  padding: 4px 12px;
+  width: 347px;
+  height: 36px;
+  max-width: 100%;
+  max-height: 100%;
+  margin-bottom: 8px;
+}
+
+.info_for_courier_deliver {
+  display: none;
+  /*display: flex;*/
+  flex-direction: column;
+  gap: 4px;
+}
+
 .info_about_payment_method{
     display: flex;
     flex-direction: column;
