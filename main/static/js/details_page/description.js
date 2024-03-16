@@ -1,5 +1,6 @@
 const descriptionItem = document.querySelectorAll('.about__product-weight-list-item')
 
+localStorage.setItem('buyOneClickModalCount', 1)
 
 descriptionItem.forEach(item => {
     item.addEventListener('click', (e) => {
@@ -17,5 +18,6 @@ descriptionItem.forEach(item => {
         aboutProductActionInput.value = 1;
         localStorage.setItem('initWeight', e.currentTarget.children[0].textContent.trim().split(',').join('.').split(' ').splice(0,1).join(''))
         localStorage.setItem('totalWeightDetail', e.currentTarget.children[0].textContent.trim().split(',').join('.').split(' ').splice(0,1).join(''))
+        localStorage.setItem('buyOneClickModalCount', 1)
     })
 })
