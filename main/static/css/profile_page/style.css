@@ -170,6 +170,7 @@ main h3 {
 .promotions__wrap {
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
 
 .pay__card__list {
@@ -480,7 +481,7 @@ main h3 {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 .details__list__about__order__common {
