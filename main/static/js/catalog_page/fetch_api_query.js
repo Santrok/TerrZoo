@@ -35,11 +35,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /**
+   * A function that toggles a promotion based on the event target.
+   *
+   * @param {Event} e - the event object
+   * @return {void} 
+   */
   function togglePromotion(e) {
     if (e.target.parentElement.classList.contains("promotional__item-label")) {
       e.target.parentElement.children[0].classList.toggle("promotional__item-active");
     }
   }
+  /**
+   * A description of the entire function.
+   *
+   * @param {type} e - description of parameter
+   * @return {type} description of return value
+   */
   function toggleOuter(e) {
     if (e.target?.previousElementSibling?.dataset?.lvl === "1" || e.target?.nextElementSibling?.dataset?.lvl === "1") {
       if (e.target.parentElement.children[0].classList.contains("filter__item-active-aside")) {
@@ -49,11 +61,22 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.parentElement.children[0].classList.add("filter__item-active-aside");
     }
   }
+  /**
+   * A description of the entire function.
+   *
+   * @param {type} paramName - description of parameter
+   * @return {type} description of return value
+   */
   function toggleBrand(e) {
     if (e.target.parentElement.classList.contains("brand__list-item-label")) {
       e.target.parentElement.children[0].classList.toggle("brand__list-item-label-active");
     }
   }
+  /**
+   * Function to toggle the inner elements based on the event target.
+   *
+   * @param {Event} e - The event object
+   */
   function toggleInner(e) {
     if (e.target?.previousElementSibling?.dataset?.lvl === "0" || e.target?.nextElementSibling?.dataset?.lvl === "0") {
       if (e.target.parentElement.children[0].classList.contains("filter__type-list-item-active")) {
@@ -89,6 +112,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   let count = 0;
+/**
+ * Generates the pagination list based on the provided data.
+ *
+ * @param {Object} data - The data object containing the necessary information for pagination.
+ * @return {undefined} This function does not return a value.
+ */
   function paginationFunc(data) {
     if (data) {
       const paginationList = document.querySelector(".products__pagination-list");
@@ -125,11 +154,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /**
+   * This function handles the action to go to the previous page.
+   */
   function prevPageAction() {
     if (localStorage.getItem("previousPageCatalog") === "null") return;
     filterFetch(localStorage.getItem("previousPageCatalog"));
   }
 
+  /**
+   * A description of the entire function.
+   *
+   * @param {type} paramName - description of parameter
+   * @return {type} description of return value
+   */
   function nextPageAction() {
     if (localStorage.getItem("nextPageCatalog") === "null") return;
     filterFetch(localStorage.getItem("nextPageCatalog"));
@@ -141,6 +179,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextPage = document.querySelector(".products__next");
   nextPage.addEventListener("click", nextPageAction);
 
+  /**
+   * Function that fetches data from a specified URL, processes the response, saves data to local storage,
+   * updates the pagination, and dynamically creates HTML elements to display the fetched data.
+   *
+   * @param {string} url - The URL to fetch the data from
+   * @return {void} This function does not return anything
+   */
   function filterFetch(url) {
     fetch(url)
       .then((resp) => resp.json())

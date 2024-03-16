@@ -110,10 +110,15 @@ class CategoryProductsListView(ListAPIView):
 
 
 class ProductsListView(ListAPIView):
-    queryset = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
-
+    def get_queryset(self):
+        data = self.request.query_params
+        d = dict(data.copy())
+        print(d.get('id'))
+        queryset = Product.objects.filter(**d).select_related('sale', 'category').prefetch_related('countitemproduct_set')
+        return queryset
+    
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
