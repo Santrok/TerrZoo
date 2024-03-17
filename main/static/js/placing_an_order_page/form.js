@@ -143,3 +143,20 @@ dataItem.oninput = (e) => {
     }
 })
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const payOnlineRadio = document.getElementById('pay_online');
+  const payCash = document.getElementById('cash');
+  const onlinePaymentFields = document.getElementById('online_payment_fields');
+
+  payOnlineRadio.addEventListener('change', function() {
+    if (payOnlineRadio.checked) {
+      onlinePaymentFields.style.display = 'flex';
+    }
+  });
+  payCash.addEventListener('change', function() {
+    if (payCash.checked) {
+      onlinePaymentFields.style.display = 'none';
+    }
+  });
+});

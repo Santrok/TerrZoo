@@ -92,18 +92,26 @@
                         <h3 class="buy__one-click-list-item-field-title">
                             Имя
                         </h3>
-                        <input type="text" name="name" id="" placeholder="Иванов Иван Иванович">
+                        <input type="text"
+                               name="name"
+                               id=""
+                               value="{% if user.is_authenticated %}{{ user.last_name }} {{ user.first_name }}{% endif %}"
+                               placeholder="Иванов Иван Иванович">
                     </div>
                     <div class="buy__one-click-list-item-field">
                         <h3 class="buy__one-click-list-item-field-title">
                             Номер телефона
                         </h3>
-                        <input type="text" name="name" id="" placeholder="+375 ___-__-__">
+                        <input type="text"
+                               name="name"
+                               id=""
+                               value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
+                               placeholder="+375 ___-__-__">
                     </div>
                 </div>
-                <button class="button">
+                <a href="{% url 'placing_an_order' %}" class="button">
                     Оформить заказ
-                </button>
+                </a>
                 <p class="buy__one-click-list-item-personal-data">
                     Нажимая на кнопку вы даёте согласие на обработку <a href="{% static 'politika_v_otnochenii_personalnih_dannih.pdf' %}" target="_blank">персональных данных</a>
                 </p>

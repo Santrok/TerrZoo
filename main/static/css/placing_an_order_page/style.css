@@ -237,6 +237,10 @@
     margin-top: 4px;
 }
 
+#online_payment_fields {
+    display: none;
+}
+
 .numder_paycard{
   display: flex;
   justify-content: space-between;

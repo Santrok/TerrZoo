@@ -113,14 +113,14 @@
                       </fieldset>
                   </div>
                   <div class="info_about_payment_method">
-                    <label class="payment_method"
-                      ><input type="radio" name="payment_method" id="cash" />Оплата наличными при получении</label
-                    >
+                    <label class="payment_method">
+                        <input type="radio" name="payment_method" id="cash" />Оплата наличными при получении
+                    </label>
                     {% if user.is_authenticated %}
                         <label class="payment_method">
                             <input type="radio" name="payment_method" id="pay_online" />Оплата картой онлайн
                         </label>
-                        <fieldset class="paycard">
+                        <fieldset class="paycard" id="online_payment_fields">
                           <div class="numder_paycard">
                             <input
                               type="text"
