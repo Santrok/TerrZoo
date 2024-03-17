@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function getPageCatalog(e) {
         if (e.code === "Enter") {
             window.location.href = 'http://127.0.0.1:8000/search/'
+            localStorage.setItem('searchKeyWord', searchInput.value.trim())
         }
     }
 
