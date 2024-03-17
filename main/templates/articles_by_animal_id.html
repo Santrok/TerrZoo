@@ -64,6 +64,11 @@
                     <div class="articles__title-wrap">
                         <h2 class="articles__title">Полезные статьи <span></span> </h2>
                     </div>
+                    <div class="no__article">
+                        {% if not articles %}
+                            <h3>Статей на данную тему нет.</h3>
+                        {% endif %}
+                    </div>
                     <ul class="articles__list">
                         {% for article in articles %}
                             <li class="articles__list-item">

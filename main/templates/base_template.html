@@ -37,7 +37,8 @@
         </p>
         <div class="cross"></div>
     </form>
-    <form class="buy__one-click">
+    <form action="{% url 'placing_an_order' %}" class="buy__one-click">
+        {% csrf_token %}
         <h2 class="buy__one-click-title">
             Оформление заказа в 1 клик
         </h2>
@@ -109,9 +110,9 @@
                                placeholder="+375 ___-__-__" maxlength="19">
                     </div>
                 </div>
-                <a href="{% url 'placing_an_order' %}" class="button">
+                <button class="button">
                     Оформить заказ
-                </a>
+                </button>
                 <p class="buy__one-click-list-item-personal-data">
                     Нажимая на кнопку вы даёте согласие на обработку <a href="{% static 'politika_v_otnochenii_personalnih_dannih.pdf' %}" target="_blank">персональных данных</a>
                 </p>
@@ -733,6 +734,7 @@
     <script defer src="{% static 'js/main_page/slider.js' %}"></script>
     <script defer src="{% static 'js/main_page/burger.js' %}"></script>
     <script defer src="{% static 'js/base_template/searchinput.js' %}"></script>
+    <script defer src="{% static 'js/base_template/buy_one_click.js' %}"></script>
     {% block js %}
     {% endblock %}
     <script defer type="module" src="{% static 'js/main_page/basket.js' %}"></script>
