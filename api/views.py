@@ -342,9 +342,7 @@ class ProductListFilterView(ListAPIView):
 
     def get_queryset(self):
         data = self.request.query_params
-        print(data, 'data')
         d = dict(data.copy())
-        print(d, 'd')
         order = d.pop("order")
         if d.get("page"):
             d.pop("page")
