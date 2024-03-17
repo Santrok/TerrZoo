@@ -1,26 +1,37 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-   getLocalStorageSetPage()
-})
+  // getLocalStorageSetPage();
+  const keyWord = localStorage.getItem('searchKeyWord') || '';
+  const searchTitleKeyWord = document.querySelector('.catalog__title span')
+  console.log(searchTitleKeyWord);
+  searchTitleKeyWord.textContent = keyWord.toLocaleLowerCase() 
+});
 
-
-function getLocalStorageSetPage(){
-    let productsSearchList = JSON.parse(localStorage.getItem("result_search_objects"))
-    for (let i of productsSearchList) {
-                                     const product_list = document.querySelector(".products__list");
-                                     product_list.innerHTML += `
+function getLocalStorageSetPage() {
+  let productsSearchList = JSON.parse(localStorage.getItem("result_search_objects"));
+  for (let i of productsSearchList) {
+    const product_list = document.querySelector(".products__list");
+    product_list.innerHTML += `
                                                      <article class="products___item" data-id="${i.id}">
                                                      <div class="products___item-img">
                                                          <img src="${i.image_prev}" alt="item" />
                                                      </div>
-                                                     <a href="http://127.0.0.1:8000/details/${i.id}" class="products___item-title">
+                                                     <a href="http://127.0.0.1:8000/details/${
+                                                       i.id
+                                                     }" class="products___item-title">
                                                          ${i.title}
                                                      </a>
                                                      <ul class="slider__item-weight-list">
                                                          ${i.countitemproduct_set
                                                            ?.map(
                                                              (item) =>
-                                                               `<li class="slider__item-weight-list-item" data-weight-id="${item.id}" data-weight-price="${(item.percent / 100) * parseFloat((100 - i.sale.percent) / 100 * parseFloat(i.price))}">${item.value} <span>${item.unit}</span></li>`
+                                                               `<li class="slider__item-weight-list-item" data-weight-id="${
+                                                                 item.id
+                                                               }" data-weight-price="${
+                                                                 (item.percent / 100) *
+                                                                 parseFloat(
+                                                                   ((100 - i.sale.percent) / 100) * parseFloat(i.price)
+                                                                 )
+                                                               }">${item.value} <span>${item.unit}</span></li>`
                                                            )
                                                            .join("")}
                                                  </ul>
@@ -105,5 +116,5 @@ function getLocalStorageSetPage(){
                                                 </div>
                                                  </article>
                                                  `;
-                                   }
+  }
 }

@@ -28,7 +28,7 @@
                 <input type="tel"
                        name="phone"
                        value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
-                       placeholder="+375 ___-__-__"/>
+                       placeholder="+375 ___-__-__" maxlength="19"/>
             </div>
         </div>
         <button type="button" class="button">Отправить</button>
@@ -98,7 +98,7 @@
                         <h3 class="buy__one-click-list-item-field-title">
                             Номер телефона
                         </h3>
-                        <input type="text" name="name" id="" placeholder="+375 ___-__-__">
+                        <input type="text" name="phone" id="" placeholder="+375 ___-__-__" maxlength="19">
                     </div>
                 </div>
                 <button class="button">
