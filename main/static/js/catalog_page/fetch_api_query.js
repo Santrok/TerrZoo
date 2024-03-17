@@ -327,6 +327,10 @@ document.addEventListener("DOMContentLoaded", () => {
   catalogSortSelect.forEach((item) => {
     item.addEventListener("click", () => {
       let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+      if(window.location.href === 'http://127.0.0.1:8000/search/') {
+        filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}&title__icontains=${localStorage.getItem("searchKeyWord")}`);
+        return
+      }
       filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
     });
   });

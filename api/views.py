@@ -342,10 +342,14 @@ class ProductListFilterView(ListAPIView):
 
     def get_queryset(self):
         data = self.request.query_params
+        print(data, 'data')
         d = dict(data.copy())
+        print(d, 'd')
         order = d.pop("order")
         if d.get("page"):
             d.pop("page")
+        if d.get('title__icontains'):
+            d['title__icontains'] = d.get('title__icontains')[0]
         if data.get('sale__percent__gt'):
             d['sale__percent__gt'] = d.get('sale__percent__gt')[0]
         if order[0] == 'price':
