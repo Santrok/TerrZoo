@@ -22,38 +22,44 @@ const newWeightBtn = document.querySelector(".buy__one-click-list-item-wrap-weig
 const newWeightInput = document.querySelector(".buy__one-click-list-item-wrap-weight input");
 const aboutProductBuy = document.querySelector(".about__product-buy");
 const aboutProductInput = document.querySelector(".about__product-action input");
-const nameInputOneClick = document.querySelector('.callback__field-item input[name="name"]');
-const phoneInputOneClick = document.querySelector('.callback__field-item input[name="phone"]');
-console.log(nameInputOneClick);
+const nameInputCallback = document.querySelector('.callback__field-item input[name="name"]');
+const phoneInputCallback = document.querySelector('.callback__field-item input[name="phone"]');
+const nameInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="name"]');
+const phoneInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="phone"]');
 // regexp for name input
-nameInputOneClick.oninput = (e) => {
-  console.log(e.currentTarget.value);
+nameInputCallback.oninput = (e) => nameInputRegexp(e)
+// regexp for name input
+function nameInputRegexp(e) {
   e.currentTarget.value = e.currentTarget.value.replace(/[^\sа-яё]/gi, '')
+
 }
+nameInputOneClick.oninput = (e) => nameInputRegexp(e)
 // regexp for phone input
-phoneInputOneClick.oninput = () => {
-  phoneInputOneClick.value = phoneInputOneClick.value.replace(/[^0-9()+\s-]/g, "");
-  phoneInputOneClick.addEventListener('keydown', (e) => {
+phoneInputOneClick.oninput = phoneInputCallbackInputRegexp
+// regexp for phone input
+function phoneInputCallbackInputRegexp() {
+  phoneInputCallback.value = phoneInputCallback.value.replace(/[^0-9()+\s-]/g, "");
+  phoneInputCallback.addEventListener('keydown', (e) => {
       const key = e.key
       if (key === 'Backspace' || key === 'Delete') {
-        phoneInputOneClick.value = phoneInputOneClick.value.slice(0, phoneInputOneClick.value.length)
+        phoneInputCallback.value = phoneInputCallback.value.slice(0, phoneInputCallback.value.length)
       } else {
-          if (phoneInputOneClick.value.length === 4) {
-            phoneInputOneClick.value += ' ('
+          if (phoneInputCallback.value.length === 4) {
+            phoneInputCallback.value += ' ('
           }
-          if (phoneInputOneClick.value.length === 8) {
-            phoneInputOneClick.value += ') '
+          if (phoneInputCallback.value.length === 8) {
+            phoneInputCallback.value += ') '
           }
-          if (phoneInputOneClick.value.length === 13) {
-            phoneInputOneClick.value += '-'
+          if (phoneInputCallback.value.length === 13) {
+            phoneInputCallback.value += '-'
           }
-          if (phoneInputOneClick.value.length === 16) {
-            phoneInputOneClick.value += '-'
+          if (phoneInputCallback.value.length === 16) {
+            phoneInputCallback.value += '-'
           }
       }
   })
-  // presentPhone.value = presentPhone.value.replace(/\s/g, '')
 }
+phoneInputCallback.oninput = phoneInputCallbackInputRegexp
 newWeightInput.oninput = () => {
   newWeightInput.value = newWeightInput.value.replace(/[^0-9/.]/, "");
 };
