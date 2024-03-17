@@ -28,7 +28,7 @@
                 <input type="tel"
                        name="phone"
                        value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
-                       placeholder="+375 ___-__-__"/>
+                       placeholder="+375 ___-__-__" maxlength="19"/>
             </div>
         </div>
         <button type="button" class="button">Отправить</button>

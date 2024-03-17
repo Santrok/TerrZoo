@@ -22,7 +22,38 @@ const newWeightBtn = document.querySelector(".buy__one-click-list-item-wrap-weig
 const newWeightInput = document.querySelector(".buy__one-click-list-item-wrap-weight input");
 const aboutProductBuy = document.querySelector(".about__product-buy");
 const aboutProductInput = document.querySelector(".about__product-action input");
-
+const nameInputOneClick = document.querySelector('.callback__field-item input[name="name"]');
+const phoneInputOneClick = document.querySelector('.callback__field-item input[name="phone"]');
+console.log(nameInputOneClick);
+// regexp for name input
+nameInputOneClick.oninput = (e) => {
+  console.log(e.currentTarget.value);
+  e.currentTarget.value = e.currentTarget.value.replace(/[^\sа-яё]/gi, '')
+}
+// regexp for phone input
+phoneInputOneClick.oninput = () => {
+  phoneInputOneClick.value = phoneInputOneClick.value.replace(/[^0-9()+\s-]/g, "");
+  phoneInputOneClick.addEventListener('keydown', (e) => {
+      const key = e.key
+      if (key === 'Backspace' || key === 'Delete') {
+        phoneInputOneClick.value = phoneInputOneClick.value.slice(0, phoneInputOneClick.value.length)
+      } else {
+          if (phoneInputOneClick.value.length === 4) {
+            phoneInputOneClick.value += ' ('
+          }
+          if (phoneInputOneClick.value.length === 8) {
+            phoneInputOneClick.value += ') '
+          }
+          if (phoneInputOneClick.value.length === 13) {
+            phoneInputOneClick.value += '-'
+          }
+          if (phoneInputOneClick.value.length === 16) {
+            phoneInputOneClick.value += '-'
+          }
+      }
+  })
+  // presentPhone.value = presentPhone.value.replace(/\s/g, '')
+}
 newWeightInput.oninput = () => {
   newWeightInput.value = newWeightInput.value.replace(/[^0-9/.]/, "");
 };
@@ -80,6 +111,7 @@ buyOneClickModal.addEventListener("click", (e) => {
     }
   }
 });
+
 callback.addEventListener("click", () => {
   document.body.style.overflow = "hidden";
   modal.classList.add("modal__active");
