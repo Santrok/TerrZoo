@@ -65,7 +65,7 @@ function getValuesForm(){
                         } else {
                           if (document.querySelector("#cash").checked) {
                             let happy = document.querySelector(".block_placing_an_order");
-                            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата на пункте выдачи</h1>
+                            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата при получение заказа</h1>
                             <div style='display:flex; align-items:center; justify-content: center; margin-top: 40px'>
                             <a href='http://127.0.0.1:8000/catalog/'
                             style='
