@@ -31,7 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
           queryStr += `sale__percent__gt=${li.children[0].children[0].dataset.sale}&`;
         }
       }
-      filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
+      if(window.location.href === 'http://127.0.0.1:8000/search/') {
+        filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}&title__icontains=${localStorage.getItem("searchKeyWord")}`);
+        return
+      }
+        filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
     }
   });
 
@@ -312,9 +316,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
   }
-  if(window.location.href !== 'http://127.0.0.1:8000/catalog/') {
-    let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+  let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
+  if(window.location.href !== 'http://127.0.0.1:8000/catalog/' && window.location.href !== 'http://127.0.0.1:8000/search/') {
     filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
+  }else {
+    const keyWordForFetch = String('title__icontains=' + localStorage.getItem("searchKeyWord"))
+    filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}&${keyWordForFetch}`);
   }
   const catalogSortSelect = document.querySelectorAll(".catalog__sort-select-list-item");
   catalogSortSelect.forEach((item) => {
