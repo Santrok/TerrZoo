@@ -1,4 +1,5 @@
 import json
+import os
 import random
 
 from django.contrib.auth.tokens import default_token_generator
@@ -15,6 +16,8 @@ from django.shortcuts import render, redirect
 
 from config import settings
 from django.db.models import Count, Sum
+
+from config.settings import env_keys
 from main.models import (Animal, Product, Brand, Review, Article, Sale,
                          CategoryProduct, Order, PayCard, Profile, Store)
 from main.forms import (LoginForm, RegisterationForm, ForgetPasswordForm,
@@ -41,7 +44,8 @@ def get_page(request):
                "new_products": new_products,
                "popular_brands": brands,
                "reviews": reviews,
-               "articals": articals}
+               "articals": articals,
+               "url": env_keys.get('URL')}
     return render(request=request,
                   template_name='index.html',
                   context=context)
@@ -62,8 +66,8 @@ def search_catalog(request):
                "popular_products": popular_products,
                "articals": articals,
                "categoty_products": category,
-
-               "brands": brands}
+               "brands": brands,
+               "url":env_keys.get('URL')}
 
     return render(request=request,
                   template_name='search.html',
@@ -85,8 +89,8 @@ def get_page_catalog(request):
                "popular_products": popular_products,
                "articals": articals,
                "categoty_products": category,
-
-               "brands": brands}
+               "brands": brands,
+               "url":env_keys.get('URL')}
 
     return render(request=request,
                   template_name='catalog.html',
@@ -118,8 +122,8 @@ def get_page_catalog_by_animal(request, animal_id):
                "popular_products": popular_products,
                "articals": articles_on_animals,
                "category_products": st,
-               "brands": brands_by_animals
-               }
+               "brands": brands_by_animals,
+               "url":env_keys.get('URL')}
     return render(request=request,
                   template_name='catalog_by_animal.html',
                   context=context)
@@ -147,7 +151,7 @@ def get_details(request, id):
         "popular_products": popular_product,
         "joint_products": joint_products,
         "product_unit": product_unit,
-    }
+        "url":env_keys.get('URL')}
     return render(request=request,
                   template_name='details.html',
                   context=context)
@@ -166,7 +170,8 @@ def get_basket_page(request):
     context = {
         "popular_products": popular_product,
         "new_products": new_products,
-        "articals": articals
+        "articals": articals,
+        "url": env_keys.get('URL')
     }
     return render(request, 'basket.html', context)
 
@@ -196,7 +201,7 @@ def login_view(request):
                 return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
     error_login = ''
     login_form = LoginForm()
-    return render(request, 'login.html', {'login_form': login_form, 'error': error_login})
+    return render(request, 'login.html', {'login_form': login_form, 'error': error_login, "url": env_keys.get('URL')})
 
 
 def registration_view(request):
@@ -212,7 +217,7 @@ def registration_view(request):
             user.save()
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
-            activation_url = f"http://127.0.0.1:8000/activate/{uid}/{token}/"
+            activation_url = f"{env_keys.get('URL')}/activate/{uid}/{token}/"
             subject = 'Пожалуйста, перейдите по ссылке для подтверждения:'
             send_mail(subject, f'{activation_url}',
                       settings.EMAIL_HOST_USER,
@@ -222,15 +227,15 @@ def registration_view(request):
             return redirect('confirm_email')
         else:
             register_form = RegisterationForm(request.POST)
-            return render(request, 'registration.html', {"register_form": register_form})
+            return render(request, 'registration.html', {"register_form": register_form, "url": env_keys.get('URL')})
     else:
         register_form = RegisterationForm()
-        return render(request, 'registration.html', {"register_form": register_form})
+        return render(request, 'registration.html', {"register_form": register_form, "url": env_keys.get('URL')})
 
 
 def confirm_email(request):
     """Шаблон информации об успешной регистрации и подтверждения имейл"""
-    return render(request, 'confirmation_email.html')
+    return render(request, 'confirmation_email.html', {"url": env_keys.get('URL')})
 
 
 def activate_user(request, uidb64, token):
@@ -250,13 +255,13 @@ def activate_user(request, uidb64, token):
 
 def successful_email(request):
     """Страница успешного подтверждения email"""
-    return render(request, 'successful_email_confirmation.html')
+    return render(request, 'successful_email_confirmation.html', {"url": env_keys.get('URL')})
 
 
 def reset_password(request):
     """Страница с формой сброса пароля"""
     reset_form = ForgetPasswordForm()
-    return render(request, 'password_reset_form.html', {'reset_form': reset_form})
+    return render(request, 'password_reset_form.html', {'reset_form': reset_form, "url": env_keys.get('URL')})
 
 
 def logout_view(request):
@@ -275,7 +280,8 @@ def get_articles_page(request):
 
     context = {"animals": animals,
                "popular_products": popular_products,
-               "articles": articles}
+               "articles": articles,
+               "url": env_keys.get('URL')}
 
     return render(request=request,
                   template_name='articles.html',
@@ -285,7 +291,8 @@ def get_articles_page(request):
 def get_brands_page(request):
     brands_list = Brand.objects.all()
     context = {
-        'brands': brands_list
+        'brands': brands_list,
+        "url": env_keys.get('URL')
     }
     return render(request, 'brands.html', context)
 
@@ -301,7 +308,8 @@ def get_article_by_article_id(request, article_id):
 
     context = {"article": article,
                "articles": articles,
-               "popular_products": popular_products}
+               "popular_products": popular_products,
+               "url": env_keys.get('URL')}
 
     return render(request=request,
                   template_name='article_by_id.html',
@@ -319,7 +327,8 @@ def get_article_by_animals_id(request, animal_id):
 
     context = {"animals": animals,
                "articles": articles,
-               "popular_products": popular_products}
+               "popular_products": popular_products,
+               "url": env_keys.get('URL')}
 
     return render(request=request,
                   template_name='articles_by_animal_id.html',
@@ -329,7 +338,7 @@ def get_article_by_animals_id(request, animal_id):
 def get_promotions_page(request):
     """Отдаем все акции"""
     animals = Animal.objects.all()
-    promotions = Sale.objects.exclude(percent=0)
+    promotions = Sale.objects.exclude(percent=0).reverse()
     popular_products = sorted(
         Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')[:20],
         key=lambda x: x.sales_counter,
@@ -337,7 +346,8 @@ def get_promotions_page(request):
 
     context = {"animals": animals,
                "promotions": promotions,
-               "popular_products": popular_products}
+               "popular_products": popular_products,
+               "url": env_keys.get('URL')}
 
     return render(request=request,
                   template_name='promotions.html',
@@ -412,6 +422,7 @@ def get_placing_an_order_page(request):
             return JsonResponse({"error": "Карзина пуста, необходимо добавить товар!"})
     context = {
         'stores': stores,
+        "url": env_keys.get('URL'),
     }
     return render(request=request,
                   template_name='placing_an_order.html',
@@ -428,7 +439,8 @@ def get_profile_order_page(request):
     pay_cards = PayCard.objects.filter(user=request.user.id)
 
     context = {"orders": orders,
-               "pay_cards": pay_cards}
+               "pay_cards": pay_cards,
+               "url": env_keys.get('URL')}
 
     return render(request=request,
                   template_name='profile_order.html',
@@ -438,7 +450,7 @@ def get_profile_order_page(request):
 @login_required
 def get_profile_wishlist_page(request):
     '''Отдаем страничку с избранными товарами из личного кабинета'''
-    return render(request=request, template_name='profile_wishlist.html')
+    return render(request=request, template_name='profile_wishlist.html', context={"url": env_keys.get('URL')})
 
 
 @login_required
@@ -446,7 +458,8 @@ def get_profile_comparisonlist_page(request):
     '''Отдаем страничку со списком сравнения из личного кабинета'''
     products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
     context = {
-        'products': products
+        'products': products,
+        "url": env_keys.get('URL')
     }
     return render(request=request, template_name='profile_comparisonlist.html', context=context)
 
@@ -465,7 +478,8 @@ def get_profile_page_data_user(request):
 
     context = {"form_profile": form_profile,
                "form_profile_user": form_profile_user,
-               "form_profile_password": form_profile_password}
+               "form_profile_password": form_profile_password,
+               "url": env_keys.get('URL')}
 
     if request.method == 'POST':
         if request.POST.get('action') == 'profile':
@@ -511,7 +525,7 @@ def get_profile_page_data_user(request):
 
 @login_required
 def get_profile_viewed_products_page(request):
-    return render(request, "profile_viewed_products.html")
+    return render(request, "profile_viewed_products.html", {"url": env_keys.get('URL')})
 
 
 @login_required
@@ -520,7 +534,8 @@ def get_profile_subscriptions_page(request):
     status = Profile.objects.get(user=request.user).subscribe
     profile = Profile.objects.get(user=request.user)
     context = {
-        'status': status
+        'status': status,
+        "url": env_keys.get('URL')
     }
     if request.method == 'POST':
         query_dict = request.POST
@@ -544,6 +559,7 @@ def get_status_subscription_page(request):
     status = Profile.objects.get(user=request.user).subscribe
     context = {
         'status': status,
+        "url": env_keys.get('URL')
     }
     return render(request=request,
                   template_name="subscription_status_page.html",
@@ -568,6 +584,7 @@ def get_order_details_page(request, order_id):
     context = {
         'order_details': order_details,
         'product_list': product_list,
+        "url": env_keys.get('URL')
     }
     return render(request=request,
                   template_name='profile_order_details.html',
