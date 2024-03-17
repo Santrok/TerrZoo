@@ -126,3 +126,20 @@ function getCookie(name) {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
+
+
+const dataItem = document.querySelector('.input_item_active_date_paycard')
+
+dataItem.oninput = (e) => {
+  dataItem.value = e.currentTarget.value.replace(/[^0-9\/]/, '')
+  dataItem.addEventListener('keydown', (e) => {
+    const key = e.key
+    if (key === 'Backspace' || key === 'Delete') {
+      dataItem.value = dataItem.value.slice(0, dataItem.value.length)
+    } else {
+        if (dataItem.value.length === 2) {
+          dataItem.value += ' /'
+        }
+    }
+})
+}
