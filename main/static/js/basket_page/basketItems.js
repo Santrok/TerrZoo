@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
   const hoverList = document.querySelector(".header__bottom-basket-hover-list");
   const basketTotalText = document.querySelectorAll(".basket__total-text span");
+  const headerBottomHoverList = document.querySelector('.header__bottom-basket-hover-list')
   let list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
   let basket = JSON.parse(localStorage.getItem("basket")) || [];
-  let priceInit = 0;
 
   basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
   // --- basket events
@@ -195,6 +195,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let basketItem = document.querySelectorAll(".basket__list-item");
   let basketArrayObj = [];
 
+  function checkBasket() {
+    if(JSON.parse(localStorage.getItem("basket")).length === 0){
+      const li = document.createElement("li");
+      li.classList.add('basket__list-item-empty');
+      li.innerText = 'Ваша корзина пуста';
+      basketList.append(li);
+      const headerBottomHoverli = document.createElement("li");
+      headerBottomHoverli.classList.add("header__bottom-hover-list-none");
+      headerBottomHoverli.innerHTML = `Ваша корзина пуста`;
+      headerBottomHoverList.append(headerBottomHoverli);
+    }
+  }
   function basketItems(e) {
     if (e.target.classList.contains("minus")) {
       basketArrayObj = JSON.parse(localStorage.getItem("basket"));
@@ -213,8 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
           e.target.parentElement.parentElement.children[1].textContent =
             (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
           e.target.parentElement.children[1].textContent = i.count;
-          
           localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+          checkBasket()
         }
       }
     } else if (e.target.classList.contains("plus")) {
@@ -255,6 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
       }
+      checkBasket()
     }
   }
 
@@ -266,8 +279,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addBasketItemToHover() {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
-    let basketCount = 0;
     const headerBottomHoverList = document.querySelector('.header__bottom-basket-hover-list')
+    let basketCount = 0;
     headerBottomHoverList.innerHTML = "";
     if (basketArray) {
       for (let i of basketArray) {
