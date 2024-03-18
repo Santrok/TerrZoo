@@ -18,9 +18,9 @@
         <div class="callback__field">
             <div class="callback__field-item">
                 <h3 class="callback__field-item-title">Имя</h3>
-                <input type="text" 
-                       name="name" 
-                       value="{% if user.is_authenticated %}{{ user.last_name }} {{ user.first_name }}{% endif %}" 
+                <input type="text"
+                       name="name"
+                       value="{% if user.is_authenticated %}{{ user.last_name }} {{ user.first_name }}{% endif %}"
                        placeholder="Иванов Иван Иванович"/>
             </div>
             <div class="callback__field-item">
