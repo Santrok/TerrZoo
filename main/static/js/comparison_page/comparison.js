@@ -22,7 +22,7 @@ getViewed(
 
 
 let productsList = document.querySelector(".product__list");
-
+productsList.innerHTML = '';
 for (let i of JSON.parse(localStorage.getItem("comparisonListItem"))) {
     let li = document.createElement("li");
     li.classList.add("product__list-item");

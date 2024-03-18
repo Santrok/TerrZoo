@@ -137,7 +137,6 @@ main h3 {
 
 .body__content {
     display: flex;
-    justify-content: space-between;
     gap: 20px;
     border-top: 1px solid #d2d5d8;
     padding: 20px 0;
@@ -272,6 +271,7 @@ main h3 {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
     gap: 20px;
 }
 
