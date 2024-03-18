@@ -75,14 +75,28 @@
                       placeholder="Иванов Иван Иванович"
                       id="name"
                       class="input_item_active_client"
-                      value="{{ request.user.first_name }}"
+                      {% if user.is_authenticated %}
+                          value="{{ user.last_name }} {{ user.first_name }}"
+                          style="background: #e3e3e3"
+                          disabled
+                      {% endif %} 
                     />
                   </div>
                   <div class="info_about_client_form_item">
                     <label for="phone" class="input_item_label">
                       <p>Номер телефона</p>
                     </label>
-                    <input type="tel" name="phone" placeholder="+375_____-__-__" id="phone" class="input_item_active_client" value="{{ request.user.profile.phone_number }}"/>
+                    <input type="tel"
+                           name="phone"
+                           placeholder="+375_____-__-__"
+                           id="phone"
+                           class="input_item_active_client"
+                           {% if user.is_authenticated %}
+                               value="{{ user.profile.phone_number }}"
+                               style="background: #e3e3e3"
+                               disabled
+                           {% endif %}
+                           />
                   </div>
                   <div class="info_about_receiving_an_order">
                       <label class="method_receiving_an_order">
