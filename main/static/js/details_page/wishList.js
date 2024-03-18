@@ -34,7 +34,7 @@ function wishListInDetails() {
   // Add event listener to the add to wishlist button
   addWishList.addEventListener("click", (e) => {
     // Check if the current text of the button is "Добавить в избранное"
-    if (addWishList.textContent === "Добавить в избранное") {
+    if (addWishList.textContent.trim() === "Добавить в избранное") {
       // If it is, create a new object with the details of the product and add it to the wishlist
       wishList.push(
         {
