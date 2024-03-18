@@ -11,6 +11,7 @@ function getValuesForm(){
    console.log(basketArray)
     let valuesToFetch = new FormData()
     valuesToFetch.append('basket',basketArray)
+    valuesToFetch.append('oneClickItem',JSON.parse(localStorage.getItem('oneClickItem')))
     valuesToFetch.append('order_price',orderPrice.innerText)
 
     for (let i of form){
@@ -48,7 +49,7 @@ function getValuesForm(){
             valuesToFetch.append(i.name,i.id)
         }
     }
-    console.log(valuesToFetch)
+    console.log(valuesToFetch.get('oneClickItem'))
     fetch("http://127.0.0.1:8000/placing_an_order/", {
       method: "POST",
       headers: {
@@ -86,6 +87,7 @@ function getValuesForm(){
                             Продолжить покупки</a>
                             </div>`;
                             localStorage.setItem("basket", JSON.stringify([]));
+                            localStorage.setItem("oneClickItem", JSON.stringify([]));
                             countPayCard=0
                             setCountInBasket()
                             addBasketItemToHover()
@@ -112,6 +114,7 @@ function getValuesForm(){
                             Продолжить покупки</a>
                             </div>`;
                             localStorage.setItem("basket", JSON.stringify([]));
+                            localStorage.setItem("oneClickItem", JSON.stringify([]));
                             countPayCard =0
                             addBasketItemToHover()
                             setCountInBasket()

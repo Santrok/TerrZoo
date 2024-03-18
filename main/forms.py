@@ -10,7 +10,7 @@ from main.validators import validate_email, validate_password, validate_username
 class LoginForm(forms.Form):
     """Форма авторизации """
     username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'auth_input', 'placeholder': 'Введите Ваше имя'}),
+        widget=forms.TextInput(attrs={'class': 'auth_input', 'placeholder': 'Введите Ваше имя', 'autofocus': True}),
         label='Логин')
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'auth_input', 'placeholder': 'Введите пароль'}), label='Пароль')
