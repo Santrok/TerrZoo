@@ -3,16 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
   const hoverList = document.querySelector(".header__bottom-basket-hover-list");
   const basketTotalText = document.querySelectorAll(".basket__total-text span");
-  const headerBottomHoverList = document.querySelector('.header__bottom-basket-hover-list')
+  const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
   let list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
   let basket = JSON.parse(localStorage.getItem("basket")) || [];
 
-  basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
+  basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
   // --- basket events
   new MutationObserver((mutation) => {
     list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
     basket = JSON.parse(localStorage.getItem("basket"));
-    basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
+    basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
     list.forEach((item) => {
       if (
         event?.currentTarget?.classList?.contains("basket__list-item") &&
@@ -26,7 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
           event?.currentTarget?.children[2].children[0].children[1].textContent.trim();
         if (Number(item.children[0].children[2].children[0].children[1].textContent) <= 0) {
           item.remove();
-          basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
+          basketTotalText[0].textContent =
+            basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
         }
       }
       setCountInBasket();
@@ -63,9 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     }
-    priceInit = 0;
     basketTotalText[1].textContent = basket.length + " товаров";
-    basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + ' BYN';
+    basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
     list.forEach((item) => {
       if (event?.target?.parentElement?.parentElement?.parentElement?.parentElement?.classList) {
         if (
@@ -196,10 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let basketArrayObj = [];
 
   function checkBasket() {
-    if(JSON.parse(localStorage.getItem("basket")).length === 0){
+    if (JSON.parse(localStorage.getItem("basket")).length === 0) {
       const li = document.createElement("li");
-      li.classList.add('basket__list-item-empty');
-      li.innerText = 'Ваша корзина пуста';
+      li.classList.add("basket__list-item-empty");
+      li.innerText = "Ваша корзина пуста";
       basketList.append(li);
       const headerBottomHoverli = document.createElement("li");
       headerBottomHoverli.classList.add("header__bottom-hover-list-none");
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
             (Math.floor(i.price * 100) / 100).toFixed(2) + " BYN";
           e.target.parentElement.children[1].textContent = i.count;
           localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-          checkBasket()
+          checkBasket();
         }
       }
     } else if (e.target.classList.contains("plus")) {
@@ -257,8 +257,8 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("basket", JSON.stringify(basket));
           basketList.innerHTML = "";
           initBasketItem();
-          addBasketItemToHover()
-          setCountInBasket()
+          addBasketItemToHover();
+          setCountInBasket();
           basketItem = document.querySelectorAll(".basket__list-item");
           basketItem.forEach((item) => {
             item.addEventListener("click", (e) => {
@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
       }
-      checkBasket()
+      checkBasket();
     }
   }
 
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addBasketItemToHover() {
     const basketArray = JSON.parse(localStorage.getItem("basket"));
-    const headerBottomHoverList = document.querySelector('.header__bottom-basket-hover-list')
+    const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
     let basketCount = 0;
     headerBottomHoverList.innerHTML = "";
     if (basketArray) {
@@ -327,5 +327,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
-
