@@ -528,7 +528,9 @@ def get_profile_page_data_user(request):
 
 @login_required
 def get_profile_viewed_products_page(request):
-    return render(request, "profile_viewed_products.html", {"url": env_keys.get('URL')})
+    return render(request=request,
+                  template_name="profile_viewed_products.html",
+                  context={"url": env_keys.get('URL')})
 
 
 @login_required

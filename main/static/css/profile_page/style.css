@@ -264,7 +264,7 @@ main h3 {
     width: 100%;
 }
 
-.comparison {
+.comparison, .viewed_products {
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -272,7 +272,7 @@ main h3 {
     gap: 20px;
 }
 
-.comparison__title, .wishlist__title, .pay__card__title, .details__list__about__order__title, .subscription__title {
+.comparison__title, .wishlist__title, .pay__card__title, .details__list__about__order__title, .subscription__title, .viewed_products__title {
     display: flex;
     justify-content: center;
     flex-direction: column;
