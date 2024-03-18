@@ -104,7 +104,11 @@
                         <input type="text"
                                name="name"
                                id=""
-                               value="{% if user.is_authenticated %}{{ user.last_name }} {{ user.first_name }}{% endif %}"
+                               {% if user.is_authenticated %}
+                                    value="{{ user.last_name }} {{ user.first_name }}"
+                                     style="background: #e3e3e3"
+                                    disabled
+                               {% endif %}                               
                                placeholder="Иванов Иван Иванович">
                     </div>
                     <div class="buy__one-click-list-item-field">
@@ -114,7 +118,11 @@
                         <input type="text"
                                name="phone"
                                id=""
-                               value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
+                               {% if user.is_authenticated %}
+                                   value="{{ user.profile.phone_number }}"
+                                   style="background: #e3e3e3"
+                                   disabled
+                               {% endif %}
                                placeholder="+375 ___-__-__" maxlength="19">
                     </div>
                 </div>
