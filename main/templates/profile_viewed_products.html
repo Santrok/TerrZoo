@@ -1,6 +1,15 @@
 {% extends 'base_profile_template.html' %}
 {% load static %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/profile_page/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basket_page/style.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    Личный кабинет
+{% endblock %}
+
 {% block breadcrumbs %}
     <li class="main__nav-list-item-active">
         <a href="{% url 'viewed_products' %}">Просмотренные</a>
@@ -8,14 +17,48 @@
 {% endblock %}
 
 {% block profile_content %}
-    <div class="cat__developer" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <div class="not_auth">
-            <img src="{% static 'img/cat_404.avif' %}" alt="Кот:)"/>
+    <section class="viewed_products">
+        <div class="viewed_products__title">
+            <p>Просмотренные товары</p>
         </div>
-        <div class="not_auth_link">
-            <h2 style="color: black; font-family: SF Pro Text; font-size: 20px; font-weight: 500; padding: 15px">
-                Страница находится в разработке
-            </h2>
+        <div class="container">
+            <div class="popular__goods-wrap slider__section-wrap">
+                <div class="slider__wrap">
+                    <div class="popular__goods-title-wrap slider__title-wrap">
+
+                        <div class="popular__goods-actions slider__actions">
+                            <div class="popular__goods-arrow-prev slider__arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
+                                     fill="none">
+                                    <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M11.9998 16.1299C11.7438 16.1299 11.4878 16.0319 11.2928 15.8369L6.29276 10.8369C5.90176 10.4459 5.90176 9.81389 6.29276 9.42289L11.2928 4.42289C11.6838 4.03189 12.3158 4.03189 12.7068 4.42289C13.0978 4.81389 13.0978 5.44589 12.7068 5.83689L8.41376 10.1299L12.7068 14.4229C13.0978 14.8139 13.0978 15.4459 12.7068 15.8369C12.5118 16.0319 12.2558 16.1299 11.9998 16.1299Z"
+                                            fill="#5C5F62"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="popular__goods-arrow-next slider__arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
+                                     fill="none">
+                                    <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M7.99976 16.1299C7.74376 16.1299 7.48776 16.0319 7.29276 15.8369C6.90176 15.4459 6.90176 14.8139 7.29276 14.4229L11.5858 10.1299L7.29276 5.83689C6.90176 5.44589 6.90176 4.81389 7.29276 4.42289C7.68376 4.03189 8.31576 4.03189 8.70676 4.42289L13.7068 9.42289C14.0978 9.81389 14.0978 10.4459 13.7068 10.8369L8.70676 15.8369C8.51176 16.0319 8.25576 16.1299 7.99976 16.1299Z"
+                                            fill="#5C5F62"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popular__goods-slider slider">
+
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+{% endblock %}
+{% block js %}
+    <script defer type="module" src="{% static 'js/basket_page/basketItems.js' %}"></script>
 {% endblock %}
