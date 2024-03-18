@@ -20,14 +20,22 @@
                 <h3 class="callback__field-item-title">Имя</h3>
                 <input type="text"
                        name="name"
-                       value="{% if user.is_authenticated %}{{ user.last_name }} {{ user.first_name }}{% endif %}"
+                       {% if user.is_authenticated %}
+                            value="{{ user.last_name }} {{ user.first_name }}"
+                            style="background: #e3e3e3"
+                            disabled 
+                       {% endif %}   
                        placeholder="Иванов Иван Иванович"/>
             </div>
             <div class="callback__field-item">
                 <h3 class="callback__field-item-title">Номер телефона</h3>
                 <input type="tel"
                        name="phone"
-                       value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
+                       {% if user.is_authenticated %}
+                           value="{{ user.profile.phone_number }}"
+                           style="background: #e3e3e3"
+                           disabled
+                       {% endif %}
                        placeholder="+375 ___-__-__" maxlength="19"/>
             </div>
         </div>
@@ -110,7 +118,7 @@
                                placeholder="+375 ___-__-__" maxlength="19">
                     </div>
                 </div>
-                <button class="button xyu">
+                <button class="button button_buy_one_click">
                     Оформить заказ
                 </button>
                 <p class="buy__one-click-list-item-personal-data">

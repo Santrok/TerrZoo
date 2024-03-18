@@ -69,6 +69,7 @@ class OrderForAnonymousUser(models.Model):
                                       max_digits=8, decimal_places=2)
     order_receiving = models.CharField(verbose_name='Способ получения заказа', max_length=20,
                                        choices=METHOD_RECEIVING_ORDER, default=METHOD_RECEIVING_ORDER[0][0])
+    name_anonymous_user = models.CharField(verbose_name='Имя', max_length=50)
     phone_number = models.CharField(verbose_name="Номер телефона",
                                     max_length=18,
                                     blank=True)
