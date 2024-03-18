@@ -26,7 +26,6 @@ const nameInputCallback = document.querySelector('.callback__field-item input[na
 const phoneInputCallback = document.querySelector('.callback__field-item input[name="phone"]');
 const nameInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="name"]');
 const phoneInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="phone"]');
-const buyOneClickBtn = document.querySelector('.buy__one-click .button')
 // regexp for name input
 nameInputCallback.oninput = (e) => {
   e.currentTarget.value = e.currentTarget.value.replace(/[^\sа-яё]/gi, '')
@@ -96,6 +95,10 @@ newWeightBtn.addEventListener("click", (e) => {
     e.currentTarget.parentElement.parentElement.parentElement.parentElement.children[2].children[1].textContent =
       (parseFloat(localStorage.getItem("pricePerOneKg").split(",").join(".")) * newWeightInput.value).toFixed(2) +
       " BYN";
+      let obj = JSON.parse(localStorage.getItem('oneClickItem'))
+      obj.weight = newWeightInput.value + " кг."
+      obj.price = (parseFloat(localStorage.getItem("pricePerOneKg").split(",").join(".")) * newWeightInput.value).toFixed(2)
+      localStorage.setItem('oneClickItem', JSON.stringify(obj))
   }
 });
 localStorage.setItem("buyOneClickPrice", buyOneClickPrice.textContent);
@@ -120,20 +123,32 @@ buyOneClickModal.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
     let count = localStorage.getItem("buyOneClickModalCount");
     if (e.target.textContent.trim() === "+") {
+      let obj = JSON.parse(localStorage.getItem('oneClickItem'))
       localStorage.setItem("buyOneClickModalCount", ++count);
       e.target.parentElement.children[1].textContent = localStorage.getItem("buyOneClickModalCount");
       e.currentTarget.parentElement.children[1].textContent =
         parseFloat(
-          localStorage.getItem("pricePerOneKg").split(",").join(".") * localStorage.getItem("initWeight") * count
+          localStorage.getItem("pricePerOneKg").split(",").join(".") * localStorage.getItem("initWeight").split(",").join(".") * count
         ).toFixed(2) + " BYN";
+        obj.price = parseFloat(
+          localStorage.getItem("pricePerOneKg").split(",").join(".") * localStorage.getItem("initWeight").split(',').join('.') * count
+        ).toFixed(2)
+        obj.count = count
+        localStorage.setItem('oneClickItem', JSON.stringify(obj))
     } else {
       if (count > 1) {
+        let obj = JSON.parse(localStorage.getItem('oneClickItem'))
         localStorage.setItem("buyOneClickModalCount", --count);
         e.target.parentElement.children[1].textContent = localStorage.getItem("buyOneClickModalCount");
         e.currentTarget.parentElement.children[1].textContent =
           parseFloat(
-            localStorage.getItem("pricePerOneKg").split(",").join(".") * localStorage.getItem("initWeight") * count
+            localStorage.getItem("pricePerOneKg").split(",").join(".") * localStorage.getItem("initWeight").split(',').join('.') * count
           ).toFixed(2) + " BYN";
+          obj.price = parseFloat(
+            localStorage.getItem("pricePerOneKg").split(",").join(".") * localStorage.getItem("initWeight").split(',').join('.') * count
+          ).toFixed(2)
+          obj.count = localStorage.getItem("buyOneClickModalCount", --count);
+          localStorage.setItem('oneClickItem', JSON.stringify(obj))
       }
     }
   }
@@ -238,6 +253,7 @@ sliderButton.forEach((item) => {
         }
       }
     }
+    buyOneClickModalEvent(e)
   });
 });
 
@@ -390,7 +406,42 @@ aboutProductBuy?.addEventListener("click", (e) => {
   }
 });
 
-buyOneClickBtn.addEventListener('click', () => {
-
-  localStorage.setItem('testName', 'Artem')
-})
+function buyOneClickModalEvent(e) {
+  let array = [];
+  for (let i of Array.from(e.currentTarget.parentElement.children[2].children)) {
+    if (i.classList.contains("slider__item-weight-list-item-active")) {
+      array.push(i.textContent.trim());
+    }
+  }
+  // Get the basket array from local storage, or initialize an empty array
+  let oneClickItemArr = JSON.parse(localStorage.getItem("oneClickItem")) || {};
+  // Get the price of the item, considering promotion and weight options
+  let price = Array.from(
+    e.currentTarget.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+      e.currentTarget.parentElement.children[4]?.classList.contains("products___item-promotion")
+      ? e.currentTarget.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
+      : e.currentTarget.parentElement.children[3].children[0].textContent.trim()
+  ).splice(0, 6);
+  // If weight options are selected, add the item to the basket
+    oneClickItemArr = {
+      count: 1, // The initial count of the item
+      id: e.currentTarget.parentElement.dataset.id, // The ID of the item
+      title: e.currentTarget.parentElement.children[1].textContent.trim(), // The title of the item
+      src: e.currentTarget.parentElement.children[0].children[0].src, // The src of the item's image
+      weight: array, // The selected weight options
+      initPrice: +parseFloat(price.join("")).toFixed(2), // The initial price of the item
+      price: +parseFloat(price.join("")).toFixed(2), // The current price of the item
+      promotion:
+        e.currentTarget.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+        e.currentTarget.parentElement.children[4].classList.contains("products___item-promotion")
+          ? true
+          : false, // Whether the item is on promotion
+      href: e.currentTarget.parentElement.children[1].href, // The href of the item's link
+    };
+    if(oneClickItemArr.weight[0].split(" ").splice(1, 1).join("") === 'шт') {
+      weightButton.style.display = "none";
+    }else {
+      weightButton.style.display = "block";
+    }
+    localStorage.setItem("oneClickItem", JSON.stringify(oneClickItemArr));
+}
