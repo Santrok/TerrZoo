@@ -26,6 +26,7 @@ const nameInputCallback = document.querySelector('.callback__field-item input[na
 const phoneInputCallback = document.querySelector('.callback__field-item input[name="phone"]');
 const nameInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="name"]');
 const phoneInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="phone"]');
+const buyOneClickBtn = document.querySelector('.buy__one-click .button')
 // regexp for name input
 nameInputCallback.oninput = (e) => {
   e.currentTarget.value = e.currentTarget.value.replace(/[^\sа-яё]/gi, '')
@@ -365,9 +366,6 @@ aboutProductBuy?.addEventListener("click", (e) => {
             ).toFixed(2) + " BYN";
           pricePerOneKg =
             e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg;
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[2].children[0].children[1].dataset.priceperonekg
-          );
           buyOneClickModalCountInit.textContent = aboutProductInput.value;
           localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.trim());
         } else {
@@ -391,3 +389,8 @@ aboutProductBuy?.addEventListener("click", (e) => {
     }
   }
 });
+
+buyOneClickBtn.addEventListener('click', () => {
+
+  localStorage.setItem('testName', 'Artem')
+})
