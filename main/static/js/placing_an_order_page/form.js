@@ -129,34 +129,36 @@ function getCookie(name) {
 
 
 const dataItem = document.querySelector('.input_item_active_date_paycard')
-
-dataItem.oninput = (e) => {
-  dataItem.value = e.currentTarget.value.replace(/[^0-9\/]/, '')
-  dataItem.addEventListener('keydown', (e) => {
-    const key = e.key
-    if (key === 'Backspace' || key === 'Delete') {
-      dataItem.value = dataItem.value.slice(0, dataItem.value.length)
-    } else {
-        if (dataItem.value.length === 2) {
-          dataItem.value += ' /'
-        }
+if (dataItem) {
+    dataItem.oninput = (e) => {
+        dataItem.value = e.currentTarget.value.replace(/[^0-9\/]/, '')
+        dataItem.addEventListener('keydown', (e) => {
+            const key = e.key
+            if (key === 'Backspace' || key === 'Delete') {
+                dataItem.value = dataItem.value.slice(0, dataItem.value.length)
+            } else {
+                if (dataItem.value.length === 2) {
+                    dataItem.value += ' /'
+                }
+            }
+        })
     }
-})
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   const payOnlineRadio = document.getElementById('pay_online');
   const payCash = document.getElementById('cash');
   const onlinePaymentFields = document.getElementById('online_payment_fields');
-
-  payOnlineRadio.addEventListener('change', function() {
-    if (payOnlineRadio.checked) {
-      onlinePaymentFields.style.display = 'flex';
-    }
-  });
-  payCash.addEventListener('change', function() {
-    if (payCash.checked) {
-      onlinePaymentFields.style.display = 'none';
-    }
-  });
+  if (payOnlineRadio) {
+      payOnlineRadio.addEventListener('change', function () {
+          if (payOnlineRadio.checked) {
+              onlinePaymentFields.style.display = 'flex';
+          }
+      });
+      payCash.addEventListener('change', function () {
+          if (payCash.checked) {
+              onlinePaymentFields.style.display = 'none';
+          }
+      });
+  }
 });
