@@ -456,12 +456,15 @@ def get_profile_wishlist_page(request):
 @login_required
 def get_profile_comparisonlist_page(request):
     '''Отдаем страничку со списком сравнения из личного кабинета'''
-    products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
+    # products = Product.objects.all().select_related('sale', 'category').prefetch_related('countitemproduct_set')
+
     context = {
-        'products': products,
+        # 'products': products,
         "url": env_keys.get('URL')
     }
-    return render(request=request, template_name='profile_comparisonlist.html', context=context)
+    return render(request=request,
+                  template_name='profile_comparisonlist.html',
+                  context=context)
 
 
 @login_required
@@ -597,3 +600,4 @@ def delete_profile_order(request, order_id):
     order.order_show = False
     order.save()
     return redirect('profile_orders')
+
