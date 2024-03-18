@@ -54,7 +54,7 @@ $(document).ready(function() {
         }
     })
 
-    if(window.location.href === 'http://127.0.0.1:8000/basket/') {
+    if(window.location.href === 'http://127.0.0.1:8000/basket/' || window.location.href === 'http://127.0.0.1:8000/viewed_products/') {
         for(let i of JSON.parse(localStorage.getItem('viewedProducts'))) {
             const article = document.createElement('article')
             article.classList.add('slider__item')
