@@ -89,6 +89,21 @@
   text-align: left;
 }
 
+.text_about_time_deliver{
+  color: rgb(32, 34, 35);
+  font-family: SF Pro Text;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 130%;
+  letter-spacing: 0px;
+  text-align: justify;
+
+  padding: 8px 12px;
+  width: 347px;
+  max-width: 100%;
+
+}
+
 .input_item_active{
   font-family: SF Pro Text;
   font-size: 15px;
@@ -220,6 +235,10 @@
     border: 2px solid rgb(140, 145, 150);
     background: rgb(0, 160, 172) ;
     margin-top: 4px;
+}
+
+#online_payment_fields {
+    display: none;
 }
 
 .numder_paycard{

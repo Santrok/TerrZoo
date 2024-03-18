@@ -65,7 +65,7 @@ function getValuesForm(){
                         } else {
                           if (document.querySelector("#cash").checked) {
                             let happy = document.querySelector(".block_placing_an_order");
-                            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата на пункте выдачи</h1>
+                            happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата при получение заказа</h1>
                             <div style='display:flex; align-items:center; justify-content: center; margin-top: 40px'>
                             <a href='http://127.0.0.1:8000/catalog/'
                             style='
@@ -143,3 +143,20 @@ dataItem.oninput = (e) => {
     }
 })
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const payOnlineRadio = document.getElementById('pay_online');
+  const payCash = document.getElementById('cash');
+  const onlinePaymentFields = document.getElementById('online_payment_fields');
+
+  payOnlineRadio.addEventListener('change', function() {
+    if (payOnlineRadio.checked) {
+      onlinePaymentFields.style.display = 'flex';
+    }
+  });
+  payCash.addEventListener('change', function() {
+    if (payCash.checked) {
+      onlinePaymentFields.style.display = 'none';
+    }
+  });
+});

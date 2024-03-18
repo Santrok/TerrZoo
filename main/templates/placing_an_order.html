@@ -97,6 +97,7 @@
                       <label class="method_receiving_an_order">
                           <input type="radio" name="receiving_an_order" id="courier_deliver" />Доставка курьером</label>
                       <fieldset class="info_for_courier_deliver" id="info_for_courier_deliver" name="address_for_courier">
+                          <p class="text_about_time_deliver">Доставка заказа в пределах МКАД осуществляется на следующий день после 12:00. Доставки заказа за пределы МКАД согласовывается  с менеджером.</p>
                           <label for="city" class="input_item_label">Город</label>
                           <input type="text" name="city" required placeholder="Город" id="city" class="input_item_active" value="{{ user.profile.city }}">
                           <label for="street" class="input_item_label">Улица/переулок</label>
@@ -112,14 +113,14 @@
                       </fieldset>
                   </div>
                   <div class="info_about_payment_method">
-                    <label class="payment_method"
-                      ><input type="radio" name="payment_method" id="cash" />Оплата наличными при получении</label
-                    >
+                    <label class="payment_method">
+                        <input type="radio" name="payment_method" id="cash" />Оплата наличными при получении
+                    </label>
                     {% if user.is_authenticated %}
                         <label class="payment_method">
                             <input type="radio" name="payment_method" id="pay_online" />Оплата картой онлайн
                         </label>
-                        <fieldset class="paycard">
+                        <fieldset class="paycard" id="online_payment_fields">
                           <div class="numder_paycard">
                             <input
                               type="text"

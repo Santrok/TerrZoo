@@ -67,7 +67,7 @@ def search_catalog(request):
                "articals": articals,
                "categoty_products": category,
                "brands": brands,
-               "url":env_keys.get('URL')}
+               "url": env_keys.get('URL')}
 
     return render(request=request,
                   template_name='search.html',
@@ -90,7 +90,7 @@ def get_page_catalog(request):
                "articals": articals,
                "categoty_products": category,
                "brands": brands,
-               "url":env_keys.get('URL')}
+               "url": env_keys.get('URL')}
 
     return render(request=request,
                   template_name='catalog.html',
@@ -123,7 +123,7 @@ def get_page_catalog_by_animal(request, animal_id):
                "articals": articles_on_animals,
                "category_products": st,
                "brands": brands_by_animals,
-               "url":env_keys.get('URL')}
+               "url": env_keys.get('URL')}
     return render(request=request,
                   template_name='catalog_by_animal.html',
                   context=context)
@@ -151,7 +151,7 @@ def get_details(request, id):
         "popular_products": popular_product,
         "joint_products": joint_products,
         "product_unit": product_unit,
-        "url":env_keys.get('URL')}
+        "url": env_keys.get('URL')}
     return render(request=request,
                   template_name='details.html',
                   context=context)
@@ -377,16 +377,16 @@ def get_placing_an_order_page(request):
                                                              user=user)
                         if card_zapros:
                             if card_zapros[0].balance >= float(request.POST.get('order_price').split(' ')[0]):
-                                order_number = save_order_for_user(request, user, 'Оплачен')
-                                if order_number in ['Не выбран способ получения заказа',
-                                "Введите город",
-                                "Введите улицу",
-                                "Введите номер дома",
-                                "Введите почтовый индекс"]:
+                                order_number = save_order_for_user(request, user, 'Оплачен', card_zapros[0])
+                                if order_number in ["Не выбран способ получения заказа",
+                                                    "Введите город",
+                                                    "Введите улицу",
+                                                    "Введите номер дома",
+                                                    "Введите почтовый индекс"]:
                                     return JsonResponse({"error": order_number})
                                 else:
                                     card_zapros[0].balance = float(card_zapros[0].balance) - float(
-                                        request.POST.get('order_price').split(' ')[0])
+                                        request.POST.get("order_price").split(' ')[0])
                                     card_zapros[0].save()
                                     return JsonResponse({"order_number": order_number, "user_email": user.email})
                             else:
@@ -397,12 +397,12 @@ def get_placing_an_order_page(request):
                         return JsonResponse({"error": "Введенные данные не верны"})
                 elif request.POST.get('payment_method') == 'cash':
                     order_number = save_order_for_user(request, user, 'Оформлен')
-                    if order_number in ['Не выбран способ получения заказа',
-                                "Введите город",
-                                "Введите улицу",
-                                "Введите номер дома",
-                                "Введите почтовый индекс"]:
-                        return JsonResponse({"error":order_number})
+                    if order_number in ["Не выбран способ получения заказа",
+                                        "Введите город",
+                                        "Введите улицу",
+                                        "Введите номер дома",
+                                        "Введите почтовый индекс"]:
+                        return JsonResponse({"error": order_number})
                     else:
                         return JsonResponse({"order_number": order_number})
                 else:
@@ -410,12 +410,12 @@ def get_placing_an_order_page(request):
             else:
                 order_number = save_order_for_anonymous_user(request, 'Оформлен')
                 if order_number in ["Не выбран ни один из способов получения заказа",
-                "Введите номер телефона",
-                "Не выбран способ оплаты","Введите город",
-                "Введите улицу",
-                "Введите номер дома",
-                "Введите почтовый индекс"]:
-                    return JsonResponse({"error":order_number})
+                                    "Введите номер телефона",
+                                    "Не выбран способ оплаты", "Введите город",
+                                    "Введите улицу",
+                                    "Введите номер дома",
+                                    "Введите почтовый индекс"]:
+                    return JsonResponse({"error": order_number})
                 else:
                     return JsonResponse({"order_number": order_number})
         else:

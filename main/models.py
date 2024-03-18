@@ -110,7 +110,8 @@ class CountItemProduct(models.Model):
     def total_price(self):
         """Метод расчета цены в зависимости
          от веса в процентном соотношении"""
-        return round((self.percent / 100 * float((100 - self.product.sale.percent) / 100 * float(self.product.price))),2)
+        return round((self.percent / 100 * float((100 - self.product.sale.percent) / 100 * float(self.product.price))),
+                     2)
 
     class Meta:
         verbose_name = "Количество товара"
@@ -178,7 +179,7 @@ class Product(models.Model):
     def action_price(self):
         """Метод для расчета цены в период
          акции в процентном соотношении"""
-        
+
         res = (100 - self.sale.percent) / 100 * float(self.price)
         res = format(res, '.2f')
         return res
@@ -343,8 +344,8 @@ class Order(models.Model):
     ]
 
     METHOD_RECEIVING_ORDER = [
-        ("Самовывоз","Саммовывоз"),
-        ("Доставка курьером","Доставка курьером")
+        ("Самовывоз", "Самовывоз"),
+        ("Доставка курьером", "Доставка курьером")
     ]
 
     order_number = models.CharField(verbose_name='Номер заказа',
@@ -368,8 +369,8 @@ class Order(models.Model):
                                     choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
     order_item = models.JSONField(verbose_name='Детали заказа')
     order_show = models.BooleanField(verbose_name='Показывать заказ пользователю ', default=True)
-    order_receving = models.CharField(verbose_name='Способ получения заказа',max_length=20,
-                                      choices=METHOD_RECEIVING_ORDER, default=METHOD_RECEIVING_ORDER[0][0])
+    order_receiving = models.CharField(verbose_name='Способ получения заказа', max_length=20,
+                                       choices=METHOD_RECEIVING_ORDER, default=METHOD_RECEIVING_ORDER[0][0])
     city = models.CharField(verbose_name="Город",
                             max_length=120,
                             blank=True,
@@ -530,8 +531,9 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Store(models.Model):
-    '''Модель магазинов для самовывоза заказа'''
+    """Модель магазинов для самовывоза заказа"""
     city = models.CharField(verbose_name="Город",
                             max_length=120,
                             blank=True,
@@ -544,6 +546,7 @@ class Store(models.Model):
                                     max_length=4,
                                     blank=True,
                                     null=True)
+
     def __str__(self):
         return f'{self.city}, ул. {self.street}, {self.house_number}'
 
@@ -551,6 +554,7 @@ class Store(models.Model):
         verbose_name = "Магазин"
         verbose_name_plural = "Магазины"
 
+
 class StoreAdmin(admin.ModelAdmin):
-    '''Класс управления отображения в
-        админ панели сущности: Store'''
+    """Класс управления отображения в
+        админ панели сущности: Store"""

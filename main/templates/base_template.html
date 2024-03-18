@@ -28,7 +28,7 @@
                 <input type="tel"
                        name="phone"
                        value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
-                       placeholder="+375 ___-__-__"/>
+                       placeholder="+375 ___-__-__" maxlength="19"/>
             </div>
         </div>
         <button type="button" class="button">Отправить</button>
@@ -37,7 +37,8 @@
         </p>
         <div class="cross"></div>
     </form>
-    <form class="buy__one-click">
+    <form action="{% url 'placing_an_order' %}" class="buy__one-click">
+        {% csrf_token %}
         <h2 class="buy__one-click-title">
             Оформление заказа в 1 клик
         </h2>
@@ -92,13 +93,21 @@
                         <h3 class="buy__one-click-list-item-field-title">
                             Имя
                         </h3>
-                        <input type="text" name="name" id="" placeholder="Иванов Иван Иванович">
+                        <input type="text"
+                               name="name"
+                               id=""
+                               value="{% if user.is_authenticated %}{{ user.last_name }} {{ user.first_name }}{% endif %}"
+                               placeholder="Иванов Иван Иванович">
                     </div>
                     <div class="buy__one-click-list-item-field">
                         <h3 class="buy__one-click-list-item-field-title">
                             Номер телефона
                         </h3>
-                        <input type="text" name="name" id="" placeholder="+375 ___-__-__">
+                        <input type="text"
+                               name="phone"
+                               id=""
+                               value="{% if user.is_authenticated %}{{ user.profile.phone_number }}{% endif %}"
+                               placeholder="+375 ___-__-__" maxlength="19">
                     </div>
                 </div>
                 <button class="button">
@@ -725,6 +734,7 @@
     <script defer src="{% static 'js/main_page/slider.js' %}"></script>
     <script defer src="{% static 'js/main_page/burger.js' %}"></script>
     <script defer src="{% static 'js/base_template/searchinput.js' %}"></script>
+    <script defer src="{% static 'js/base_template/buy_one_click.js' %}"></script>
     {% block js %}
     {% endblock %}
     <script defer type="module" src="{% static 'js/main_page/basket.js' %}"></script>

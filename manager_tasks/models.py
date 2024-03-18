@@ -53,8 +53,8 @@ class OrderForAnonymousUser(models.Model):
     ]
 
     METHOD_RECEIVING_ORDER = [
-        ("Самовывоз","Саммовывоз"),
-        ("Доставка курьером","Доставка курьером")
+        ("Самовывоз", "Самовывоз"),
+        ("Доставка курьером", "Доставка курьером")
     ]
 
     order_number = models.CharField(verbose_name='Номер заказа', max_length=16)
@@ -63,13 +63,12 @@ class OrderForAnonymousUser(models.Model):
     check_order = models.FileField("Чек",
                                    upload_to="checks")
     order_item = models.JSONField(verbose_name='Детали заказа')
-
     data_create = models.DateTimeField("Время заказа",
                                        auto_now_add=True)
     total_price = models.DecimalField("Сумма заказа",
                                       max_digits=8, decimal_places=2)
-    order_receving = models.CharField(verbose_name='Способ получения заказа',max_length=20,
-                                      choices=METHOD_RECEIVING_ORDER, default=METHOD_RECEIVING_ORDER[0][0])
+    order_receiving = models.CharField(verbose_name='Способ получения заказа', max_length=20,
+                                       choices=METHOD_RECEIVING_ORDER, default=METHOD_RECEIVING_ORDER[0][0])
     phone_number = models.CharField(verbose_name="Номер телефона",
                                     max_length=18,
                                     blank=True)
@@ -116,5 +115,5 @@ class AdminOrderForAnonymousUser(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj and not request.user.is_superuser:
-            return 'order_number', 'data_create', 'total_price', 'order_item', 'order_show'
+            return 'order_number', 'check_order', 'data_create', 'total_price', 'order_item',
         return self.readonly_fields
