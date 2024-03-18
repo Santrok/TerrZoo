@@ -66,7 +66,6 @@
                 <form method="post" action="" class="info_about_client_form" id="info_order">
                   {% csrf_token %}
                   <div class="info_about_client_form_item">
-                    {% if user.is_authenticated %}
                     <label for="name" class="input_item_label">
                       <p>Имя</p>
                     </label>
@@ -78,7 +77,6 @@
                       class="input_item_active_client"
                       value="{{ request.user.first_name }}"
                     />
-                    {% endif %}
                   </div>
                   <div class="info_about_client_form_item">
                     <label for="phone" class="input_item_label">

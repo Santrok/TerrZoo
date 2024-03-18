@@ -419,7 +419,7 @@ def get_placing_an_order_page(request):
                 else:
                     return JsonResponse({"order_number": order_number})
         else:
-            return JsonResponse({"error": "Карзина пуста, необходимо добавить товар!"})
+            return JsonResponse({"error": "Кoрзина пуста, необходимо добавить товар!"})
     context = {
         'stores': stores,
         "url": env_keys.get('URL'),

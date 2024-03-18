@@ -184,6 +184,7 @@ def save_order_for_anonymous_user(request, status):
                                           'anonymous',
                                           article_for_orders)
                 phone = request.POST.get('phone')
+                name = request.POST.get('name')
                 if request.POST.get('receiving_an_order') == 'pickup':
                     order_receiving = 'Самовывоз'
                     city = request.POST.get('address').split(', ')[0]
@@ -195,6 +196,7 @@ def save_order_for_anonymous_user(request, status):
                                                             order_item=json_obj,
                                                             total_price=request.POST.get('order_price').split(' ')[0],
                                                             order_receiving=order_receiving,
+                                                            name_anonymous_user=name,
                                                             phone_number=phone,
                                                             city=city,
                                                             street=street,
@@ -226,6 +228,7 @@ def save_order_for_anonymous_user(request, status):
                                                                                 .get('order_price')
                                                                                 .split(' ')[0],
                                                                                 order_receiving=order_receiving,
+                                                                                name_anonymous_user=name,
                                                                                 phone_number=phone,
                                                                                 city=city,
                                                                                 street=street,
@@ -242,6 +245,7 @@ def save_order_for_anonymous_user(request, status):
                                                                                 .get('order_price')
                                                                                 .split(' ')[0],
                                                                                 order_receiving=order_receiving,
+                                                                                name_anonymous_user=name,
                                                                                 phone_number=phone,
                                                                                 city=city,
                                                                                 street=street,

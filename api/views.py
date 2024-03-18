@@ -115,7 +115,6 @@ class ProductsListView(ListAPIView):
     def get_queryset(self):
         data = self.request.query_params
         d = dict(data.copy())
-        print(d.get('id'))
         queryset = Product.objects.filter(**d).select_related('sale', 'category').prefetch_related('countitemproduct_set')
         return queryset
     
@@ -351,14 +350,12 @@ class ProductListFilterView(ListAPIView):
         if data.get('sale__percent__gt'):
             d['sale__percent__gt'] = d.get('sale__percent__gt')[0]
         if order[0] == 'price':
-            print('price')
             queryset = sorted(Product.objects.filter(**d).select_related('sale',
                                                                          'category').prefetch_related(
                 'countitemproduct_set'),
                               key=lambda x: x.action_price(),
                               reverse=False)
         elif order[0] == '-price':
-            print('-price')
             queryset = sorted(Product.objects.filter(**d).select_related('sale',
                                                                          'category').prefetch_related(
                 'countitemproduct_set'),
