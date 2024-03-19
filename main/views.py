@@ -359,7 +359,11 @@ def get_placing_an_order_page(request):
     user = request.user
     stores = Store.objects.all()
     if request.method == "POST":
-        if request.POST.get('basket') != '[]':
+        if ((request.POST.get('basket') != 'null' and
+             request.POST.get('basket') != '' and
+             request.POST.get('basket') != '[]') or (request.POST.get('oneClickItem') != 'null' and
+                                                     request.POST.get('oneClickItem') != '' and
+                                                     request.POST.get('oneClickItem') != '[]')):
             if user.is_authenticated:
                 if request.POST.get('payment_method') == 'pay_online':
                     pay_card = (f"{request.POST.get('num_paycard_1_4', '0')}"
@@ -602,4 +606,3 @@ def delete_profile_order(request, order_id):
     order.order_show = False
     order.save()
     return redirect('profile_orders')
-

@@ -7,10 +7,13 @@ function getValuesForm(){
     const orderPrice = document.querySelector('.order_price')
     console.log(form)
     console.log(orderPrice.innerText)
-    const basketArray = localStorage.getItem("basket")
-   console.log(basketArray)
+    const basketArray = localStorage.getItem("basket") || null
+    const oneClickItem = localStorage.getItem('oneClickItem') || null
+    console.log(1, basketArray)
+    console.log(2, oneClickItem)
     let valuesToFetch = new FormData()
     valuesToFetch.append('basket',basketArray)
+    valuesToFetch.append('oneClickItem',oneClickItem)
     valuesToFetch.append('order_price',orderPrice.innerText)
 
     for (let i of form){
@@ -85,6 +88,7 @@ function getValuesForm(){
                             Продолжить покупки</a>
                             </div>`;
                             localStorage.setItem("basket", JSON.stringify([]));
+                            localStorage.setItem("oneClickItem", JSON.stringify([]));
                             countPayCard=0
                             setCountInBasket()
                             addBasketItemToHover()
@@ -111,6 +115,7 @@ function getValuesForm(){
                             Продолжить покупки</a>
                             </div>`;
                             localStorage.setItem("basket", JSON.stringify([]));
+                            localStorage.setItem("oneClickItem", JSON.stringify([]));
                             countPayCard =0
                             addBasketItemToHover()
                             setCountInBasket()
