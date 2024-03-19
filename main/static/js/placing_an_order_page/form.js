@@ -123,17 +123,17 @@ function getValuesForm() {
                             margin: 0 auto;'>
                             Продолжить покупки</a>
                             </div>`;
-                            if (oneClickItem  !== null) {
-                                localStorage.setItem("oneClickItem", JSON.stringify([]));
-                            } else {
-                                localStorage.setItem("basket", JSON.stringify([]));
-                            }
-                            countPayCard =0
-                            addBasketItemToHover()
-                            setCountInBasket()
-                          }
-                        }
-        });
+          if (oneClickItem !== null) {
+            localStorage.setItem("oneClickItem", JSON.stringify([]));
+          } else {
+            localStorage.setItem("basket", JSON.stringify([]));
+          }
+          countPayCard = 0;
+          addBasketItemToHover();
+          setCountInBasket();
+        }
+      }
+    });
 }
 
 function getCookie(name) {
@@ -149,9 +149,7 @@ if (dataItem) {
     dataItem.value = e.currentTarget.value.replace(/[^0-9\/]/, "");
     dataItem.addEventListener("keydown", (e) => {
       const key = e.key;
-      if (key === "Backspace" || key === "Delete") {
-        dataItem.value = dataItem.value.slice(0, dataItem.value.length);
-      } else {
+      if (key !== "Backspace" && key !== "Delete") {
         if (dataItem.value.length === 2) {
           dataItem.value += " /";
         }

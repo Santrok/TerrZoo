@@ -29,8 +29,13 @@ for (let i of data_storage) {
   pricePayCard += +parseFloat(i.price)
   countPayCard = countPayCard + i.count;
 }
-order_price.innerHTML = `${pricePayCard.toFixed(2)} BYN`;
-product_count.innerHTML = countPayCard;
+if(localStorage.getItem('oneClickItem')) {
+  order_price.innerHTML = `${JSON.parse(localStorage.getItem('oneClickItem')).price} BYN`;
+  product_count.innerHTML = JSON.parse(localStorage.getItem('oneClickItem')).count;
+}else {
+  order_price.innerHTML = `${pricePayCard.toFixed(2)} BYN`;
+  product_count.innerHTML = countPayCard;
+}
 
 function getCookie(name) {
   let matches = document.cookie.match(
