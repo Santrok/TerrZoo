@@ -14,6 +14,10 @@ const viewProduct = document.querySelector(".popular__goods-slider");
 const wrapper = document.querySelector('.wrapper')
 localStorage.setItem('baseUrl', wrapper.dataset.url)
 
+console.log(window.location.href !== `${localStorage.getItem('baseUrl')}/placing_an_order/`);
+if(window.location.href !== `${localStorage.getItem('baseUrl')}/placing_an_order/`){
+  localStorage.removeItem('oneClickItem')
+}
 // slider item weight list click
 sliderItemWeightList.forEach((item) => {
   item.addEventListener("click", (e) => {
