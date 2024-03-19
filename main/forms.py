@@ -72,7 +72,7 @@ class ProfileForm(forms.ModelForm):
                                    max_length=19,
                                    required=True,
                                    widget=forms.TextInput(
-                                       attrs={'placeholder': '+375(29) 111-22-33'}),
+                                       attrs={'placeholder': '+375 (29) 111-11-11'}),
                                    validators=[validate_phone])
     date_of_birth = forms.DateField(label='Дата рождения',
                                     required=True,
