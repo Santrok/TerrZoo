@@ -311,7 +311,7 @@ class Review(models.Model):
                              verbose_name="Пользователь",
                              on_delete=models.CASCADE)
     phone_number = models.CharField('Номер телефона',
-                                    max_length=13,
+                                    max_length=19,
                                     blank=True,
                                     null=True)
 
@@ -478,7 +478,7 @@ class Profile(models.Model):
                                 verbose_name="Пользователь",
                                 blank=True)
     phone_number = models.CharField(verbose_name="Номер телефона",
-                                    max_length=18,
+                                    max_length=19,
                                     blank=True)
     date_of_birth = models.DateField(verbose_name="Дата рождения",
                                      blank=True,

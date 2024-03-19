@@ -69,7 +69,7 @@ class ProfileForm(forms.ModelForm):
                                 attrs={'class': 'profile_form_email',
                                        'readonly': 'readonly'}))
     phone_number = forms.CharField(label='Номер телефона',
-                                   max_length=18,
+                                   max_length=19,
                                    required=True,
                                    widget=forms.TextInput(
                                        attrs={'placeholder': '+375(29) 111-22-33'}),

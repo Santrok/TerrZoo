@@ -71,7 +71,7 @@ class OrderForAnonymousUser(models.Model):
                                        choices=METHOD_RECEIVING_ORDER, default=METHOD_RECEIVING_ORDER[0][0])
     name_anonymous_user = models.CharField(verbose_name='Имя', max_length=50)
     phone_number = models.CharField(verbose_name="Номер телефона",
-                                    max_length=18,
+                                    max_length=19,
                                     blank=True)
     city = models.CharField(verbose_name="Город",
                             max_length=120,
