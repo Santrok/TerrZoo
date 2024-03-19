@@ -7,10 +7,8 @@ from main.models import Order, ArticleForOrders, Product
 from manager_tasks.models import OrderForAnonymousUser
 
 
-def get_check_file(basket, order_price, user, article):
+def get_check_file(data, order_price, user, article):
     """Создание файла чек"""
-    basket_obj = json.loads(basket)
-
     directory = f'media/checks/{user}/'
     os.makedirs(directory, exist_ok=True)
 
@@ -19,7 +17,7 @@ def get_check_file(basket, order_price, user, article):
     with open(file_path, "w", encoding="utf-8") as file:
         file.write(f'Чек номер {article}\n')
 
-        for obj in basket_obj:
+        for obj in data:
             file.write(f'"{obj["title"][0:25]}...": {obj["count"]} шт. x {obj["initPrice"]} BYN - {obj["price"]} BYN\n')
 
         file.write(f'Итого: {order_price}')
@@ -76,13 +74,21 @@ def get_article_for_orders(user_id):
 
 def save_order_for_user(request, user, status, card=None):
     """Сохраняем заказ для пользователя"""
-    json_obj = json.loads(request.POST.get('basket'))
+
+    if request.POST.get('oneClickItem') != '[]' and request.POST.get('oneClickItem'):
+        data_order = request.POST.get('oneClickItem')
+        json_obj = []
+        json_obj.append(json.loads(data_order))
+    elif request.POST.get('basket') != '[]' and request.POST.get('basket'):
+        data_order = request.POST.get('basket')
+        json_obj = json.loads(data_order)
     product_list_id = []
     for i in json_obj:
         product_list_id.append(i.get('id'))
+
     product_list = Product.objects.filter(id__in=product_list_id)
     article_for_orders = get_article_for_orders(user.id)
-    file_url = get_check_file(request.POST.get('basket'),
+    file_url = get_check_file(json_obj,
                               request.POST.get('order_price').split(' ')[0],
                               user,
                               article_for_orders)
@@ -173,13 +179,21 @@ def save_order_for_anonymous_user(request, status):
     if request.POST.get('phone'):
         if request.POST.get('payment_method'):
             if request.POST.get('receiving_an_order'):
-                json_obj = json.loads(request.POST.get('basket'))
+
+                if request.POST.get('oneClickItem') != '[]' and request.POST.get('oneClickItem'):
+                    data_order = request.POST.get('oneClickItem')
+                    json_obj = []
+                    json_obj.append(json.loads(data_order))
+                elif request.POST.get('basket') != '[]' and request.POST.get('basket'):
+                    data_order = request.POST.get('basket')
+                    json_obj = json.loads(data_order)
                 product_list_id = []
                 for i in json_obj:
                     product_list_id.append(i.get('id'))
+
                 product_list = Product.objects.filter(id__in=product_list_id)
                 article_for_orders = get_article_for_orders('XXX')
-                file_url = get_check_file(request.POST.get('basket'),
+                file_url = get_check_file(json_obj,
                                           request.POST.get('order_price').split(' ')[0],
                                           'anonymous',
                                           article_for_orders)

@@ -356,17 +356,16 @@ def get_promotions_page(request):
 
 def get_placing_an_order_page(request):
     '''Отдает страничку оформления заказов'''
+    print('хуй')
+    q = request.POST.get('basket')
+    w = request.POST.get('oneClickItem')
+    print(-1, q, w)
+    print(0, q is not None, w is not None)
     user = request.user
     stores = Store.objects.all()
     if request.method == "POST":
-        print('basket', request.POST.get('basket'))
-        print('oneClickItem', request.POST.get('oneClickItem'))
-        if request.POST.get('basket') != '[]' or request.POST.get('oneClickItem') != '[]':
-            if request.POST.get('basket') != '[]':
-                data = request.POST.get('basket')
-            else:
-                data = request.POST.get('oneClickItem')
-            print('data', data)
+        if ((request.POST.get('basket') is not None and request.POST.get('basket') != '[]') or
+                (request.POST.get('oneClickItem') is not None and request.POST.get('oneClickItem') != '[]')):
             if user.is_authenticated:
                 if request.POST.get('payment_method') == 'pay_online':
                     pay_card = (f"{request.POST.get('num_paycard_1_4', '0')}"

@@ -443,6 +443,5 @@ function buyOneClickModalEvent(e) {
     }else {
       weightButton.style.display = "block";
     }
-    console.log(oneClickItemArr)
     localStorage.setItem("oneClickItem", JSON.stringify(oneClickItemArr));
 }

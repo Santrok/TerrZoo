@@ -8,10 +8,10 @@ function getValuesForm(){
     console.log(form)
     console.log(orderPrice.innerText)
     const basketArray = localStorage.getItem("basket")
-   console.log(basketArray)
+    const oneClickItem = localStorage.getItem('oneClickItem')
     let valuesToFetch = new FormData()
     valuesToFetch.append('basket',basketArray)
-    valuesToFetch.append('oneClickItem',JSON.parse(localStorage.getItem('oneClickItem')))
+    valuesToFetch.append('oneClickItem',oneClickItem)
     valuesToFetch.append('order_price',orderPrice.innerText)
 
     for (let i of form){
