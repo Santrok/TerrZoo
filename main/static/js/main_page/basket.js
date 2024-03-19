@@ -1,7 +1,6 @@
-
-const sliderItemBasketBtn = document.querySelectorAll(".slider__item-basket");
-const headerBottomBasketCount = document.querySelector(".header__bottom-basket > p");
-const headerBottomBasketValueMob = document.querySelector(".header__bottom-basket-value");
+const sliderItemBasketBtnMain = document.querySelectorAll(".slider__item-basket");
+const headerBottomBasketCountMain = document.querySelector(".header__bottom-basket > p");
+const headerBottomBasketValueMobMain = document.querySelector(".header__bottom-basket-value");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
 const headerBottomHover = document.querySelector(".header__bottom-basket-hover");
 const productsList = document.querySelector(".products__list");
@@ -66,7 +65,7 @@ if (aboutProductWeightSpan) {
 }
 
 let count = localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("basket")).length : 0;
-headerBottomBasketCount.textContent = count;
+headerBottomBasketCountMain.textContent = count;
 let basketArrayObj = [];
 
 /**
@@ -84,10 +83,10 @@ function setCountInBasket() {
   count = JSON.parse(localStorage.getItem("basket"))?.length;
 
   // Update the text content of the basket count element in the DOM
-  headerBottomBasketCount.textContent = count;
+  headerBottomBasketCountMain.textContent = count;
 
   // Update the text content of the basket count element for mobile view in the DOM
-  headerBottomBasketValueMob.textContent = count;
+  headerBottomBasketValueMobMain.textContent = count;
 }
 setCountInBasket();
 
@@ -309,7 +308,7 @@ function addBasketItemToHover() {
 
 addBasketItemToHover();
 
-sliderItemBasketBtn.forEach((item) => {
+sliderItemBasketBtnMain.forEach((item) => {
   item.addEventListener("click", (event) => {
     addBasketItemToLocalStorage(event);
     addBasketItemToHover();
