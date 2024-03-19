@@ -41,6 +41,7 @@ phoneInputOneClick.oninput = () => {
   phoneInputOneClick.addEventListener('keydown', (e) => {
       const key = e.key
       if (key === 'Backspace' || key === 'Delete') {
+        console.log(phoneInputOneClick.value.slice(0, phoneInputCallback.value.length));
         phoneInputOneClick.value = phoneInputOneClick.value.slice(0, phoneInputCallback.value.length)
       } else {
           if (phoneInputOneClick.value.length === 4) {
