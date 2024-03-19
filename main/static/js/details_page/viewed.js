@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   getViewed(
-    `http://127.0.0.1:8000/api/get_products_list/?id__in=${JSON.parse(localStorage.getItem("viewed"))[0]}${
+    `${localStorage.getItem('baseUrl')}/api/get_products_list/?id__in=${JSON.parse(localStorage.getItem("viewed"))[0]}${
       localStorage.getItem("viewed").length > 1
         ? JSON.parse(localStorage.getItem("viewed")).splice(1, JSON.parse(localStorage.getItem("viewed")).length).map((item) => `&id__in=${item}`).join('')
         : ``

@@ -276,7 +276,7 @@ callbackBtn.addEventListener("click", () => {
     name_user: nameUser.value,
     phone_number_user: phoneUser.value,
   };
-  fetch(`http://127.0.0.1:8000/manager_tasks/callback/`, {
+  fetch(`${localStorage.getItem('baseUrl')}/manager_tasks/callback/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

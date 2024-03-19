@@ -48,8 +48,7 @@ function getValuesForm(){
             valuesToFetch.append(i.name,i.id)
         }
     }
-    console.log(valuesToFetch)
-    fetch("http://127.0.0.1:8000/placing_an_order/", {
+    fetch(`${localStorage.getItem('baseUrl')}/placing_an_order/`, {
       method: "POST",
       headers: {
         "X-CSRFToken": getCookie("csrftoken"),
@@ -67,7 +66,7 @@ function getValuesForm(){
                             let happy = document.querySelector(".block_placing_an_order");
                             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата при получение заказа</h1>
                             <div style='display:flex; align-items:center; justify-content: center; margin-top: 40px'>
-                            <a href='http://127.0.0.1:8000/catalog/'
+                            <a href='${localStorage.getItem('baseUrl')}/catalog/'
                             style='
                             border-radius: 4px;
                             box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.2),0px 1px 0px 0px rgba(0, 0, 0, 0.08);
@@ -93,7 +92,7 @@ function getValuesForm(){
                             let happy = document.querySelector(".block_placing_an_order");
                             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, чек отправлен на email:${data.user_email}</h1>
                             <div style='display:flex; align-items:center; justify-content: center; margin-top: 40px'>
-                            <a href='http://127.0.0.1:8000/catalog/'
+                            <a href='${localStorage.getItem('baseUrl')}/catalog/'
                             style='
                             border-radius: 4px;
                             box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.2),0px 1px 0px 0px rgba(0, 0, 0, 0.08);

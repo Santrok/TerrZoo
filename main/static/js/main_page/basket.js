@@ -12,6 +12,8 @@ const aboutProductAction = document.querySelector(".about__product-action");
 const yourWeightBtn = document.querySelector(".about__product-your-weight-hide button");
 const aboutProductWeightSpan = document.querySelector(".about__product-price-weight span");
 const viewProduct = document.querySelector(".popular__goods-slider");
+const wrapper = document.querySelector('.wrapper')
+localStorage.setItem('baseUrl', wrapper.dataset.url)
 
 // slider item weight list click
 sliderItemWeightList.forEach((item) => {

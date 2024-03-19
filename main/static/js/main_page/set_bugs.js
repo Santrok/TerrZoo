@@ -1,5 +1,5 @@
 //CSS set bugs
-fetch("http://127.0.0.1:8000/api/get_bugs_css/")
+fetch(`${localStorage.getItem('baseUrl')}/api/get_bugs_css/`)
   .then((resp) => resp.json())
   .then((data) => {
     for (let i of data.results) {
@@ -11,7 +11,7 @@ fetch("http://127.0.0.1:8000/api/get_bugs_css/")
   });
 
 // href rebase link
-fetch("http://127.0.0.1:8000/api/get_bugs_link")
+fetch(`${localStorage.getItem('baseUrl')}/api/get_bugs_link`)
   .then((resp) => resp.json())
   .then((data) => {
     for (let i of data.results) {

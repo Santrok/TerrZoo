@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getPageCatalog(e) {
         if (e.code === "Enter") {
-            window.location.href = 'http://127.0.0.1:8000/search/'
+            window.location.href = `${localStorage.getItem('baseUrl')}/search/`
             localStorage.setItem('searchKeyWord', searchInput.value.trim())
         }
     }
@@ -19,14 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     function fetchQueryParams(event) {
         if (searchInput.value.length >= 3) {
-            fetch(`http://127.0.0.1:8000/api/get_search_product/?title=${searchInput.value}`)
+            fetch(`${localStorage.getItem('baseUrl')}/api/get_search_product/?title=${searchInput.value}`)
                 .then(resp => resp.json())
                 .then(data => {
                     localStorage.setItem("result_search_objects", JSON.stringify(data.results))
                     insertResultData.style.display = 'block'
                     insertResultData.innerHTML = ''
                     for (let item of data.results) {
-                        insertResultData.innerHTML += `<a class="search__drop-down-item" href=http://127.0.0.1:8000/details/${item.id}>
+                        insertResultData.innerHTML += `<a class="search__drop-down-item" href=${localStorage.getItem('baseUrl')}/details/${item.id}>
                             <div class="search__drop-down-item-img">
                                 <img src="${item.image_prev}" alt="item">
                             </div>

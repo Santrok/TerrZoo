@@ -40,7 +40,7 @@ function getComparison(url) {
 }
 
 getComparison(
-  `http://127.0.0.1:8000/api/get_products_list/?id__in=${JSON.parse(localStorage.getItem("comparisonList"))[0]}${
+  `${localStorage.getItem('baseUrl')}/api/get_products_list/?id__in=${JSON.parse(localStorage.getItem("comparisonList"))[0]}${
     localStorage.getItem("viewed").length > 1
       ? JSON.parse(localStorage.getItem("comparisonList"))
           .splice(1, JSON.parse(localStorage.getItem("comparisonList")).length)
