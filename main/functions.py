@@ -75,11 +75,11 @@ def get_article_for_orders(user_id):
 def save_order_for_user(request, user, status, card=None):
     """Сохраняем заказ для пользователя"""
 
-    if request.POST.get('oneClickItem') != '[]' and request.POST.get('oneClickItem'):
+    if request.POST.get('oneClickItem') != '[]':
         data_order = request.POST.get('oneClickItem')
         json_obj = []
         json_obj.append(json.loads(data_order))
-    elif request.POST.get('basket') != '[]' and request.POST.get('basket'):
+    elif request.POST.get('basket') != '[]':
         data_order = request.POST.get('basket')
         json_obj = json.loads(data_order)
     product_list_id = []
@@ -180,11 +180,11 @@ def save_order_for_anonymous_user(request, status):
         if request.POST.get('payment_method'):
             if request.POST.get('receiving_an_order'):
 
-                if request.POST.get('oneClickItem') != '[]' and request.POST.get('oneClickItem'):
+                if request.POST.get('oneClickItem') != '[]':
                     data_order = request.POST.get('oneClickItem')
                     json_obj = []
                     json_obj.append(json.loads(data_order))
-                elif request.POST.get('basket') != '[]' and request.POST.get('basket'):
+                elif request.POST.get('basket') != '[]':
                     data_order = request.POST.get('basket')
                     json_obj = json.loads(data_order)
                 product_list_id = []
