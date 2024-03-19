@@ -45,7 +45,7 @@
         </p>
         <div class="cross"></div>
     </form>
-    <form action="{% url 'placing_an_order' %}" class="buy__one-click">
+    <form action="" class="buy__one-click">
         {% csrf_token %}
         <h2 class="buy__one-click-title">
             Оформление заказа в 1 клик
@@ -126,9 +126,9 @@
                                placeholder="+375 ___-__-__" maxlength="19">
                     </div>
                 </div>
-                <button class="button button_buy_one_click">
+                <a href="{% url 'placing_an_order' %}" class="button button_buy_one_click">
                     Оформить заказ
-                </button>
+                </a>
                 <p class="buy__one-click-list-item-personal-data">
                     Нажимая на кнопку вы даёте согласие на обработку <a href="{% static 'politika_v_otnochenii_personalnih_dannih.pdf' %}" target="_blank">персональных данных</a>
                 </p>
