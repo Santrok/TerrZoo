@@ -143,7 +143,7 @@ function setCountInBasket() {
   }
   countFunc = JSON.parse(localStorage.getItem("basket"))?.length;
   headerBottomBasketCount.textContent = countPayCard;
-  headerBottomBasketValueMob.textContent = countPayCard
+  headerBottomBasketValueMobMain.textContent = countPayCard
 }
 
 //-----------------------------------------------------------
