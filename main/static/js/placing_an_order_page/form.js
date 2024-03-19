@@ -7,6 +7,7 @@ function getValuesForm(){
     const orderPrice = document.querySelector('.order_price')
     const basketArray = localStorage.getItem("basket") || null
     const oneClickItem = localStorage.getItem('oneClickItem') || null
+    console.log(oneClickItem)
     let valuesToFetch = new FormData()
     valuesToFetch.append('basket',basketArray)
     valuesToFetch.append('oneClickItem',oneClickItem)
@@ -81,8 +82,11 @@ function getValuesForm(){
                             margin: 0 auto;'>
                             Продолжить покупки</a>
                             </div>`;
-                            localStorage.setItem("basket", JSON.stringify([]));
-                            localStorage.setItem("oneClickItem", JSON.stringify([]));
+                            if (oneClickItem  !== null) {
+                                localStorage.setItem("oneClickItem", JSON.stringify([]));
+                            } else {
+                                localStorage.setItem("basket", JSON.stringify([]));
+                            }
                             countPayCard=0
                             setCountInBasket()
                             addBasketItemToHover()
