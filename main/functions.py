@@ -75,13 +75,13 @@ def get_article_for_orders(user_id):
 def save_order_for_user(request, user, status, card=None):
     """Сохраняем заказ для пользователя"""
 
-    if request.POST.get('oneClickItem') != '[]':
-        data_order = request.POST.get('oneClickItem')
-        json_obj = []
-        json_obj.append(json.loads(data_order))
-    elif request.POST.get('basket') != '[]':
-        data_order = request.POST.get('basket')
-        json_obj = json.loads(data_order)
+    json_obj = []
+    data_one_click_item = request.POST.get('oneClickItem')
+    data_basket = request.POST.get('basket')
+    if data_one_click_item != 'null' and data_one_click_item != '' and data_one_click_item != '[]':
+        json_obj.append(json.loads(request.POST.get('oneClickItem')))
+    elif data_basket != 'null' and data_basket != '' and data_basket != '[]':
+        json_obj = json.loads(request.POST.get('basket'))
     product_list_id = []
     for i in json_obj:
         product_list_id.append(i.get('id'))
@@ -180,13 +180,13 @@ def save_order_for_anonymous_user(request, status):
         if request.POST.get('payment_method'):
             if request.POST.get('receiving_an_order'):
 
-                if request.POST.get('oneClickItem') != '[]':
-                    data_order = request.POST.get('oneClickItem')
-                    json_obj = []
-                    json_obj.append(json.loads(data_order))
-                elif request.POST.get('basket') != '[]':
-                    data_order = request.POST.get('basket')
-                    json_obj = json.loads(data_order)
+                json_obj = []
+                data_one_click_item = request.POST.get('oneClickItem')
+                data_basket = request.POST.get('basket')
+                if data_one_click_item != 'null' and data_one_click_item != '' and data_one_click_item != '[]':
+                    json_obj.append(json.loads(request.POST.get('oneClickItem')))
+                elif data_basket != 'null' and data_basket != '' and data_basket != '[]':
+                    json_obj = json.loads(request.POST.get('basket'))
                 product_list_id = []
                 for i in json_obj:
                     product_list_id.append(i.get('id'))
