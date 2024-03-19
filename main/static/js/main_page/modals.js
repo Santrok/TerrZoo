@@ -40,23 +40,20 @@ phoneInputOneClick.oninput = () => {
   phoneInputOneClick.value = phoneInputOneClick.value.replace(/[^0-9()+\s-]/g, "");
   phoneInputOneClick.addEventListener('keydown', (e) => {
       const key = e.key
-      if (key === 'Backspace' || key === 'Delete') {
-        console.log(phoneInputOneClick.value.slice(0, phoneInputCallback.value.length));
-        phoneInputOneClick.value = phoneInputOneClick.value.slice(0, phoneInputCallback.value.length)
-      } else {
-          if (phoneInputOneClick.value.length === 4) {
-            phoneInputOneClick.value += ' ('
-          }
-          if (phoneInputOneClick.value.length === 8) {
-            phoneInputOneClick.value += ') '
-          }
-          if (phoneInputOneClick.value.length === 13) {
-            phoneInputOneClick.value += '-'
-          }
-          if (phoneInputOneClick.value.length === 16) {
-            phoneInputOneClick.value += '-'
-          }
-      }
+      if (key !== 'Backspace' && key !== 'Delete') {
+        if (phoneInputOneClick.value.length === 4) {
+          phoneInputOneClick.value += ' ('
+        }
+        if (phoneInputOneClick.value.length === 8) {
+          phoneInputOneClick.value += ') '
+        }
+        if (phoneInputOneClick.value.length === 13) {
+          phoneInputOneClick.value += '-'
+        }
+        if (phoneInputOneClick.value.length === 16) {
+          phoneInputOneClick.value += '-'
+        }
+      } 
   })
 }
 // regexp for phone input
@@ -64,22 +61,20 @@ phoneInputCallback.oninput = () => {
   phoneInputCallback.value = phoneInputCallback.value.replace(/[^0-9()+\s-]/g, "");
   phoneInputCallback.addEventListener('keydown', (e) => {
       const key = e.key
-      if (key === 'Backspace' || key === 'Delete') {
-        phoneInputCallback.value = phoneInputCallback.value.slice(0, phoneInputCallback.value.length)
-      } else {
-          if (phoneInputCallback.value.length === 4) {
-            phoneInputCallback.value += ' ('
-          }
-          if (phoneInputCallback.value.length === 8) {
-            phoneInputCallback.value += ') '
-          }
-          if (phoneInputCallback.value.length === 13) {
-            phoneInputCallback.value += '-'
-          }
-          if (phoneInputCallback.value.length === 16) {
-            phoneInputCallback.value += '-'
-          }
-      }
+      if (key !== 'Backspace' && key !== 'Delete') {
+        if (phoneInputCallback.value.length === 4) {
+          phoneInputCallback.value += ' ('
+        }
+        if (phoneInputCallback.value.length === 8) {
+          phoneInputCallback.value += ') '
+        }
+        if (phoneInputCallback.value.length === 13) {
+          phoneInputCallback.value += '-'
+        }
+        if (phoneInputCallback.value.length === 16) {
+          phoneInputCallback.value += '-'
+        }
+      } 
   })
 }
 newWeightInput.oninput = () => {
