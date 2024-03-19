@@ -209,7 +209,9 @@ if (porductListInModals) {
             } else {
               buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
             }
-            if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
+            console.log(e.currentTarget.parentElement.children[2].children[0].children[0].textContent);
+            if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт" 
+            || e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт." ) {
               weightButton.style.display = "none";
             } else {
               weightButton.style.display = "flex";
@@ -248,7 +250,9 @@ sliderButton.forEach((item) => {
         } else {
           buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
         }
-        if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
+        console.log(e.currentTarget.parentElement.children[2].children[0].children[0].textContent);
+        if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт" 
+        || e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
           weightButton.style.display = "none";
         } else {
           weightButton.style.display = "flex";
