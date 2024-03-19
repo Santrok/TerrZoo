@@ -7,6 +7,7 @@
                 {% csrf_token %}
                 <h2 class="callback__title">Регистрация</h2>
                 <p>{{error}}</p>
+                
                 {{register_form}}
                 <div class="down_panel">
                     <a class="link_next_page" href="{% url 'login' %}">Вход</a>
@@ -16,4 +17,8 @@
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/registration/registration.js' %}"></script>
 {% endblock %}

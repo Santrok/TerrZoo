@@ -317,11 +317,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   let orderStr = document.querySelector(".catalog__sort-select-active").dataset.order;
-  if(window.location.href !== 'http://127.0.0.1:8000/catalog/' && window.location.href !== 'http://127.0.0.1:8000/search/') {
-    filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
-  }else {
+  if(window.location.href === 'http://127.0.0.1:8000/search/') {
     const keyWordForFetch = String('title__icontains=' + localStorage.getItem("searchKeyWord"))
     filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}&${keyWordForFetch}`);
+  }else {
+    filterFetch(`http://127.0.0.1:8000/api/get_products_filter/?${queryStr}order=${orderStr}&${activAnimalId}`);
   }
   const catalogSortSelect = document.querySelectorAll(".catalog__sort-select-list-item");
   catalogSortSelect.forEach((item) => {

@@ -14,15 +14,30 @@
 <body>
     <div class="modal__wrap">
         <form class="callback">
+            {% csrf_token %}
             <h2 class="callback__title">Перезвоним вам в течение 15 минут</h2>
             <div class="callback__field">
                 <div class="callback__field-item">
                     <h3 class="callback__field-item-title">Имя</h3>
-                    <input type="text" name="name" placeholder="Иванов Иван Иванович" />
+                    <input type="text"
+                           name="name"
+                           {% if user.is_authenticated %}
+                                value="{{ user.last_name }} {{ user.first_name }}"
+                                style="background: #e3e3e3"
+                                disabled 
+                           {% endif %}   
+                           placeholder="Иванов Иван Иванович"/>
                 </div>
                 <div class="callback__field-item">
                     <h3 class="callback__field-item-title">Номер телефона</h3>
-                    <input type="tel" name="phone" placeholder="+375 ___-__-__" />
+                    <input type="tel"
+                           name="phone"
+                           {% if user.is_authenticated %}
+                               value="{{ user.profile.phone_number }}"
+                               style="background: #e3e3e3"
+                               disabled
+                           {% endif %}
+                           placeholder="+375 ___-__-__" maxlength="19"/>
                 </div>
             </div>
             <button type="button" class="button">Отправить</button>
@@ -31,7 +46,8 @@
             </p>
             <div class="cross"></div>
         </form>
-        <form class="buy__one-click">
+        <form action="{% url 'placing_an_order' %}" class="buy__one-click">
+            {% csrf_token %}
             <h2 class="buy__one-click-title">
                 Оформление заказа в 1 клик
             </h2>
@@ -39,11 +55,11 @@
                 <li class="buy__one-click-list-item">
                     <div class="buy__one-click-list-item-wrap">
                         <div class="buy__one-click-list-item-img">
-                            <img src="./img/sliderImg.png" alt="">
+                            <img src="" alt="">
                         </div>
                         <div class="buy__one-click-list-item-action">
                             <h3 class="buy__one-click-list-item-title">
-                                
+    
                             </h3>
                             <ul class="buy__one-click-list-item-weight-list">
                             </ul>
@@ -52,7 +68,7 @@
                                     Указать свой вес
                                 </h4>
                                 <div class="buy__one-click-list-item-wrap-weight">
-                                    <input type="text" name="weight" placeholder="Укажите вес">
+                                    <input type="text" name="weight" id="" placeholder="Укажите вес" maxlength="4">
                                     <button type="button">
                                         Применить
                                     </button>
@@ -72,31 +88,48 @@
                                 </button>
                             </div>
                             <p>
-                                
+    
                             </p>
                         </div>
                     </div>
                     <div class="buy__one-click-list-item-line"></div>
                     <div class="buy__one-click-list-item-text">
-                        Заполните данные и нажмите кнопку «Оформить заказ». Товар будет ждать вас по адресу: Минск, ул. Чюрлёниса, 6.
+                        Заполните данные и нажмите кнопку «Оформить заказ». Товар будет ждать вас по адресу: Минск, ул.
+                        Чюрлёниса, 6.
                     </div>
                     <div class="buy__one-click-list-item-field-wrap">
                         <div class="buy__one-click-list-item-field">
                             <h3 class="buy__one-click-list-item-field-title">
                                 Имя
                             </h3>
-                            <input type="text" name="name" placeholder="Иванов Иван Иванович">
+                            <input type="text"
+                                   name="name"
+                                   id=""
+                                   {% if user.is_authenticated %}
+                                        value="{{ user.last_name }} {{ user.first_name }}"
+                                         style="background: #e3e3e3"
+                                        disabled
+                                   {% endif %}                               
+                                   placeholder="Иванов Иван Иванович">
                         </div>
                         <div class="buy__one-click-list-item-field">
                             <h3 class="buy__one-click-list-item-field-title">
                                 Номер телефона
                             </h3>
-                            <input type="text" name="name" placeholder="+375 ___-__-__">
+                            <input type="text"
+                                   name="phone"
+                                   id=""
+                                   {% if user.is_authenticated %}
+                                       value="{{ user.profile.phone_number }}"
+                                       style="background: #e3e3e3"
+                                       disabled
+                                   {% endif %}
+                                   placeholder="+375 ___-__-__" maxlength="19">
                         </div>
                     </div>
-                    <button class="button">
+                    <button class="button button_buy_one_click">
                         Оформить заказ
-                    </button>    
+                    </button>
                     <p class="buy__one-click-list-item-personal-data">
                         Нажимая на кнопку вы даёте согласие на обработку <a href="{% static 'politika_v_otnochenii_personalnih_dannih.pdf' %}" target="_blank">персональных данных</a>
                     </p>
@@ -106,16 +139,19 @@
         </form>
         <div class="access__callback">
             <div class="acceess__img">
-                <svg width="48.000000" height="48.000000" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <svg width="48.000000" height="48.000000" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
                         <clipPath id="clip893_6554">
                             <rect id="Checkmark Circle" width="48.000000" height="48.000000" fill="white" fill-opacity="0"/>
                         </clipPath>
                     </defs>
                     <g clip-path="url(#clip893_6554)">
-                        <path id="Shape" d="M24 4C35.0459 4 44 12.9543 44 24C44 35.0457 35.0459 44 24 44C12.9541 44 4 35.0457 4 24C4 12.9543 12.9541 4 24 4ZM32.6338 17.6162C32.1787 17.1604 31.458 17.1301 30.9678 17.5249L30.8662 17.6162L20.75 27.7322L17.1338 24.1162C16.6455 23.6279 15.8545 23.6279 15.3662 24.1162C14.9102 24.5718 14.8799 25.2915 15.2754 25.7825L15.3662 25.8838L19.8662 30.3838C20.3213 30.8396 21.042 30.8699 21.5322 30.4751L21.6338 30.3838L32.6338 19.3838C33.1221 18.8958 33.1221 18.1042 32.6338 17.6162Z" fill="#008060" fill-opacity="1.000000" fill-rule="nonzero"/>
+                        <path id="Shape"
+                              d="M24 4C35.0459 4 44 12.9543 44 24C44 35.0457 35.0459 44 24 44C12.9541 44 4 35.0457 4 24C4 12.9543 12.9541 4 24 4ZM32.6338 17.6162C32.1787 17.1604 31.458 17.1301 30.9678 17.5249L30.8662 17.6162L20.75 27.7322L17.1338 24.1162C16.6455 23.6279 15.8545 23.6279 15.3662 24.1162C14.9102 24.5718 14.8799 25.2915 15.2754 25.7825L15.3662 25.8838L19.8662 30.3838C20.3213 30.8396 21.042 30.8699 21.5322 30.4751L21.6338 30.3838L32.6338 19.3838C33.1221 18.8958 33.1221 18.1042 32.6338 17.6162Z"
+                              fill="#008060" fill-opacity="1.000000" fill-rule="nonzero"/>
                     </g>
-                </svg>                    
+                </svg>
             </div>
             <h3 class="access__title">
                 Мы получили вашу заявку
@@ -125,6 +161,39 @@
             </div>
             <button class="button" type="button">
                 Понятно, жду
+            </button>
+            <div class="cross"></div>
+        </div>
+        <div class="error__callback">
+            <div class="acceess__img">
+                <svg width="34.833332" height="34.833313" viewBox="0 0 34.8333 34.8333" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <defs>
+                        <filter id="filter_8_7_dd" x="4.316090" y="8.224854" width="26.510229" height="26.510254" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dx="0" dy="4"/>
+                            <feGaussianBlur stdDeviation="1.33333"/>
+                            <feComposite in2="hardAlpha" operator="out" k2="-1" k3="1"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect_dropShadow_1"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect_dropShadow_1" result="shape"/>
+                        </filter>
+                    </defs>
+                    <circle id="circle" cx="17.416666" cy="17.416626" r="16.666666" fill="#FF0000" fill-opacity="1.000000"/>
+                    <circle id="circle" cx="17.416666" cy="17.416626" r="16.666666" stroke="#FF0000" stroke-opacity="1.000000" stroke-width="1.500000" stroke-linejoin="round"/>
+                    <g filter="url(#filter_8_7_dd)"/>
+                    <path id="Линия 1" d="M9.57121 25.48L25.5712 9.47998" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="2.500000" stroke-linecap="round"/>
+                    <path id="Линия 2" d="M9.57121 9.47998L24.5712 25.48" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="2.500000" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h3 class="access__title">
+                Некорректные данные
+            </h3>
+            <div class="access__sub-title">
+                Попробуйте еще раз
+            </div>
+            <button class="button" type="button">
+                Понял, попробую
             </button>
             <div class="cross"></div>
         </div>
@@ -645,13 +714,9 @@
     </div>
 
     <script src="{% static 'js/main_page/burger.js' %}"></script>
-    <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script defer src="{% static 'js/main_page/slick.min.js' %}"></script>
-    <script defer src="{% static 'js/main_page/slider.js' %}"></script>
     <script defer src="{% static 'js/main_page/set_bugs.js' %}"></script>
     <script defer src="{% static 'js/main_page/modals.js' %}"></script>
     <script defer src="{% static 'js/main_page/basket.js' %}"></script>
-    <script defer src="{% static 'js/catalog_page/fetch_api_query.js' %}"></script>
     {% block js %}
     {% endblock %}
 </body>
