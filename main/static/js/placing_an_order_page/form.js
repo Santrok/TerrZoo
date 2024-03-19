@@ -123,14 +123,17 @@ function getValuesForm() {
                             margin: 0 auto;'>
                             Продолжить покупки</a>
                             </div>`;
-          localStorage.setItem("basket", JSON.stringify([]));
-          localStorage.setItem("oneClickItem", JSON.stringify([]));
-          countPayCard = 0;
-          addBasketItemToHover();
-          setCountInBasket();
-        }
-      }
-    });
+                            if (oneClickItem  !== null) {
+                                localStorage.setItem("oneClickItem", JSON.stringify([]));
+                            } else {
+                                localStorage.setItem("basket", JSON.stringify([]));
+                            }
+                            countPayCard =0
+                            addBasketItemToHover()
+                            setCountInBasket()
+                          }
+                        }
+        });
 }
 
 function getCookie(name) {
