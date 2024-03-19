@@ -209,7 +209,6 @@ if (porductListInModals) {
             } else {
               buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
             }
-            console.log(e.currentTarget.parentElement.children[2].children[0].children[0].textContent);
             if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт" 
             || e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт." ) {
               weightButton.style.display = "none";
@@ -250,7 +249,6 @@ sliderButton.forEach((item) => {
         } else {
           buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
         }
-        console.log(e.currentTarget.parentElement.children[2].children[0].children[0].textContent);
         if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт" 
         || e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
           weightButton.style.display = "none";
@@ -353,9 +351,6 @@ aboutProductBuy?.addEventListener("click", (e) => {
             ).toFixed(2) + " BYN";
           pricePerOneKg =
             e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg;
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
-          );
           buyOneClickModalCountInit.textContent = aboutProductInput.value;
           localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.trim());
         } else {
@@ -367,9 +362,6 @@ aboutProductBuy?.addEventListener("click", (e) => {
             ).toFixed(2) + " BYN";
           pricePerOneKg =
             e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg;
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
-          );
           buyOneClickModalCountInit.textContent = aboutProductInput.value;
           localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.trim());
         }
@@ -399,9 +391,6 @@ aboutProductBuy?.addEventListener("click", (e) => {
             ).toFixed(2) + " BYN";
           pricePerOneKg =
             e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg;
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
-          );
           buyOneClickModalCountInit.textContent = aboutProductInput.value;
           localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.trim());
         }

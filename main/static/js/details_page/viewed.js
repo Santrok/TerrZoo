@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const id = document.querySelector(".about__product-basket-btn").dataset.productId;
   const view = localStorage.getItem("viewed") !== null ? JSON.parse(localStorage.getItem("viewed")) : [];
-  console.log(!view.includes(+id));
   if (!view.includes(+id)) view.push(+id);
   localStorage.setItem("viewed", JSON.stringify(view));
   function getViewed(url) {

@@ -5,12 +5,8 @@ formButton.addEventListener('click',getValuesForm)
 function getValuesForm(){
     const form = document.querySelector('#info_order')
     const orderPrice = document.querySelector('.order_price')
-    console.log(form)
-    console.log(orderPrice.innerText)
     const basketArray = localStorage.getItem("basket") || null
     const oneClickItem = localStorage.getItem('oneClickItem') || null
-    console.log(1, basketArray)
-    console.log(2, oneClickItem)
     let valuesToFetch = new FormData()
     valuesToFetch.append('basket',basketArray)
     valuesToFetch.append('oneClickItem',oneClickItem)
@@ -24,7 +20,6 @@ function getValuesForm(){
             valuesToFetch.append(i.name,i.value)
         }
         if (i.id ==='pickup' && i.checked){
-            console.log(i)
             let selectData = document.querySelector('#stores_for_pickup')
             valuesToFetch.append(i.name,i.id)
             valuesToFetch.append('address',selectData.value)
@@ -60,7 +55,6 @@ function getValuesForm(){
     })
       .then((resp) => resp.json())
         .then(data=>{
-            console.log(data)
             if (data.error) {
                           let er = document.querySelector(".error");
                           er.innerHTML = `<p style="color:red; margin-top: 10px">${data.error}</p>`;

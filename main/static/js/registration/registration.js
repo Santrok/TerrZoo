@@ -1,7 +1,5 @@
 const inputPasswrod = document.getElementById('password_register_field')
 const inputDiv = inputPasswrod.parentElement
-// console.log(inputDiv);
-// const regexp = new RegExp(/^(?=.*[A-Z])(?=.*[0-9]).{8,}$/)
 
 const div = document.createElement('div')
 div.classList.add('checking__difficultly')
