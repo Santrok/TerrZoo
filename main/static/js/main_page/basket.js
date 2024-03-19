@@ -1,4 +1,4 @@
-const sliderItemBasketBtnAllPage = document.querySelectorAll(".slider__item-basket");
+const sliderItemBasketBtnMain = document.querySelectorAll(".slider__item-basket");
 const headerBottomBasketCountMain = document.querySelector(".header__bottom-basket > p");
 const headerBottomBasketValueMobMain = document.querySelector(".header__bottom-basket-value");
 const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
@@ -308,7 +308,7 @@ function addBasketItemToHover() {
 
 addBasketItemToHover();
 
-sliderItemBasketBtnAllPage.forEach((item) => {
+sliderItemBasketBtnMain.forEach((item) => {
   item.addEventListener("click", (event) => {
     addBasketItemToLocalStorage(event);
     addBasketItemToHover();
