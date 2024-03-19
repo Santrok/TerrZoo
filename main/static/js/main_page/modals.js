@@ -26,6 +26,7 @@ const nameInputCallback = document.querySelector('.callback__field-item input[na
 const phoneInputCallback = document.querySelector('.callback__field-item input[name="phone"]');
 const nameInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="name"]');
 const phoneInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="phone"]');
+const oneClickSend = document.querySelector('.button_buy_one_click')
 // regexp for name input
 nameInputCallback.oninput = (e) => {
   e.currentTarget.value = e.currentTarget.value.replace(/[^\sа-яё]/gi, '')
@@ -113,8 +114,7 @@ modal.addEventListener("click", (e) => {
     e.target.children[0].classList.remove("modal__active");
     e.target.classList.remove("modal__active");
     document.body.style.overflow = "auto";
-    buyOneClickModalCount = 1;
-    buyOneClickModalCountInit.textContent = buyOneClickModalCount;
+    buyOneClickModalCountInit.textContent = JSON.parse(localStorage.getItem("buyOneClickModalCount"));
     youWeight.style.display = "none";
   }
 });
@@ -133,6 +133,7 @@ buyOneClickModal.addEventListener("click", (e) => {
         obj.price = parseFloat(
           localStorage.getItem("pricePerOneKg").split(",").join(".") * localStorage.getItem("initWeight").split(',').join('.') * count
         ).toFixed(2)
+
         obj.count = count
         localStorage.setItem('oneClickItem', JSON.stringify(obj))
     } else {
@@ -171,7 +172,6 @@ cross.forEach((item) => {
     item.parentElement.classList.remove("modal__active");
     item.parentElement.parentElement.classList.remove("modal__active");
     document.body.style.overflow = "auto";
-    buyOneClickModalCount = 1;
   });
 });
 
@@ -193,6 +193,7 @@ if (porductListInModals) {
               e.currentTarget.parentElement.children[0].children[0].getAttribute("src")
             );
             buyOneClickTitle.textContent = e.currentTarget.parentElement.children[1].textContent.trim();
+            localStorage.setItem('initWeight', i.textContent.trim().split(' ').splice(0,1).join(''));
             for (let i of e.currentTarget.parentElement.children[2].children) {
               if (i.classList.contains("slider__item-weight-list-item-active")) {
                 buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.textContent}</li>`;
@@ -208,13 +209,15 @@ if (porductListInModals) {
             } else {
               buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
             }
-            if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
+            if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт" 
+            || e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт." ) {
               weightButton.style.display = "none";
             } else {
               weightButton.style.display = "flex";
             }
           }
         }
+        buyOneClickModalEvent(e)
       });
     });
   }).observe(porductListInModals, {
@@ -246,7 +249,8 @@ sliderButton.forEach((item) => {
         } else {
           buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
         }
-        if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
+        if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт" 
+        || e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
           weightButton.style.display = "none";
         } else {
           weightButton.style.display = "flex";
@@ -274,7 +278,7 @@ callbackBtn.addEventListener("click", () => {
     name_user: nameUser.value,
     phone_number_user: phoneUser.value,
   };
-  fetch(`http://127.0.0.1:8000/manager_tasks/callback/`, {
+  fetch(`${localStorage.getItem('baseUrl')}/manager_tasks/callback/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -347,9 +351,6 @@ aboutProductBuy?.addEventListener("click", (e) => {
             ).toFixed(2) + " BYN";
           pricePerOneKg =
             e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg;
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[3].children[0].children[1].dataset.priceperonekg
-          );
           buyOneClickModalCountInit.textContent = aboutProductInput.value;
           localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.trim());
         } else {
@@ -361,9 +362,6 @@ aboutProductBuy?.addEventListener("click", (e) => {
             ).toFixed(2) + " BYN";
           pricePerOneKg =
             e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg;
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].dataset.priceperonekg
-          );
           buyOneClickModalCountInit.textContent = aboutProductInput.value;
           localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.trim());
         }
@@ -393,9 +391,6 @@ aboutProductBuy?.addEventListener("click", (e) => {
             ).toFixed(2) + " BYN";
           pricePerOneKg =
             e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg;
-          console.log(
-            e.currentTarget.parentElement.parentElement.children[2].children[0].children[0].dataset.priceperonekg
-          );
           buyOneClickModalCountInit.textContent = aboutProductInput.value;
           localStorage.setItem("buyOneClickModalCount", buyOneClickModalCountInit.textContent.trim());
         }
@@ -445,3 +440,13 @@ function buyOneClickModalEvent(e) {
     }
     localStorage.setItem("oneClickItem", JSON.stringify(oneClickItemArr));
 }
+
+oneClickSend.addEventListener('click', () => {
+  let storage = JSON.parse(localStorage.getItem("oneClickItem"));
+  storage.name = nameInputOneClick.value
+  storage.phone = phoneInputOneClick.value
+  localStorage.setItem("oneClickItem", JSON.stringify(storage))
+})
+
+
+

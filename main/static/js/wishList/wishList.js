@@ -18,7 +18,7 @@ for (let i of wishList) {
                <div class="products___item-img">
                    <img src="${i.src}" alt="item" />
                </div>
-               <a href="http://127.0.0.1:8000/details/${
+               <a href="${localStorage.getItem('baseUrl')}/details/${
                  i.id
                }" class="products___item-title">
                    ${i.title}

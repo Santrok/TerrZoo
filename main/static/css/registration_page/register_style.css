@@ -15,6 +15,40 @@
     width: 100%;
 }
 
+.checking__difficultly{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.checking__difficultly-text {
+    color: black;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 14px;
+}
+
+.hard {
+    color: green;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 14px;
+}
+
+.normal {
+    color: rgb(238, 111, 7);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 14px;
+}
+
+.easy {
+    color: red;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "SF Pro Text";
+    font-size: 14px;
+}
+
 .form_wrap_register {
     border: 1px solid black;
     border-radius: 10px;

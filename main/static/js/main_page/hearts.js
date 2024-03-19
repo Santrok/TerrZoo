@@ -35,7 +35,7 @@ function heartFunc(e, item) {
       heartsArr.splice(heartsProduct.indexOf(i), 1);
 
       // If the page is the wishlist page, remove the product from the DOM.
-      if(window.location.href === 'http://127.0.0.1:8000/wishlist/') {
+      if(window.location.href === `${localStorage.getItem('baseUrl')}/wishlist/`) {
         item.parentElement.parentElement.remove()
       }
 
@@ -84,7 +84,7 @@ function heartFunc(e, item) {
     item.addEventListener("click", (e) => heartFunc(e, item));
   });
 
-if (productList && window.location.href !== 'http://127.0.0.1:8000/wishlist/') {
+if (productList && window.location.href !== `${localStorage.getItem('baseUrl')}/wishlist/`) {
   new MutationObserver((mutation) => {
     hearts = document.querySelectorAll(".slider__item-hearts");
     hearts.forEach((item) => {

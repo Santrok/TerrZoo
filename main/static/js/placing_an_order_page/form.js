@@ -5,12 +5,8 @@ formButton.addEventListener('click',getValuesForm)
 function getValuesForm(){
     const form = document.querySelector('#info_order')
     const orderPrice = document.querySelector('.order_price')
-    console.log(form)
-    console.log(orderPrice.innerText)
     const basketArray = localStorage.getItem("basket") || null
     const oneClickItem = localStorage.getItem('oneClickItem') || null
-    console.log(1, basketArray)
-    console.log(2, oneClickItem)
     let valuesToFetch = new FormData()
     valuesToFetch.append('basket',basketArray)
     valuesToFetch.append('oneClickItem',oneClickItem)
@@ -24,7 +20,6 @@ function getValuesForm(){
             valuesToFetch.append(i.name,i.value)
         }
         if (i.id ==='pickup' && i.checked){
-            console.log(i)
             let selectData = document.querySelector('#stores_for_pickup')
             valuesToFetch.append(i.name,i.id)
             valuesToFetch.append('address',selectData.value)
@@ -51,8 +46,7 @@ function getValuesForm(){
             valuesToFetch.append(i.name,i.id)
         }
     }
-    console.log(valuesToFetch.get('oneClickItem'))
-    fetch("http://127.0.0.1:8000/placing_an_order/", {
+    fetch(`${localStorage.getItem('baseUrl')}/placing_an_order/`, {
       method: "POST",
       headers: {
         "X-CSRFToken": getCookie("csrftoken"),
@@ -61,7 +55,6 @@ function getValuesForm(){
     })
       .then((resp) => resp.json())
         .then(data=>{
-            console.log(data)
             if (data.error) {
                           let er = document.querySelector(".error");
                           er.innerHTML = `<p style="color:red; margin-top: 10px">${data.error}</p>`;
@@ -70,7 +63,7 @@ function getValuesForm(){
                             let happy = document.querySelector(".block_placing_an_order");
                             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата при получение заказа</h1>
                             <div style='display:flex; align-items:center; justify-content: center; margin-top: 40px'>
-                            <a href='http://127.0.0.1:8000/catalog/'
+                            <a href='${localStorage.getItem('baseUrl')}/catalog/'
                             style='
                             border-radius: 4px;
                             box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.2),0px 1px 0px 0px rgba(0, 0, 0, 0.08);
@@ -97,7 +90,7 @@ function getValuesForm(){
                             let happy = document.querySelector(".block_placing_an_order");
                             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, чек отправлен на email:${data.user_email}</h1>
                             <div style='display:flex; align-items:center; justify-content: center; margin-top: 40px'>
-                            <a href='http://127.0.0.1:8000/catalog/'
+                            <a href='${localStorage.getItem('baseUrl')}/catalog/'
                             style='
                             border-radius: 4px;
                             box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.2),0px 1px 0px 0px rgba(0, 0, 0, 0.08);

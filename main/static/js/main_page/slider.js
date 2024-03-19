@@ -54,7 +54,7 @@ $(document).ready(function() {
         }
     })
 
-    if(window.location.href === 'http://127.0.0.1:8000/basket/' || window.location.href === 'http://127.0.0.1:8000/viewed_products/') {
+    if(window.location.href === `${localStorage.getItem('baseUrl')}/basket/` || window.location.href === `${localStorage.getItem('baseUrl')}/viewed_products/`) {
         for(let i of JSON.parse(localStorage.getItem('viewedProducts'))) {
             const article = document.createElement('article')
             article.classList.add('slider__item')
@@ -63,7 +63,7 @@ $(document).ready(function() {
                 <div class="slider__item-img">
                   <img data-lazy="${i.image_prev}" alt="${i.title}" />
                 </div>
-                <a href="http://127.0.0.1:8000/details/${i.id}" class="slider__item-title">${i.title}</a>
+                <a href="${localStorage.getItem('baseUrl')}/details/${i.id}" class="slider__item-title">${i.title}</a>
                 <ul class="slider__item-weight-list">
                 ${i.countitemproduct_set
                     ?.map(
