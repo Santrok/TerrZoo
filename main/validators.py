@@ -23,7 +23,7 @@ def validate_username(username):
     #      raise forms.ValidationError('Недопустимое имя')
 
 def validate_phone(phone_number):
-    if not re.match(r'\+\d{3}\(\d{2}\)\s\d{3}-\d{2}-\d{2}', phone_number):
+    if not re.match(r'\+\d{3}\s\(\d{2}\)\s\d{3}-\d{2}-\d{2}', phone_number):
         raise forms.ValidationError('Некорректный номер телефона')
 
 
