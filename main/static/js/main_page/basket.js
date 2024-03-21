@@ -201,7 +201,6 @@ function addBasketItemToLocalStorage(e) {
   ).splice(0, 6);
 
   // If weight options are selected, add the item to the basket
-  if (array.length !== 0) {
     basketArrayObj.push({
       count: 1, // The initial count of the item
       id: e.currentTarget.parentElement.parentElement.dataset.id, // The ID of the item
@@ -219,7 +218,6 @@ function addBasketItemToLocalStorage(e) {
     });
     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
     setCountInBasket(); // Update the count in the basket
-  }
 }
 
 /**
@@ -313,8 +311,8 @@ addBasketItemToHover();
 
 sliderItemBasketBtnMain.forEach((item) => {
   item.addEventListener("click", (event) => {
-    addBasketItemToLocalStorage(event);
-    addBasketItemToHover();
+    // addBasketItemToLocalStorage(event);
+    // addBasketItemToHover();
   });
 });
 // product list observer for catalog page
@@ -390,7 +388,13 @@ productsList
 let viewProductObserver = new MutationObserver(() => {
   const sliderButton = document.querySelectorAll(".slider__item-btn");
   const sliderItemBtn = document.querySelectorAll(".slider__item-basket");
+  if(window.location.href !== `${localStorage.getItem('baseUrl')}//basket/`){
+    localStorage.removeItem('oneClickItem')
+  }
   sliderItemBtn.forEach((item) => {
+    item.removeEventListener("click", (event) => {
+    })
+
     item.addEventListener("click", (event) => {
       addBasketItemToLocalStorage(event);
       addBasketItemToHover();

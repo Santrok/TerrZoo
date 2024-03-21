@@ -1,15 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Получение элементов для событий
-
     const searchInput = document.querySelector("#search__input")
     const insertResultData = document.querySelector('.search__drop-down')
     searchInput.addEventListener('input', fetchQueryParams)
-    searchInput.addEventListener('keyup', getPageCatalog)
+    searchInput.addEventListener('keyup', (e) => getPageCatalog(e, searchInput))
 
-    function getPageCatalog(e) {
+    function getPageCatalog(e, input) {
         if (e.code === "Enter") {
             window.location.href = `${localStorage.getItem('baseUrl')}/search/`
-            localStorage.setItem('searchKeyWord', searchInput.value.trim())
+            localStorage.setItem('searchKeyWord', input.value.trim())
         }
     }
 
@@ -45,4 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             insertResultData.innerHTML = 'Ничего не найдено'
         }
     }
+    const inputMob = document.querySelector('.header__up-search input')
+    inputMob.addEventListener('input', fetchQueryParams)
+    inputMob.addEventListener('keyup', (e) => getPageCatalog(e, inputMob))
 })
