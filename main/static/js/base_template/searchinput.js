@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Получение элементов для событий
   const searchInput = document.querySelector("#search__input");
   const insertResultData = document.querySelector(".search__drop-down");
+  const wrap = document.querySelector(".wrapper");
   searchInput.addEventListener("input", fetchQueryParams);
   searchInput.addEventListener("keyup", (e) => getPageCatalog(e, searchInput));
-
 
   function getPageCatalog(e, input) {
     if (e.code === "Enter") {
@@ -13,12 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  searchInput.addEventListener("focusout", (e) => {
-    console.log(e.target)
-    if(searchInput.value.length < 3){
-        insertResultData.style.display = 'none'
-        insertResultData.innerHTML = ''
+  wrap.addEventListener("click", (e) => {
+    if (
+      e.target.parentElement.classList.contains("search__drop-down-item") ||
+      e.target.classList.contains("search__drop-down-item") ||
+      e.target.parentElement.classList.contains("header__bottom-search")
+    ) {
+        return
     }
+    insertResultData.style.display = "none";
+    insertResultData.innerHTML = "";
   });
 
   function fetchQueryParams(event) {
@@ -26,14 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(`${localStorage.getItem("baseUrl")}/api/get_search_product/?title=${searchInput.value}`)
         .then((resp) => resp.json())
         .then((data) => {
-          localStorage.setItem("result_search_objects", JSON.stringify(data.results));
-
           insertResultData.style.display = "block";
           insertResultData.innerHTML = "";
           for (let item of data.results) {
-            insertResultData.innerHTML += `<a class="search__drop-down-item" href="${localStorage.getItem(
+            insertResultData.innerHTML += `<a class="search__drop-down-item" href=${localStorage.getItem(
               "baseUrl"
-            )}/details/${item.id}">
+            )}/details/${item.id}>
                             <div class="search__drop-down-item-img">
                                 <img src="${item.image_prev}" alt="item">
                             </div>
