@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       setCountInBasket();
     });
+    personalWeightInit()
   }).observe(hoverList, {
     childList: true,
     subtree: true,
@@ -119,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 )}
             </ul>
             ${i.weight.map((item) => {
-              if (item.split(" ")[1] !== "шт.") {
+              if (item.split(" ")[1] !== "шт") {
                 return `
                 <div class="basket__list-item-weight-wrap">
                     <p class="basket__list-item-weight-text">Указать свой вес</p>
@@ -326,4 +327,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
+
+  function personalWeightInit(){
+    const personalWeightBtn = document.querySelectorAll('.basket__list-item-weight-text');      
+    personalWeightBtn.forEach(item => {
+      item.removeEventListener('click', personalWeight)
+      item.addEventListener('click', personalWeight)
+    })
+  }
+
+  function personalWeight() {
+    
+  }
+  personalWeightInit()
 });

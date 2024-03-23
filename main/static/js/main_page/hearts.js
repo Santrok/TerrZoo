@@ -80,9 +80,11 @@ function heartFunc(e, item) {
   localStorage.setItem("heartsProduct", JSON.stringify(heartsArr));
 }
 
-  hearts.forEach((item) => {
-    item.addEventListener("click", (e) => heartFunc(e, item));
-  });
+if(window.location.href !== `${localStorage.getItem('baseUrl')}/basket/`) {
+    hearts.forEach((item) => {
+      item.addEventListener("click", (e) => heartFunc(e, item));
+    });
+}
 
 if (productList && window.location.href !== `${localStorage.getItem('baseUrl')}/wishlist/`) {
   new MutationObserver((mutation) => {
@@ -102,3 +104,5 @@ if (productList && window.location.href !== `${localStorage.getItem('baseUrl')}/
     subtree: true,
   });
 }
+
+

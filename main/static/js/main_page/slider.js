@@ -1,84 +1,82 @@
-$(document).ready(function() {
-    $('.popular__goods-slider').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        Infinity: true,
-        initialSlide: 0,
-        variableWidth: true,
-        lazyload: 'progressive',
-        nextArrow: $('.popular__goods-arrow-next'),
-        prevArrow: $('.popular__goods-arrow-prev'),
-        responsive: {
-            992: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    })
-    $('.new__product-slider').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        Infinity: true,
-        initialSlide: 0,
-        variableWidth: true,
-        lazyload: 'progressive',
-        nextArrow: $('.new__product-arrow-next'),
-        prevArrow: $('.new__product-arrow-prev'),
-        responsive: {
-            992: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    })
-    $('.feedback__slider').slick({
+$(document).ready(function () {
+  $(".popular__goods-slider").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    Infinity: true,
+    initialSlide: 0,
+    variableWidth: true,
+    lazyload: "progressive",
+    nextArrow: $(".popular__goods-arrow-next"),
+    prevArrow: $(".popular__goods-arrow-prev"),
+    responsive: {
+      992: {
         slidesToShow: 1,
-        slidesToScroll:1,
-        lazyload: 'progressive',
-        nextArrow: $('.feedback__arrow-next'),
-        prevArrow: $('.feedback__arrow-prev'),
-    })
-    $('.articles__slider').slick({
-        slidesToShow:3,
-        slidesToScroll:1,
-        Infinity:true,
-        variableWidth:true,
-        lazyload: 'progressive',
-        nextArrow: $('.articles__arrow-next'),
-        prevArrow: $('.articles__arrow-prev'),
-        responsive: {
-            992: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    })
+        slidesToScroll: 1,
+      },
+    },
+  });
+  $(".new__product-slider").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    Infinity: true,
+    initialSlide: 0,
+    variableWidth: true,
+    lazyload: "progressive",
+    nextArrow: $(".new__product-arrow-next"),
+    prevArrow: $(".new__product-arrow-prev"),
+    responsive: {
+      992: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  });
+  $(".feedback__slider").slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    lazyload: "progressive",
+    nextArrow: $(".feedback__arrow-next"),
+    prevArrow: $(".feedback__arrow-prev"),
+  });
+  $(".articles__slider").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    Infinity: true,
+    variableWidth: true,
+    lazyload: "progressive",
+    nextArrow: $(".articles__arrow-next"),
+    prevArrow: $(".articles__arrow-prev"),
+    responsive: {
+      992: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  });
 
-    if(window.location.href === `${localStorage.getItem('baseUrl')}/basket/` || window.location.href === `${localStorage.getItem('baseUrl')}/viewed_products/`) {
-        for(let i of JSON.parse(localStorage.getItem('viewedProducts'))) {
-            const article = document.createElement('article')
-            article.classList.add('slider__item')
-            article.dataset.id = i.id
-            article.innerHTML = `
+  if (
+    window.location.href === `${localStorage.getItem("baseUrl")}/basket/` ||
+    window.location.href === `${localStorage.getItem("baseUrl")}/viewed_products/`
+  ) {
+    const heartsArr = JSON.parse(localStorage.getItem("heartsProduct")) || [];
+    for (let i of JSON.parse(localStorage.getItem("viewedProducts"))) {
+      const article = document.createElement("article");
+      article.classList.add("slider__item");
+      article.dataset.id = i.id;
+      article.innerHTML = `
                 <div class="slider__item-img">
                   <img data-lazy="${i.image_prev}" alt="${i.title}" />
                 </div>
-                <a href="${localStorage.getItem('baseUrl')}/details/${i.id}" class="slider__item-title">${i.title}</a>
+                <a href="${localStorage.getItem("baseUrl")}/details/${i.id}" class="slider__item-title">${i.title}</a>
                 <ul class="slider__item-weight-list">
                 ${i.countitemproduct_set
-                    ?.map(
-                      (item) =>
-                        `<li class="slider__item-weight-list-item" data-weight-id="${
-                          item.id
-                        }" data-weight-price="${
-                          (item.percent / 100) *
-                          parseFloat(
-                            ((100 - i.sale.percent) / 100) *
-                              parseFloat(i.price)
-                          )
-                        }">${item.value} <span>${item.unit}</span></li>`
-                    )
-                    .join("")}
+                  ?.map(
+                    (item) =>
+                      `<li class="slider__item-weight-list-item" data-weight-id="${item.id}" data-weight-price="${
+                        (item.percent / 100) * parseFloat(((100 - i.sale.percent) / 100) * parseFloat(i.price))
+                      }">${item.value} <span>${item.unit}</span></li>`
+                  )
+                  .join("")}
                 </ul>
                 <div class="slider__item-price-basket">
                   <div class="slider__item-price-basket-wrap">
@@ -90,12 +88,9 @@ $(document).ready(function() {
                   </p>
                   <div class="slider__item-price-currency-wrap">
                       <p class="slider__item-price" data-pricePerOneKg="${(
-                       ((100 - i.sale.percent) / 100) *
-                       parseFloat(i.price)
-                     ).toFixed(2)}">${(
                         ((100 - i.sale.percent) / 100) *
                         parseFloat(i.price)
-                      ).toFixed(2)}</p>
+                      ).toFixed(2)}">${(((100 - i.sale.percent) / 100) * parseFloat(i.price)).toFixed(2)}</p>
                   <p class="slider__item-currency">
                       BYN
                   </p>
@@ -128,14 +123,16 @@ $(document).ready(function() {
                   </div>
                 </div>
                 ${
-                    i.sale?.percent
-                      ? `<div class="slider__item-promotion">
+                  i.sale?.percent
+                    ? `<div class="slider__item-promotion">
                       Акция
                   </div>`
-                      : ""
-                  }
+                    : ""
+                }
                 <button type="button" class="slider__item-btn">Купить в 1 клик</button>
-                <div class="slider__item-hearts">
+                <div class="slider__item-hearts ${heartsArr
+                  .map((item) => (+item.id === +i.id ? "slider__item-hearts-active" : ""))
+                  .join("")}">
                   <div class="slider__item-hearts-wrap">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,8 +153,12 @@ $(document).ready(function() {
                     </svg>
                   </div>
                 </div>
-            `
-            $('.popular__goods-slider').slick('slickAdd', article)
-        }
+            `;
+      $(".popular__goods-slider").slick("slickAdd", article);
     }
-})
+    hearts = document.querySelectorAll(".slider__item-hearts");
+    hearts.forEach((item) => {
+      item.addEventListener("click", (e) => heartFunc(e, item));
+    });
+  }
+});

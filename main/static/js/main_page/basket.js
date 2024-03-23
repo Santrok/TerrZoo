@@ -175,7 +175,7 @@ function addBasketItemToLocalStorage(e) {
   }
   // Get the basket array from local storage, or initialize an empty array
   let basketArrayObj = JSON.parse(localStorage.getItem("basket")) || [];
-  // Check if the item already exists in the basket
+  // Check if the item already exists in the basket and return 
   for (let i of basketArrayObj) {
     if (
       i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
@@ -185,10 +185,6 @@ function addBasketItemToLocalStorage(e) {
         )
         .includes(i.weight.join(""))
     ) {
-      // If the item exists, increment its count and update its price
-      i.count += 1;
-      i.price = Number(i.count * i.initPrice);
-      localStorage.setItem("basket", JSON.stringify(basketArrayObj));
       return;
     }
   }
@@ -311,8 +307,8 @@ addBasketItemToHover();
 
 sliderItemBasketBtnMain.forEach((item) => {
   item.addEventListener("click", (event) => {
-    // addBasketItemToLocalStorage(event);
-    // addBasketItemToHover();
+    addBasketItemToLocalStorage(event);
+    addBasketItemToHover();
   });
 });
 // product list observer for catalog page
@@ -394,7 +390,6 @@ let viewProductObserver = new MutationObserver(() => {
   sliderItemBtn.forEach((item) => {
     item.removeEventListener("click", (event) => {
     })
-
     item.addEventListener("click", (event) => {
       addBasketItemToLocalStorage(event);
       addBasketItemToHover();
@@ -486,6 +481,7 @@ let viewProductObserver = new MutationObserver(() => {
       }
     });
   });
+  
 });
 viewProduct
   ? viewProductObserver.observe(viewProduct, {
