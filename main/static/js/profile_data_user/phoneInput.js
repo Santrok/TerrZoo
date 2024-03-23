@@ -1,6 +1,5 @@
 const input = document.getElementById("id_phone_number");
 const orderInput = document.getElementById('phone')
-console.log(111);
   function phoneInputFunc(input) {
     input.value = input.value.replace(/[^0-9()+\s-]/g, "");
     input.addEventListener("keydown", (e) => {

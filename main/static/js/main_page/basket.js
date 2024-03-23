@@ -175,7 +175,7 @@ function addBasketItemToLocalStorage(e) {
   }
   // Get the basket array from local storage, or initialize an empty array
   let basketArrayObj = JSON.parse(localStorage.getItem("basket")) || [];
-  // Check if the item already exists in the basket
+  // Check if the item already exists in the basket and return 
   for (let i of basketArrayObj) {
     if (
       i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
@@ -185,10 +185,6 @@ function addBasketItemToLocalStorage(e) {
         )
         .includes(i.weight.join(""))
     ) {
-      // If the item exists, increment its count and update its price
-      i.count += 1;
-      i.price = Number(i.count * i.initPrice);
-      localStorage.setItem("basket", JSON.stringify(basketArrayObj));
       return;
     }
   }
@@ -199,9 +195,7 @@ function addBasketItemToLocalStorage(e) {
       ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
       : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
   ).splice(0, 6);
-
   // If weight options are selected, add the item to the basket
-  if (array.length !== 0) {
     basketArrayObj.push({
       count: 1, // The initial count of the item
       id: e.currentTarget.parentElement.parentElement.dataset.id, // The ID of the item
@@ -216,10 +210,13 @@ function addBasketItemToLocalStorage(e) {
           ? true
           : false, // Whether the item is on promotion
       href: e.currentTarget.parentElement.parentElement.children[1].href, // The href of the item's link
+      priceKg: e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+      e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
+      ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].dataset.priceperonekg
+      : e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].dataset.priceperonekg
     });
     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
     setCountInBasket(); // Update the count in the basket
-  }
 }
 
 /**
@@ -390,7 +387,12 @@ productsList
 let viewProductObserver = new MutationObserver(() => {
   const sliderButton = document.querySelectorAll(".slider__item-btn");
   const sliderItemBtn = document.querySelectorAll(".slider__item-basket");
+  if(window.location.href !== `${localStorage.getItem('baseUrl')}//basket/`){
+    localStorage.removeItem('oneClickItem')
+  }
   sliderItemBtn.forEach((item) => {
+    item.removeEventListener("click", (event) => {
+    })
     item.addEventListener("click", (event) => {
       addBasketItemToLocalStorage(event);
       addBasketItemToHover();
@@ -482,6 +484,7 @@ let viewProductObserver = new MutationObserver(() => {
       }
     });
   });
+  
 });
 viewProduct
   ? viewProductObserver.observe(viewProduct, {

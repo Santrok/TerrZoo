@@ -262,7 +262,8 @@
   top: 0;
   left: -100%;
   transition: 0.5s ease;
-  z-index: 1;
+  z-index: 3;
+  overflow: auto;
 }
 
 .catalog__filter-active {
@@ -436,47 +437,6 @@
   margin-bottom: 8px;
 }
 
-.brand__search {
-  display: flex;
-  position: relative;
-  margin-bottom: 9px;
-}
-.brand__search input {
-  width: 100%;
-  border: 1px solid rgb(140, 145, 150);
-  border-radius: 4px;
-  padding: 8px 12px 8px 36px;
-  color: rgb(109, 113, 117);
-  font-family: SF Pro Text;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0px;
-}
-.brand__search input::-moz-placeholder {
-  color: rgb(109, 113, 117);
-  font-family: SF Pro Text;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0px;
-}
-.brand__search input::placeholder {
-  color: rgb(109, 113, 117);
-  font-family: SF Pro Text;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0px;
-}
-
-.brand__search-img {
-  position: absolute;
-  top: 8px;
-  left: 12px;
-  max-height: 20px;
-}
-
 .brand__list {
   display: flex;
   flex-direction: column;
@@ -516,25 +476,6 @@
   border: none;
 }
 
-.filter__button {
-  margin-top: 25px;
-  padding: 8px 16px;
-  border-radius: 4px;
-  box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.2), 0px 1px 0px 0px rgba(0, 0, 0, 0.08);
-  background: rgb(0, 160, 172);
-  color: rgb(255, 255, 255);
-  font-family: SF Pro Text;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0px;
-  width: 100%;
-}
-.filter__button:hover {
-  border-radius: 4px;
-  background: var(--Text-Highlight, #347c84);
-  box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.2) inset, 0px 1px 0px 0px rgba(0, 0, 0, 0.08);
-}
 
 @media (min-width: 992px) {
   .catalog__filter {
@@ -564,9 +505,6 @@
     padding: 16px;
     border-radius: 5px;
     background: #fff;
-  }
-  .filter__button {
-    display: none;
   }
 }
 .products {
@@ -683,9 +621,7 @@
   .filter__brand-title {
     margin-bottom: 16px;
   }
-  .brand__search {
-    margin-bottom: 16px;
-  }
+
   .products__prev {
     display: flex;
     align-items: center;

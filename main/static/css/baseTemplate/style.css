@@ -1802,13 +1802,15 @@ footer {
 }
 
 .search__drop-down {
-  overflow: auto;
-  display: none;
-  max-height: 300px;
   width: 100%;
   position: absolute;
   top: 40px;
   left: 0;
+  padding-top: 5px;
+  overflow: auto;
+  display: none;
+  max-height: 300px;
+  width: 100%;
   background: #fff;
   border-radius: 8px;
   padding-top: 8px;

@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       setCountInBasket();
     });
+    personalWeightInit();
   }).observe(hoverList, {
     childList: true,
     subtree: true,
@@ -119,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 )}
             </ul>
             ${i.weight.map((item) => {
-              if (item.split(" ")[1] !== "шт.") {
+              if (item.split(" ")[1] !== "шт") {
                 return `
                 <div class="basket__list-item-weight-wrap">
                     <p class="basket__list-item-weight-text">Указать свой вес</p>
@@ -326,4 +327,55 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
+
+  function personalWeightInit() {
+    const personalWeightBtn = document.querySelectorAll(".basket__list-item-weight-text");
+    personalWeightBtn.forEach((item) => {
+      item.removeEventListener("click", personalWeight);
+      item.addEventListener("click", personalWeight);
+    });
+  }
+
+  function personalWeight(e) {
+    const listItem = e.currentTarget?.parentElement?.parentElement?.parentElement?.parentElement;
+    const currentElem = e.currentTarget?.parentElement;
+    const personalweightBlock = currentElem?.children[1];
+    const inputvalue = personalweightBlock.children[0];
+    const submitbtn = currentElem?.children[1]?.children[1];
+    const basketValue = JSON.parse(localStorage.getItem("basket"));
+    const weightValue = listItem.children[1].children[1].children[1].children[0].textContent.trim()
+    if (personalweightBlock.style.display !== "flex") {
+      personalweightBlock.style.display = "flex";
+    } else {
+      personalweightBlock.style.display = "none";
+    }
+    submitbtn.addEventListener("click", () => {
+      basketValue.forEach((item) => {
+        if (item.id === listItem.dataset.id && item.weight.join('') === weightValue) {
+          if (+item.priceKg !== +inputvalue.value) {
+            item.price = (item.priceKg * inputvalue.value * item.count).toFixed(2);
+            item.initPrice = (item.priceKg * inputvalue.value * item.count).toFixed(2);
+            item.weight.forEach((weight) => {
+              if (weight.split(" ")[1] === "кг" || weight.split(" ")[1] === "л") {
+                item.weight = [`${inputvalue.value} ${weight.split(" ")[1]}`];
+              }
+            });
+            localStorage.setItem("basket", JSON.stringify(basketValue));
+            basketItemsUpdate(e)
+          }
+        }
+      });
+    });
+  }
+function basketItemsUpdate(e) {
+  basketList.innerHTML = ''
+  initBasketItem()
+  basketItem = document.querySelectorAll(".basket__list-item");
+  basketItem.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      basketItems(e);
+    })})
+    personalWeightInit()
+}
+  personalWeightInit();
 });
