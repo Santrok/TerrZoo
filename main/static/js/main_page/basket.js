@@ -195,7 +195,6 @@ function addBasketItemToLocalStorage(e) {
       ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim()
       : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
   ).splice(0, 6);
-
   // If weight options are selected, add the item to the basket
     basketArrayObj.push({
       count: 1, // The initial count of the item
@@ -211,6 +210,10 @@ function addBasketItemToLocalStorage(e) {
           ? true
           : false, // Whether the item is on promotion
       href: e.currentTarget.parentElement.parentElement.children[1].href, // The href of the item's link
+      priceKg: e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+      e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
+      ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].dataset.priceperonekg
+      : e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].dataset.priceperonekg
     });
     localStorage.setItem("basket", JSON.stringify(basketArrayObj));
     setCountInBasket(); // Update the count in the basket
