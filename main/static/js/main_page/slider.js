@@ -8,12 +8,15 @@ $(document).ready(function () {
     lazyload: "progressive",
     nextArrow: $(".popular__goods-arrow-next"),
     prevArrow: $(".popular__goods-arrow-prev"),
-    responsive: {
-      992: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
+    responsive: [
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      }
+    ]
   });
   $(".new__product-slider").slick({
     slidesToShow: 4,
@@ -24,12 +27,15 @@ $(document).ready(function () {
     lazyload: "progressive",
     nextArrow: $(".new__product-arrow-next"),
     prevArrow: $(".new__product-arrow-prev"),
-    responsive: {
-      992: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
+    responsive: [
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      }
+    ]
   });
   $(".feedback__slider").slick({
     slidesToShow: 1,
@@ -46,12 +52,15 @@ $(document).ready(function () {
     lazyload: "progressive",
     nextArrow: $(".articles__arrow-next"),
     prevArrow: $(".articles__arrow-prev"),
-    responsive: {
-      992: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
+    responsive: [
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      }
+    ]
   });
 
   if (
