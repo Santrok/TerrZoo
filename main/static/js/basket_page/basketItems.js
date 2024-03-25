@@ -359,8 +359,8 @@ document.addEventListener("DOMContentLoaded", () => {
       basketValue.forEach((item) => {
         if (item.id === listItem.dataset.id && item.weight.join('') === weightValue) {
           if (+item.priceKg !== +inputvalue.value) {
-            item.price = (item.priceKg * inputvalue.value * item.count).toFixed(2);
-            item.initPrice = (item.priceKg * inputvalue.value * item.count).toFixed(2);
+            item.price = (item.priceKg.split(',').join('.') * inputvalue.value * item.count).toFixed(2);
+            item.initPrice = (item.priceKg.split(',').join('.') * inputvalue.value * item.count).toFixed(2);
             item.weight.forEach((weight) => {
               if (weight.split(" ")[1] === "кг" || weight.split(" ")[1] === "л") {
                 item.weight = [`${inputvalue.value} ${weight.split(" ")[1]}`];
