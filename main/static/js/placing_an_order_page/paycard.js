@@ -16,7 +16,6 @@ if (payOnlineCheckbox) {
 //-----------------------------------------------------------------------
 const form_payment = document.querySelector(".info_about_client_form");
 const button_order = document.querySelector(".button_order");
-// button_order.addEventListener("click", send_form);
 const order_price = document.querySelector(".order_price");
 const product_count = document.querySelector(".product_count");
 const data_storage = JSON.parse(localStorage.getItem("basket"));
@@ -44,53 +43,6 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-// function send_form() {
-//   let data = new FormData(form_payment);
-//   data.append("basket", JSON.stringify(data_storage));
-//   data.append("order_price", JSON.stringify(+pricePayCard.toFixed(2)));
-//   data.append("product_count", JSON.stringify(countPayCard));
-//   let check = "";
-//   if (document.querySelector("#cash").checked) {
-//     check = document.querySelector("#cash").id;
-//   } else if (document.querySelector("#pay_online").checked) {
-//     check = document.querySelector("#pay_online").id;
-//   }
-//   data.append("check", check);
-//   if (document.querySelector("#cash").checked || document.querySelector("#pay_online").checked) {
-//     fetch("http://127.0.0.1:8000/placing_an_order/", {
-//       method: "POST",
-//       headers: {
-//         "X-CSRFToken": getCookie("csrftoken"),
-//       },
-//       body: data,
-//     })
-//       .then((resp) => resp.json())
-//       .then((data) => {
-//         if (data.error) {
-//           let er = document.querySelector(".error");
-//           er.innerHTML = `<p style="color:red">${data.error}</p>`;
-//         } else {
-//           if (document.querySelector("#cash").checked) {
-//             let happy = document.querySelector(".block_placing_an_order");
-//             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, оплата на пункте выдачи</h1>`;
-//             localStorage.setItem("basket", JSON.stringify([]));
-//             countPayCard=0
-//             setCountInBasket()
-//             addBasketItemToHover()
-//           } else {
-//             let happy = document.querySelector(".block_placing_an_order");
-//             happy.innerHTML = `<h1 style='color:black; font-family: SF Pro Text;font-size:30px;font-weight:500;'>Заказ №${data.order_number} оформлен, чек отправлен на email:${data.user_email}</h1>`;
-//             localStorage.setItem("basket", JSON.stringify([]));
-//             countPayCard =0
-//             addBasketItemToHover()
-//             setCountInBasket()
-//           }
-//         }
-//       });
-//   }
-// }
-// //-----------------------------------------------------------
-// фукнции обновления счетчика в корзине и выпадающего меню
 
 function addBasketItemToHover() {
   const basketArray = JSON.parse(localStorage.getItem("basket"));

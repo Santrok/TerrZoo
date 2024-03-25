@@ -11,11 +11,11 @@ const aboutProductAction = document.querySelector(".about__product-action");
 const yourWeightBtn = document.querySelector(".about__product-your-weight-hide button");
 const aboutProductWeightSpan = document.querySelector(".about__product-price-weight span");
 const viewProduct = document.querySelector(".popular__goods-slider");
-const wrapper = document.querySelector('.wrapper')
-localStorage.setItem('baseUrl', wrapper.dataset.url)
+const wrapper = document.querySelector(".wrapper");
+localStorage.setItem("baseUrl", wrapper.dataset.url);
 
-if(window.location.href !== `${localStorage.getItem('baseUrl')}/placing_an_order/`){
-  localStorage.removeItem('oneClickItem')
+if (window.location.href !== `${localStorage.getItem("baseUrl")}/placing_an_order/`) {
+  localStorage.removeItem("oneClickItem");
 }
 // slider item weight list click
 sliderItemWeightList.forEach((item) => {
@@ -175,7 +175,7 @@ function addBasketItemToLocalStorage(e) {
   }
   // Get the basket array from local storage, or initialize an empty array
   let basketArrayObj = JSON.parse(localStorage.getItem("basket")) || [];
-  // Check if the item already exists in the basket and return 
+  // Check if the item already exists in the basket and return
   for (let i of basketArrayObj) {
     if (
       i.id === e.currentTarget.parentElement.parentElement.dataset.id &&
@@ -196,27 +196,30 @@ function addBasketItemToLocalStorage(e) {
       : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
   ).splice(0, 6);
   // If weight options are selected, add the item to the basket
-    basketArrayObj.push({
-      count: 1, // The initial count of the item
-      id: e.currentTarget.parentElement.parentElement.dataset.id, // The ID of the item
-      title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(), // The title of the item
-      src: e.currentTarget.parentElement.parentElement.children[0].children[0].src, // The src of the item's image
-      weight: array, // The selected weight options
-      initPrice: +parseFloat(price.join("")).toFixed(2), // The initial price of the item
-      price: +parseFloat(price.join("")).toFixed(2), // The current price of the item
-      promotion:
-        e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
-        e.currentTarget.parentElement.parentElement.children[4].classList.contains("products___item-promotion")
-          ? true
-          : false, // Whether the item is on promotion
-      href: e.currentTarget.parentElement.parentElement.children[1].href, // The href of the item's link
-      priceKg: e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+  basketArrayObj.push({
+    count: 1, // The initial count of the item
+    id: e.currentTarget.parentElement.parentElement.dataset.id, // The ID of the item
+    title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(), // The title of the item
+    src: e.currentTarget.parentElement.parentElement.children[0].children[0].src, // The src of the item's image
+    weight: array, // The selected weight options
+    initPrice: +parseFloat(price.join("")).toFixed(2), // The initial price of the item
+    price: +parseFloat(price.join("")).toFixed(2), // The current price of the item
+    promotion:
+      e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
+      e.currentTarget.parentElement.parentElement.children[4].classList.contains("products___item-promotion")
+        ? true
+        : false, // Whether the item is on promotion
+    href: e.currentTarget.parentElement.parentElement.children[1].href, // The href of the item's link
+    priceKg:
+      e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
       e.currentTarget.parentElement.parentElement.children[4]?.classList.contains("products___item-promotion")
-      ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0].dataset.priceperonekg
-      : e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].dataset.priceperonekg
-    });
-    localStorage.setItem("basket", JSON.stringify(basketArrayObj));
-    setCountInBasket(); // Update the count in the basket
+        ? e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[1].children[0]
+            .dataset.priceperonekg
+        : e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].dataset
+            .priceperonekg,
+  });
+  localStorage.setItem("basket", JSON.stringify(basketArrayObj));
+  setCountInBasket(); // Update the count in the basket
 }
 
 /**
@@ -387,12 +390,11 @@ productsList
 let viewProductObserver = new MutationObserver(() => {
   const sliderButton = document.querySelectorAll(".slider__item-btn");
   const sliderItemBtn = document.querySelectorAll(".slider__item-basket");
-  if(window.location.href !== `${localStorage.getItem('baseUrl')}//basket/`){
-    localStorage.removeItem('oneClickItem')
+  if (window.location.href !== `${localStorage.getItem("baseUrl")}//basket/`) {
+    localStorage.removeItem("oneClickItem");
   }
   sliderItemBtn.forEach((item) => {
-    item.removeEventListener("click", (event) => {
-    })
+    item.removeEventListener("click", (event) => {});
     item.addEventListener("click", (event) => {
       addBasketItemToLocalStorage(event);
       addBasketItemToHover();
@@ -475,7 +477,10 @@ let viewProductObserver = new MutationObserver(() => {
           } else {
             buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
           }
-          if (e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт.") {
+          if (
+            e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт." ||
+            e.currentTarget.parentElement.children[2].children[0].children[0].textContent === "шт"
+          ) {
             weightButton.style.display = "none";
           } else {
             weightButton.style.display = "flex";
@@ -484,7 +489,6 @@ let viewProductObserver = new MutationObserver(() => {
       }
     });
   });
-  
 });
 viewProduct
   ? viewProductObserver.observe(viewProduct, {
@@ -967,6 +971,3 @@ aboutProductAction?.addEventListener("click", (e) => {
     }
   }
 });
-
-
-
