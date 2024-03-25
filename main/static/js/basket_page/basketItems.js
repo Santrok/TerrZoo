@@ -330,6 +330,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function personalWeightInit() {
     const personalWeightBtn = document.querySelectorAll(".basket__list-item-weight-text");
+    const personalWeightInput = document.querySelectorAll('.basket__list-item-weight input')
+    personalWeightInput.forEach(item => {
+      item.addEventListener('input', (e) => {
+        e.currentTarget.value = e.currentTarget.value.replace(/[^-0-9-.]/, '')
+      })
+    })
     personalWeightBtn.forEach((item) => {
       item.removeEventListener("click", personalWeight);
       item.addEventListener("click", personalWeight);
