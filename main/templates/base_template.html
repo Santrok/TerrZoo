@@ -20,16 +20,11 @@
             <input
               type="text"
               name="name"
-              {%
-              if
-              user.is_authenticated
-              %}
-              value="{{ user.last_name }} {{ user.first_name }}"
-              style="background: #e3e3e3"
-              disabled
-              {%
-              endif
-              %}
+              {% if user.is_authenticated %}
+                value="{{ user.last_name }} {{ user.first_name }}"
+                style="background: #e3e3e3"
+                disabled
+              {% endif %}
               placeholder="Иванов Иван Иванович"
             />
           </div>
@@ -38,16 +33,11 @@
             <input
               type="tel"
               name="phone"
-              {%
-              if
-              user.is_authenticated
-              %}
-              value="{{ user.profile.phone_number }}"
-              style="background: #e3e3e3"
-              disabled
-              {%
-              endif
-              %}
+              {% if user.is_authenticated %}
+                value="{{ user.profile.phone_number }}"
+                style="background: #e3e3e3"
+                disabled
+              {% endif %}
               placeholder="+375 ___-__-__"
               maxlength="19"
             />
@@ -101,16 +91,11 @@
                   type="text"
                   name="name"
                   id=""
-                  {%
-                  if
-                  user.is_authenticated
-                  %}
-                  value="{{ user.last_name }} {{ user.first_name }}"
-                  style="background: #e3e3e3"
-                  disabled
-                  {%
-                  endif
-                  %}
+                  {% if user.is_authenticated %}
+                    value="{{ user.last_name }} {{ user.first_name }}"
+                    style="background: #e3e3e3"
+                    disabled
+                  {% endif %}
                   placeholder="Иванов Иван Иванович"
                 />
               </div>
@@ -120,16 +105,11 @@
                   type="text"
                   name="phone"
                   id=""
-                  {%
-                  if
-                  user.is_authenticated
-                  %}
-                  value="{{ user.profile.phone_number }}"
-                  style="background: #e3e3e3"
-                  disabled
-                  {%
-                  endif
-                  %}
+                  {% if user.is_authenticated %}
+                    value="{{ user.profile.phone_number }}"
+                    style="background: #e3e3e3"
+                    disabled
+                  {% endif %}
                   placeholder="+375 ___-__-__"
                   maxlength="19"
                 />
@@ -402,39 +382,41 @@
                 </div>
                 <button class="header__up-button" type="button">Обратный звонок</button>
                 <div class="header__up-login-button">
-                  {% if user.is_authenticated %} {% if request.path == '/profile_data_user/' %}
-                  <a href="{% url 'logout' %}">
-                    <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
-                  </a>
-                  {% elif request.path == '/profile_orders/' %}
-                  <a href="{% url 'logout' %}">
-                    <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
-                  </a>
-                  {% elif request.path == '/wishlist/' %}
-                  <a href="{% url 'logout' %}">
-                    <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
-                  </a>
-                  {% elif request.path == '/viewed_products/' %}
-                  <a href="{% url 'logout' %}">
-                    <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
-                  </a>
-                  {% elif request.path == '/comparisonlist/' %}
-                  <a href="{% url 'logout' %}">
-                    <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
-                  </a>
-                  {% elif request.path == '/subscriptions/' %}
-                  <a href="{% url 'logout' %}">
-                    <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
-                  </a>
+                  {% if user.is_authenticated %} 
+                    {% if request.path == '/profile_data_user/' %}
+                      <a href="{% url 'logout' %}">
+                        <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
+                      </a>
+                    {% elif request.path == '/profile_orders/' %}
+                      <a href="{% url 'logout' %}">
+                        <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
+                      </a>
+                    {% elif request.path == '/wishlist/' %}
+                      <a href="{% url 'logout' %}">
+                        <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
+                      </a>
+                    {% elif request.path == '/viewed_products/' %}
+                      <a href="{% url 'logout' %}">
+                        <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
+                      </a>
+                    {% elif request.path == '/comparisonlist/' %}
+                      <a href="{% url 'logout' %}">
+                        <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
+                      </a>
+                    {% elif request.path == '/subscriptions/' %}
+                      <a href="{% url 'logout' %}">
+                        <img src="{% static '/img/icons/singOut.svg' %}" alt="" />
+                      </a>
+                    {% else %}
+                      <a href="{% url 'profile_data_user' %}">
+                        <img src="{% static '/img/icons/user.svg' %}" alt="" />
+                      </a>
+                    {% endif %} 
                   {% else %}
-                  <a href="{% url 'profile_data_user' %}">
-                    <img src="{% static '/img/icons/user.svg' %}" alt="" />
-                  </a>
-                  {% endif %} {% else %}
-                  <a href="{% url 'login' %}">
-                    <img src="{% static '/img/icons/singIn.svg' %}" alt="" />
-                  </a>
-                  {% endif %}
+                    <a href="{% url 'login' %}">
+                      <img src="{% static '/img/icons/singIn.svg' %}" alt="" />
+                    </a>
+                  {% endif %} 
                 </div>
               </div>
             </div>
@@ -466,9 +448,9 @@
                       </defs>
                     </svg>
                   </div>
-                  <a href="{% url 'main' %}"
-                    ><h2 class="header__logo-text">Территория <span>ZOO</span></h2></a
-                  >
+                  <a href="{% url 'main' %}">
+                    <h2 class="header__logo-text">Территория <span>ZOO</span></h2>
+                  </a>
                 </div>
                 <search class="header__bottom-search">
                   <div class="header__bottom-search-img">
