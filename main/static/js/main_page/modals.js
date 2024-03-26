@@ -174,7 +174,7 @@ cross.forEach((item) => {
 const porductListInModals = document.querySelector(".products__list");
 
 if (porductListInModals) {
-  new MutationObserver((mutation) => {
+  new WebKitMutationObserver((mutation) => {
     const btn = document.querySelectorAll(".products___item-btn");
     btn.forEach((item) => {
       item.addEventListener("click", (e) => {

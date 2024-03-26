@@ -318,7 +318,7 @@ sliderItemBasketBtnMain.forEach((item) => {
   });
 });
 // product list observer for catalog page
-let obsever = new MutationObserver(() => {
+let obsever = new WebKitMutationObserver(() => {
   productItemBtn = document.querySelectorAll(".products___item-basket");
   productItemBtn.forEach((item) => {
     item.addEventListener("click", (event) => {
@@ -387,7 +387,7 @@ productsList
     })
   : "";
 // set eventListner for slider view in basket
-let viewProductObserver = new MutationObserver(() => {
+let viewProductObserver = new WebKitMutationObserver(() => {
   const sliderButton = document.querySelectorAll(".slider__item-btn");
   const sliderItemBtn = document.querySelectorAll(".slider__item-basket");
   if (window.location.href !== `${localStorage.getItem("baseUrl")}//basket/`) {

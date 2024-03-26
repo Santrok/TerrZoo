@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
   // --- basket events
-  new MutationObserver((mutation) => {
+  new WebKitMutationObserver((mutation) => {
     list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
     basket = JSON.parse(localStorage.getItem("basket"));
     basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   // ----
   // --- basketHover events
-  new MutationObserver((mutation) => {
+  new WebKitMutationObserver((mutation) => {
     const list = document.querySelectorAll(".basket__list-item");
     const basketCount = document.querySelector(".header__bottom-basket-wrap p");
     const basket = JSON.parse(localStorage.getItem("basket"));
