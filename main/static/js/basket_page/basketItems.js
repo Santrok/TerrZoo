@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const detectOS = () => /android/i.test(window.navigator.userAgent) ? "Android" :
                      /iPad|iPhone|iPod/.test(window.navigator.userAgent) ? "iOS" : "Неустановленная ОС";
 
-  console.log(window.navigator);
   basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
   // --- basket events
   new WebKitMutationObserver((mutation) => {
