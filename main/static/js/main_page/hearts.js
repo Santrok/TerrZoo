@@ -87,7 +87,7 @@ if(window.location.href !== `${localStorage.getItem('baseUrl')}/basket/`) {
 }
 
 if (productList && window.location.href !== `${localStorage.getItem('baseUrl')}/wishlist/`) {
-  new MutationObserver((mutation) => {
+  new WebKitMutationObserver((mutation) => {
     hearts = document.querySelectorAll(".slider__item-hearts");
     hearts.forEach((item) => {
       item.addEventListener("click", (e) => {

@@ -2,7 +2,7 @@ const productsList = document.querySelector(".products__list");
 let wishList = JSON.parse(localStorage.getItem("heartsProduct"));
 const wishListCount = document.querySelector('.wishlist__title p span')
 
-new MutationObserver(() => {
+new WebKitMutationObserver(() => {
     wishList = JSON.parse(localStorage.getItem("heartsProduct"))
     wishListCount.textContent = wishList?.length
 }).observe(productsList,{
