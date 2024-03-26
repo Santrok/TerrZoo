@@ -7,11 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
   let basket = JSON.parse(localStorage.getItem("basket")) || [];
 
-
-
-  const detectOS = () => /android/i.test(window.navigator.userAgent) ? "Android" :
-                     /iPad|iPhone|iPod/.test(window.navigator.userAgent) ? "iOS" : "Неустановленная ОС";
-
   basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
   // --- basket events
   new WebKitMutationObserver((mutation) => {
