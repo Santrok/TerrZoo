@@ -196,6 +196,7 @@ function addBasketItemToLocalStorage(e) {
       : e.currentTarget.parentElement.parentElement.children[3].children[0].textContent.trim()
   ).splice(0, 6);
   // If weight options are selected, add the item to the basket
+  if (array.length !== 0) {
   basketArrayObj.push({
     count: 1, // The initial count of the item
     id: e.currentTarget.parentElement.parentElement.dataset.id, // The ID of the item
@@ -218,6 +219,7 @@ function addBasketItemToLocalStorage(e) {
         : e.currentTarget.parentElement.parentElement.children[3].children[0].children[0].children[0].dataset
             .priceperonekg,
   });
+}
   localStorage.setItem("basket", JSON.stringify(basketArrayObj));
   setCountInBasket(); // Update the count in the basket
 }
