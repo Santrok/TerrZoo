@@ -1,11 +1,11 @@
-const productsList = document.querySelector(".products__list");
+const productsListWish = document.querySelector(".products__list");
 let wishList = JSON.parse(localStorage.getItem("heartsProduct"));
 const wishListCount = document.querySelector('.wishlist__title p span')
 
 new WebKitMutationObserver(() => {
     wishList = JSON.parse(localStorage.getItem("heartsProduct"))
     wishListCount.textContent = wishList?.length
-}).observe(productsList,{
+}).observe(productsListWish,{
     childList: true,
     subtree: true
 })
@@ -15,9 +15,11 @@ for (let i of wishList) {
   li.classList.add("products__list-item");
   li.innerHTML += `
   <article class="products___item" data-id="${i.id}">
-               <div class="products___item-img">
-                   <img src="${i.src}" alt="item" />
-               </div>
+                <a href="${localStorage.getItem('baseUrl')}/details/${i.id}" class="products___item-img-link">
+                    <div class="products___item-img">
+                        <img src="${i.src}" alt="${i.title}" />
+                    </div>
+                </a>
                <a href="${localStorage.getItem('baseUrl')}/details/${
                  i.id
                }" class="products___item-title">
@@ -113,5 +115,5 @@ for (let i of wishList) {
               </div>
            </article>
 `;
-productsList.append(li)
+productsListWish.append(li)
 }

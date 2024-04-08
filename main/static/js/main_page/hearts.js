@@ -59,7 +59,7 @@ function heartFunc(e, item) {
     // Add the product to the heartsProduct array.
     heartsArr.push({
       id: e.currentTarget.parentElement.dataset.id,
-      src: e.currentTarget.parentElement.children[0].children[0].src,
+      src: e.currentTarget.parentElement.children[0].children[0].children[0].src,
       link: e.currentTarget.parentElement.children[1].href,
       title: e.currentTarget.parentElement.children[1].textContent.trim(),
       weight: heartsWeight,

@@ -211,7 +211,7 @@ function addBasketItemToLocalStorage(e) {
     count: 1, // The initial count of the item
     id: e.currentTarget.parentElement.parentElement.dataset.id, // The ID of the item
     title: e.currentTarget.parentElement.parentElement.children[1].textContent.trim(), // The title of the item
-    src: e.currentTarget.parentElement.parentElement.children[0].children[0].src, // The src of the item's image
+    src: e.currentTarget.parentElement.parentElement.children[0].children[0].children[0].src, // The src of the item's image
     weight: array, // The selected weight options
     initPrice: +parseFloat(price.join("")).toFixed(2), // The initial price of the item
     price: +parseFloat(price.join("")).toFixed(2), // The current price of the item
