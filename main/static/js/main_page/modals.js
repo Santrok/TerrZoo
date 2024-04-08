@@ -27,6 +27,7 @@ const phoneInputCallback = document.querySelector('.callback__field-item input[n
 const nameInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="name"]');
 const phoneInputOneClick = document.querySelector('.buy__one-click-list-item-field input[name="phone"]');
 const oneClickSend = document.querySelector('.button_buy_one_click')
+const productsListWishList = document.querySelector('.products__list')
 // regexp for name input
 nameInputCallback.oninput = (e) => {
   e.currentTarget.value = e.currentTarget.value.replace(/[^\sа-яё]/gi, '')
@@ -174,46 +175,53 @@ cross.forEach((item) => {
 const porductListInModals = document.querySelector(".products__list");
 
 if (porductListInModals) {
-  new WebKitMutationObserver((mutation) => {
-    const btn = document.querySelectorAll(".products___item-btn");
-    btn.forEach((item) => {
-      item.addEventListener("click", (e) => {
-        for (let i of e.currentTarget.parentElement.children[2].children) {
-          if (i.classList.contains("slider__item-weight-list-item-active")) {
-            document.body.style.overflow = "hidden";
-            modal.classList.add("modal__active");
-            buyOneClick.classList.add("modal__active");
-            buyOneClickWeightList.innerHTML = "";
-            buyOneClickImg.setAttribute(
-              "src",
-              e.currentTarget.parentElement.children[0].children[0].getAttribute("src")
-            );
-            buyOneClickTitle.textContent = e.currentTarget.parentElement.children[1].textContent.trim();
-            localStorage.setItem('initWeight', i.textContent.trim().split(' ').splice(0,1).join(''));
-            for (let i of e.currentTarget.parentElement.children[2].children) {
-              if (i.classList.contains("slider__item-weight-list-item-active")) {
-                buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.textContent}</li>`;
-              }
-            }
-            if (
-              e.currentTarget.parentElement.children[4].classList.contains("products___item-promotion") ||
-              e.currentTarget.parentElement.children[4].classList.contains("slider__item-promotion")
-            ) {
-              buyOneClickPrice.textContent =
-                e.currentTarget.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim() +
-                " BYN";
-            } else {
-              buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
-            }
-          }
-        }
-        buyOneClickModalEvent(e)
-      });
-    });
-  }).observe(porductListInModals, {
+  new WebKitMutationObserver((mutation) => productListBuyOneClick()).observe(porductListInModals, {
     childList: true,
     subtree: true,
   });
+}
+
+
+function productListBuyOneClick() {
+  const btn = document.querySelectorAll(".products___item-btn");
+  btn.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      for (let i of e.currentTarget.parentElement.children[2].children) {
+        if (i.classList.contains("slider__item-weight-list-item-active")) {
+          document.body.style.overflow = "hidden";
+          modal.classList.add("modal__active");
+          buyOneClick.classList.add("modal__active");
+          buyOneClickWeightList.innerHTML = "";
+          buyOneClickImg.setAttribute(
+            "src",
+            e.currentTarget.parentElement.children[0].children[0].children[0].getAttribute("src")
+          );
+          buyOneClickTitle.textContent = e.currentTarget.parentElement.children[1].textContent.trim();
+          localStorage.setItem('initWeight', i.textContent.trim().split(' ').splice(0,1).join(''));
+          for (let i of e.currentTarget.parentElement.children[2].children) {
+            if (i.classList.contains("slider__item-weight-list-item-active")) {
+              buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.textContent}</li>`;
+            }
+          }
+          if (
+            e.currentTarget.parentElement.children[4].classList.contains("products___item-promotion") ||
+            e.currentTarget.parentElement.children[4].classList.contains("slider__item-promotion")
+          ) {
+            buyOneClickPrice.textContent =
+              e.currentTarget.parentElement.children[3].children[0].children[0].children[1].children[0].textContent.trim() +
+              " BYN";
+          } else {
+            buyOneClickPrice.textContent = e.currentTarget.parentElement.children[3].children[0].textContent.trim();
+          }
+        }
+      }
+      buyOneClickModalEvent(e)
+    });
+  });
+}
+
+if(window.location.href === `${localStorage.getItem('baseUrl')}/wishlist/`) {
+  productListBuyOneClick()
 }
 
 sliderButton.forEach((item) => {
@@ -224,7 +232,7 @@ sliderButton.forEach((item) => {
         modal.classList.add("modal__active");
         buyOneClick.classList.add("modal__active");
         buyOneClickWeightList.innerHTML = "";
-        buyOneClickImg.setAttribute("src", e.currentTarget.parentElement.children[0].children[0].getAttribute("src"));
+        buyOneClickImg.setAttribute("src", e.currentTarget.parentElement.children[0].children[0].children[0].getAttribute("src"));
         buyOneClickTitle.textContent = e.currentTarget.parentElement.children[1].textContent.trim();
         buyOneClickModalCountInit.textContent = 1;
         buyOneClickWeightList.innerHTML += `<li class="buy__one-click-list-item-weight-list-item slider__item-weight-list-item-active">${i.textContent}</li>`;
@@ -394,6 +402,7 @@ function buyOneClickModalEvent(e) {
   }
   // Get the basket array from local storage, or initialize an empty array
   let oneClickItemArr = JSON.parse(localStorage.getItem("oneClickItem")) || {};
+  console.log(111);
   // Get the price of the item, considering promotion and weight options
   let price = Array.from(
     e.currentTarget.parentElement.children[4]?.classList.contains("slider__item-promotion") ||
@@ -406,7 +415,7 @@ function buyOneClickModalEvent(e) {
       count: 1, // The initial count of the item
       id: e.currentTarget.parentElement.dataset.id, // The ID of the item
       title: e.currentTarget.parentElement.children[1].textContent.trim(), // The title of the item
-      src: e.currentTarget.parentElement.children[0].children[0].src, // The src of the item's image
+      src: e.currentTarget.parentElement.children[0].children[0].children[0].src, // The src of the item's image
       weight: array, // The selected weight options
       initPrice: +parseFloat(price.join("")).toFixed(2), // The initial price of the item
       price: +parseFloat(price.join("")).toFixed(2), // The current price of the item
