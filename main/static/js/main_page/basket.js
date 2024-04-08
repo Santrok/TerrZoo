@@ -12,6 +12,7 @@ const yourWeightBtn = document.querySelector(".about__product-your-weight-hide b
 const aboutProductWeightSpan = document.querySelector(".about__product-price-weight span");
 const viewProduct = document.querySelector(".popular__goods-slider");
 const wrapper = document.querySelector(".wrapper");
+const basketList = document.querySelector('.basket__list')
 localStorage.setItem("baseUrl", wrapper.dataset.url);
 
 if (window.location.href !== `${localStorage.getItem("baseUrl")}/placing_an_order/`) {
@@ -126,10 +127,19 @@ function setCountItem(e) {
           localStorage.setItem("basket", JSON.stringify(basketArrayObj));
           setCountInBasket();
           if (headerBottomHoverList.children.length === 0) {
+            headerBottomHoverList.innerHTML = ``;
             const li = document.createElement("li");
             li.classList.add("header__bottom-hover-list-none");
             li.innerHTML = `Ваша корзина пуста`;
             headerBottomHoverList.append(li);
+            if(basketList) {
+              basketList.innerHTML = ``
+              const basketLi = document.createElement("li");
+              basketLi.classList.remove('header__bottom-hover-list-none');
+              basketLi.classList.add("basket__list-item-empty");
+              basketLi.innerText = "Ваша корзина пуста";
+              basketList.append(basketLi);
+            }
           }
         }
       }
@@ -236,6 +246,7 @@ function addBasketItemToHover() {
 
   // If basket is empty, add a message to the list
   if (basketArray.length === 0) {
+    headerBottomHoverList.innerHTML = ``
     const li = document.createElement("li");
     li.classList.add("header__bottom-hover-list-none");
     li.innerHTML = `Ваша корзина пуста`;

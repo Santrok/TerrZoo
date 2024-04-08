@@ -1433,7 +1433,6 @@ footer {
 }
 
 .slider__item-img {
-  flex: 0 1 210px;
   background: #fff;
 }
 
@@ -1874,3 +1873,15 @@ footer {
   line-height: 28px;
   letter-spacing: 0px;
 }
+
+
+.articles__slider-item-img img {
+  max-height: 140px;
+}
+
+@media (min-width:992px) {
+  .articles__slider-item-img img {
+    max-height: 160px;
+  }
+}
+

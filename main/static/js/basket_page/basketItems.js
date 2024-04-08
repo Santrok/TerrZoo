@@ -198,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function checkBasket() {
     if (JSON.parse(localStorage.getItem("basket")).length === 0) {
+      headerBottomHoverList.innerHTML = ``;
       const li = document.createElement("li");
       li.classList.add("basket__list-item-empty");
       li.innerText = "Ваша корзина пуста";
@@ -206,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
       headerBottomHoverli.classList.add("header__bottom-hover-list-none");
       headerBottomHoverli.innerHTML = `Ваша корзина пуста`;
       headerBottomHoverList.append(headerBottomHoverli);
+      setCountInBasket()
     }
   }
   function basketItems(e) {

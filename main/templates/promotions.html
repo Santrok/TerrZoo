@@ -118,9 +118,11 @@
                         <div class="popular__goods-slider slider">
                             {% for card in popular_products %}
                             <article class="slider__item" data-id="{{card.id}}">
-                              <div class="slider__item-img">
-                                <img data-lazy="{{card.image_prev.url}}" alt="item" />
-                              </div>
+                                <a href="{% url 'details' card.id %}" class="slider__item-img-link">
+                                    <div class="slider__item-img">
+                                      <img data-lazy="{{card.image_prev.url}}" alt="{{card.title}}" />
+                                    </div>
+                                  </a>
                               <a href="{% url 'details' card.id %}" class="slider__item-title"> {{card.title}} </a>
                               <ul class="slider__item-weight-list">
                                 {% for count in card.countitemproduct_set.all %}

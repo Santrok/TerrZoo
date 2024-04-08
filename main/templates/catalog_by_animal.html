@@ -138,8 +138,8 @@
             <ul>
               <li class="promotional__item">
                 <label for="promotional" class="promotional__item-label">
-                  <div class="promotional__indicator" data-sale="0"></div>
-                  <p>Только акционные товары</p>
+                  <div class="0 promotional__indicator" data-sale="0"></div>
+                  <p class="0">Только акционные товары</p>
                 </label>
               </li>
             </ul>
@@ -266,9 +266,11 @@
             <div class="popular__goods-slider slider">
               {% for card in popular_products %}
               <article class="slider__item" data-id="{{card.id}}">
-                <div class="slider__item-img">
-                  <img data-lazy="{{card.image_prev.url}}" alt="item" />
-                </div>
+                <a href="{% url 'details' card.id %}" class="slider__item-img-link">
+                  <div class="slider__item-img">
+                    <img data-lazy="{{card.image_prev.url}}" alt="{{card.title}}" />
+                  </div>
+                </a>
                 <a href="{% url 'details' card.id %}" class="slider__item-title"> {{card.title}} </a>
                 <ul class="slider__item-weight-list">
                   {% for count in card.countitemproduct_set.all %}
@@ -375,9 +377,11 @@
           <div class="articles__slider">
             {% for article in articals %}
             <article class="articles__slider-item">
-              <div class="articles__slider-item-img">
-                <img src="{{ article.image.url }}" alt="articlesImg" />
-              </div>
+              <a href="{% url 'article_by_id' article.id %}" class="articles__slider-item-img-link">
+                <div class="articles__slider-item-img">
+                  <img data-lazy="{{ article.image.url }}" alt="{{ article.title }}" />
+                </div>
+              </a>
               <div class="articles__slider-item-text-wrap">
                 <a href="{% url 'article_by_id' article.id %}">
                   <h3 class="articles__slider-item-title">{{ article.title }}</h3>
