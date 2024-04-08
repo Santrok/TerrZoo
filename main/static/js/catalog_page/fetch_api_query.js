@@ -204,9 +204,11 @@ document.addEventListener("DOMContentLoaded", () => {
           li.classList.add("products__list-item");
           li.innerHTML += `
                                         <article class="products___item" data-id="${i.id}">
-                                                     <div class="products___item-img">
-                                                         <img src="${i.image_prev}" alt="item" />
-                                                     </div>
+                                                    <a href="${localStorage.getItem('baseUrl')}/details/${i.id}" class="products___item-img-link">
+                                                      <div class="products___item-img">
+                                                        <img src="${i.image_prev}" alt="${i.title}" />
+                                                      </div>
+                                                     </a>
                                                      <a href="${localStorage.getItem('baseUrl')}/details/${
                                                        i.id
                                                      }" class="products___item-title">

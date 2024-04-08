@@ -60,7 +60,7 @@
         </p>
         <div class="cross"></div>
       </form>
-      <form action="" class="buy__one-click">
+      <form class="buy__one-click">
         {% csrf_token %}
         <h2 class="buy__one-click-title">Оформление заказа в 1 клик</h2>
         <ul class="buy__one-click-list">
@@ -428,8 +428,8 @@
                   </a>
                   {% else %}
                   <a href="{% url 'profile_data_user' %}">
-                    {# {% if user.first_name.0 or user.last_name.0 %}#} {# {{ user.first_name.0 }}{{ user.last_name.0
-                    }}#} {# {% else %}#} {# {{ user.username.0 }}#} {# {% endif %}#}
+                    {# {% if user.first_name.0 or user.last_name.0 %}#} {# {{ user.first_name.0 }}{{ user.last_name.0 }}#}
+                    {# {% else %}#} {# {{ user.username.0 }}#} {# {% endif %}#}
                     <img src="{% static '/img/icons/user.svg' %}" alt="" />
                   </a>
                   {% endif %} {% else %}
