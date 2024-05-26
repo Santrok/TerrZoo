@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const headerBottomHoverList = document.querySelector(".header__bottom-basket-hover-list");
   let list = document.querySelectorAll(".header__bottom-basket-hover-list-item");
   let basket = JSON.parse(localStorage.getItem("basket")) || [];
-
+x
   basketTotalText[0].textContent = basket.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2) + " BYN";
   // --- basket events
   new WebKitMutationObserver((mutation) => {
