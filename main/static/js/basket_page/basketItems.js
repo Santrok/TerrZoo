@@ -95,7 +95,6 @@ x
   });
   // ----
 
-  console.log(1111);
 
   function initBasketItem() {
     if (localStorage.getItem("basket") === null) {
