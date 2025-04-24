@@ -105,8 +105,8 @@ DATABASES = {
         'NAME': env_keys.get('POSTGRES_DB_NAME', os.path.join(BASE_DIR, "db.sqlite3")),
         'USER': env_keys.get('DB_USERNAME'),
         'PASSWORD': env_keys.get('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': "localhost",
+        'PORT': "5432" if env_keys.get("SQL_ENGINE") else ""
     }
 }
 
